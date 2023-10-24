@@ -5,17 +5,15 @@
 
 class Vehicle : public sf::Drawable, public sf::Transformable {
    public:
-    int getX() const;
-    int getY() const;
+    sf::Vector2f getPosition() const;
 
     virtual void update(float dt) = 0;
 
    protected:
-    Vehicle(float x, float y, int direction, float speed);
+    Vehicle(sf::Vector2f position, int direction, float speed);
     ~Vehicle();
 
-    float mX;
-    float mY;
+    sf::Vector2f mPosition;
     int mDirection;
     float mSpeed;
 

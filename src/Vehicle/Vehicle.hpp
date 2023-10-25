@@ -5,7 +5,12 @@
 
 class Vehicle : public sf::Drawable, public sf::Transformable {
    public:
+    void setPosition(sf::Vector2f position);
     sf::Vector2f getPosition() const;
+    void setDirection(int direction);
+    int getDirection() const;
+    void setSpeed(float speed);
+    float getSpeed() const;
 
     virtual void update(float dt) = 0;
 
@@ -20,4 +25,4 @@ class Vehicle : public sf::Drawable, public sf::Transformable {
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
-#endif  // VEHICLE_HPP
+#endif

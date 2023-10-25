@@ -2,6 +2,7 @@
 #define VEHICLE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Vehicle : public sf::Drawable, public sf::Transformable {
    public:

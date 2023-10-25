@@ -5,6 +5,14 @@ Program::Program()
 
 Program::~Program() {}
 
+void Program::run() {
+    while (mWindow.isOpen()) {
+        handleEvent();
+        mWindow.clear(sf::Color::White);
+        mWindow.display();
+    }
+}
+
 void Program::handleEvent() {
     sf::Event event;
 
@@ -24,13 +32,5 @@ void Program::handleEvent() {
             default:
                 break;
         }
-    }
-}
-
-void Program::run() {
-    while (mWindow.isOpen()) {
-        handleEvent();
-        mWindow.clear(sf::Color::White);
-        mWindow.display();
     }
 }

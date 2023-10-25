@@ -4,15 +4,15 @@
 #include <SFML/Graphics.hpp>
 
 class Program {
-   private:
-    sf::RenderWindow mWindow;
-
-    void handleEvent();
-
    public:
     Program();
     ~Program();
     void run();
+
+   private:
+    sf::RenderWindow mWindow;
+
+    void handleEvent();
 };
 
 #endif

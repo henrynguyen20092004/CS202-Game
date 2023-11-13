@@ -1,7 +1,17 @@
 #include "Program.hpp"
 
-Program::Program()
-    : mWindow(sf::VideoMode(1440, 810), "CSG", sf::Style::Close) {}
+#define WINDOW_TO_DESKTOP_RATIO 0.75f
+
+Program::Program() {
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    mWindow.create(
+        sf::VideoMode(
+            desktop.width * WINDOW_TO_DESKTOP_RATIO,
+            desktop.height * WINDOW_TO_DESKTOP_RATIO
+        ),
+        "CSG", sf::Style::Close
+    );
+}
 
 Program::~Program() {}
 

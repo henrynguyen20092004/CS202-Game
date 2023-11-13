@@ -1,5 +1,5 @@
-#ifndef RESOURCE_IDENTIFIERS_HPP
-#define RESOURCE_IDENTIFIERS_HPP
+#ifndef IDENTIFIER_HPP
+#define IDENTIFIER_HPP
 
 namespace States {
 enum class ID {
@@ -26,4 +26,4 @@ enum class ID {
 };
 }
 
-#endif  // RESOURCE_IDENTIFIERS_HPP
+#endif  // IDENTIFIER_HPP

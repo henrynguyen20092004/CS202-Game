@@ -10,6 +10,8 @@
 
 class TextureHolder {
    public:
+    TextureHolder() = default;
+
     void load(Textures::ID id, const std::string& filename);
     sf::Texture& get(Textures::ID id);
     const sf::Texture& get(Textures::ID id) const;

@@ -1,21 +1,40 @@
 #include "Program.hpp"
 
-Program::Program()
-    : mWindow(sf::VideoMode(1440, 810), "CSG", sf::Style::Close) {}
+#define WINDOW_TO_DESKTOP_RATIO 0.75f
+
+Program::Program() {
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    mWindow.create(
+        sf::VideoMode(
+            desktop.width * WINDOW_TO_DESKTOP_RATIO,
+            desktop.height * WINDOW_TO_DESKTOP_RATIO
+        ),
+        "CSG", sf::Style::Close
+    );
+}
 
 Program::~Program() {}
 
 void Program::run() {
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate;
+    sf::Event event;
+
     while (mWindow.isOpen()) {
-        handleEvent();
-        mWindow.clear(sf::Color::White);
-        mWindow.display();
+        processEvents(event);
+        timeSinceLastUpdate += clock.restart();
+
+        while (timeSinceLastUpdate > TIME_PER_FRAME) {
+            timeSinceLastUpdate -= TIME_PER_FRAME;
+            processEvents(event);
+            update();
+        }
+
+        render();
     }
 }
 
-void Program::handleEvent() {
-    sf::Event event;
-
+void Program::processEvents(sf::Event &event) {
     while (mWindow.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
@@ -33,4 +52,11 @@ void Program::handleEvent() {
                 break;
         }
     }
+}
+
+void Program::update() {}
+
+void Program::render() {
+    mWindow.clear(sf::Color::White);
+    mWindow.display();
 }

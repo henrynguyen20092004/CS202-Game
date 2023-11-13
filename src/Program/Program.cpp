@@ -6,16 +6,25 @@ Program::Program()
 Program::~Program() {}
 
 void Program::run() {
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate;
+    sf::Event event;
+
     while (mWindow.isOpen()) {
-        handleEvent();
-        mWindow.clear(sf::Color::White);
-        mWindow.display();
+        processEvents(event);
+        timeSinceLastUpdate += clock.restart();
+
+        while (timeSinceLastUpdate > TIME_PER_FRAME) {
+            timeSinceLastUpdate -= TIME_PER_FRAME;
+            processEvents(event);
+            update();
+        }
+
+        render();
     }
 }
 
-void Program::handleEvent() {
-    sf::Event event;
-
+void Program::processEvents(sf::Event &event) {
     while (mWindow.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
@@ -33,4 +42,11 @@ void Program::handleEvent() {
                 break;
         }
     }
+}
+
+void Program::update() {}
+
+void Program::render() {
+    mWindow.clear(sf::Color::White);
+    mWindow.display();
 }

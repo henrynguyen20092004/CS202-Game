@@ -1,6 +1,6 @@
-#include "ResourceHolder.hpp"
-
 #include <exception>
+
+#include "ResourceHolder.hpp"
 
 template <typename Resource, typename Identifier>
 void ResourceHolder<Resource, Identifier>::load(
@@ -18,6 +18,7 @@ void ResourceHolder<Resource, Identifier>::load(
 template <typename Resource, typename Identifier>
 Resource& ResourceHolder<Resource, Identifier>::get(Identifier id) {
     auto found = mResourceMap.find(id);
+
     if (found == mResourceMap.end()) {
         throw std::runtime_error("Failed to get " + id);
     }
@@ -28,6 +29,7 @@ Resource& ResourceHolder<Resource, Identifier>::get(Identifier id) {
 template <typename Resource, typename Identifier>
 const Resource& ResourceHolder<Resource, Identifier>::get(Identifier id) const {
     auto found = mResourceMap.find(id);
+
     if (found == mResourceMap.end()) {
         throw std::runtime_error("Failed to get " + id);
     }

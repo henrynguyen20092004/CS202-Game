@@ -20,6 +20,8 @@ class ResourceHolder {
     std::map<Identifier, std::unique_ptr<Resource>> mResourceMap;
 };
 
+typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
+
 #include "ResourceHolder.tpp"
 
 #endif  // RESOURCE_HOLDER_HPP

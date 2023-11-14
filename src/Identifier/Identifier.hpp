@@ -7,6 +7,15 @@ enum class ID {
 };
 }
 
+namespace Directions {
+enum class ID {
+    Up,
+    Down,
+    Left,
+    Right,
+};
+}
+
 namespace Textures {
 enum class ID {
     Car,

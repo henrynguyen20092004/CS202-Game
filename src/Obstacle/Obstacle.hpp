@@ -5,13 +5,14 @@
 
 class Obstacle : public sf::Drawable, public sf::Transformable {
    protected:
-    float mX;
-    float mY;
+    sf::Vector2f mPosition;
     float mWidth;
     float mHeight;
 
    public:
-    Obstacle(float x, float y, float width, float height);
+    // Constructor
+    Obstacle(sf::Vector2f position, float width, float height, const std::string& texturePath);
+    // Destructor
     ~Obstacle();
 
     // Accessors
@@ -40,7 +41,10 @@ class Obstacle : public sf::Drawable, public sf::Transformable {
     // void createObstacles();
     // void createObstacles(int numObstacles);
 
-
+    // How to create obstacles in tile map with a given position
+    // void createObstacles(sf::Vector2f position);
+    // void createObstacles(sf::Vector2f position, int numObstacles);
+    
 };
 
 #endif  // !OBSTACLE_HPP

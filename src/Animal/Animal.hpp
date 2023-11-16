@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "../Identifier/Identifier.hpp"
 
 class Animal : public sf::Drawable, public sf::Transformable {
    public:
@@ -10,17 +11,13 @@ class Animal : public sf::Drawable, public sf::Transformable {
 
     void setPosition(const sf::Vector2f& position);
     sf::Vector2f getPosition() const;
-    void setDirection(int direction);
-    int getDirection() const;
-    void setSpeed(float speed);
-    float getSpeed() const;
+    
 
    protected:
     sf::Vector2f mPosition;
-    int mDirection;
-    float mSpeed;
+    sf::Sprite mSprite;
 
-    Animal(const sf::Vector2f& position, int direction, float speed);
+    Animal(const sf::Vector2f& position);
     ~Animal();
 
     virtual void update(float dt) = 0;

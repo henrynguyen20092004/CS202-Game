@@ -20,6 +20,12 @@ namespace Textures {
 enum class ID {
     Car,
     Truck,
+
+    //Animal
+    Phoenix,
+    Elephant,
+    Cat,
+
 };
 }
 

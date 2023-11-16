@@ -6,16 +6,16 @@ void Animal::setPosition(const sf::Vector2f& position) {
 
 sf::Vector2f Animal::getPosition() const { return mPosition; }
 
-void Animal::setDirection(int direction) { mDirection = direction; }
+// void Animal::setDirection(int direction) { mDirection = direction; }
 
-int Animal::getDirection() const { return mDirection; }
+// int Animal::getDirection() const { return mDirection; }
 
-void Animal::setSpeed(float speed) { mSpeed = speed; }
+// void Animal::setSpeed(float speed) { mSpeed = speed; }
 
-float Animal::getSpeed() const { return mSpeed; }
+// float Animal::getSpeed() const { return mSpeed; }
 
-Animal::Animal(const sf::Vector2f& position, int direction, float speed)
-    : mPosition(position), mDirection(direction), mSpeed(speed) {}
+Animal::Animal(const sf::Vector2f& position)
+    : mPosition(position){}
 
 Animal::~Animal() {}
 

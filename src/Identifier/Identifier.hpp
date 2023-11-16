@@ -47,6 +47,8 @@ enum class ID {
     ButtonNormal,
     ButtonSelected,
     ButtonPressed,
+
+    TrafficLight,
 };
 }
 

@@ -14,14 +14,18 @@ class SceneNode : public sf::Transformable,
     void attachChild(Ptr child);
     Ptr detachChild(const SceneNode& node);
 
-    void update(sf::Time deltaTime);
-
     sf::Vector2f getWorldPosition() const;
     sf::Transform getWorldTransform() const;
+
+    void processEvents(const sf::Event& event);
+    void update(sf::Time deltaTime);
 
    private:
     std::vector<Ptr> mChildren;
     SceneNode* mParent = nullptr;
+
+    virtual void processEventsCurrent(const sf::Event& event);
+    void processEventsChildren(const sf::Event& event);
 
     virtual void updateCurrent(sf::Time deltaTime);
     void updateChildren(sf::Time deltaTime);

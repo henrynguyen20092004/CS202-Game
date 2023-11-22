@@ -5,6 +5,10 @@
 
 class MovableSpriteNode : public SpriteNode {
    public:
+    MovableSpriteNode(
+        const sf::Texture& texture,
+        const sf::IntRect& textureRect = sf::IntRect()
+    );
     sf::Vector2f getVelocity() const;
     void setVelocity(sf::Vector2f velocity);
     void accelerate(sf::Vector2f velocity);

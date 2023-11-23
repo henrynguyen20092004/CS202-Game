@@ -1,16 +1,17 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include <SFML/Graphics.hpp>
-#include "StateStack.hpp"
+#include <functional>
 #include <memory>
+#include <vector>
 
+#include "../Identifier/Identifier.hpp"
+#include "../StateStack/StateStack.hpp"
 
 class State {
    public:
     typedef std::unique_ptr<State> Ptr;
-    struct Context {
-    };
+    struct Context {};
 
    public:
     State(StateStack& stack, Context context);
@@ -30,4 +31,4 @@ class State {
     Context mContext;
 };
 
-#endif // STATE_HPP
+#endif  // STATE_HPP

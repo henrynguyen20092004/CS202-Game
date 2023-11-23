@@ -3,7 +3,10 @@
 
 namespace States {
 enum class ID {
-    None,
+    Game,
+    Menu,
+    Pause,
+    Title,
 };
 }
 

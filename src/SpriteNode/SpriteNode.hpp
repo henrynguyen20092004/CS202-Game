@@ -10,11 +10,14 @@ class SpriteNode : public SceneNode {
         const sf::IntRect& textureRect = sf::IntRect()
     );
 
+   protected:
+    void centerOrigin();
+
    private:
     sf::Sprite mSprite;
 
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-        const;
+        const override;
 };
 
 #endif

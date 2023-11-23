@@ -16,6 +16,9 @@ enum class ID {
 
 namespace Textures {
 enum class ID {
+    Player,
+    Background,
+
     Car,
     Truck,
 

@@ -6,12 +6,29 @@
 #include <vector>
 
 #include "../Identifier/Identifier.hpp"
-#include "../StateStack/StateStack.hpp"
+#include "../ResourceHolder/ResourceHolder.hpp"
+#include "SFML/Graphics.hpp"
+
+namespace sf {
+class RenderWindow;
+}
+
+class StateStack;
 
 class State {
    public:
     typedef std::unique_ptr<State> Ptr;
-    struct Context {};
+
+    struct Context {
+        Context(
+            sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts
+        );
+
+        sf::RenderWindow* window;
+        TextureHolder* textures;
+        FontHolder* fonts;
+        // Player* player;
+    };
 
    public:
     State(StateStack& stack, Context context);

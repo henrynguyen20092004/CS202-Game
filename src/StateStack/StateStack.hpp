@@ -3,12 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../ResourceHolder/ResourceHolder.hpp"
 #include "../State/State.hpp"
+
+class State;
 
 class StateStack : private sf::NonCopyable {
    public:
-    enum Action { Push, Pop, Clear };
+    enum Action {
+        Push,
+        Pop,
+        Clear,
+    };
 
+   public:
     explicit StateStack(State::Context context);
 
     template <typename T>
@@ -21,34 +29,29 @@ class StateStack : private sf::NonCopyable {
     void pushState(States::ID stateID);
     void popState();
     void clearStates();
+
     bool isEmpty() const;
 
    private:
+    State::Ptr createState(States::ID stateID);
+    void applyPendingChanges();
+
+   private:
     struct PendingChange {
+        explicit PendingChange(
+            Action action, States::ID stateID = States::None
+        );
+
         Action action;
         States::ID stateID;
     };
 
+   private:
     std::vector<State::Ptr> mStack;
     std::vector<PendingChange> mPendingList;
 
     State::Context mContext;
-
-    std::map<States::ID, std::function<State::Ptr>> mFactories;
-
-    State::Ptr createState(States::ID stateID);
-    void applyPendingChanges();
-
-    // struct Context {
-    //     Context(
-    //         sf::RenderWindow& window, TextureHolder& textures,
-    //         FontHolder& fonts, Player& player
-    //     );
-    //     sf::RenderWindow* window;
-    //     TextureHolder* textures;
-    //     FontHolder* fonts;
-    //     Player* player;
-    // };
+    std::map<States::ID, std::function<State::Ptr()>> mFactories;
 };
 
 template <typename T>

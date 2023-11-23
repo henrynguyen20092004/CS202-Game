@@ -38,6 +38,16 @@ namespace Music {
 enum class ID {
     None,
 };
+
+namespace Sound {
+enum class ID {
+    Elephant,
+    Pug,
+    Phoenix,
+    Cat,
+};
 }
+
+}  // namespace Music
 
 #endif  // IDENTIFIER_HPP

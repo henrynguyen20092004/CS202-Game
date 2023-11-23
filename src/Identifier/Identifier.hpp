@@ -40,4 +40,13 @@ enum class ID {
 };
 }
 
+namespace Sound {
+enum class ID {
+    Elephant,
+    Pug,
+    Phoenix,
+    Cat,
+};
+}
+
 #endif  // IDENTIFIER_HPP

@@ -12,7 +12,7 @@ add_executable(${TARGET_NAME} ${SOURCES})
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML-2.6.0/lib/cmake/SFML)
-set(SFML_COMPONENTS graphics window system)
+set(SFML_COMPONENTS graphics window system audio)
 
 find_package(SFML 2.6 COMPONENTS ${SFML_COMPONENTS} REQUIRED)
 if(SFML_FOUND)

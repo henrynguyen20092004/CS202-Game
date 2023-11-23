@@ -1,12 +1,7 @@
-#ifndef STATESTACK_HPP
-#define STATESTACK_HPP
+#ifndef STATE_STACK_HPP
+#define STATE_STACK_HPP
 
-#include <SFML/Graphics.hpp>
-
-#include "../ResourceHolder/ResourceHolder.hpp"
 #include "../State/State.hpp"
-
-class State;
 
 class StateStack : private sf::NonCopyable {
    public:
@@ -16,7 +11,6 @@ class StateStack : private sf::NonCopyable {
         Clear,
     };
 
-   public:
     explicit StateStack(State::Context context);
 
     template <typename T>
@@ -33,25 +27,23 @@ class StateStack : private sf::NonCopyable {
     bool isEmpty() const;
 
    private:
-    State::Ptr createState(States::ID stateID);
-    void applyPendingChanges();
-
-   private:
     struct PendingChange {
         explicit PendingChange(
-            Action action, States::ID stateID = States::None
+            Action action, States::ID stateID = States::ID::None
         );
 
         Action action;
         States::ID stateID;
     };
 
-   private:
     std::vector<State::Ptr> mStack;
     std::vector<PendingChange> mPendingList;
 
     State::Context mContext;
     std::map<States::ID, std::function<State::Ptr()>> mFactories;
+
+    State::Ptr createState(States::ID stateID);
+    void applyPendingChanges();
 };
 
 template <typename T>
@@ -61,4 +53,4 @@ void StateStack::registerState(States::ID stateID) {
     };
 }
 
-#endif  // STATESTACK_HPP
+#endif

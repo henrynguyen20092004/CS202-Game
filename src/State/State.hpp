@@ -2,16 +2,10 @@
 #define STATE_HPP
 
 #include <functional>
-#include <memory>
 #include <vector>
 
 #include "../Identifier/Identifier.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
-#include "SFML/Graphics.hpp"
-
-namespace sf {
-class RenderWindow;
-}
 
 class StateStack;
 
@@ -30,7 +24,6 @@ class State {
         // Player* player;
     };
 
-   public:
     State(StateStack& stack, Context context);
     virtual ~State();
     virtual void draw() = 0;
@@ -48,4 +41,4 @@ class State {
     Context mContext;
 };
 
-#endif  // STATE_HPP
+#endif

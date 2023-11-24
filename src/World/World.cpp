@@ -8,17 +8,15 @@ World::World(sf::RenderWindow& window)
       mWorldBounds(
           0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y * 3
       ) {
-    loadTextures();
-    buildScene();
-
     mWorldView.setCenter(
         mWorldView.getCenter().x, mWorldBounds.height - mWorldView.getCenter().y
     );
+
+    loadTextures();
+    buildScene();
 }
 
-void World::processEvents(sf::Event& event) {
-    mSceneGraph.processEvents(event);
-}
+void World::handleEvent(sf::Event& event) { mSceneGraph.handleEvent(event); }
 
 void World::update(sf::Time deltaTime) {
     mWorldView.move(0.f, mScrollSpeed * deltaTime.asSeconds());

@@ -16,7 +16,7 @@ class Program {
 
     World mWorld;
 
-    void processEvents(sf::Event &event);
+    void handleEvent(sf::Event &event);
     void update();
     void draw();
 };

@@ -17,15 +17,15 @@ class SceneNode : public sf::Transformable,
     sf::Vector2f getWorldPosition() const;
     sf::Transform getWorldTransform() const;
 
-    void processEvents(const sf::Event& event);
+    void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
 
    private:
     std::vector<Ptr> mChildren;
     SceneNode* mParent = nullptr;
 
-    virtual void processEventsCurrent(const sf::Event& event);
-    void processEventsChildren(const sf::Event& event);
+    virtual void handleEventCurrent(const sf::Event& event);
+    void handleEventChildren(const sf::Event& event);
 
     virtual void updateCurrent(sf::Time deltaTime);
     void updateChildren(sf::Time deltaTime);

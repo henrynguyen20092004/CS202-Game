@@ -21,12 +21,12 @@ void Program::run() {
     sf::Event event;
 
     while (mWindow.isOpen()) {
-        processEvents(event);
+        handleEvent(event);
         timeSinceLastUpdate += clock.restart();
 
         while (timeSinceLastUpdate > TIME_PER_FRAME) {
             timeSinceLastUpdate -= TIME_PER_FRAME;
-            processEvents(event);
+            handleEvent(event);
             update();
         }
 
@@ -34,13 +34,13 @@ void Program::run() {
     }
 }
 
-void Program::processEvents(sf::Event& event) {
+void Program::handleEvent(sf::Event& event) {
     while (mWindow.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             mWindow.close();
         }
 
-        mWorld.processEvents(event);
+        mWorld.handleEvent(event);
     }
 }
 

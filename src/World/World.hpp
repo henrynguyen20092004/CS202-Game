@@ -10,7 +10,7 @@ class World : private sf::NonCopyable {
    public:
     World(sf::RenderWindow& window);
 
-    void processEvents(sf::Event& event);
+    void handleEvent(sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
 

@@ -1,6 +1,6 @@
 #include "World.hpp"
 
-#include "../SpriteNode/SpriteNode.hpp"
+#include "../Player/Player.hpp"
 
 World::World(sf::RenderWindow& window)
     : mWindow(window),
@@ -50,4 +50,9 @@ void World::buildScene() {
     );
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
+
+    std::unique_ptr<Player> player(
+        new Player(mTextures.get(Textures::ID::Player), mWorldView)
+    );
+    mSceneLayers[Ground]->attachChild(std::move(player));
 }

@@ -1,17 +1,17 @@
 #include "Program.hpp"
 
-#define WINDOW_TO_DESKTOP_RATIO 0.75f
+#define DESKTOP_MODE sf::VideoMode::getDesktopMode()
+#define WINDOW_DESKTOP_RATIO 0.75f
 
-Program::Program() {
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    mWindow.create(
-        sf::VideoMode(
-            desktop.width * WINDOW_TO_DESKTOP_RATIO,
-            desktop.height * WINDOW_TO_DESKTOP_RATIO
-        ),
-        "CSG", sf::Style::Close
-    );
-}
+Program::Program()
+    : mWindow(
+          sf::VideoMode(
+              DESKTOP_MODE.width * WINDOW_DESKTOP_RATIO,
+              DESKTOP_MODE.height * WINDOW_DESKTOP_RATIO
+          ),
+          "CSG", sf::Style::Close
+      ),
+      mWorld(mWindow) {}
 
 Program::~Program() {}
 
@@ -21,42 +21,33 @@ void Program::run() {
     sf::Event event;
 
     while (mWindow.isOpen()) {
-        processEvents(event);
+        handleEvent(event);
         timeSinceLastUpdate += clock.restart();
 
         while (timeSinceLastUpdate > TIME_PER_FRAME) {
             timeSinceLastUpdate -= TIME_PER_FRAME;
-            processEvents(event);
+            handleEvent(event);
             update();
         }
 
-        render();
+        draw();
     }
 }
 
-void Program::processEvents(sf::Event &event) {
+void Program::handleEvent(sf::Event& event) {
     while (mWindow.pollEvent(event)) {
-        switch (event.type) {
-            case sf::Event::Closed:
-                mWindow.close();
-                break;
-
-            case sf::Event::KeyPressed:
-                if (event.key.scancode == sf::Keyboard::Scancode::Escape) {
-                    mWindow.close();
-                }
-
-                break;
-
-            default:
-                break;
+        if (event.type == sf::Event::Closed) {
+            mWindow.close();
         }
+
+        mWorld.handleEvent(event);
     }
 }
 
-void Program::update() {}
+void Program::update() { mWorld.update(TIME_PER_FRAME); }
 
-void Program::render() {
+void Program::draw() {
     mWindow.clear(sf::Color::White);
+    mWorld.draw();
     mWindow.display();
 }

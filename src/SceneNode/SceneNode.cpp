@@ -19,9 +19,9 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
     return result;
 }
 
-void SceneNode::processEvents(const sf::Event& event) {
-    processEventsCurrent(event);
-    processEventsChildren(event);
+void SceneNode::handleEvent(const sf::Event& event) {
+    handleEventCurrent(event);
+    handleEventChildren(event);
 }
 
 void SceneNode::update(sf::Time deltaTime) {
@@ -29,11 +29,11 @@ void SceneNode::update(sf::Time deltaTime) {
     updateChildren(deltaTime);
 }
 
-void SceneNode::processEventsCurrent(const sf::Event&) {}
+void SceneNode::handleEventCurrent(const sf::Event&) {}
 
-void SceneNode::processEventsChildren(const sf::Event& event) {
+void SceneNode::handleEventChildren(const sf::Event& event) {
     for (Ptr& child : mChildren) {
-        child->processEvents(event);
+        child->handleEvent(event);
     }
 }
 

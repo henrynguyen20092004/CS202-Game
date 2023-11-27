@@ -7,11 +7,11 @@ MovableSpriteNode::MovableSpriteNode(
 
 sf::Vector2f MovableSpriteNode::getVelocity() const { return mVelocity; }
 
-void MovableSpriteNode::setVelocity(sf::Vector2f velocity) {
+void MovableSpriteNode::setVelocity(const sf::Vector2f& velocity) {
     mVelocity = velocity;
 }
 
-void MovableSpriteNode::accelerate(sf::Vector2f velocity) {
+void MovableSpriteNode::accelerate(const sf::Vector2f& velocity) {
     mVelocity += velocity;
 }
 

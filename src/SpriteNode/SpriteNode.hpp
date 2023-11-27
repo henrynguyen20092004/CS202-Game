@@ -10,11 +10,20 @@ class SpriteNode : public SceneNode {
         const sf::IntRect& textureRect = sf::IntRect()
     );
 
+    void setTexture(
+        const sf::Texture& texture,
+        const sf::IntRect& textureRect = sf::IntRect()
+    );
+
+   protected:
+    void centerOrigin();
+    sf::FloatRect getHitbox() const;
+
    private:
     sf::Sprite mSprite;
 
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-        const;
+        const override;
 };
 
 #endif

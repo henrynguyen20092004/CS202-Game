@@ -1,6 +1,9 @@
 #ifndef MENUSTATE_HPP
 #define MENUSTATE_HPP
 
+#include <cmath>
+
+#include "../../Identifier/Identifier.hpp"
 #include "../State.hpp"
 
 class MenuState : public State {
@@ -23,4 +26,6 @@ class MenuState : public State {
     std::size_t mOptionIndex;
 };
 
+void centerOrigin(sf::Text& text);
+void centerOrigin(sf::Sprite& sprite);
 #endif  // MENUSTATE_HPP

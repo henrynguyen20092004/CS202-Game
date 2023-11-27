@@ -10,14 +10,14 @@ MenuState::MenuState(StateStack& stack, Context context)
     sf::Text playOption;
     playOption.setFont(font);
     playOption.setString("Play");
-    // centerOrigin(playOption);
+    centerOrigin(playOption);
     playOption.setPosition(context.window->getView().getSize() / 2.f);
     mOptions.push_back(playOption);
 
     sf::Text exitOption;
     exitOption.setFont(font);
     exitOption.setString("Exit");
-    // centerOrigin(exitOption);
+    centerOrigin(exitOption);
     exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
     mOptions.push_back(exitOption);
 
@@ -82,4 +82,20 @@ void MenuState::updateOptionText() {
     }
 
     mOptions[mOptionIndex].setFillColor(sf::Color::Red);
+}
+
+void centerOrigin(sf::Text& text) {
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setOrigin(
+        std::floor(bounds.left + bounds.width / 2.f),
+        std::floor(bounds.top + bounds.height / 2.f)
+    );
+}
+
+void centerOrigin(sf::Sprite& sprite) {
+    sf::FloatRect bounds = sprite.getLocalBounds();
+    sprite.setOrigin(
+        std::floor(bounds.left + bounds.width / 2.f),
+        std::floor(bounds.top + bounds.height / 2.f)
+    );
 }

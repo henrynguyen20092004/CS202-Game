@@ -64,6 +64,8 @@ void Program::registerState() {
 
 void Program::handleEvent(sf::Event& event) {
     while (mWindow.pollEvent(event)) {
+        mStateStack.handleEvent(event);
+
         if (event.type == sf::Event::Closed) {
             mWindow.close();
         }

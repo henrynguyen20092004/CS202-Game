@@ -1,6 +1,9 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
+#include "../State/GameState/GameState.hpp"
+#include "../State/MenuState/MenuState.hpp"
+#include "../StateStack/StateStack.hpp"
 #include "../World/World.hpp"
 
 class Program {

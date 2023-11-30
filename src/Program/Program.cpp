@@ -13,7 +13,7 @@ Program::Program()
     loadFonts();
     registerState();
 
-    mStateStack.pushState(States::ID::Game);
+    mStateStack.pushState(States::ID::Menu);
 }
 
 Program::~Program() {}
@@ -64,8 +64,6 @@ void Program::registerState() {
 
 void Program::handleEvent(sf::Event& event) {
     while (mWindow.pollEvent(event)) {
-        mStateStack.handleEvent(event);
-
         if (event.type == sf::Event::Closed) {
             mWindow.close();
         }

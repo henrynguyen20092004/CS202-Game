@@ -5,9 +5,7 @@
 State::Context::Context(
     sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts
 )
-    : window(&window),
-      textures(&textures),
-      fonts(&fonts) {}  //, player(&player) {}
+    : window(&window), textures(&textures), fonts(&fonts) {}
 
 State::State(StateStack& stack, Context context)
     : mStack(&stack), mContext(context) {}

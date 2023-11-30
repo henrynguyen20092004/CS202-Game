@@ -1,11 +1,10 @@
 #include "StateStack.hpp"
 
-StateStack::StateStack(State::Context context)
-    : mStack(), mPendingList(), mContext(context), mFactories() {}
+StateStack::StateStack(State::Context context) : mContext(context) {}
 
-void StateStack::update(sf::Time dt) {
+void StateStack::update(sf::Time deltaTime) {
     for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr) {
-        if (!(*itr)->update(dt)) {
+        if (!(*itr)->update(deltaTime)) {
             break;
         }
     }

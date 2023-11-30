@@ -1,5 +1,7 @@
 #include "Program.hpp"
 
+#include "../State/GameState/GameState.hpp"
+
 #define DESKTOP_MODE sf::VideoMode::getDesktopMode()
 #define WINDOW_DESKTOP_RATIO 0.75f
 
@@ -11,18 +13,12 @@ Program::Program()
           ),
           "CSG", sf::Style::Close
       ),
-      mWorld(mWindow),
-      mTextures(),
-      mFonts(),
       mStateStack(State::Context(mWindow, mTextures, mFonts)) {
-    mFonts.load(Fonts::ID::Main, "assets/Fonts/Dosis.ttf");
-    mTextures.load(
-        Textures::ID::TitleScreen, "assets/Textures/TitleScreen.png"
-    );
-    // how to scale the title screen?
+    loadTextures();
+    loadFonts();
     registerState();
-    mStateStack.pushState(States::ID::Menu);
-    // mWindow.setKeyRepeatEnabled(false);
+
+    mStateStack.pushState(States::ID::Game);
 }
 
 Program::~Program() {}
@@ -40,38 +36,47 @@ void Program::run() {
             timeSinceLastUpdate -= TIME_PER_FRAME;
             handleEvent(event);
             update();
+
+            if (mStateStack.isEmpty()) {
+                mWindow.close();
+            }
         }
 
         draw();
     }
 }
 
-void Program::handleEvent(sf::Event& event) {
-    while (mWindow.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            mWindow.close();
-        }
-
-        // mWorld.handleEvent(event);
-    }
+void Program::loadTextures() {
+    mTextures.load(Textures::ID::Player, "assets/Textures/Player.png");
+    mTextures.load(Textures::ID::Background, "assets/Textures/Background.png");
 }
 
-void Program::update() {
-    // mWorld.update(TIME_PER_FRAME);
-    mStateStack.update(TIME_PER_FRAME);
-}
-
-void Program::draw() {
-    mWindow.clear(sf::Color::Black);
-    // mWorld.draw();
-    mStateStack.draw();
-    mWindow.display();
+void Program::loadFonts() {
+    mFonts.load(Fonts::ID::Main, "assets/Fonts/Dosis.ttf");
 }
 
 void Program::registerState() {
-    mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
+    //     mStateStack.registerState<MenuState>(States::ID::Menu);
     //     mStateStack.registerState<PauseState>(States::ID::Pause);
     //     mStateStack.registerState<TitleState>(States::ID::Title);
     //     mStateStack.registerState<LoadingState>(States::ID::Loading);
+}
+
+void Program::handleEvent(sf::Event& event) {
+    while (mWindow.pollEvent(event)) {
+        mStateStack.handleEvent(event);
+
+        if (event.type == sf::Event::Closed) {
+            mWindow.close();
+        }
+    }
+}
+
+void Program::update() { mStateStack.update(TIME_PER_FRAME); }
+
+void Program::draw() {
+    mWindow.clear(sf::Color::Black);
+    mStateStack.draw();
+    mWindow.display();
 }

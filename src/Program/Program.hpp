@@ -15,8 +15,6 @@ class Program {
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
     sf::RenderWindow mWindow;
-    TextureHolder mTextures;
-    FontHolder mFonts;
 
     StateStack mStateStack;
 
@@ -27,12 +25,9 @@ class Program {
     void loadFonts();
     void registerState();
 
-    StateStack mStateStack;
-
     void handleEvent(sf::Event &event);
     void update();
     void draw();
-    void registerState();
 };
 
 #endif

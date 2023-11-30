@@ -48,6 +48,9 @@ void Program::loadTextures() {
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
     );
     mTextures.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextures.load(
+        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+    );
 }
 
 void Program::loadFonts() {
@@ -55,11 +58,11 @@ void Program::loadFonts() {
 }
 
 void Program::registerState() {
+    mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
-    //     mStateStack.registerState<MenuState>(States::ID::Menu);
-    //     mStateStack.registerState<PauseState>(States::ID::Pause);
-    //     mStateStack.registerState<TitleState>(States::ID::Title);
-    //     mStateStack.registerState<LoadingState>(States::ID::Loading);
+    //      mStateStack.registerState<PauseState>(States::ID::Pause);
+    //      mStateStack.registerState<TitleState>(States::ID::Title);
+    //      mStateStack.registerState<LoadingState>(States::ID::Loading);
 }
 
 void Program::handleEvent(sf::Event& event) {

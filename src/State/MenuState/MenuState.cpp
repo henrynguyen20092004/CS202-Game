@@ -2,16 +2,20 @@
 
 MenuState::MenuState(StateStack& stack, Context context)
     : State(stack, context), mOptionIndex(0) {
-    sf::Texture& texture = context.textures->get(Textures::ID::TitleScreen);
+    sf::Texture& texture = context.textures->get(Textures::ID::MenuBackground);
     sf::Font& font = context.fonts->get(Fonts::ID::Main);
+    sf::Vector2f windowSize(context.window->getSize());
 
     mBackgroundSprite.setTexture(texture);
+    mBackgroundSprite.setScale(
+        windowSize.x / texture.getSize().x, windowSize.y / texture.getSize().y
+    );
 
     sf::Text playOption;
     playOption.setFont(font);
     playOption.setString("Play");
     centerOrigin(playOption);
-    playOption.setPosition(context.window->getView().getSize() / 2.f);
+    playOption.setPosition(windowSize / 2.f);
     mOptions.push_back(playOption);
 
     sf::Text exitOption;
@@ -26,7 +30,6 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
-    window.setView(window.getDefaultView());
 
     window.draw(mBackgroundSprite);
 
@@ -43,10 +46,10 @@ bool MenuState::handleEvent(const sf::Event& event) {
     }
 
     if (event.key.code == sf::Keyboard::Return) {
-        if (mOptionIndex == static_cast<int>(OptionNames::Play)) {
+        if (mOptionIndex == OptionNames::Play) {
             requestStackPop();
             requestStackPush(States::ID::Game);
-        } else if (mOptionIndex == static_cast<int>(OptionNames::Exit)) {
+        } else if (mOptionIndex == OptionNames::Exit) {
             requestStackPop();
         }
 
@@ -86,16 +89,10 @@ void MenuState::updateOptionText() {
 
 void centerOrigin(sf::Text& text) {
     sf::FloatRect bounds = text.getLocalBounds();
-    text.setOrigin(
-        std::floor(bounds.left + bounds.width / 2.f),
-        std::floor(bounds.top + bounds.height / 2.f)
-    );
+    text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 void centerOrigin(sf::Sprite& sprite) {
     sf::FloatRect bounds = sprite.getLocalBounds();
-    sprite.setOrigin(
-        std::floor(bounds.left + bounds.width / 2.f),
-        std::floor(bounds.top + bounds.height / 2.f)
-    );
+    sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }

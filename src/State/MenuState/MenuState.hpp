@@ -1,9 +1,6 @@
-#ifndef MENUSTATE_HPP
-#define MENUSTATE_HPP
+#ifndef MENU_STATE_HPP
+#define MENU_STATE_HPP
 
-#include <cmath>
-
-#include "../../Identifier/Identifier.hpp"
 #include "../State.hpp"
 
 class MenuState : public State {
@@ -16,7 +13,7 @@ class MenuState : public State {
     void updateOptionText();
 
    private:
-    enum class OptionNames {
+    enum OptionNames {
         Play,
         Exit,
     };
@@ -28,4 +25,5 @@ class MenuState : public State {
 
 void centerOrigin(sf::Text& text);
 void centerOrigin(sf::Sprite& sprite);
-#endif  // MENUSTATE_HPP
+
+#endif

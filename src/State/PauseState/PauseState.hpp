@@ -1,17 +1,17 @@
 #ifndef PAUSE_STATE_HPP
-#define PAUSESTATE_HPP
+#define PAUSE_STATE_HPP
 
 #include "../../Identifier/Identifier.hpp"
-#include "../State.hpp"
 #include "../../Utility/Utility.hpp"
+#include "../State.hpp"
 
 class PauseState : public State {
    public:
     PauseState(StateStack& stack, Context context);
 
-    virtual void draw();
-    virtual bool update(sf::Time deltaTime);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time deltaTime) override;
+    bool handleEvent(const sf::Event& event) override;
 
    private:
     sf::Sprite mBackgroundSprite;

@@ -3,6 +3,7 @@
 
 #include "../../Identifier/Identifier.hpp"
 #include "../State.hpp"
+#include "../../Utility/Utility.hpp"
 
 class PauseState : public State {
    public:

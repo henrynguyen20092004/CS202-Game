@@ -8,9 +8,9 @@
 
 class World : private sf::NonCopyable {
    public:
-    World(sf::RenderWindow& window);
+    World(sf::RenderWindow& window, TextureHolder& textures);
 
-    void handleEvent(sf::Event& event);
+    void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
 
@@ -19,7 +19,7 @@ class World : private sf::NonCopyable {
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
-    TextureHolder mTextures;
+    TextureHolder& mTextures;
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
@@ -27,7 +27,6 @@ class World : private sf::NonCopyable {
     sf::FloatRect mWorldBounds;
     float mScrollSpeed = -50.f;
 
-    void loadTextures();
     void buildScene();
 };
 

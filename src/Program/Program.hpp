@@ -1,7 +1,7 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
-#include "../World/World.hpp"
+#include "../StateStack/StateStack.hpp"
 
 class Program {
    public:
@@ -14,7 +14,14 @@ class Program {
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
     sf::RenderWindow mWindow;
 
-    World mWorld;
+    StateStack mStateStack;
+
+    TextureHolder mTextures;
+    FontHolder mFonts;
+
+    void loadTextures();
+    void loadFonts();
+    void registerState();
 
     void handleEvent(sf::Event &event);
     void update();

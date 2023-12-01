@@ -2,8 +2,9 @@
 
 #include "../Player/Player.hpp"
 
-World::World(sf::RenderWindow& window)
+World::World(sf::RenderWindow& window, TextureHolder& textures)
     : mWindow(window),
+      mTextures(textures),
       mWorldView(window.getView()),
       mWorldBounds(
           0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y * 3
@@ -12,11 +13,12 @@ World::World(sf::RenderWindow& window)
         mWorldView.getCenter().x, mWorldBounds.height - mWorldView.getCenter().y
     );
 
-    loadTextures();
     buildScene();
 }
 
-void World::handleEvent(sf::Event& event) { mSceneGraph.handleEvent(event); }
+void World::handleEvent(const sf::Event& event) {
+    mSceneGraph.handleEvent(event);
+}
 
 void World::update(sf::Time deltaTime) {
     mWorldView.move(0.f, mScrollSpeed * deltaTime.asSeconds());
@@ -26,11 +28,6 @@ void World::update(sf::Time deltaTime) {
 void World::draw() {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
-}
-
-void World::loadTextures() {
-    mTextures.load(Textures::ID::Player, "assets/Textures/Player.png");
-    mTextures.load(Textures::ID::Background, "assets/Textures/Background.png");
 }
 
 void World::buildScene() {

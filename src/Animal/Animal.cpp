@@ -1,4 +1,4 @@
 #include "Animal.hpp"
 
-Animal::Animal(const sf::Texture& texture) : MovableSpriteNode(texture) {}
-
+Animal::Animal(TextureHolder& TextureHolder, Textures::ID textureID)
+    : MovableSpriteNode(TextureHolder, textureID) {}

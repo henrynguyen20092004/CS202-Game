@@ -5,6 +5,7 @@
 
 #include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
+#include "../Vehicle/Vehicle.hpp"
 
 class Player : public SpriteNode {
    public:
@@ -18,7 +19,7 @@ class Player : public SpriteNode {
         ActionCount,
     };
 
-    Player(const sf::Texture& texture, sf::View& worldView);
+    Player(TextureHolder& mTextureHolder, sf::View& worldView);
 
     void updateCurrent(sf::Time deltaTime) override;
 

@@ -25,6 +25,4 @@ typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
 
 #include "ResourceHolder.inl"
 
-using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
-
-#endif  // RESOURCE_HOLDER_HPP
+#endif

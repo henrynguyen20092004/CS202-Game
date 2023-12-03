@@ -10,17 +10,19 @@ class MenuState : public State {
     virtual bool update(sf::Time dt);
     virtual bool handleEvent(const sf::Event& event);
 
-    void updateOptionText();
+    //void updateOptionText();
 
    private:
-    enum OptionNames {
-        Play,
-        Exit,
-    };
+    // enum OptionNames {
+    //     Play,
+    //     Exit,
+    // };
 
     sf::Sprite mBackgroundSprite;
-    std::vector<sf::Text> mOptions;
-    std::size_t mOptionIndex;
+    // std::vector<sf::Text> mOptions;
+    // std::size_t mOptionIndex;
+
+    GUI::Container mGUIContainer;
 };
 
 void centerOrigin(sf::Text& text);

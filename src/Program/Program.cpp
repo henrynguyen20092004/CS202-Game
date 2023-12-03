@@ -2,6 +2,7 @@
 
 #include "../Global/Global.hpp"
 #include "../State/GameState/GameState.hpp"
+#include "../State/MenuState/MenuState.hpp"
 
 Program::Program()
     : mWindow(
@@ -50,6 +51,15 @@ void Program::loadTextures() {
     mTextures.load(Textures::ID::Car, "assets/Textures/Car.png");
     mTextures.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
 }
 

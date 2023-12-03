@@ -30,6 +30,10 @@ enum class ID {
     Phoenix,
 
     VehicleLane,
+
+    ButtonNormal,
+    ButtonSelected,
+    ButtonPressed,
 };
 }
 

@@ -1,7 +1,6 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
-#include "../State/MenuState/MenuState.hpp"
 #include "../StateStack/StateStack.hpp"
 
 class Program {

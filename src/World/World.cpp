@@ -1,14 +1,14 @@
 #include "World.hpp"
 
+#include "../Global/Global.hpp"
+#include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Player/Player.hpp"
 
 World::World(sf::RenderWindow& window, TextureHolder& textures)
     : mWindow(window),
-      mTextures(textures),
+      mTextureHolder(textures),
       mWorldView(window.getView()),
-      mWorldBounds(
-          0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y * 3
-      ) {
+      mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y) {
     mWorldView.setCenter(
         mWorldView.getCenter().x, mWorldBounds.height - mWorldView.getCenter().y
     );
@@ -37,19 +37,13 @@ void World::buildScene() {
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    // TODO: Remove when adding TileMap
-    sf::Texture& texture = mTextures.get(Textures::ID::Background);
-    sf::IntRect textureRect(mWorldBounds);
-    texture.setRepeated(true);
+    for (int i = 0; i < 9; i++) {
+        Lane::Ptr lane(new VehicleLane(
+            mTextureHolder, sf::Vector2f(0.f, i * Global::TILE_SIZE)
+        ));
+        mSceneLayers[Lane]->attachChild(std::move(lane));
+    }
 
-    std::unique_ptr<SpriteNode> backgroundSprite(
-        new SpriteNode(texture, textureRect)
-    );
-    backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-    mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
-
-    std::unique_ptr<Player> player(
-        new Player(mTextures.get(Textures::ID::Player), mWorldView)
-    );
+    std::unique_ptr<Player> player(new Player(mTextureHolder, mWorldView));
     mSceneLayers[Ground]->attachChild(std::move(player));
 }

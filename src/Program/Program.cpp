@@ -1,17 +1,12 @@
 #include "Program.hpp"
 
+#include "../Global/Global.hpp"
 #include "../State/GameState/GameState.hpp"
-
-#define DESKTOP_MODE sf::VideoMode::getDesktopMode()
-#define WINDOW_DESKTOP_RATIO 0.75f
 
 Program::Program()
     : mWindow(
-          sf::VideoMode(
-              DESKTOP_MODE.width * WINDOW_DESKTOP_RATIO,
-              DESKTOP_MODE.height * WINDOW_DESKTOP_RATIO
-          ),
-          "CSG", sf::Style::Close
+          sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT), "CSG",
+          sf::Style::Close
       ),
       mStateStack(State::Context(mWindow, mTextures, mFonts)) {
     loadTextures();
@@ -49,10 +44,14 @@ void Program::run() {
 void Program::loadTextures() {
     mTextures.load(Textures::ID::Player, "assets/Textures/Player.png");
     mTextures.load(Textures::ID::Background, "assets/Textures/Background.png");
+    mTextures.load(
+        Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
+    );
+    mTextures.load(Textures::ID::Car, "assets/Textures/Car.png");
 }
 
 void Program::loadFonts() {
-    mFonts.load(Fonts::ID::Main, "assets/Fonts/Dosis.ttf");
+    mFonts.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
 }
 
 void Program::registerState() {

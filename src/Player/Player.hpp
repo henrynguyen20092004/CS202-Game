@@ -18,7 +18,7 @@ class Player : public SpriteNode {
         ActionCount,
     };
 
-    Player(const sf::Texture& texture, sf::View& worldView);
+    Player(TextureHolder& mTextureHolder, sf::View& worldView);
 
     void updateCurrent(sf::Time deltaTime) override;
 

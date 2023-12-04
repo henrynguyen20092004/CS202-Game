@@ -11,8 +11,8 @@ struct PlayerMover {
     sf::Vector2f velocity;
 };
 
-Player::Player(const sf::Texture& texture, sf::View& worldView)
-    : SpriteNode(texture), mWorldView(worldView) {
+Player::Player(TextureHolder& textureHolder, sf::View& worldView)
+    : SpriteNode(textureHolder, Textures::ID::Player), mWorldView(worldView) {
     initializePosition(worldView.getCenter());
     initializeKeyBinding();
     initializeActionBinding();
@@ -80,7 +80,7 @@ void Player::initializeActionBinding() {
 }
 
 bool Player::isOutOfBounds() {
-    sf::FloatRect hitbox = getHitbox(),
+    sf::FloatRect hitbox = getGlobalBounds(),
                   viewBounds = sf::FloatRect(
                       mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
                       mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,

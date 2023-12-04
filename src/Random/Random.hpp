@@ -4,16 +4,21 @@
 #include <time.h>
 
 #include <random>
+#include <vector>
 
+template <typename T>
 class Random {
    public:
-    Random(int seed = time(nullptr));
-
-    int getIntInRange(int min, int max);
-    float getFloatInRange(float min, float max);
+    static T generate(T min, T max);
+    static T generate(const std::vector<T>& list);
 
    private:
-    std::mt19937 mEngine;
+    static std::mt19937 mEngine;
 };
 
-#endif  // RANDOM_HPP
+template <typename T>
+std::mt19937 Random<T>::mEngine(time(nullptr));
+
+#include "Random.inl"
+
+#endif

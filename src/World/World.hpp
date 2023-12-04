@@ -15,17 +15,17 @@ class World : private sf::NonCopyable {
     void draw();
 
    private:
-    enum Layer { Background, Ground, LayerCount };
+    enum Layer { Lane, Ground, LayerCount };
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
-    TextureHolder& mTextures;
+    TextureHolder& mTextureHolder;
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
     sf::FloatRect mWorldBounds;
-    float mScrollSpeed = -50.f;
+    float mScrollSpeed = -0.f;
 
     void buildScene();
 };

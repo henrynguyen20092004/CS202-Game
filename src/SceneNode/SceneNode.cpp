@@ -1,5 +1,7 @@
 #include "SceneNode.hpp"
 
+#include <assert.h>
+
 #include <algorithm>
 
 void SceneNode::attachChild(Ptr child) {
@@ -12,6 +14,7 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
         std::find_if(mChildren.begin(), mChildren.end(), [&](Ptr& child) {
             return child.get() == &node;
         });
+    assert(found != mChildren.end());
 
     Ptr result = std::move(*found);
     result->mParent = nullptr;

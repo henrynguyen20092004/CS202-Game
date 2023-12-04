@@ -23,6 +23,6 @@ class ResourceHolder {
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
 
-#include "ResourceHolder.tpp"
+#include "ResourceHolder.inl"
 
-#endif  // RESOURCE_HOLDER_HPP
+#endif

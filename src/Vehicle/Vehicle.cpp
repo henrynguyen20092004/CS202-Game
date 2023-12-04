@@ -1,36 +1,30 @@
 #include "Vehicle.hpp"
 
-Vehicle::Vehicle(Directions::ID direction, float speed)
-    : mDirection(direction), mSpeed(speed) {}
+Vehicle::Vehicle(
+    TextureHolder& textureHolder, Textures::ID texureID,
+    Directions::ID direction
+)
+    : MovableSpriteNode(textureHolder, texureID), mDirection(direction) {
+    if (direction == Directions::ID::Left) {
+        setScale(-1.f, 1.f);
+    }
+}
 
 Directions::ID Vehicle::getDirection() const { return mDirection; }
 
-float Vehicle::getSpeed() const { return mSpeed; }
-
 void Vehicle::setDirection(Directions::ID direction) { mDirection = direction; }
 
-void Vehicle::setSpeed(float speed) { mSpeed = speed; }
-
-void Vehicle::update(float deltaTime) {
-    sf::Vector2f movement(0.f, 0.f);
-
+void Vehicle::updateCurrent(sf::Time deltaTime) {
     switch (mDirection) {
         case Directions::ID::Left:
-            movement.x -= mSpeed;
+            MovableSpriteNode::updateCurrent(-deltaTime);
             break;
 
         case Directions::ID::Right:
-            movement.x += mSpeed;
+            MovableSpriteNode::updateCurrent(deltaTime);
             break;
 
         default:
             break;
     }
-
-    move(movement * deltaTime);
-}
-
-void Vehicle::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform();
-    target.draw(mSprite, states);
 }

@@ -26,12 +26,14 @@ enum class ID {
     Elephant,
     Pug,
     Phoenix,
+
+    VehicleLane,
 };
 }
 
 namespace Fonts {
 enum class ID {
-    Main,
+    Dosis,
 };
 }
 
@@ -50,4 +52,4 @@ enum class ID {
 };
 }
 
-#endif  // IDENTIFIER_HPP
+#endif

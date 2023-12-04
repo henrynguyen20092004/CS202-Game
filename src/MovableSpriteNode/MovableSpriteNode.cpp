@@ -1,9 +1,10 @@
 #include "MovableSpriteNode.hpp"
 
 MovableSpriteNode::MovableSpriteNode(
-    const sf::Texture& texture, const sf::IntRect& textureRect
+    TextureHolder& textureHolder, Textures::ID textureID,
+    sf::IntRect textureRect
 )
-    : SpriteNode(texture, textureRect) {}
+    : SpriteNode(textureHolder, textureID, textureRect) {}
 
 sf::Vector2f MovableSpriteNode::getVelocity() const { return mVelocity; }
 

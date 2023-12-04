@@ -9,7 +9,7 @@ class Animal : public MovableSpriteNode {
     typedef std::unique_ptr<Animal> Ptr;
 
    protected:
-    Animal(const sf::Texture& texture);
+    Animal(TextureHolder& TextureHolder, Textures::ID textureID);
     virtual void updateCurrent(float deltaTime) = 0;
     // virtual void powerUp() = 0;
 };

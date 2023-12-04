@@ -5,7 +5,6 @@
 
 #include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
-#include "../Vehicle/Vehicle.hpp"
 
 class Player : public SpriteNode {
    public:

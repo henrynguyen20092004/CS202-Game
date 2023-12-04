@@ -3,9 +3,6 @@
 #include "../Global/Global.hpp"
 #include "../State/GameState/GameState.hpp"
 
-#define DESKTOP_MODE sf::VideoMode::getDesktopMode()
-#define WINDOW_DESKTOP_RATIO 0.75f
-
 Program::Program()
     : mWindow(
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT), "CSG",

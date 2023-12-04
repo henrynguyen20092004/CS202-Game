@@ -8,18 +8,8 @@ VehicleLane::VehicleLane(
 }
 
 void VehicleLane::buildScene() {
-    for (int i = 0; i < LayerCount; ++i) {
-        SceneNode::Ptr layer(new SceneNode());
-        mSceneLayers[i] = layer.get();
-        mSceneGraph.attachChild(std::move(layer));
-    }
-
+    Lane::buildScene(Textures::ID::VehicleLane);
     Factory::Ptr factory(new VehicleFactory(mTextureHolder));
     mFactory = factory.get();
     mSceneLayers[Object]->attachChild(std::move(factory));
-
-    SpriteNode::Ptr sprite(
-        new SpriteNode(mTextureHolder, Textures::ID::VehicleLane)
-    );
-    mSceneLayers[Ground]->attachChild(std::move(sprite));
 }

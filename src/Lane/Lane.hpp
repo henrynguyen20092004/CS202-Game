@@ -17,17 +17,12 @@ class Lane : public SceneNode {
 
     TextureHolder& mTextureHolder;
 
-    SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
     Factory* mFactory;
 
-    virtual void buildScene() = 0;
-
-   private:
-    void updateCurrent(sf::Time deltaTime) override;
-    void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-        const override;
+   protected:
+    void buildScene(Textures::ID textureID);
 };
 
 #endif

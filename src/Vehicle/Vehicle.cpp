@@ -4,8 +4,8 @@ Vehicle::Vehicle(
     TextureHolder& textureHolder, Textures::ID texureID,
     Directions::ID direction
 )
-    : MovableSpriteNode(textureHolder, texureID) {
-    if (direction == Directions::ID::Right) {
+    : MovableSpriteNode(textureHolder, texureID), mDirection(direction) {
+    if (direction == Directions::ID::Left) {
         setScale(-1.f, 1.f);
     }
 }

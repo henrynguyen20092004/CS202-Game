@@ -1,5 +1,6 @@
 #include "World.hpp"
 
+#include "../Global/Global.hpp"
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Player/Player.hpp"
 
@@ -34,6 +35,13 @@ void World::buildScene() {
         SceneNode::Ptr layer(new SceneNode());
         mSceneLayers[i] = layer.get();
         mSceneGraph.attachChild(std::move(layer));
+    }
+
+    for (int i = 0; i < 9; i++) {
+        Lane::Ptr lane(new VehicleLane(
+            mTextureHolder, sf::Vector2f(0.f, i * Global::TILE_SIZE)
+        ));
+        mSceneLayers[Lane]->attachChild(std::move(lane));
     }
 
     std::unique_ptr<Player> player(new Player(mTextureHolder, mWorldView));

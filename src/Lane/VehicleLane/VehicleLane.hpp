@@ -9,7 +9,7 @@ class VehicleLane : public Lane {
     VehicleLane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
    private:
-    void buildScene() override;
+    void buildScene();
 };
 
 #endif

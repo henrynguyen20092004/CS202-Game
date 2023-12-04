@@ -11,16 +11,12 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
 
     mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
 
-    mVelocity = sf::Vector2f(Random<float>::generate(100, 200), 0);
-
-    mSpawnClock.restart();
-    mSpawnTime = sf::Time(sf::seconds(0.f));
+    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
 }
 
 void VehicleFactory::addVehicle() {
     Vehicle::Ptr vehicle(new Vehicle(mTextureHolder, mTextureID, mDirection));
     vehicle->setVelocity(mVelocity);
-    vehicle->setDirection(mDirection);
     if (mDirection == Directions::ID::Left) {
         vehicle->setPosition(
             Global::WINDOW_WIDTH + vehicle->getSize().x,
@@ -51,7 +47,7 @@ void VehicleFactory::updateCurrent(sf::Time deltaTime) {
         mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(2.f, 5.f)));
     }
 
-    if (!mVehicles.empty() > 0) {
+    if (!mVehicles.empty()) {
         Vehicle* vehicle = mVehicles.back();
         if (mDirection == Directions::ID::Left) {
             if (vehicle->getPosition().x < -vehicle->getSize().x) {

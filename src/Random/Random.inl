@@ -9,7 +9,6 @@ T Random<T>::generate(T min, T max) {
     }
 
     throw std::invalid_argument("Invalid type");
-    return T();
 }
 
 template <typename T>

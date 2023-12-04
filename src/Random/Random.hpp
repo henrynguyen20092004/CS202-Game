@@ -16,7 +16,7 @@ class Random {
     static std::mt19937 mEngine;
 };
 
-template <class T>
+template <typename T>
 std::mt19937 Random<T>::mEngine(time(nullptr));
 
 #include "Random.inl"

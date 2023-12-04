@@ -1,7 +1,6 @@
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
 
-#include "../Random/Random.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SceneNode/SceneNode.hpp"
 

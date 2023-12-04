@@ -2,7 +2,15 @@
 #define IDENTIFIER_HPP
 
 namespace States {
-enum class ID { None, Title, Menu, Game, Loading, Pause };
+enum class ID {
+    None,
+    Title,
+    Menu,
+    Game,
+    Loading,
+    Pause,
+    Setting,
+};
 }
 
 namespace Directions {

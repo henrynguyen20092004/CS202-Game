@@ -4,10 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-namespace sf {
-class Event;
-}
-
 namespace GUI {
 
 class Component : public sf::Drawable,
@@ -16,7 +12,6 @@ class Component : public sf::Drawable,
    public:
     typedef std::shared_ptr<Component> Ptr;
 
-   public:
     Component();
     virtual ~Component();
 

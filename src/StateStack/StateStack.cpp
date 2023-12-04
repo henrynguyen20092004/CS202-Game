@@ -49,9 +49,11 @@ void StateStack::applyPendingChanges() {
             case Action::Push:
                 mStack.push_back(createState(change.stateID));
                 break;
+
             case Action::Pop:
                 mStack.pop_back();
                 break;
+
             case Action::Clear:
                 mStack.clear();
                 break;

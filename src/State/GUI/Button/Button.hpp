@@ -1,13 +1,8 @@
-
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
 #include <functional>
-#include <memory>
-#include <string>
-#include <vector>
 
-#include "../../../Identifier/Identifier.hpp"
 #include "../../../ResourceHolder/ResourceHolder.hpp"
 #include "../Component/Component.hpp"
 
@@ -18,33 +13,34 @@ class Button : public Component {
     typedef std::shared_ptr<Button> Ptr;
     typedef std::function<void()> Callback;
 
-   public:
-    Button(const FontHolder& fonts, const TextureHolder& textures);
+    Button(
+        const FontHolder& fonts, const TextureHolder& textures,
+        const std::string& text
+    );
 
-    void setCallback(Callback callback);
-    void setText(const std::string& text);
+    void setCallback(const Callback& callback);
     void setToggle(bool flag);
 
-    virtual bool isSelectable() const;
-    virtual void select();
-    virtual void deselect();
+    virtual bool isSelectable() const override;
+    virtual void select() override;
+    virtual void deselect() override;
 
-    virtual void activate();
-    virtual void deactivate();
+    virtual void activate() override;
+    virtual void deactivate() override;
 
-    virtual void handleEvent(const sf::Event& event);
-    void centerOrigin();
+    virtual void handleEvent(const sf::Event& event) override;
 
    private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-    Callback mCallback;
     const sf::Texture& mNormalTexture;
     const sf::Texture& mSelectedTexture;
     const sf::Texture& mPressedTexture;
+
+    Callback mCallback;
     sf::Sprite mSprite;
     sf::Text mText;
     bool mIsToggle;
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 }  // namespace GUI

@@ -5,42 +5,48 @@
 
 MenuState::MenuState(StateStack& stack, Context context)
     : State(stack, context) {
-    sf::Texture& texture = context.textures->get(Textures::ID::MenuBackground);
-    sf::Font& font = context.fonts->get(Fonts::ID::Dosis);
+    sf::Texture& backgroundTexture =
+        context.textures->get(Textures::ID::MenuBackground);
     sf::Vector2f windowSize(context.window->getSize());
 
-    mBackgroundSprite.setTexture(texture);
+    mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(
-        windowSize.x / texture.getSize().x, windowSize.y / texture.getSize().y
+        windowSize.x / backgroundTexture.getSize().x,
+        windowSize.y / backgroundTexture.getSize().y
     );
 
-    auto playButton =
-        std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 30.f);
-    playButton->setText("Play");
+    auto playButton = std::make_shared<GUI::Button>(
+        *context.fonts, *context.textures, "Play"
+    );
+    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 60.f);
     playButton->setCallback([this]() {
         requestStackPop();
         requestStackPush(States::ID::Game);
     });
 
-    // setting button
+    auto settingButton = std::make_shared<GUI::Button>(
+        *context.fonts, *context.textures, "Setting"
+    );
+    settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
+    settingButton->setCallback([this]() {
+        requestStackPop();
+        requestStackPush(States::ID::Setting);
+    });
 
-    auto exitButton =
-        std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 30.f);
-    exitButton->setText("Exit");
+    auto exitButton = std::make_shared<GUI::Button>(
+        *context.fonts, *context.textures, "Exit"
+    );
+    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 60.f);
     exitButton->setCallback([this]() { requestStackPop(); });
 
-    mGUIContainer.pack(playButton);
-    // mGUIContainer.pack(settingsButton);
-    mGUIContainer.pack(exitButton);
+    mGUIContainer.addComponent(playButton);
+    mGUIContainer.addComponent(settingButton);
+    mGUIContainer.addComponent(exitButton);
 }
 
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
-
     window.draw(mBackgroundSprite);
-
     window.draw(mGUIContainer);
 }
 
@@ -48,6 +54,5 @@ bool MenuState::update(sf::Time) { return true; }
 
 bool MenuState::handleEvent(const sf::Event& event) {
     mGUIContainer.handleEvent(event);
-    return false;  // false means that the event will be propagated to the next
-                   // state
+    return false;
 }

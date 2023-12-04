@@ -1,10 +1,6 @@
 #ifndef VEHICLE_HPP
 #define VEHICLE_HPP
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-
-#include "../Identifier/Identifier.hpp"
 #include "../MovableSpriteNode/MovableSpriteNode.hpp"
 
 class Vehicle : public MovableSpriteNode {
@@ -17,7 +13,6 @@ class Vehicle : public MovableSpriteNode {
     );
 
     Directions::ID getDirection() const;
-
     void setDirection(Directions::ID direction);
 
    private:

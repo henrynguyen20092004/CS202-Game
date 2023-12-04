@@ -22,7 +22,7 @@ class Program {
 
     void loadTextures();
     void loadFonts();
-    void registerState();
+    void registerStates();
 
     void handleEvent(sf::Event &event);
     void update();

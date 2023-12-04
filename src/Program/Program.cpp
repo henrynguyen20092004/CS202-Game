@@ -12,7 +12,7 @@ Program::Program()
       mStateStack(State::Context(mWindow, mTextures, mFonts)) {
     loadTextures();
     loadFonts();
-    registerState();
+    registerStates();
 
     mStateStack.pushState(States::ID::Menu);
 }
@@ -67,7 +67,7 @@ void Program::loadFonts() {
     mFonts.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
 }
 
-void Program::registerState() {
+void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
     //      mStateStack.registerState<PauseState>(States::ID::Pause);

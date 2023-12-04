@@ -1,7 +1,6 @@
 #ifndef GUI_CONTAINER_HPP
 #define GUI_CONTAINER_HPP
 
-#include <memory>
 #include <vector>
 
 #include "../Component/Component.hpp"
@@ -12,25 +11,23 @@ class Container : public Component {
    public:
     typedef std::shared_ptr<Container> Ptr;
 
-   public:
     Container();
 
-    void pack(Component::Ptr component);
+    void addComponent(Component::Ptr component);
 
-    virtual bool isSelectable() const;
+    virtual bool isSelectable() const override;
     virtual void handleEvent(const sf::Event& event);
-
-   private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-    bool hasSelection() const;
-    void select(std::size_t index);
-    void selectNext();
-    void selectPrevious();
 
    private:
     std::vector<Component::Ptr> mChildren;
     int mSelectedChild;
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    bool hasSelection() const;
+    void select(int index);
+    void selectNext();
+    void selectPrevious();
 };
 
 }  // namespace GUI

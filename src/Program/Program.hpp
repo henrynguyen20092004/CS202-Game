@@ -12,6 +12,7 @@ class Program {
 
    private:
     const sf::Time TIME_PER_FRAME = sf::seconds(1.f / 60.f);
+
     sf::RenderWindow mWindow;
 
     StateStack mStateStack;
@@ -21,7 +22,7 @@ class Program {
 
     void loadTextures();
     void loadFonts();
-    void registerState();
+    void registerStates();
 
     void handleEvent(sf::Event &event);
     void update();

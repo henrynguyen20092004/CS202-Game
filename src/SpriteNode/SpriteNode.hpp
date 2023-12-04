@@ -1,7 +1,6 @@
 #ifndef SPRITE_NODE_HPP
 #define SPRITE_NODE_HPP
 
-#include "../Identifier/Identifier.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SceneNode/SceneNode.hpp"
 

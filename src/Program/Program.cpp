@@ -2,6 +2,7 @@
 
 #include "../Global/Global.hpp"
 #include "../State/GameState/GameState.hpp"
+#include "../State/MenuState/MenuState.hpp"
 
 Program::Program()
     : mWindow(
@@ -11,9 +12,9 @@ Program::Program()
       mStateStack(State::Context(mWindow, mTextures, mFonts)) {
     loadTextures();
     loadFonts();
-    registerState();
+    registerStates();
 
-    mStateStack.pushState(States::ID::Game);
+    mStateStack.pushState(States::ID::Menu);
 }
 
 Program::~Program() {}
@@ -48,18 +49,30 @@ void Program::loadTextures() {
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
     );
     mTextures.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextures.load(
+        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected.png"
+    );
+    mTextures.load(
+        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
+    );
 }
 
 void Program::loadFonts() {
     mFonts.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
 }
 
-void Program::registerState() {
+void Program::registerStates() {
+    mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
-    //     mStateStack.registerState<MenuState>(States::ID::Menu);
-    //     mStateStack.registerState<PauseState>(States::ID::Pause);
-    //     mStateStack.registerState<TitleState>(States::ID::Title);
-    //     mStateStack.registerState<LoadingState>(States::ID::Loading);
+    //      mStateStack.registerState<PauseState>(States::ID::Pause);
+    //      mStateStack.registerState<TitleState>(States::ID::Title);
+    //      mStateStack.registerState<LoadingState>(States::ID::Loading);
 }
 
 void Program::handleEvent(sf::Event& event) {

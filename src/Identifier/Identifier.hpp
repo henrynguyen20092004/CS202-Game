@@ -2,7 +2,15 @@
 #define IDENTIFIER_HPP
 
 namespace States {
-enum class ID { None, Title, Menu, Game, Loading, Pause };
+enum class ID {
+    None,
+    Title,
+    Menu,
+    Game,
+    Loading,
+    Pause,
+    Setting,
+};
 }
 
 namespace Directions {
@@ -17,7 +25,9 @@ enum class ID {
 namespace Textures {
 enum class ID {
     Player,
+
     Background,
+    MenuBackground,
 
     Car,
     Truck,
@@ -28,6 +38,10 @@ enum class ID {
     Phoenix,
 
     VehicleLane,
+
+    ButtonNormal,
+    ButtonSelected,
+    ButtonPressed,
 };
 }
 

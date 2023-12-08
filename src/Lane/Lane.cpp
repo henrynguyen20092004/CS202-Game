@@ -13,5 +13,5 @@ void Lane::buildScene(Textures::ID textureID) {
     }
 
     SpriteNode::Ptr sprite(new SpriteNode(mTextureHolder, textureID));
-    mSceneLayers[Ground]->attachChild(std::move(sprite));
+    mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
 }

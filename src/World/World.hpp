@@ -15,7 +15,7 @@ class World : private sf::NonCopyable {
     void draw();
 
    private:
-    enum Layer { Lane, Ground, LayerCount };
+    enum Layer { MapLayer, PlayerLayer, LayerCount };
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
@@ -25,7 +25,7 @@ class World : private sf::NonCopyable {
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
     sf::FloatRect mWorldBounds;
-    float mScrollSpeed = -0.f;
+    float mScrollSpeed = -50.f;
 
     void buildScene();
 };

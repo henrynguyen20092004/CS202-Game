@@ -11,5 +11,5 @@ void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
     Factory::Ptr factory(new VehicleFactory(mTextureHolder));
     mFactory = factory.get();
-    mSceneLayers[Object]->attachChild(std::move(factory));
+    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
 }

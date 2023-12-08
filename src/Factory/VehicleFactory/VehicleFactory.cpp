@@ -11,7 +11,7 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
 
     mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
 
-    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
+    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 1000.f), 0.f);
 }
 
 void VehicleFactory::addVehicle() {
@@ -34,8 +34,7 @@ void VehicleFactory::addVehicle() {
 }
 
 void VehicleFactory::removeVehicle() {
-    Vehicle* vehicle = mVehicles.back();
-    detachChild(*vehicle);
+    detachChild(*mVehicles.back());
     mVehicles.pop_back();
 }
 

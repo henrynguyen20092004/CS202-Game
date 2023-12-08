@@ -2,6 +2,7 @@
 
 #include "../Global/Global.hpp"
 #include "../Lane/VehicleLane/VehicleLane.hpp"
+#include "../Map/Map.hpp"
 #include "../Player/Player.hpp"
 
 World::World(sf::RenderWindow& window, TextureHolder& textures)
@@ -9,10 +10,6 @@ World::World(sf::RenderWindow& window, TextureHolder& textures)
       mTextureHolder(textures),
       mWorldView(window.getView()),
       mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y) {
-    mWorldView.setCenter(
-        mWorldView.getCenter().x, mWorldBounds.height - mWorldView.getCenter().y
-    );
-
     buildScene();
 }
 
@@ -37,13 +34,9 @@ void World::buildScene() {
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    for (int i = 0; i < 9; i++) {
-        Lane::Ptr lane(new VehicleLane(
-            mTextureHolder, sf::Vector2f(0.f, i * Global::TILE_SIZE)
-        ));
-        mSceneLayers[Lane]->attachChild(std::move(lane));
-    }
+    Map::Ptr map(new Map(mTextureHolder, mWorldView));
+    mSceneLayers[MapLayer]->attachChild(std::move(map));
 
     std::unique_ptr<Player> player(new Player(mTextureHolder, mWorldView));
-    mSceneLayers[Ground]->attachChild(std::move(player));
+    mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 }

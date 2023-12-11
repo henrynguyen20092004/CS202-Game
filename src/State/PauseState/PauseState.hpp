@@ -3,6 +3,7 @@
 
 #include "../../Identifier/Identifier.hpp"
 #include "../../Utility/Utility.hpp"
+#include "../GUI/Container/Container.hpp"
 #include "../State.hpp"
 
 class PauseState : public State {
@@ -16,7 +17,7 @@ class PauseState : public State {
    private:
     sf::Sprite mBackgroundSprite;
     sf::Text mPausedText;
-    sf::Text mInstructionText;
+    GUI::Container mGUIContainer;
 };
 
 #endif

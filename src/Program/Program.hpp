@@ -17,8 +17,8 @@ class Program {
 
     StateStack mStateStack;
 
-    TextureHolder mTextures;
-    FontHolder mFonts;
+    TextureHolder mTextureHolder;
+    FontHolder mFontHolder;
 
     void loadTextures();
     void loadFonts();

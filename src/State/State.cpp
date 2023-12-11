@@ -3,9 +3,10 @@
 #include "../StateStack/StateStack.hpp"
 
 State::Context::Context(
-    sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts
+    sf::RenderWindow& window, TextureHolder& textureHolder,
+    FontHolder& fontHolder
 )
-    : window(&window), textures(&textures), fonts(&fonts) {}
+    : window(&window), textureHolder(&textureHolder), fontHolder(&fontHolder) {}
 
 State::State(StateStack& stack, Context context)
     : mStack(&stack), mContext(context) {}

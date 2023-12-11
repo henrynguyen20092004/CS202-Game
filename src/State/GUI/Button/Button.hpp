@@ -14,7 +14,7 @@ class Button : public Component {
     typedef std::function<void()> Callback;
 
     Button(
-        const FontHolder& fonts, const TextureHolder& textures,
+        const FontHolder& fontHolder, const TextureHolder& textureHolder,
         const std::string& text
     );
 

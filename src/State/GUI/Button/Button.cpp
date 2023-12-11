@@ -5,13 +5,13 @@
 namespace GUI {
 
 Button::Button(
-    const FontHolder& fonts, const TextureHolder& textures,
+    const FontHolder& fontHolder, const TextureHolder& textureHolder,
     const std::string& text
 )
-    : mNormalTexture(textures.get(Textures::ID::ButtonNormal)),
-      mSelectedTexture(textures.get(Textures::ID::ButtonSelected)),
-      mPressedTexture(textures.get(Textures::ID::ButtonPressed)),
-      mText(text, fonts.get(Fonts::ID::Dosis), 20),
+    : mNormalTexture(textureHolder.get(Textures::ID::ButtonNormal)),
+      mSelectedTexture(textureHolder.get(Textures::ID::ButtonSelected)),
+      mPressedTexture(textureHolder.get(Textures::ID::ButtonPressed)),
+      mText(text, fontHolder.get(Fonts::ID::Dosis), 20),
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);
     centerOrigin(mSprite);

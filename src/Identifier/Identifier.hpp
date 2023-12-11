@@ -15,6 +15,7 @@ enum class ID {
 
 namespace Directions {
 enum class ID {
+    None,
     Up,
     Down,
     Left,

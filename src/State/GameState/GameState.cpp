@@ -1,7 +1,7 @@
 #include "GameState.hpp"
 
 GameState::GameState(StateStack& stack, Context context)
-    : State(stack, context), mWorld(*context.window, *context.textures) {}
+    : State(stack, context), mWorld(*context.window, *context.textureHolder) {}
 
 void GameState::draw() { mWorld.draw(); }
 

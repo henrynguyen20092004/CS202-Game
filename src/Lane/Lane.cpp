@@ -1,7 +1,7 @@
 #include "Lane.hpp"
 
 Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
-    : mTextureHolder(textureHolder), mFactory(nullptr) {
+    : mTextureHolder(textureHolder) {
     setPosition(position);
 }
 

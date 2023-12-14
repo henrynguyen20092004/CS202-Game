@@ -1,14 +1,12 @@
-#ifndef VEHICLE_FACTORY_HPP
-#define VEHICLE_FACTORY_HPP
-
-#include <queue>
+#ifndef TRAIN_FACTORY_HPP
+#define TRAIN_FACTORY_HPP
 
 #include "../../Vehicle/Vehicle.hpp"
 #include "../Factory.hpp"
 
-class VehicleFactory : public Factory {
+class TrainFactory : public Factory {
    public:
-    VehicleFactory(TextureHolder& textureHolder);
+    TrainFactory(TextureHolder& textureHolder);
 
    private:
     Textures::ID mTextureID;
@@ -16,10 +14,10 @@ class VehicleFactory : public Factory {
     sf::Vector2f mVelocity;
     sf::Time mSpawnTime;
     sf::Clock mSpawnClock;
-    std::deque<Vehicle*> mVehicles;
+    Vehicle* mTrain;
 
-    void addVehicle();
-    void removeVehicle();
+    void addTrain();
+    void removeTrain();
 
     void updateCurrent(sf::Time deltaTime) override;
 };

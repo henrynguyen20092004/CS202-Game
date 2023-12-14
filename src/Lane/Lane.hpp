@@ -19,8 +19,6 @@ class Lane : public SceneNode {
 
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
-    Factory* mFactory;
-
    protected:
     void buildScene(Textures::ID textureID);
 };

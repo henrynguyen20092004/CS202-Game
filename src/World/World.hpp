@@ -3,12 +3,14 @@
 
 #include <array>
 
+#include "../Player/Player.hpp"
+#include "../PlayerSettings/PlayerSettings.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SceneNode/SceneNode.hpp"
 
 class World : private sf::NonCopyable {
    public:
-    World(sf::RenderWindow& window, TextureHolder& textures);
+    World(sf::RenderWindow& window, TextureHolder& textureHolder);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
@@ -21,6 +23,10 @@ class World : private sf::NonCopyable {
     sf::View mWorldView;
     TextureHolder& mTextureHolder;
 
+    // TODO: Create SettingsState and move this there
+    PlayerSettings mPlayerSettings;
+    Player* mPlayer;
+
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
@@ -28,6 +34,7 @@ class World : private sf::NonCopyable {
     float mScrollSpeed = -50.f;
 
     void buildScene();
+    void updateView();
 };
 
 #endif

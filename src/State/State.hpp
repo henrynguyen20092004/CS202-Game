@@ -14,12 +14,12 @@ class State {
 
     struct Context {
         Context(
-            sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts
+            sf::RenderWindow& window, TextureHolder& textureHolder, FontHolder& fontHolder
         );
 
         sf::RenderWindow* window;
-        TextureHolder* textures;
-        FontHolder* fonts;
+        TextureHolder* textureHolder;
+        FontHolder* fontHolder;
     };
 
     State(StateStack& stack, Context context);

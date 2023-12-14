@@ -9,7 +9,7 @@ Program::Program()
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT), "CSG",
           sf::Style::Close
       ),
-      mStateStack(State::Context(mWindow, mTextures, mFonts)) {
+      mStateStack(State::Context(mWindow, mTextureHolder, mFontHolder)) {
     loadTextures();
     loadFonts();
     registerStates();
@@ -43,28 +43,30 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
-    mTextures.load(Textures::ID::Player, "assets/Textures/Player.png");
-    mTextures.load(Textures::ID::Background, "assets/Textures/Background.png");
-    mTextures.load(
+    mTextureHolder.load(Textures::ID::Player, "assets/Textures/Player.png");
+    mTextureHolder.load(
+        Textures::ID::Background, "assets/Textures/Background.png"
+    );
+    mTextureHolder.load(
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
     );
-    mTextures.load(Textures::ID::Car, "assets/Textures/Car.png");
-    mTextures.load(
+    mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );
-    mTextures.load(
+    mTextureHolder.load(
         Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
     );
-    mTextures.load(
+    mTextureHolder.load(
         Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected.png"
     );
-    mTextures.load(
+    mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
 }
 
 void Program::loadFonts() {
-    mFonts.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
+    mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
 }
 
 void Program::registerStates() {

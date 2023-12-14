@@ -1,82 +1,68 @@
 #include "Player.hpp"
 
+#include <math.h>
+
 #include <stdexcept>
 
 #include "../Global/Global.hpp"
 
-struct PlayerMover {
-    PlayerMover(float vx, float vy) : velocity(vx, vy) {}
-    void operator()(Player& player) const { player.move(velocity); }
-
-    sf::Vector2f velocity;
-};
-
-Player::Player(TextureHolder& textureHolder, sf::View& worldView)
-    : SpriteNode(textureHolder, Textures::ID::Player), mWorldView(worldView) {
+Player::Player(
+    TextureHolder& textureHolder, sf::View& worldView,
+    PlayerSettings& playerSettings
+)
+    : SpriteNode(textureHolder, Textures::ID::Player),
+      mWorldView(worldView),
+      mPlayerSettings(playerSettings),
+      mIsMoving(false) {
+    initializeTargetDistance();
     initializePosition(worldView.getCenter());
-    initializeKeyBinding();
-    initializeActionBinding();
 }
 
 void Player::updateCurrent(sf::Time deltaTime) {
+    if (mIsMoving) {
+        sf::Vector2f movement = mTargetPosition - getPosition();
+        float distance =
+            std::sqrt(movement.x * movement.x + movement.y * movement.y);
+
+        if (distance <= mVelocity * deltaTime.asSeconds()) {
+            setPosition(mTargetPosition);
+            mIsMoving = false;
+        } else {
+            movement *= mVelocity * deltaTime.asSeconds() / distance;
+            move(movement);
+        }
+    }
+
     if (isOutOfBounds()) {
         die();
     }
 }
 
-void Player::assignKey(sf::Keyboard::Key key, Action action) {
-    auto found = mKeyBinding.find(key);
-
-    if (found != mKeyBinding.end()) {
-        mKeyBinding.erase(found);
-    }
-
-    mKeyBinding[key] = action;
-}
-
-sf::Keyboard::Key Player::getAssignedKey(Action action) const {
-    for (auto pair : mKeyBinding) {
-        if (pair.second == action) {
-            return pair.first;
-        }
-    }
-
-    return sf::Keyboard::Unknown;
-}
-
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
-        auto found = mKeyBinding.find(event.key.code);
-
-        if (found != mKeyBinding.end()) {
-            mActionBinding[found->second](*this);
+        if (!mIsMoving && mPlayerSettings.getDirection(event.key.code) !=
+                              Directions::ID::None) {
+            mDirection = mPlayerSettings.getDirection(event.key.code);
+            mTargetPosition = getPosition() + mTargetDistance[mDirection];
+            mIsMoving = true;
         }
     }
+}
+
+void Player::initializeTargetDistance() {
+    mTargetDistance[Directions::ID::Up] = sf::Vector2f(0.f, -Global::TILE_SIZE);
+    mTargetDistance[Directions::ID::Down] =
+        sf::Vector2f(0.f, Global::TILE_SIZE);
+    mTargetDistance[Directions::ID::Left] =
+        sf::Vector2f(-Global::TILE_SIZE, 0.f);
+    mTargetDistance[Directions::ID::Right] =
+        sf::Vector2f(Global::TILE_SIZE, 0.f);
 }
 
 void Player::initializePosition(const sf::Vector2f& viewCenter) {
     centerOrigin();
     sf::Vector2f spawnOffset(Global::TILE_SIZE / 2.f, Global::TILE_SIZE * 3.f);
     setPosition(viewCenter + spawnOffset);
-}
-
-void Player::initializeKeyBinding() {
-    mKeyBinding[sf::Keyboard::Up] = Action::MoveUp;
-    mKeyBinding[sf::Keyboard::Left] = Action::MoveLeft;
-    mKeyBinding[sf::Keyboard::Down] = Action::MoveDown;
-    mKeyBinding[sf::Keyboard::Right] = Action::MoveRight;
-
-    mKeyBinding[sf::Keyboard::W] = Action::MoveUp;
-    mKeyBinding[sf::Keyboard::A] = Action::MoveLeft;
-    mKeyBinding[sf::Keyboard::S] = Action::MoveDown;
-    mKeyBinding[sf::Keyboard::D] = Action::MoveRight;
-}
-
-void Player::initializeActionBinding() {
-    mActionBinding[Action::MoveUp] = PlayerMover(0.f, -Global::TILE_SIZE);
-    mActionBinding[Action::MoveLeft] = PlayerMover(-Global::TILE_SIZE, 0.f);
-    mActionBinding[Action::MoveDown] = PlayerMover(0.f, Global::TILE_SIZE);
-    mActionBinding[Action::MoveRight] = PlayerMover(Global::TILE_SIZE, 0.f);
 }
 
 bool Player::isOutOfBounds() {

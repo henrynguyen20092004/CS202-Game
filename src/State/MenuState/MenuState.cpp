@@ -6,7 +6,7 @@
 MenuState::MenuState(StateStack& stack, Context context)
     : State(stack, context) {
     sf::Texture& backgroundTexture =
-        context.textures->get(Textures::ID::MenuBackground);
+        context.textureHolder->get(Textures::ID::MenuBackground);
     sf::Vector2f windowSize(context.window->getSize());
 
     mBackgroundSprite.setTexture(backgroundTexture);
@@ -16,7 +16,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     );
 
     auto playButton = std::make_shared<GUI::Button>(
-        *context.fonts, *context.textures, "Play"
+        *context.fontHolder, *context.textureHolder, "Play"
     );
     playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 60.f);
     playButton->setCallback([this]() {
@@ -25,7 +25,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     });
 
     auto settingButton = std::make_shared<GUI::Button>(
-        *context.fonts, *context.textures, "Setting"
+        *context.fontHolder, *context.textureHolder, "Setting"
     );
     settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
     settingButton->setCallback([this]() {
@@ -34,7 +34,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     });
 
     auto exitButton = std::make_shared<GUI::Button>(
-        *context.fonts, *context.textures, "Exit"
+        *context.fontHolder, *context.textureHolder, "Exit"
     );
     exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 60.f);
     exitButton->setCallback([this]() { requestStackPop(); });

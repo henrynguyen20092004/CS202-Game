@@ -1,41 +1,34 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include <functional>
-
-#include "../ResourceHolder/ResourceHolder.hpp"
+#include "../PlayerSettings/PlayerSettings.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
 
 class Player : public SpriteNode {
    public:
     typedef std::unique_ptr<Player> Ptr;
 
-    enum Action {
-        MoveLeft,
-        MoveRight,
-        MoveUp,
-        MoveDown,
-        ActionCount,
-    };
-
-    Player(TextureHolder& mTextureHolder, sf::View& worldView);
-
-    void updateCurrent(sf::Time deltaTime) override;
-
-    void assignKey(sf::Keyboard::Key key, Action action);
-    sf::Keyboard::Key getAssignedKey(Action action) const;
+    Player(
+        TextureHolder& mTextureHolder, sf::View& worldView,
+        PlayerSettings& playerSettings
+    );
 
    private:
-    std::map<sf::Keyboard::Key, Action> mKeyBinding;
-    std::map<Action, std::function<void(Player&)>> mActionBinding;
-
+    PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
+    std::map<Directions::ID, sf::Vector2f> mTargetDistance;
+
+    const float mVelocity = 500.f;
+    sf::Vector2f mTargetPosition;
+    Directions::ID mDirection;
+    bool mIsMoving;
 
     void handleEventCurrent(const sf::Event& event) override;
 
+    void updateCurrent(sf::Time deltaTime) override;
+
+    void initializeTargetDistance();
     void initializePosition(const sf::Vector2f& viewCenter);
-    void initializeKeyBinding();
-    void initializeActionBinding();
 
     bool isOutOfBounds();
 

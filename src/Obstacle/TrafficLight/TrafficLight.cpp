@@ -1,8 +1,12 @@
 #include "TrafficLight.hpp"
 
+#include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
 
-TrafficLight::TrafficLight(TextureHolder& textureHolder, Textures::ID textureID)
+TrafficLight::TrafficLight(
+    TextureHolder& textureHolder, Textures::ID textureID,
+    Directions::ID direction
+)
     : speed(0), SpriteNode(textureHolder, textureID) {
     mType = Random<TrafficLight::Type>::generate(
         {TrafficLight::Type::Red, TrafficLight::Type::Yellow,
@@ -10,6 +14,11 @@ TrafficLight::TrafficLight(TextureHolder& textureHolder, Textures::ID textureID)
     );
 
     sf::Vector2u textureSize = textureHolder.get(textureID).getSize();
+    if (direction == Directions::ID::Left) {
+        this->setPosition(Global::WINDOW_WIDTH - this->getSize().x, 0);
+    } else {
+        this->setPosition(this->getSize().x, 0);
+    }
 
     switch (mType) {
         case Type::Red:

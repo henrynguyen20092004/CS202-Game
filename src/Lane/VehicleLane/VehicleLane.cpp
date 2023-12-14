@@ -13,11 +13,10 @@ VehicleLane::VehicleLane(
 void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
     Factory::Ptr factory(new VehicleFactory(mTextureHolder));
-    mVehicleFactory = factory.get();
 
-    SpriteNode::Ptr trafficLightSprite(
-        new TrafficLight(mTextureHolder, Textures::ID::TrafficLight)
-    );
+    SpriteNode::Ptr trafficLightSprite(new TrafficLight(
+        mTextureHolder, Textures::ID::TrafficLight, factory->getDirection()
+    ));
 
     mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
     mSceneLayers[TrafficLightLayer]->attachChild(std::move(trafficLightSprite));

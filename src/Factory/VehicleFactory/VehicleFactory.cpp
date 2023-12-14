@@ -19,6 +19,8 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
     mSpawnClock = sf::seconds(Random<float>::generate(2.f, 5.f));
 }
 
+Directions::ID VehicleFactory::getDirection() const { return mDirection; }
+
 void VehicleFactory::addVehicle() {
     Vehicle::Ptr vehicle(new Vehicle(mTextureHolder, mTextureID, mDirection));
     vehicle->setVelocity(mVelocity);

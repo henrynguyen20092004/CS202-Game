@@ -7,7 +7,10 @@
 
 class TrafficLight : public SpriteNode {
    public:
-    TrafficLight(TextureHolder& textureHolder, Textures::ID texureID);
+    TrafficLight(
+        TextureHolder& textureHolder, Textures::ID texureID,
+        Directions::ID direction
+    );
 
     void setSpeed(int speed);
     int getSpeed();

@@ -13,7 +13,7 @@ class Lane : public SceneNode {
     Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
    protected:
-    enum Layer { LaneLayer, ObjectLayer, LayerCount };
+    enum Layer { LaneLayer, ObjectLayer, TrafficLightLayer, LayerCount };
 
     TextureHolder& mTextureHolder;
 

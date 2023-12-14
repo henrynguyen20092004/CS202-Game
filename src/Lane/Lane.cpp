@@ -13,5 +13,12 @@ void Lane::buildScene(Textures::ID textureID) {
     }
 
     SpriteNode::Ptr sprite(new SpriteNode(mTextureHolder, textureID));
+
+    SpriteNode::Ptr trafficLightSprite(
+        new SpriteNode(mTextureHolder, Textures::ID::TrafficLight)
+    );
+    trafficLightSprite->setScale(0.25f, 0.15f);
+
     mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    mSceneLayers[ObjectLayer]->attachChild(std::move(trafficLightSprite));
 }

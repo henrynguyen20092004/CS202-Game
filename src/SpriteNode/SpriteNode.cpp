@@ -16,6 +16,10 @@ void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
     }
 }
 
+// void SpriteNode::setScale(sf::Vector2f scale) {
+//     mSprite.setScale(scale);
+// }
+
 sf::Vector2f SpriteNode::getSize() const {
     return sf::Vector2f(
         mSprite.getTextureRect().width, mSprite.getTextureRect().height

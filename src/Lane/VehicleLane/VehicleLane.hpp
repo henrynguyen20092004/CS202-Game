@@ -6,6 +6,8 @@
 class VehicleLane : public Lane {
    public:
     VehicleLane(TextureHolder& textureHolder, const sf::Vector2f& position);
+    Factory* mVehicleFactory;
+    TrafficLight* mTrafficLight;
 
    private:
     void buildScene();

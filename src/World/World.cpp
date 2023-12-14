@@ -45,8 +45,7 @@ void World::buildScene() {
 }
 
 void World::updateView() {
-    float viewY = mWorldView.getCenter().y;
-    float playerY = mPlayer->getPosition().y;
+    float viewY = mWorldView.getCenter().y, playerY = mPlayer->getPosition().y;
 
     if (playerY < viewY) {
         mWorldView.setCenter(mWorldView.getCenter().x, playerY);

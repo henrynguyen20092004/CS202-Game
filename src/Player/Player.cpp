@@ -12,11 +12,10 @@ Player::Player(
 )
     : SpriteNode(textureHolder, Textures::ID::Player),
       mWorldView(worldView),
-      mPlayerSettings(playerSettings) {
+      mPlayerSettings(playerSettings),
+      mIsMoving(false) {
     initializeTargetDistance();
     initializePosition(worldView.getCenter());
-
-    mIsMoving = false;
 }
 
 void Player::updateCurrent(sf::Time deltaTime) {
@@ -29,7 +28,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             setPosition(mTargetPosition);
             mIsMoving = false;
         } else {
-            movement = mVelocity * deltaTime.asSeconds() * movement / distance;
+            movement *= mVelocity * deltaTime.asSeconds() / distance;
             move(movement);
         }
     }

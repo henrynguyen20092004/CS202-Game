@@ -2,7 +2,6 @@
 #define PLAYER_HPP
 
 #include "../PlayerSettings/PlayerSettings.hpp"
-#include "../ResourceHolder/ResourceHolder.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
 
 class Player : public SpriteNode {
@@ -13,8 +12,6 @@ class Player : public SpriteNode {
         TextureHolder& mTextureHolder, sf::View& worldView,
         PlayerSettings& playerSettings
     );
-
-    void updateCurrent(sf::Time deltaTime) override;
 
    private:
     PlayerSettings& mPlayerSettings;
@@ -27,6 +24,8 @@ class Player : public SpriteNode {
     bool mIsMoving;
 
     void handleEventCurrent(const sf::Event& event) override;
+
+    void updateCurrent(sf::Time deltaTime) override;
 
     void initializeTargetDistance();
     void initializePosition(const sf::Vector2f& viewCenter);

@@ -27,7 +27,6 @@ namespace Textures {
 enum class ID {
     Player,
 
-    Background,
     MenuBackground,
 
     CarLeft,
@@ -38,8 +37,9 @@ enum class ID {
 
     Cat,
     Elephant,
-    Pug,
     Phoenix,
+    PolarBear,
+    Pug,
 
     VehicleLane,
     TrainLane,
@@ -64,10 +64,11 @@ enum class ID {
 
 namespace Sound {
 enum class ID {
-    Elephant,
-    Pug,
-    Phoenix,
     Cat,
+    Elephant,
+    Phoenix,
+    PolarBear,
+    Pug,
 };
 }
 

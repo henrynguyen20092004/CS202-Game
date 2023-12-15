@@ -16,13 +16,13 @@ TrainFactory::TrainFactory(TextureHolder& textureHolder)
     }
 
     mVelocity = sf::Vector2f(Random<float>::generate(5000.f, 10000.f), 0.f);
-
-    mSpawnClock = sf::Time(sf::seconds(Random<float>::generate(0.f, 10.f)));
+    mSpawnClock = sf::seconds(Random<float>::generate(5.f, 10.f));
 }
 
 void TrainFactory::addTrain() {
     Vehicle::Ptr train(new Vehicle(mTextureHolder, mTextureID, mDirection));
     train->setVelocity(mVelocity);
+
     if (mDirection == Directions::ID::Left) {
         train->setPosition(
             Global::WINDOW_WIDTH, (Global::TILE_SIZE - train->getSize().y) / 2.f
@@ -47,11 +47,10 @@ void TrainFactory::updateCurrent(sf::Time deltaTime) {
 
     if (mSpawnClock < sf::Time::Zero) {
         addTrain();
-
-        mSpawnClock = sf::Time(sf::seconds(Random<float>::generate(5.f, 10.f)));
+        mSpawnClock = sf::seconds(Random<float>::generate(5.f, 10.f));
     }
 
-    if (mTrain != nullptr) {
+    if (mTrain) {
         if (mDirection == Directions::ID::Left) {
             if (mTrain->getPosition().x < -mTrain->getSize().x) {
                 removeTrain();

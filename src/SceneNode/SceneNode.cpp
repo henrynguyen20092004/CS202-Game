@@ -1,8 +1,7 @@
 #include "SceneNode.hpp"
 
-#include <assert.h>
-
 #include <algorithm>
+#include <cassert>
 
 void SceneNode::attachChild(Ptr child) {
     child->mParent = this;
@@ -30,6 +29,36 @@ void SceneNode::handleEvent(const sf::Event& event) {
 void SceneNode::update(sf::Time deltaTime) {
     updateCurrent(deltaTime);
     updateChildren(deltaTime);
+}
+
+SceneNode* SceneNode::getParent() const { return mParent; }
+
+sf::Vector2f SceneNode::getWorldPosition() const {
+    return getWorldTransform() * sf::Vector2f();
+}
+
+sf::Transform SceneNode::getWorldTransform() const {
+    sf::Transform transform = sf::Transform::Identity;
+
+    for (const SceneNode* node = this; node; node = node->mParent) {
+        transform *= node->getTransform();
+    }
+
+    return transform;
+}
+
+sf::FloatRect SceneNode::getGlobalBounds() const { return sf::FloatRect(); }
+
+void SceneNode::checkNodeCollision(
+    SceneNode& node, std::set<Pair>& collisionPairs
+) {
+    if (this != &node && collision(node)) {
+        collisionPairs.insert(std::make_pair(this, &node));
+    }
+
+    for (Ptr& child : mChildren) {
+        child->checkNodeCollision(node, collisionPairs);
+    }
 }
 
 void SceneNode::handleEventCurrent(const sf::Event&) {}
@@ -63,16 +92,6 @@ void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states)
     }
 }
 
-sf::Vector2f SceneNode::getWorldPosition() const {
-    return getWorldTransform() * sf::Vector2f();
-}
-
-sf::Transform SceneNode::getWorldTransform() const {
-    sf::Transform transform = sf::Transform::Identity;
-
-    for (const SceneNode* node = this; node; node = node->mParent) {
-        transform *= node->getTransform();
-    }
-
-    return transform;
+bool SceneNode::collision(const SceneNode& other) {
+    return getGlobalBounds().intersects(other.getGlobalBounds());
 }

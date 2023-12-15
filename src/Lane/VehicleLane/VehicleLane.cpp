@@ -29,12 +29,15 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
         case TrafficLightStates::ID::Green:
             mVehicleFactory->setVelocityPercent(1.f);
             break;
+
         case TrafficLightStates::ID::Red:
             mVehicleFactory->setVelocityPercent(0.f);
             break;
+
         case TrafficLightStates::ID::Yellow:
             mVehicleFactory->setVelocityPercent(0.5f);
             break;
+
         default:
             break;
     }

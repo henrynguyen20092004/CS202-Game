@@ -18,6 +18,7 @@ enum class ID {
     Red,
     Yellow,
     Green,
+    None,
 };
 }
 

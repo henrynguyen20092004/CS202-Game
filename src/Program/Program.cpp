@@ -3,6 +3,7 @@
 #include "../Global/Global.hpp"
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
+#include "../State/PauseState/PauseState.hpp"
 
 Program::Program()
     : mWindow(
@@ -72,9 +73,10 @@ void Program::loadFonts() {
 void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
-    //      mStateStack.registerState<PauseState>(States::ID::Pause);
-    //      mStateStack.registerState<TitleState>(States::ID::Title);
-    //      mStateStack.registerState<LoadingState>(States::ID::Loading);
+    //     mStateStack.registerState<MenuState>(States::ID::Menu);
+    mStateStack.registerState<PauseState>(States::ID::Pause);
+    //     mStateStack.registerState<TitleState>(States::ID::Title);
+    //     mStateStack.registerState<LoadingState>(States::ID::Loading);
 }
 
 void Program::handleEvent(sf::Event& event) {

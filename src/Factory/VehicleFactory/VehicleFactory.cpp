@@ -46,6 +46,12 @@ void VehicleFactory::removeVehicle() {
     mVehicles.pop_back();
 }
 
+void VehicleFactory::setVelocityPercent(float percent) {
+    for (auto vehicle : mVehicles) {
+        vehicle->setVelocity(mVelocity * percent);
+    }
+}
+
 void VehicleFactory::updateCurrent(sf::Time deltaTime) {
     mSpawnClock -= deltaTime;
 

@@ -21,7 +21,9 @@ class VehicleFactory : public Factory {
 
     void addVehicle();
     void removeVehicle();
-    
+
+    void setVelocityPercent(float percent) override;
+
     void updateCurrent(sf::Time deltaTime) override;
 };
 

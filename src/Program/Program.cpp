@@ -81,7 +81,7 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
-    mTextures.load(
+    mTextureHolder.load(
         Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
     );
 }

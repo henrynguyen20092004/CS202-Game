@@ -7,10 +7,7 @@
 
 class TrafficLight : public SpriteNode {
    public:
-    TrafficLight(
-        TextureHolder& textureHolder, Textures::ID texureID,
-        Directions::ID direction
-    );
+    TrafficLight(TextureHolder& mTextureHolder, Directions::ID direction);
 
     void setSpeed(int speed);
     int getSpeed();
@@ -23,9 +20,11 @@ class TrafficLight : public SpriteNode {
         Green,
         None,
     };
+
     typedef std::unique_ptr<TrafficLight> Ptr;
     Type mType;
+    sf::Time mTimeCount;
     int speed;
 };
 
-#endif  // TRAFFICLIGHT_HPP
+#endif

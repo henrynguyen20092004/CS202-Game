@@ -11,6 +11,8 @@ class Factory : public SceneNode {
 
     Factory(TextureHolder& textureHolder);
 
+    virtual void setVelocityPercent(float percent);
+
     virtual Directions::ID getDirection() const;
 
    protected:

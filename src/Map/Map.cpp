@@ -1,6 +1,7 @@
 #include "Map.hpp"
 
 #include "../Global/Global.hpp"
+#include "../Lane/TrainLane/TrainLane.hpp"
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Random/Random.hpp"
 
@@ -12,8 +13,9 @@ Map::Map(TextureHolder& textureHolder, sf::View& worldView)
 }
 
 void Map::addLane() {
-    Textures::ID textureID =
-        Random<Textures::ID>::generate({Textures::ID::VehicleLane});
+    Textures::ID textureID = Random<Textures::ID>::generate(
+        {Textures::ID::VehicleLane, Textures::ID::TrainLane}
+    );
 
     Lane::Ptr lane;
     sf::Vector2f position = sf::Vector2f(
@@ -24,6 +26,10 @@ void Map::addLane() {
     switch (textureID) {
         case Textures::ID::VehicleLane:
             lane = std::make_unique<VehicleLane>(mTextureHolder, position);
+            break;
+
+        case Textures::ID::TrainLane:
+            lane = std::make_unique<TrainLane>(mTextureHolder, position);
             break;
 
         default:

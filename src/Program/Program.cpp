@@ -51,7 +51,17 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
     );
-    mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextureHolder.load(
+        Textures::ID::TrainLane, "assets/Textures/TrainLane.png"
+    );
+    mTextureHolder.load(Textures::ID::CarLeft, "assets/Textures/CarLeft.png");
+    mTextureHolder.load(Textures::ID::CarRight, "assets/Textures/CarRight.png");
+    mTextureHolder.load(
+        Textures::ID::TrainLeft, "assets/Textures/TrainLeft.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::TrainRight, "assets/Textures/TrainRight.png"
+    );
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );

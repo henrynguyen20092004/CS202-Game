@@ -4,11 +4,7 @@ Vehicle::Vehicle(
     TextureHolder& textureHolder, Textures::ID texureID,
     Directions::ID direction
 )
-    : MovableSpriteNode(textureHolder, texureID), mDirection(direction) {
-    if (direction == Directions::ID::Left) {
-        setScale(-1.f, 1.f);
-    }
-}
+    : MovableSpriteNode(textureHolder, texureID), mDirection(direction) {}
 
 Directions::ID Vehicle::getDirection() const { return mDirection; }
 

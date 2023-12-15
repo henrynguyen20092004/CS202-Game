@@ -30,8 +30,11 @@ enum class ID {
     Background,
     MenuBackground,
 
-    Car,
+    CarLeft,
+    CarRight,
     Truck,
+    TrainLeft,
+    TrainRight,
 
     Cat,
     Elephant,
@@ -39,6 +42,7 @@ enum class ID {
     Phoenix,
 
     VehicleLane,
+    TrainLane,
 
     ButtonNormal,
     ButtonSelected,

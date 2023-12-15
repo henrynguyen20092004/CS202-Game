@@ -9,7 +9,11 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
         {Directions::ID::Left, Directions::ID::Right}
     );
 
-    mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
+    if (mDirection == Directions::ID::Left) {
+        mTextureID = Random<Textures::ID>::generate({Textures::ID::CarLeft});
+    } else {
+        mTextureID = Random<Textures::ID>::generate({Textures::ID::CarRight});
+    }
 
     mVelocity = sf::Vector2f(Random<float>::generate(100.f, 1000.f), 0.f);
 }
@@ -19,7 +23,7 @@ void VehicleFactory::addVehicle() {
     vehicle->setVelocity(mVelocity);
     if (mDirection == Directions::ID::Left) {
         vehicle->setPosition(
-            Global::WINDOW_WIDTH + vehicle->getSize().x,
+            Global::WINDOW_WIDTH,
             (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
         );
     } else {
@@ -39,11 +43,12 @@ void VehicleFactory::removeVehicle() {
 }
 
 void VehicleFactory::updateCurrent(sf::Time deltaTime) {
-    if (mSpawnClock.getElapsedTime() > mSpawnTime) {
+    mSpawnClock -= deltaTime;
+
+    if (mSpawnClock < sf::Time::Zero) {
         addVehicle();
 
-        mSpawnClock.restart();
-        mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(2.f, 5.f)));
+        mSpawnClock = sf::Time(sf::seconds(Random<float>::generate(2.f, 5.f)));
     }
 
     if (!mVehicles.empty()) {
@@ -53,8 +58,7 @@ void VehicleFactory::updateCurrent(sf::Time deltaTime) {
                 removeVehicle();
             }
         } else {
-            if (vehicle->getPosition().x >
-                Global::WINDOW_WIDTH + vehicle->getSize().x) {
+            if (vehicle->getPosition().x > Global::WINDOW_WIDTH) {
                 removeVehicle();
             }
         }

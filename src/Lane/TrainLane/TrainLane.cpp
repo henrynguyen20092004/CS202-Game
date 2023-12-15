@@ -1,5 +1,7 @@
 #include "TrainLane.hpp"
 
+#include "../../Factory/TrainFactory/TrainFactory.hpp"
+
 TrainLane::TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position)
     : Lane(textureHolder, position) {
     buildScene();

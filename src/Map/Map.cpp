@@ -12,8 +12,6 @@ Map::Map(TextureHolder& textureHolder, sf::View& worldView)
     }
 }
 
-#include <iostream>
-
 void Map::addLane() {
     Textures::ID textureID = Random<Textures::ID>::generate(
         {Textures::ID::VehicleLane, Textures::ID::TrainLane}

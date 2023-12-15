@@ -1,7 +1,6 @@
 #ifndef TRAIN_LANE_HPP
 #define TRAIN_LANE_HPP
 
-#include "../../Factory/TrainFactory/TrainFactory.hpp"
 #include "../Lane.hpp"
 
 class TrainLane : public Lane {

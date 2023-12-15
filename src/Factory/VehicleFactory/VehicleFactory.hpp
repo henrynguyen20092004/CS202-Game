@@ -14,7 +14,6 @@ class VehicleFactory : public Factory {
     Textures::ID mTextureID;
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
-    sf::Time mSpawnTime;
     sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
 

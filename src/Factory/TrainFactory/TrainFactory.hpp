@@ -13,7 +13,7 @@ class TrainFactory : public Factory {
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
     sf::Time mSpawnTime;
-    sf::Clock mSpawnClock;
+    sf::Time mSpawnClock;
     Vehicle* mTrain;
 
     void addTrain();

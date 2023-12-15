@@ -17,7 +17,7 @@ TrainFactory::TrainFactory(TextureHolder& textureHolder)
 
     mVelocity = sf::Vector2f(Random<float>::generate(5000.f, 10000.f), 0.f);
 
-    mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(5.f, 10.f)));
+    mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(0.f, 10.f)));
 }
 
 void TrainFactory::addTrain() {
@@ -43,10 +43,12 @@ void TrainFactory::removeTrain() {
 }
 
 void TrainFactory::updateCurrent(sf::Time deltaTime) {
-    if (mSpawnClock.getElapsedTime() > mSpawnTime) {
+    mSpawnClock += deltaTime;
+
+    if (mSpawnClock > mSpawnTime) {
         addTrain();
 
-        mSpawnClock.restart();
+        mSpawnClock = sf::Time::Zero;
         mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(5.f, 10.f)));
     }
 

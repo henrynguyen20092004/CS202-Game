@@ -15,7 +15,7 @@ class VehicleFactory : public Factory {
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
     sf::Time mSpawnTime;
-    sf::Clock mSpawnClock;
+    sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
 
     void addVehicle();

@@ -43,10 +43,12 @@ void VehicleFactory::removeVehicle() {
 }
 
 void VehicleFactory::updateCurrent(sf::Time deltaTime) {
-    if (mSpawnClock.getElapsedTime() > mSpawnTime) {
+    mSpawnClock += deltaTime;
+
+    if (mSpawnClock >= mSpawnTime) {
         addVehicle();
 
-        mSpawnClock.restart();
+        mSpawnClock = sf::Time::Zero;
         mSpawnTime = sf::Time(sf::seconds(Random<float>::generate(2.f, 5.f)));
     }
 

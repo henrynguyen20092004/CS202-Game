@@ -6,11 +6,11 @@
 TrafficLight::TrafficLight(
     TextureHolder& mTextureHolder, Directions::ID direction
 )
-    : speed(0), SpriteNode(mTextureHolder, Textures::ID::TrafficLight) {
+    : SpriteNode(mTextureHolder, Textures::ID::TrafficLight) {
     mTimeCount = sf::Time::Zero;
-    mType = Random<TrafficLight::Type>::generate(
-        {TrafficLight::Type::Red, TrafficLight::Type::Yellow,
-         TrafficLight::Type::Green}
+    mState = Random<TrafficLightStates::ID>::generate(
+        {TrafficLightStates::ID::Red, TrafficLightStates::ID::Yellow,
+         TrafficLightStates::ID::Green}
     );
 
     sf::Vector2u textureSize =
@@ -21,15 +21,15 @@ TrafficLight::TrafficLight(
         this->setPosition(this->getSize().x, 0);
     }
 
-    switch (mType) {
-        case Type::Red:
+    switch (mState) {
+        case TrafficLightStates::ID::Red:
             this->setSprite(
                 Textures::ID::TrafficLight,
                 sf::IntRect(0, 0, textureSize.x / 3, textureSize.y)
             );
             break;
 
-        case Type::Yellow:
+        case TrafficLightStates::ID::Yellow:
             this->setSprite(
                 Textures::ID::TrafficLight,
                 sf::IntRect(
@@ -38,7 +38,7 @@ TrafficLight::TrafficLight(
             );
             break;
 
-        case Type::Green:
+        case TrafficLightStates::ID::Green:
             this->setSprite(
                 Textures::ID::TrafficLight,
                 sf::IntRect(
@@ -52,15 +52,17 @@ TrafficLight::TrafficLight(
     }
 }
 
+TrafficLightStates::ID TrafficLight::getState() const { return mState; }
+
 void TrafficLight::updateCurrent(sf::Time deltaTime) {
     mTimeCount += deltaTime;
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
     if (mTimeCount.asSeconds() >= 2) {
         mTimeCount = sf::Time::Zero;
-        switch (mType) {
-            case Type::Red:
-                mType = Type::Green;
+        switch (mState) {
+            case TrafficLightStates::ID::Red:
+                mState = TrafficLightStates::ID::Green;
                 this->setSprite(
                     Textures::ID::TrafficLight,
                     sf::IntRect(
@@ -71,16 +73,16 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
 
                 break;
 
-            case Type::Yellow:
-                mType = Type::Red;
+            case TrafficLightStates::ID::Yellow:
+                mState = TrafficLightStates::ID::Red;
                 this->setSprite(
                     Textures::ID::TrafficLight,
                     sf::IntRect(0, 0, textureSize.x / 3, textureSize.y)
                 );
                 break;
 
-            case Type::Green:
-                mType = Type::Yellow;
+            case TrafficLightStates::ID::Green:
+                mState = TrafficLightStates::ID::Yellow;
                 this->setSprite(
                     Textures::ID::TrafficLight,
                     sf::IntRect(
@@ -94,7 +96,3 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
         }
     }
 }
-
-void TrafficLight::setSpeed(int speed) { this->speed = speed; }
-
-int TrafficLight::getSpeed() { return this->speed; }

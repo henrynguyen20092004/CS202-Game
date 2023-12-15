@@ -4,27 +4,21 @@
 #include "../../ResourceHolder/ResourceHolder.hpp"
 #include "../../SpriteNode/SpriteNode.hpp"
 #include "../Obstacle.hpp"
+#include "../../Identifier/Identifier.hpp"
 
 class TrafficLight : public SpriteNode {
    public:
+    typedef std::unique_ptr<TrafficLight> Ptr;
+
     TrafficLight(TextureHolder& mTextureHolder, Directions::ID direction);
 
-    void setSpeed(int speed);
-    int getSpeed();
-    void updateCurrent(sf::Time deltaTime) override;
+    TrafficLightStates::ID getState() const;
 
    private:
-    enum class Type {
-        Red,
-        Yellow,
-        Green,
-        None,
-    };
-
-    typedef std::unique_ptr<TrafficLight> Ptr;
-    Type mType;
+    TrafficLightStates::ID mState;
     sf::Time mTimeCount;
-    int speed;
+
+    void updateCurrent(sf::Time deltaTime) override;
 };
 
 #endif

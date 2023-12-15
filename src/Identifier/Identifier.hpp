@@ -13,6 +13,14 @@ enum class ID {
 };
 }
 
+namespace TrafficLightStates {
+enum class ID {
+    Red,
+    Yellow,
+    Green,
+};
+}
+
 namespace Directions {
 enum class ID {
     None,

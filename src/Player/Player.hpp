@@ -15,6 +15,7 @@ class Player : public SpriteNode {
 
     void damage();
     void heal();
+    bool isAlive() const;
 
    private:
     PlayerSettings& mPlayerSettings;
@@ -34,8 +35,7 @@ class Player : public SpriteNode {
     void initTargetDistance();
 
     bool isOutOfBounds();
-
-    void die();
+    void dieOutofBounds();
 };
 
 #endif

@@ -18,6 +18,9 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 bool GameState::update(sf::Time deltaTime) {
     mWorld.update(deltaTime);
+    if (!mWorld.isPlayerAlive()) {
+        requestStackPush(States::ID::GameOver);
+    }
     return true;
 }
 

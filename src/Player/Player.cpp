@@ -21,6 +21,13 @@ void Player::damage() { --mHealth; }
 
 void Player::heal() { ++mHealth; }
 
+bool Player::isAlive() const {
+    if (mHealth <= 0) {
+        return false;
+    }
+    return true;
+}
+
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
         Directions::ID direction = mPlayerSettings.getDirection(event.key.code);
@@ -47,8 +54,8 @@ void Player::updateCurrent(sf::Time deltaTime) {
         }
     }
 
-    if (isOutOfBounds() || mHealth <= 0) {
-        die();
+    if (isOutOfBounds()) {
+        dieOutofBounds();
     }
 }
 
@@ -79,4 +86,4 @@ bool Player::isOutOfBounds() {
 }
 
 // TODO: Customize
-void Player::die() { throw std::runtime_error("Player died!"); }
+void Player::dieOutofBounds() { throw std::runtime_error("Player died!"); }

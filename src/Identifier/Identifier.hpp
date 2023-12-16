@@ -10,6 +10,7 @@ enum class ID {
     Loading,
     Pause,
     Setting,
+    GameOver,
 };
 }
 

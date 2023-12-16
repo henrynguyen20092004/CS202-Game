@@ -1,6 +1,7 @@
 #include "Program.hpp"
 
 #include "../Global/Global.hpp"
+#include "../State/GameOverState/GameOverState.hpp"
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
@@ -96,6 +97,7 @@ void Program::registerStates() {
     mStateStack.registerState<PauseState>(States::ID::Pause);
     //     mStateStack.registerState<TitleState>(States::ID::Title);
     //     mStateStack.registerState<LoadingState>(States::ID::Loading);
+    mStateStack.registerState<GameOverState>(States::ID::GameOver);
 }
 
 void Program::handleEvent(sf::Event& event) {

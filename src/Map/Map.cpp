@@ -23,6 +23,7 @@ void Map::addLane() {
                            : mLanes.front()->getPosition().y) -
                Global::TILE_SIZE
     );
+
     switch (textureID) {
         case Textures::ID::VehicleLane:
             lane = std::make_unique<VehicleLane>(mTextureHolder, position);

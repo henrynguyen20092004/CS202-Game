@@ -1,10 +1,6 @@
 #include "MovableSpriteNode.hpp"
 
-MovableSpriteNode::MovableSpriteNode(
-    TextureHolder& textureHolder, Textures::ID textureID,
-    sf::IntRect textureRect
-)
-    : SpriteNode(textureHolder, textureID, textureRect) {}
+#include "../Global/Global.hpp"
 
 sf::Vector2f MovableSpriteNode::getVelocity() const { return mVelocity; }
 
@@ -17,5 +13,5 @@ void MovableSpriteNode::accelerate(const sf::Vector2f& velocity) {
 }
 
 void MovableSpriteNode::updateCurrent(sf::Time deltaTime) {
-    move(mVelocity * deltaTime.asSeconds());
+    move(mVelocity * Global::SPEED_MODIFIER * deltaTime.asSeconds());
 }

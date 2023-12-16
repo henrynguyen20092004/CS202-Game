@@ -19,6 +19,8 @@ class Vehicle : public MovableSpriteNode {
     Directions::ID mDirection;
 
     void updateCurrent(sf::Time deltaTime) override;
+
+    void onPlayerCollision(Player& player) override;
 };
 
 #endif

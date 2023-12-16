@@ -16,7 +16,7 @@ class Container : public Component {
     void addComponent(Component::Ptr component);
 
     virtual bool isSelectable() const override;
-    virtual void handleEvent(const sf::Event& event);
+    virtual void handleEvent(const sf::Event& event) override;
 
    private:
     std::vector<Component::Ptr> mChildren;

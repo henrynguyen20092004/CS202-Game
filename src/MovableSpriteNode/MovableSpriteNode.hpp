@@ -5,10 +5,7 @@
 
 class MovableSpriteNode : public SpriteNode {
    public:
-    MovableSpriteNode(
-        TextureHolder& textureHolder, Textures::ID textureID,
-        sf::IntRect textureRect = sf::IntRect()
-    );
+    using SpriteNode::SpriteNode;
 
     sf::Vector2f getVelocity() const;
     void setVelocity(const sf::Vector2f& velocity);

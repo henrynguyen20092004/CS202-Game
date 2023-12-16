@@ -17,18 +17,20 @@ class SpriteNode : public SceneNode {
 
     sf::Vector2f getSize() const;
     sf::FloatRect getLocalBounds() const;
-    sf::FloatRect getGlobalBounds() const;
+    sf::FloatRect getGlobalBounds() const override;
+
+    virtual void onPlayerCollision(Player& player);
 
    protected:
     TextureHolder& mTextureHolder;
-
-    void centerOrigin();
 
    private:
     sf::Sprite mSprite;
 
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
+    void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states)
+        const;
 };
 
 #endif

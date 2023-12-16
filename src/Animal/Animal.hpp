@@ -1,17 +1,25 @@
 #ifndef ANIMAL_HPP
 #define ANIMAL_HPP
 
-#include "../Identifier/Identifier.hpp"
-#include "../MovableSpriteNode/MovableSpriteNode.hpp"
+#include "../SpriteNode/SpriteNode.hpp"
+#include "../PowerUpList/PowerUpList.hpp"
 
-class Animal : public MovableSpriteNode {
+class Animal : public SpriteNode {
    public:
-    typedef std::unique_ptr<Animal> Ptr;
+    Animal(
+        TextureHolder& TextureHolder, Textures::ID textureID,
+        sf::View& worldView, PowerUpList& powerUpList
+    );
 
-   protected:
-    Animal(TextureHolder& TextureHolder, Textures::ID textureID);
-    virtual void updateCurrent(float deltaTime) = 0;
-    // virtual void powerUp() = 0;
+   private:
+    sf::View& mWorldView;
+    PowerUpList& mPowerUpList;
+
+    void initPosition(const sf::Vector2f& viewCenter);
+
+    void onPlayerCollision(Player& player) override;
+
+    virtual PowerUp::Type getPowerUpType() const = 0;
 };
 
 #endif

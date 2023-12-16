@@ -1,6 +1,8 @@
 #ifndef STATE_STACK_HPP
 #define STATE_STACK_HPP
 
+#include <functional>
+
 #include "../State/State.hpp"
 
 class StateStack : private sf::NonCopyable {
@@ -16,9 +18,9 @@ class StateStack : private sf::NonCopyable {
     template <typename T>
     void registerState(States::ID stateID);
 
+    void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
-    void handleEvent(const sf::Event& event);
 
     void pushState(States::ID stateID);
     void popState();

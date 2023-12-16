@@ -2,6 +2,16 @@
 
 StateStack::StateStack(State::Context context) : mContext(context) {}
 
+void StateStack::handleEvent(const sf::Event& event) {
+    for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr) {
+        if (!(*itr)->handleEvent(event)) {
+            break;
+        }
+    }
+
+    applyPendingChanges();
+}
+
 void StateStack::update(sf::Time deltaTime) {
     for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr) {
         if (!(*itr)->update(deltaTime)) {
@@ -16,16 +26,6 @@ void StateStack::draw() {
     for (State::Ptr& state : mStack) {
         state->draw();
     }
-}
-
-void StateStack::handleEvent(const sf::Event& event) {
-    for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr) {
-        if (!(*itr)->handleEvent(event)) {
-            break;
-        }
-    }
-
-    applyPendingChanges();
 }
 
 void StateStack::pushState(States::ID stateID) {

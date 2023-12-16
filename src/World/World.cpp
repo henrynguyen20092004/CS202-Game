@@ -1,7 +1,7 @@
 #include "World.hpp"
 
+#include "../Animal/PolarBear/PolarBear.hpp"
 #include "../Global/Global.hpp"
-#include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Map/Map.hpp"
 
 World::World(sf::RenderWindow& window, TextureHolder& textureHolder)
@@ -17,8 +17,11 @@ void World::handleEvent(const sf::Event& event) {
 }
 
 void World::update(sf::Time deltaTime) {
-    mWorldView.move(0.f, mScrollSpeed * deltaTime.asSeconds());
+    mWorldView.move(
+        0.f, mScrollSpeed * Global::SPEED_MODIFIER * deltaTime.asSeconds()
+    );
     updateView();
+    handleCollision();
     mSceneGraph.update(deltaTime);
 }
 
@@ -37,11 +40,29 @@ void World::buildScene() {
     Map::Ptr map(new Map(mTextureHolder, mWorldView));
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
-    std::unique_ptr<Player> player(
-        new Player(mTextureHolder, mWorldView, mPlayerSettings)
-    );
+    Player::Ptr player(new Player(mTextureHolder, mWorldView, mPlayerSettings));
     mPlayer = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
+
+    PowerUpList::Ptr powerUpList(new PowerUpList(*mPlayer, mPowerUpSettings));
+    mPowerUpList = powerUpList.get();
+    mSceneLayers[PlayerLayer]->attachChild(std::move(powerUpList));
+
+    PolarBear::Ptr polarBear(new PolarBear(
+        mTextureHolder, Textures::ID::PolarBear, mWorldView, *mPowerUpList
+    ));
+    mSceneLayers[MapLayer]->attachChild(std::move(polarBear));
+}
+
+void World::handleCollision() {
+    std::set<SceneNode::Pair> collisionPairs;
+    mSceneGraph.checkNodeCollision(*mPlayer, collisionPairs);
+
+    for (SceneNode::Pair pair : collisionPairs) {
+        if (SpriteNode* spriteNode = dynamic_cast<SpriteNode*>(pair.first)) {
+            spriteNode->onPlayerCollision(*mPlayer);
+        }
+    }
 }
 
 void World::updateView() {

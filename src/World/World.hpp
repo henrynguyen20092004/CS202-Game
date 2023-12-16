@@ -5,8 +5,7 @@
 
 #include "../Player/Player.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
-#include "../ResourceHolder/ResourceHolder.hpp"
-#include "../SceneNode/SceneNode.hpp"
+#include "../PowerUpList/PowerUpList.hpp"
 
 class World : private sf::NonCopyable {
    public:
@@ -23,18 +22,22 @@ class World : private sf::NonCopyable {
     sf::View mWorldView;
     TextureHolder& mTextureHolder;
 
-    // TODO: Create SettingsState and move this there
-    PlayerSettings mPlayerSettings;
-    Player* mPlayer;
-
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
+
+    // TODO: Create SettingsState and move these there
+    PlayerSettings mPlayerSettings;
+    PowerUpSettings mPowerUpSettings;
+
+    Player* mPlayer;
+    PowerUpList* mPowerUpList;
 
     sf::FloatRect mWorldBounds;
     float mScrollSpeed = -50.f;
 
     void buildScene();
     void updateView();
+    void handleCollision();
 };
 
 #endif

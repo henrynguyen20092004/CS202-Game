@@ -1,7 +1,6 @@
 #include "Player.hpp"
 
-#include <math.h>
-
+#include <cmath>
 #include <stdexcept>
 
 #include "../Global/Global.hpp"
@@ -14,8 +13,23 @@ Player::Player(
       mWorldView(worldView),
       mPlayerSettings(playerSettings),
       mIsMoving(false) {
-    initializeTargetDistance();
-    initializePosition(worldView.getCenter());
+    initPosition(worldView.getCenter());
+    initTargetDistance();
+}
+
+void Player::damage() { --mHealth; }
+
+void Player::heal() { ++mHealth; }
+
+void Player::handleEventCurrent(const sf::Event& event) {
+    if (event.type == sf::Event::KeyPressed) {
+        Directions::ID direction = mPlayerSettings.getDirection(event.key.code);
+
+        if (!mIsMoving && direction != Directions::ID::None) {
+            mTargetPosition = getPosition() + mTargetDistance[direction];
+            mIsMoving = true;
+        }
+    }
 }
 
 void Player::updateCurrent(sf::Time deltaTime) {
@@ -33,23 +47,17 @@ void Player::updateCurrent(sf::Time deltaTime) {
         }
     }
 
-    if (isOutOfBounds()) {
+    if (isOutOfBounds() || mHealth <= 0) {
         die();
     }
 }
 
-void Player::handleEventCurrent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
-        if (!mIsMoving && mPlayerSettings.getDirection(event.key.code) !=
-                              Directions::ID::None) {
-            mDirection = mPlayerSettings.getDirection(event.key.code);
-            mTargetPosition = getPosition() + mTargetDistance[mDirection];
-            mIsMoving = true;
-        }
-    }
+void Player::initPosition(const sf::Vector2f& viewCenter) {
+    sf::Vector2f spawnOffset(0, Global::TILE_SIZE * 2.5f);
+    setPosition(viewCenter + spawnOffset);
 }
 
-void Player::initializeTargetDistance() {
+void Player::initTargetDistance() {
     mTargetDistance[Directions::ID::Up] = sf::Vector2f(0.f, -Global::TILE_SIZE);
     mTargetDistance[Directions::ID::Down] =
         sf::Vector2f(0.f, Global::TILE_SIZE);
@@ -57,12 +65,6 @@ void Player::initializeTargetDistance() {
         sf::Vector2f(-Global::TILE_SIZE, 0.f);
     mTargetDistance[Directions::ID::Right] =
         sf::Vector2f(Global::TILE_SIZE, 0.f);
-}
-
-void Player::initializePosition(const sf::Vector2f& viewCenter) {
-    centerOrigin();
-    sf::Vector2f spawnOffset(Global::TILE_SIZE / 2.f, Global::TILE_SIZE * 3.f);
-    setPosition(viewCenter + spawnOffset);
 }
 
 bool Player::isOutOfBounds() {

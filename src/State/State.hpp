@@ -1,7 +1,6 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include <functional>
 #include <vector>
 
 #include "../ResourceHolder/ResourceHolder.hpp"
@@ -14,7 +13,8 @@ class State {
 
     struct Context {
         Context(
-            sf::RenderWindow& window, TextureHolder& textureHolder, FontHolder& fontHolder
+            sf::RenderWindow& window, TextureHolder& textureHolder,
+            FontHolder& fontHolder
         );
 
         sf::RenderWindow* window;
@@ -24,9 +24,9 @@ class State {
 
     State(StateStack& stack, Context context);
     virtual ~State();
-    virtual void draw() = 0;
-    virtual bool update(sf::Time deltaTime) = 0;
     virtual bool handleEvent(const sf::Event& event) = 0;
+    virtual bool update(sf::Time deltaTime) = 0;
+    virtual void draw() = 0;
 
    protected:
     void requestStackPush(States::ID stateID);

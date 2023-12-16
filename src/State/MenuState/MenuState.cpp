@@ -44,15 +44,15 @@ MenuState::MenuState(StateStack& stack, Context context)
     mGUIContainer.addComponent(exitButton);
 }
 
+bool MenuState::handleEvent(const sf::Event& event) {
+    mGUIContainer.handleEvent(event);
+    return false;
+}
+
+bool MenuState::update(sf::Time deltaTime) { return true; }
+
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
     window.draw(mGUIContainer);
-}
-
-bool MenuState::update(sf::Time) { return true; }
-
-bool MenuState::handleEvent(const sf::Event& event) {
-    mGUIContainer.handleEvent(event);
-    return false;
 }

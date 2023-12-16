@@ -1,5 +1,7 @@
 #include "Vehicle.hpp"
 
+#include "../Player/Player.hpp"
+
 Vehicle::Vehicle(
     TextureHolder& textureHolder, Textures::ID texureID,
     Directions::ID direction
@@ -24,3 +26,5 @@ void Vehicle::updateCurrent(sf::Time deltaTime) {
             break;
     }
 }
+
+void Vehicle::onPlayerCollision(Player& player) { player.damage(); }

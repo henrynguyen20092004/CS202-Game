@@ -45,15 +45,11 @@ void Program::run() {
 
 void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Player, "assets/Textures/Player.png");
+
     mTextureHolder.load(
-        Textures::ID::Background, "assets/Textures/Background.png"
+        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );
-    mTextureHolder.load(
-        Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::TrainLane, "assets/Textures/TrainLane.png"
-    );
+
     mTextureHolder.load(Textures::ID::CarLeft, "assets/Textures/CarLeft.png");
     mTextureHolder.load(Textures::ID::CarRight, "assets/Textures/CarRight.png");
     mTextureHolder.load(
@@ -62,9 +58,20 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::TrainRight, "assets/Textures/TrainRight.png"
     );
+
+    mTextureHolder.load(Textures::ID::Elephant, "assets/Textures/Elephant.png");
     mTextureHolder.load(
-        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+        Textures::ID::PolarBear, "assets/Textures/PolarBear.png"
     );
+    mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
+
+    mTextureHolder.load(
+        Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::TrainLane, "assets/Textures/TrainLane.png"
+    );
+
     mTextureHolder.load(
         Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
     );
@@ -83,7 +90,6 @@ void Program::loadFonts() {
 void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<GameState>(States::ID::Game);
-    //     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<PauseState>(States::ID::Pause);
     //     mStateStack.registerState<TitleState>(States::ID::Title);
     //     mStateStack.registerState<LoadingState>(States::ID::Loading);

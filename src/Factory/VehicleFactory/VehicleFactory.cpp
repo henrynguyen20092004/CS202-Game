@@ -19,6 +19,8 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
     mSpawnClock = sf::seconds(Random<float>::generate(2.f, 5.f));
 }
 
+Directions::ID VehicleFactory::getDirection() const { return mDirection; }
+
 void VehicleFactory::addVehicle() {
     Vehicle::Ptr vehicle(new Vehicle(mTextureHolder, mTextureID, mDirection));
     vehicle->setVelocity(mVelocity);
@@ -42,6 +44,12 @@ void VehicleFactory::addVehicle() {
 void VehicleFactory::removeVehicle() {
     detachChild(*mVehicles.back());
     mVehicles.pop_back();
+}
+
+void VehicleFactory::setVelocityPercent(float percent) {
+    for (auto vehicle : mVehicles) {
+        vehicle->setVelocity(mVelocity * percent);
+    }
 }
 
 void VehicleFactory::updateCurrent(sf::Time deltaTime) {

@@ -81,6 +81,9 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
+    mTextureHolder.load(
+        Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
+    );
 }
 
 void Program::loadFonts() {

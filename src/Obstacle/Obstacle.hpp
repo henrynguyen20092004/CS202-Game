@@ -20,6 +20,7 @@ class Obstacle : public sf::Drawable, public sf::Transformable {
     bool isColliding(const sf::FloatRect& otherHitBox) const;
 
    protected:
+    Obstacle();
     Obstacle(const sf::Vector2f& size);
     ~Obstacle();
 

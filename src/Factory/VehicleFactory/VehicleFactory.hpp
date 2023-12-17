@@ -10,6 +10,8 @@ class VehicleFactory : public Factory {
    public:
     VehicleFactory(TextureHolder& textureHolder);
 
+    Directions::ID getDirection() const;
+
    private:
     Textures::ID mTextureID;
     Directions::ID mDirection;
@@ -19,6 +21,8 @@ class VehicleFactory : public Factory {
 
     void addVehicle();
     void removeVehicle();
+
+    void setVelocityPercent(float percent) override;
 
     void updateCurrent(sf::Time deltaTime) override;
 };

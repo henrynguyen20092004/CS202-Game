@@ -19,6 +19,7 @@ class Button : public Component {
     );
 
     void setCallback(const Callback& callback);
+    void setText(const std::string& text);
     void setToggle(bool flag);
 
     virtual bool isSelectable() const override;

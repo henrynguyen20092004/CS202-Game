@@ -5,5 +5,6 @@
 
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
+std::string toString(sf::Keyboard::Key key);
 
 #endif

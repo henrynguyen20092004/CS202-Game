@@ -20,6 +20,9 @@ class Program {
     TextureHolder mTextureHolder;
     FontHolder mFontHolder;
 
+    PlayerSettings mPlayerSettings;
+    PowerUpSettings mPowerUpSettings;
+
     void loadTextures();
     void loadFonts();
     void registerStates();

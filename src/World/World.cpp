@@ -5,6 +5,7 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
+<<<<<<< HEAD
 World::World(
     sf::RenderWindow& window, TextureHolder& textureHolder,
     FontHolder& fontHolder
@@ -13,6 +14,15 @@ World::World(
       mWorldView(window.getView()),
       mTextureHolder(textureHolder),
       mFontHolder(fontHolder) {
+=======
+World::World(State::Context context)
+    : mWindow(*context.window),
+      mWorldView(mWindow.getView()),
+      mTextureHolder(*context.textureHolder),
+      mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y),
+      mPlayerSettings(*context.playerSettings),
+      mPowerUpSettings(*context.powerUpSettings) {
+>>>>>>> a7f2657 (Add SettingState)
     buildScene();
 }
 

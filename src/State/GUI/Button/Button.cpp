@@ -22,6 +22,11 @@ void Button::setCallback(const Callback& callback) {
     mCallback = std::move(callback);
 }
 
+void Button::setText(const std::string& text) {
+    mText.setString(text);
+    centerOrigin(mText);
+}
+
 void Button::setToggle(bool flag) { mIsToggle = flag; }
 
 bool Button::isSelectable() const { return true; }

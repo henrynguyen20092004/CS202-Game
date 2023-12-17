@@ -36,8 +36,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     );
     settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
     settingButton->setCallback([this]() {
-        requestStackPop();
-        requestStackPush(States::ID::Setting);
+        requestStackPush(States::ID::Settings);
     });
 
     auto exitButton = std::make_shared<GUI::Button>(

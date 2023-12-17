@@ -1,11 +1,13 @@
 #ifndef SETTINGS_STATE_HPP
 #define SETTINGS_STATE_HPP
 
-#include "../../GUI/Button/Button.hpp"
-#include "../../GUI/Container/Container.hpp"
 #include "../../Player/Player.hpp"
-#include "../State.hpp"
 #include "../../PlayerSettings/PlayerSettings.hpp"
+#include "../../Utility/Utility.hpp"
+#include "../GUI/Button/Button.hpp"
+#include "../GUI/Container/Container.hpp"
+#include "../GUI/Label/Label.hpp"
+#include "../State.hpp"
 
 class SettingsState : public State {
    public:
@@ -15,13 +17,23 @@ class SettingsState : public State {
     bool handleEvent(const sf::Event& event);
 
    private:
-    void updateLabels();
+    PlayerSettings& mPlayerSettings;
 
     sf::Sprite mBackgroundSprite;
     GUI::Container mGUIContainer;
 
-    std::array<GUI::Button::Ptr, static_cast<int>(Directions::ID::DirectionCount)> mBindingButtons;
-    std::array<GUI::Label::Ptr, static_cast<int>(Directions::ID::DirectionCount)> mBindingLabels;
+    std::array<
+        GUI::Button::Ptr, static_cast<int>(Directions::ID::DirectionCount)>
+        mBindingButtons;
+    std::array<
+        GUI::Label::Ptr, static_cast<int>(Directions::ID::DirectionCount)>
+        mBindingLabels;
+
+    void updateLabels();
+    void addButtonLabel(
+        Directions::ID direction, float y, const std::string& text,
+        Context context
+    );
 };
 
 #endif

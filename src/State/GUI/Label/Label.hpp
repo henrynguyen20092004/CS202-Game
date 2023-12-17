@@ -13,6 +13,7 @@ class Label : public Component {
     bool isSelectable() const override;
     void setText(const std::string& text);
     void handleEvent(const sf::Event& event) override;
+    void setTextColor(const sf::Color& color);
 
    private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -4,9 +4,14 @@
 
 State::Context::Context(
     sf::RenderWindow& window, TextureHolder& textureHolder,
-    FontHolder& fontHolder
+    FontHolder& fontHolder, PlayerSettings& playerSettings,
+    PowerUpSettings& powerUpSettings
 )
-    : window(&window), textureHolder(&textureHolder), fontHolder(&fontHolder) {}
+    : window(&window),
+      textureHolder(&textureHolder),
+      fontHolder(&fontHolder),
+      playerSettings(&playerSettings),
+      powerUpSettings(&powerUpSettings) {}
 
 State::State(StateStack& stack, Context context)
     : mStack(&stack), mContext(context) {}

@@ -5,7 +5,7 @@
 namespace GUI {
 
 Label::Label(const std::string& text, const FontHolder& fonts)
-    : mText(text, fonts.get(Fonts::ID::Dosis), 16) {}
+    : mText(text, fonts.get(Fonts::ID::Dosis), 18) {}
 
 bool Label::isSelectable() const { return false; }
 
@@ -17,5 +17,7 @@ void Label::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Label::setText(const std::string& text) { mText.setString(text); }
+
+void Label::setTextColor(const sf::Color& color) { mText.setFillColor(color); }
 
 }  // namespace GUI

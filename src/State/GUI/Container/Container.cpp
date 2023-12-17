@@ -29,10 +29,10 @@ void GUI::Container::handleEvent(const sf::Event& event) {
 
             case sf::Keyboard::Enter:
             case sf::Keyboard::Space:
+
                 if (hasSelection()) {
                     mChildren[mSelectedChild]->activate();
                 }
-
                 break;
         }
     }

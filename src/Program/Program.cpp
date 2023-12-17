@@ -5,15 +5,18 @@
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
+#include "../State/SettingsState/SettingsState.hpp"
 
 Program::Program()
     : mWindow(
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT),
           "Crossy Road Gameplay", sf::Style::Close
       ),
-      mStateStack(State::Context(mWindow, mTextureHolder, mFontHolder)) {
+      mStateStack(State::Context(
+          mWindow, mTextureHolder, mFontHolder, mPlayerSettings,
+          mPowerUpSettings
+      )) {
     mWindow.setKeyRepeatEnabled(false);
-
     loadTextures();
     loadFonts();
     registerStates();
@@ -97,6 +100,7 @@ void Program::loadFonts() {
 
 void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
+    mStateStack.registerState<SettingsState>(States::ID::Settings);
     mStateStack.registerState<GameState>(States::ID::Game);
     mStateStack.registerState<PauseState>(States::ID::Pause);
     //     mStateStack.registerState<TitleState>(States::ID::Title);

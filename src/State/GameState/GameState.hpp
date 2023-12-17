@@ -2,7 +2,6 @@
 #define GAME_STATE_HPP
 
 #include "../../World/World.hpp"
-#include "../State.hpp"
 
 class GameState : public State {
    public:

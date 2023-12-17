@@ -66,11 +66,16 @@ void Program::loadTextures() {
     );
     mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
 
+    mTextureHolder.load(Textures::ID::Rock, "assets/Textures/Rock.png");
+
     mTextureHolder.load(
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
     );
     mTextureHolder.load(
         Textures::ID::TrainLane, "assets/Textures/TrainLane.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::ObstacleLane, "assets/Textures/ObstacleLane.png"
     );
 
     mTextureHolder.load(

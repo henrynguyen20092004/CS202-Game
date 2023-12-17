@@ -1,10 +1,10 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../MovableSpriteNode/MovableSpriteNode.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
-#include "../SpriteNode/SpriteNode.hpp"
 
-class Player : public SpriteNode {
+class Player : public MovableSpriteNode {
    public:
     typedef std::unique_ptr<Player> Ptr;
 
@@ -15,6 +15,7 @@ class Player : public SpriteNode {
 
     void damage();
     void heal();
+    void remainPosition();
     bool isAlive() const;
 
    private:
@@ -22,8 +23,8 @@ class Player : public SpriteNode {
     sf::View& mWorldView;
     std::map<Directions::ID, sf::Vector2f> mTargetDistance;
 
+    Directions::ID mDirection;
     sf::Vector2f mTargetPosition;
-    const float mVelocity = 500.f;
     bool mIsMoving;
 
     int mHealth = 1;
@@ -35,7 +36,6 @@ class Player : public SpriteNode {
     void initTargetDistance();
 
     bool isOutOfBounds() const;
-    //void dieOutofBounds();
 };
 
 #endif

@@ -1,21 +1,8 @@
 #include "Obstacle.hpp"
 
-Obstacle::Obstacle() {}
+#include "../Player/Player.hpp"
 
-Obstacle::Obstacle(const sf::Vector2f& size)
-    : mSize(size) {}
+Obstacle::Obstacle(TextureHolder& textureHolder, Textures::ID texureID)
+    : SpriteNode(textureHolder, texureID) {}
 
-sf::Vector2f Obstacle::getSize() const { return mSize; }
-
-void Obstacle::setSize(const sf::Vector2f& size) { mSize = size; }
-
-void Obstacle::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform();
-}
-
-bool Obstacle::isColliding(const sf::FloatRect& otherHitBox) const {
-    sf::FloatRect hitBox(getPosition(), mSize);
-    return hitBox.intersects(otherHitBox);
-}
-
-Obstacle::~Obstacle() {}
+void Obstacle::onPlayerCollision(Player& player) { player.remainPosition(); }

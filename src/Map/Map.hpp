@@ -14,7 +14,8 @@ class Map : public SceneNode {
     sf::View& mWorldView;
     std::deque<Lane*> mLanes;
 
-    void addLane();
+    void addEmptyLane();
+    void addRandomLane();
     void removeLane();
 
     void updateCurrent(sf::Time deltaTime) override;

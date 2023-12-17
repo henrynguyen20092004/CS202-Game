@@ -9,9 +9,10 @@ Player::Player(
     TextureHolder& textureHolder, sf::View& worldView,
     PlayerSettings& playerSettings
 )
-    : SpriteNode(textureHolder, Textures::ID::Player),
+    : MovableSpriteNode(textureHolder, Textures::ID::Player),
       mWorldView(worldView),
       mPlayerSettings(playerSettings),
+      mDirection(Directions::ID::None),
       mIsMoving(false) {
     initPosition(worldView.getCenter());
     initTargetDistance();
@@ -21,19 +22,25 @@ void Player::damage() { --mHealth; }
 
 void Player::heal() { ++mHealth; }
 
+void Player::remainPosition() {
+    mDirection = static_cast<Directions::ID>(static_cast<int>(mDirection) ^ 1);
+    mTargetPosition += mTargetDistance[mDirection];
+}
+
 bool Player::isAlive() const {
     if (isOutOfBounds() || mHealth <= 0) {
         return false;
     }
+
     return true;
 }
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
-        Directions::ID direction = mPlayerSettings.getDirection(event.key.code);
+        mDirection = mPlayerSettings.getDirection(event.key.code);
 
-        if (!mIsMoving && direction != Directions::ID::None) {
-            mTargetPosition = getPosition() + mTargetDistance[direction];
+        if (!mIsMoving && mDirection != Directions::ID::None) {
+            mTargetPosition = getPosition() + mTargetDistance[mDirection];
             mIsMoving = true;
         }
     }
@@ -45,18 +52,24 @@ void Player::updateCurrent(sf::Time deltaTime) {
         float distance =
             std::sqrt(movement.x * movement.x + movement.y * movement.y);
 
-        if (distance <= mVelocity * deltaTime.asSeconds()) {
+        float displacement =
+            ((static_cast<int>(mDirection) & 2) ? mVelocity.x : mVelocity.y) *
+            deltaTime.asSeconds();
+        if (distance <= displacement) {
             setPosition(mTargetPosition);
             mIsMoving = false;
         } else {
-            movement *= mVelocity * deltaTime.asSeconds() / distance;
+            movement *= displacement / distance;
             move(movement);
         }
     }
 }
 
 void Player::initPosition(const sf::Vector2f& viewCenter) {
-    sf::Vector2f spawnOffset(0, Global::TILE_SIZE * 2.5f);
+    sf::Vector2f spawnOffset(
+        (Global::TILE_SIZE - getLocalBounds().width) / 2.f,
+        Global::TILE_SIZE * 2.5f
+    );
     setPosition(viewCenter + spawnOffset);
 }
 

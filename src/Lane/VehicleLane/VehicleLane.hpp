@@ -10,7 +10,7 @@ class VehicleLane : public Lane {
     VehicleLane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
    private:
-    Factory* mVehicleFactory;
+    VehicleFactory* mVehicleFactory;
     TrafficLight* mTrafficLight;
 
     void buildScene();

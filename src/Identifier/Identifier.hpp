@@ -3,7 +3,6 @@
 
 namespace States {
 enum class ID {
-    None,
     Title,
     Menu,
     Game,
@@ -11,6 +10,7 @@ enum class ID {
     Pause,
     Setting,
     GameOver,
+    None,
 };
 }
 
@@ -25,11 +25,11 @@ enum class ID {
 
 namespace Directions {
 enum class ID {
-    None,
     Up,
     Down,
     Left,
     Right,
+    None,
 };
 }
 
@@ -51,8 +51,11 @@ enum class ID {
     PolarBear,
     Pug,
 
+    Rock,
+
     VehicleLane,
     TrainLane,
+    ObstacleLane,
 
     ButtonNormal,
     ButtonSelected,

@@ -3,10 +3,7 @@
 
 #include <array>
 
-#include "../../Identifier/Identifier.hpp"
-#include "../../ResourceHolder/ResourceHolder.hpp"
 #include "../../SpriteNode/SpriteNode.hpp"
-#include "../Obstacle.hpp"
 
 class TrafficLight : public SpriteNode {
    public:

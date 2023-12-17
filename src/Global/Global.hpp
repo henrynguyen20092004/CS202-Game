@@ -4,8 +4,8 @@
 struct Global {
     static float SPEED_MODIFIER;
 
-    static int WINDOW_WIDTH;
-    static int WINDOW_HEIGHT;
+    static const int WINDOW_WIDTH;
+    static const int WINDOW_HEIGHT;
 
     static const int TILE_SIZE = 90;
 };

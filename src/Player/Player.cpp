@@ -22,7 +22,7 @@ void Player::damage() { --mHealth; }
 void Player::heal() { ++mHealth; }
 
 bool Player::isAlive() const {
-    if (mHealth <= 0) {
+    if (isOutOfBounds() || mHealth <= 0) {
         return false;
     }
     return true;
@@ -53,10 +53,6 @@ void Player::updateCurrent(sf::Time deltaTime) {
             move(movement);
         }
     }
-
-    if (isOutOfBounds()) {
-        dieOutofBounds();
-    }
 }
 
 void Player::initPosition(const sf::Vector2f& viewCenter) {
@@ -74,7 +70,7 @@ void Player::initTargetDistance() {
         sf::Vector2f(Global::TILE_SIZE, 0.f);
 }
 
-bool Player::isOutOfBounds() {
+bool Player::isOutOfBounds() const {
     sf::FloatRect hitbox = getGlobalBounds(),
                   viewBounds = sf::FloatRect(
                       mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
@@ -85,5 +81,5 @@ bool Player::isOutOfBounds() {
     return !viewBounds.intersects(hitbox);
 }
 
-// TODO: Customize
-void Player::dieOutofBounds() { throw std::runtime_error("Player died!"); }
+// // TODO: Customize
+// void Player::dieOutofBounds() { throw std::runtime_error("Player died!"); }

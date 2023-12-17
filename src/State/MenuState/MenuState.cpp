@@ -4,16 +4,23 @@
 #include "../GUI/Button/Button.hpp"
 
 MenuState::MenuState(StateStack& stack, Context context)
-    : State(stack, context) {
+    : State(stack, context),
+      mTitleText(
+          "Crossy Road", context.fontHolder->get(Fonts::ID::Pacifico), 100
+      ) {
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
-    sf::Vector2f windowSize(context.window->getSize());
-
     mBackgroundSprite.setTexture(backgroundTexture);
+
+    sf::Vector2f windowSize(context.window->getSize());
     mBackgroundSprite.setScale(
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y
     );
+
+    centerOrigin(mTitleText);
+    mTitleText.setFillColor(sf::Color(0, 255, 127));
+    mTitleText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 180.f);
 
     auto playButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Play"
@@ -54,5 +61,6 @@ bool MenuState::update(sf::Time deltaTime) { return true; }
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
+    window.draw(mTitleText);
     window.draw(mGUIContainer);
 }

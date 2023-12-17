@@ -34,8 +34,8 @@ class Player : public SpriteNode {
     void initPosition(const sf::Vector2f& viewCenter);
     void initTargetDistance();
 
-    bool isOutOfBounds();
-    void dieOutofBounds();
+    bool isOutOfBounds() const;
+    //void dieOutofBounds();
 };
 
 #endif

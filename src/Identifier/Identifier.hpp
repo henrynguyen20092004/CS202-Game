@@ -65,6 +65,7 @@ enum class ID {
 namespace Fonts {
 enum class ID {
     Dosis,
+    Pacifico,
 };
 }
 

@@ -8,8 +8,8 @@
 
 Program::Program()
     : mWindow(
-          sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT), "CSG",
-          sf::Style::Close
+          sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT),
+          "Crossy Road Gameplay", sf::Style::Close
       ),
       mStateStack(State::Context(mWindow, mTextureHolder, mFontHolder)) {
     loadTextures();
@@ -89,6 +89,7 @@ void Program::loadTextures() {
 
 void Program::loadFonts() {
     mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
+    mFontHolder.load(Fonts::ID::Pacifico, "assets/Fonts/Pacifico-Regular.ttf");
 }
 
 void Program::registerStates() {

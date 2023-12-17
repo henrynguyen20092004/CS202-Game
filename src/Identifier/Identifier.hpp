@@ -20,6 +20,7 @@ enum class ID {
     Down,
     Left,
     Right,
+    DirectionCount,
     None,
 };
 }

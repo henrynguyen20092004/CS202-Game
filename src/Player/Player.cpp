@@ -37,10 +37,11 @@ bool Player::isAlive() const {
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
-        mDirection = mPlayerSettings.getDirection(event.key.code);
+        Directions::ID direction = mPlayerSettings.getDirection(event.key.code);
 
-        if (!mIsMoving && mDirection != Directions::ID::None) {
-            mTargetPosition = getPosition() + mTargetDistance[mDirection];
+        if (!mIsMoving && direction != Directions::ID::None) {
+            mDirection = direction;
+            mTargetPosition = getPosition() + mTargetDistance[direction];
             mIsMoving = true;
         }
     }

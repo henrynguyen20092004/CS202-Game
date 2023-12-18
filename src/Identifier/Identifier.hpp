@@ -8,14 +8,9 @@ enum class ID {
     Game,
     Loading,
     Pause,
-<<<<<<< HEAD
-    Setting,
     GameOver,
-<<<<<<< HEAD
-=======
-=======
     Settings,
->>>>>>> 827b0b4 (Add SettingState)
+    None,
 };
 }
 
@@ -24,7 +19,6 @@ enum class ID {
     Red,
     Yellow,
     Green,
->>>>>>> 49249ce (Add SettingState)
     None,
 };
 }

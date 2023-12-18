@@ -9,11 +9,11 @@ void centerOrigin(sf::Sprite& sprite) {
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
+
 std::string toString(sf::Keyboard::Key key) {
 #define KEYTOSTRING_CASE(KEY) \
     case sf::Keyboard::KEY:   \
         return #KEY;
-
     switch (key) {
         KEYTOSTRING_CASE(Unknown)
         KEYTOSTRING_CASE(A)

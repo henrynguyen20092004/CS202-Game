@@ -43,13 +43,13 @@ void Button::deselect() {
 
 void Button::activate() {
     Component::activate();
-    mCallback();
 
-    if (mIsToggle) {
+    if (mIsToggle)
         mSprite.setTexture(mPressedTexture);
-    } else {
+    else
         deactivate();
-    }
+
+    if (mCallback) mCallback();
 }
 
 void Button::deactivate() {

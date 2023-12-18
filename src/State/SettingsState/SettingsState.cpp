@@ -26,7 +26,9 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         *context.fontHolder, *context.textureHolder, "Back"
     );
     backButton->setPosition(windowSize.x / 2.f, 620.f);
-    backButton->setCallback(std::bind(&SettingsState::requestStackPop, this));
+    backButton->setCallback([this]() {
+        requestStackPop();
+    });
 
     mGUIContainer.addComponent(backButton);
 }
@@ -42,13 +44,8 @@ bool SettingsState::update(sf::Time deltaTime) { return true; }
 
 bool SettingsState::handleEvent(const sf::Event& event) {
     bool isKeyBinding = false;
-    cout << "SettingsState::handleEvent" << endl;
     for (std::size_t action = 0;
          action < static_cast<int>(Directions::ID::DirectionCount); ++action) {
-        cout << "action: " << action << " "
-             << mBindingButtons[action]->isSelectable() << " "
-             << mBindingButtons[action]->isSelected() << " "
-             << mBindingButtons[action]->isActive() << endl;
         if (mBindingButtons[action]->isActive()) {
             isKeyBinding = true;
             if (event.type == sf::Event::KeyReleased) {
@@ -76,7 +73,7 @@ void SettingsState::updateLabels() {
             static_cast<Directions::ID>(i)
         );
         mBindingLabels[i]->setText(toString(key));
-        mBindingLabels[i]->setTextColor(sf::Color(0, 255, 127));
+        mBindingLabels[i]->setTextColor(sf::Color(0, 255, 255));
     }
 }
 

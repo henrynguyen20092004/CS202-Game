@@ -8,6 +8,10 @@ SpriteNode::SpriteNode(
     setSprite(textureID, textureRect);
 }
 
+void SpriteNode::setTextureRect(sf::IntRect textureRect) {
+    mSprite.setTextureRect(textureRect);
+}
+
 void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
     mSprite.setTexture(mTextureHolder.get(textureID));
 
@@ -17,9 +21,7 @@ void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
 }
 
 sf::Vector2f SpriteNode::getSize() const {
-    return sf::Vector2f(
-        mSprite.getTextureRect().width, mSprite.getTextureRect().height
-    );
+    return mSprite.getLocalBounds().getSize();
 }
 
 sf::FloatRect SpriteNode::getLocalBounds() const {

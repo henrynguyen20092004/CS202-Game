@@ -7,10 +7,9 @@ TrafficLight::TrafficLight(
     TextureHolder& mTextureHolder, Directions::ID direction
 )
     : SpriteNode(mTextureHolder, Textures::ID::TrafficLight) {
-    mTimeCount = sf::Time::Zero;
-    mState = Random<TrafficLightStates::ID>::generate(
-        {TrafficLightStates::ID::Red, TrafficLightStates::ID::Yellow,
-         TrafficLightStates::ID::Green}
+    mState = Random<TrafficLight::State>::generate(
+        {TrafficLight::State::Red, TrafficLight::State::Yellow,
+         TrafficLight::State::Green}
     );
 
     sf::Vector2u textureSize =
@@ -22,29 +21,26 @@ TrafficLight::TrafficLight(
         this->setPosition(this->getSize().x, 0);
     }
 
-    this->setSprite(
-        Textures::ID::TrafficLight,
-        sf::IntRect(
-            textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
-            textureSize.y
-        )
-    );
+    this->setTextureRect(sf::IntRect(
+        textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
+        textureSize.y
+    ));
 }
 
-TrafficLightStates::ID TrafficLight::getState() const { return mState; }
+TrafficLight::State TrafficLight::getState() const { return mState; }
 
-void TrafficLight::switchState(TrafficLightStates::ID state) {
+void TrafficLight::switchState(TrafficLight::State state) {
     switch (mState) {
-        case TrafficLightStates::ID::Red:
-            mState = TrafficLightStates::ID::Green;
+        case TrafficLight::State::Red:
+            mState = TrafficLight::State::Green;
             break;
 
-        case TrafficLightStates::ID::Yellow:
-            mState = TrafficLightStates::ID::Red;
+        case TrafficLight::State::Yellow:
+            mState = TrafficLight::State::Red;
             break;
 
-        case TrafficLightStates::ID::Green:
-            mState = TrafficLightStates::ID::Yellow;
+        case TrafficLight::State::Green:
+            mState = TrafficLight::State::Yellow;
             break;
 
         default:
@@ -63,11 +59,8 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
         mTimeCount = sf::Time::Zero;
     }
 
-    this->setSprite(
-        Textures::ID::TrafficLight,
-        sf::IntRect(
-            textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
-            textureSize.y
-        )
-    );
+    this->setTextureRect(sf::IntRect(
+        textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
+        textureSize.y
+    ));
 }

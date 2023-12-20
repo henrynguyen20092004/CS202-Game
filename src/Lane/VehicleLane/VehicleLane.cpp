@@ -1,7 +1,7 @@
 #include "VehicleLane.hpp"
 
 #include "../../Factory/VehicleFactory/VehicleFactory.hpp"
-#include "../../Obstacle/TrafficLight/TrafficLight.hpp"
+#include "../../TrafficLight/TrafficLight.hpp"
 
 VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position
@@ -12,29 +12,28 @@ VehicleLane::VehicleLane(
 
 void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
-    Factory::Ptr factory(new VehicleFactory(mTextureHolder));
+    VehicleFactory::Ptr factory(new VehicleFactory(mTextureHolder));
     mVehicleFactory = factory.get();
+    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
 
     TrafficLight::Ptr trafficLight(
-        new TrafficLight(mTextureHolder, factory->getDirection())
+        new TrafficLight(mTextureHolder, mVehicleFactory->getDirection())
     );
     mTrafficLight = trafficLight.get();
-
-    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
     mSceneLayers[TrafficLightLayer]->attachChild(std::move(trafficLight));
 }
 
 void VehicleLane::updateCurrent(sf::Time deltaTime) {
     switch (mTrafficLight->getState()) {
-        case TrafficLightStates::ID::Green:
+        case TrafficLight::State::Green:
             mVehicleFactory->setVelocityPercent(1.f);
             break;
 
-        case TrafficLightStates::ID::Red:
+        case TrafficLight::State::Red:
             mVehicleFactory->setVelocityPercent(0.f);
             break;
 
-        case TrafficLightStates::ID::Yellow:
+        case TrafficLight::State::Yellow:
             mVehicleFactory->setVelocityPercent(0.5f);
             break;
 

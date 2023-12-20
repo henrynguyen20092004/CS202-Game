@@ -8,9 +8,13 @@
 
 class VehicleFactory : public Factory {
    public:
+    typedef std::unique_ptr<VehicleFactory> Ptr;
+
     VehicleFactory(TextureHolder& textureHolder);
 
     Directions::ID getDirection() const;
+
+    void setVelocityPercent(float percent);
 
    private:
     Textures::ID mTextureID;
@@ -18,11 +22,12 @@ class VehicleFactory : public Factory {
     sf::Vector2f mVelocity;
     sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
+    float mVelocityPercent;
+
+    void init() override;
 
     void addVehicle();
     void removeVehicle();
-
-    void setVelocityPercent(float percent) override;
 
     void updateCurrent(sf::Time deltaTime) override;
 };

@@ -11,6 +11,7 @@ class SpriteNode : public SceneNode {
         sf::IntRect textureRect = sf::IntRect()
     );
 
+    void setTextureRect(sf::IntRect textureRect);
     void setSprite(
         Textures::ID textureID, sf::IntRect textureRect = sf::IntRect()
     );

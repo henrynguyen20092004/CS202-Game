@@ -28,7 +28,7 @@ void GameOverState::draw() {
 bool GameOverState::update(sf::Time deltaTime) {
     mElapsedTime += deltaTime;
 
-    if (mElapsedTime.asSeconds() >= 3.f) {
+    if (mElapsedTime.asSeconds() >= 1.f) {
         requestStateClear();
         requestStackPush(States::ID::Menu);
     }

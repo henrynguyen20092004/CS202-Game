@@ -13,6 +13,8 @@ class Lane : public SceneNode {
     Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
    protected:
+    TextureHolder& mTextureHolder;
+
     enum Layer {
         LaneLayer,
         ObjectLayer,
@@ -20,11 +22,8 @@ class Lane : public SceneNode {
         LayerCount,
     };
 
-    TextureHolder& mTextureHolder;
-
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
-   protected:
     void buildScene(Textures::ID textureID);
 };
 

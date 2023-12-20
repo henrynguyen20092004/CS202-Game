@@ -12,10 +12,9 @@ class MovableSpriteNode : public SpriteNode {
     void accelerate(const sf::Vector2f& velocity);
 
    protected:
-    virtual void updateCurrent(sf::Time deltaTime) override;
-
-   private:
     sf::Vector2f mVelocity;
+
+    virtual void updateCurrent(sf::Time deltaTime) override;
 };
 
 #endif

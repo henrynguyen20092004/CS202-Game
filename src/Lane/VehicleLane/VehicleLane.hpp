@@ -2,7 +2,7 @@
 #define VEHICLE_LANE_HPP
 
 #include "../../Factory/VehicleFactory/VehicleFactory.hpp"
-#include "../../Obstacle/TrafficLight/TrafficLight.hpp"
+#include "../../TrafficLight/TrafficLight.hpp"
 #include "../Lane.hpp"
 
 class VehicleLane : public Lane {
@@ -10,11 +10,11 @@ class VehicleLane : public Lane {
     VehicleLane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
    private:
-    Factory* mVehicleFactory;
+    VehicleFactory* mVehicleFactory;
     TrafficLight* mTrafficLight;
 
     void buildScene();
-    void updateCurrent(sf::Time deltaTime);
+    void updateCurrent(sf::Time deltaTime) override;
 };
 
 #endif

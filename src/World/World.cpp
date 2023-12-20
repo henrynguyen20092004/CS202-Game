@@ -30,6 +30,8 @@ void World::draw() {
     mWindow.draw(mSceneGraph);
 }
 
+bool World::isPlayerAlive() const { return mPlayer->isAlive(); }
+
 void World::buildScene() {
     for (int i = 0; i < LayerCount; ++i) {
         SceneNode::Ptr layer(new SceneNode());

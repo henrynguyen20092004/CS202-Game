@@ -14,6 +14,8 @@ class World : private sf::NonCopyable {
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
+    
+    bool isPlayerAlive() const;
 
    private:
     enum Layer { MapLayer, PlayerLayer, LayerCount };

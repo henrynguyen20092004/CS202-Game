@@ -10,6 +10,7 @@ enum class ID {
     Loading,
     Pause,
     Setting,
+    GameOver,
 };
 }
 
@@ -64,6 +65,7 @@ enum class ID {
 namespace Fonts {
 enum class ID {
     Dosis,
+    Pacifico,
 };
 }
 

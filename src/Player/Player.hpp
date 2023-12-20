@@ -15,6 +15,7 @@ class Player : public SpriteNode {
 
     void damage();
     void heal();
+    bool isAlive() const;
 
    private:
     PlayerSettings& mPlayerSettings;
@@ -33,9 +34,8 @@ class Player : public SpriteNode {
     void initPosition(const sf::Vector2f& viewCenter);
     void initTargetDistance();
 
-    bool isOutOfBounds();
-
-    void die();
+    bool isOutOfBounds() const;
+    //void dieOutofBounds();
 };
 
 #endif

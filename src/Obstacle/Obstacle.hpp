@@ -7,7 +7,7 @@ class Obstacle : public SpriteNode {
    public:
     typedef std::unique_ptr<Obstacle> Ptr;
 
-    Obstacle(TextureHolder& textureHolder, Textures::ID texureID);
+    using SpriteNode::SpriteNode;
 
    private:
     void onPlayerCollision(Player& player) override;

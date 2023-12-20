@@ -13,6 +13,7 @@ class Factory : public SceneNode {
    protected:
     TextureHolder& mTextureHolder;
 
+   private:
     virtual void init();
 };
 

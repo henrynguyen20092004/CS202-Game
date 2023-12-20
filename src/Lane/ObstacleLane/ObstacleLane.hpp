@@ -12,8 +12,6 @@ class ObstacleLane : public Lane {
     );
 
    private:
-    Factory* mObstacleFactory;
-
     void buildScene(bool isEmpty);
 };
 

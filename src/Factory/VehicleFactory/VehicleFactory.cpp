@@ -17,9 +17,9 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
 
     mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
 
-    init();
-
     mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
+
+    init();
 }
 
 Directions::ID VehicleFactory::getDirection() const { return mDirection; }

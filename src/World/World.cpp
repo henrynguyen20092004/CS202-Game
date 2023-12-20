@@ -43,7 +43,6 @@ void World::buildScene() {
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
     Player::Ptr player(new Player(mTextureHolder, mWorldView, mPlayerSettings));
-    player->setVelocity(sf::Vector2f(500.f, 500.f));
     mPlayer = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 

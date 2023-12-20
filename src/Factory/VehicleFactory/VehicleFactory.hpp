@@ -20,9 +20,9 @@ class VehicleFactory : public Factory {
     Textures::ID mTextureID;
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
-    float mVelocityPercent;
     sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
+    float mVelocityPercent;
 
     void init() override;
 

@@ -3,7 +3,7 @@
 
 #include <array>
 
-#include "../../SpriteNode/SpriteNode.hpp"
+#include "../SpriteNode/SpriteNode.hpp"
 
 class TrafficLight : public SpriteNode {
    public:

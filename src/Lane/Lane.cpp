@@ -1,7 +1,5 @@
 #include "Lane.hpp"
 
-#include "../Obstacle/TrafficLight/TrafficLight.hpp"
-
 Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
     : mTextureHolder(textureHolder) {
     setPosition(position);

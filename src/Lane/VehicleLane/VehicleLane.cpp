@@ -1,7 +1,7 @@
 #include "VehicleLane.hpp"
 
 #include "../../Factory/VehicleFactory/VehicleFactory.hpp"
-#include "../../Obstacle/TrafficLight/TrafficLight.hpp"
+#include "../../TrafficLight/TrafficLight.hpp"
 
 VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position

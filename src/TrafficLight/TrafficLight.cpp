@@ -1,7 +1,7 @@
 #include "TrafficLight.hpp"
 
-#include "../../Global/Global.hpp"
-#include "../../Random/Random.hpp"
+#include "../Global/Global.hpp"
+#include "../Random/Random.hpp"
 
 TrafficLight::TrafficLight(
     TextureHolder& mTextureHolder, Directions::ID direction
@@ -22,30 +22,14 @@ TrafficLight::TrafficLight(
     }
 
     this->setTextureRect(sf::IntRect(
-        textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
-        textureSize.y
+        textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }
 
 TrafficLight::State TrafficLight::getState() const { return mState; }
 
 void TrafficLight::switchState(TrafficLight::State state) {
-    switch (mState) {
-        case TrafficLight::State::Red:
-            mState = TrafficLight::State::Green;
-            break;
-
-        case TrafficLight::State::Yellow:
-            mState = TrafficLight::State::Red;
-            break;
-
-        case TrafficLight::State::Green:
-            mState = TrafficLight::State::Yellow;
-            break;
-
-        default:
-            break;
-    }
+    mState = static_cast<State>((mState + 2) % 3);
 }
 
 void TrafficLight::updateCurrent(sf::Time deltaTime) {
@@ -53,14 +37,12 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 
-    if (mTimeCount.asSeconds() >=
-        mStateTimeCount[static_cast<int>(mState)].asSeconds()) {
+    if (mTimeCount.asSeconds() >= mStateTimeCount[mState].asSeconds()) {
         switchState(mState);
         mTimeCount = sf::Time::Zero;
     }
 
     this->setTextureRect(sf::IntRect(
-        textureSize.x * static_cast<int>(mState) / 3, 0, textureSize.x / 3,
-        textureSize.y
+        textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }

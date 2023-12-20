@@ -16,6 +16,7 @@ Player::Player(
       mIsMoving(false) {
     initPosition(worldView.getCenter());
     initTargetDistance();
+    setVelocity(sf::Vector2f(500.f, 500.f));
 }
 
 void Player::damage() { --mHealth; }
@@ -27,13 +28,7 @@ void Player::remainPosition() {
     mTargetPosition += mTargetDistance[mDirection];
 }
 
-bool Player::isAlive() const {
-    if (isOutOfBounds() || mHealth <= 0) {
-        return false;
-    }
-
-    return true;
-}
+bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
@@ -54,7 +49,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             std::sqrt(movement.x * movement.x + movement.y * movement.y);
 
         float displacement =
-            ((static_cast<int>(mDirection) & 2) ? mVelocity.x : mVelocity.y) *
+            ((static_cast<int>(mDirection) < 2) ? mVelocity.x : mVelocity.y) *
             deltaTime.asSeconds();
         if (distance <= displacement) {
             setPosition(mTargetPosition);

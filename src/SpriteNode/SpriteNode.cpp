@@ -8,10 +8,6 @@ SpriteNode::SpriteNode(
     setSprite(textureID, textureRect);
 }
 
-void SpriteNode::setTextureRect(sf::IntRect textureRect) {
-    mSprite.setTextureRect(textureRect);
-}
-
 void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
     mSprite.setTexture(mTextureHolder.get(textureID));
 
@@ -42,10 +38,8 @@ void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
 void SpriteNode::drawBoundingRect(
     sf::RenderTarget& target, sf::RenderStates states
 ) const {
-    sf::FloatRect rect = getLocalBounds();
-
-    sf::RectangleShape shape(sf::Vector2f(rect.width, rect.height));
-    shape.setPosition(sf::Vector2f(rect.left, rect.top));
+    sf::RectangleShape shape(getSize());
+    shape.setPosition(getPosition());
     shape.setFillColor(sf::Color::Transparent);
     shape.setOutlineColor(sf::Color::Green);
     shape.setOutlineThickness(2.f);

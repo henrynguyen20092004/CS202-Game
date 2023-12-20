@@ -4,12 +4,14 @@
 #include <array>
 
 #include "../Player/Player.hpp"
-#include "../PlayerSettings/PlayerSettings.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
 
 class World : private sf::NonCopyable {
    public:
-    World(sf::RenderWindow& window, TextureHolder& textureHolder);
+    World(
+        sf::RenderWindow& window, TextureHolder& textureHolder,
+        FontHolder& fontHolder
+    );
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
@@ -18,11 +20,12 @@ class World : private sf::NonCopyable {
     bool isPlayerAlive() const;
 
    private:
-    enum Layer { MapLayer, PlayerLayer, LayerCount };
+    enum Layer { MapLayer, PlayerLayer, IconLayer, LayerCount };
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
     TextureHolder& mTextureHolder;
+    FontHolder& mFontHolder;
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
@@ -34,7 +37,6 @@ class World : private sf::NonCopyable {
     Player* mPlayer;
     PowerUpList* mPowerUpList;
 
-    sf::FloatRect mWorldBounds;
     float mScrollSpeed = -50.f;
 
     void buildScene();

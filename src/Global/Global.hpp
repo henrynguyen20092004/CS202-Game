@@ -7,7 +7,7 @@ struct Global {
     static const int WINDOW_WIDTH;
     static const int WINDOW_HEIGHT;
 
-    static const int TILE_SIZE = 90;
+    static const int TILE_SIZE;
 };
 
 #endif

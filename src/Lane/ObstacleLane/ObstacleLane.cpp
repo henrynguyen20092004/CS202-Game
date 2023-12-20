@@ -1,7 +1,5 @@
 #include "ObstacleLane.hpp"
 
-#include "../../Factory/ObstacleFactory/ObstacleFactory.hpp"
-
 ObstacleLane::ObstacleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position, bool isEmpty
 )

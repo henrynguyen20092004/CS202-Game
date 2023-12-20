@@ -9,7 +9,7 @@ class PowerUp {
         None,
         BonusHealth,
         Immortality,
-        Jump,
+        IncreaseScore,
         SlowTime,
     };
 
@@ -27,7 +27,7 @@ class PowerUp {
    private:
     sf::Time mDuration, mRemainingDuration;
 
-    int count = 0;
+    int mCount = 0;
     bool mIsActivated = false;
 
     virtual void activate() = 0;

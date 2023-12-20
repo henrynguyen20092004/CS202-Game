@@ -2,7 +2,7 @@
 
 #include "../PowerUp/BonusHealth/BonusHealth.hpp"
 #include "../PowerUp/Immortality/Immortality.hpp"
-#include "../PowerUp/Jump/Jump.hpp"
+#include "../PowerUp/IncreaseScore/IncreaseScore.hpp"
 #include "../PowerUp/SlowTime/SlowTime.hpp"
 
 PowerUpList::PowerUpList(Player& player, PowerUpSettings& powerUpSettings)
@@ -35,6 +35,7 @@ void PowerUpList::initPowerUps(Player& player) {
         std::make_unique<BonusHealth>(player);
     mPowerUps[PowerUp::Type::Immortality] =
         std::make_unique<Immortality>(player);
-    mPowerUps[PowerUp::Type::Jump] = std::make_unique<Jump>(player);
+    mPowerUps[PowerUp::Type::IncreaseScore] =
+        std::make_unique<IncreaseScore>(player);
     mPowerUps[PowerUp::Type::SlowTime] = std::make_unique<SlowTime>(player);
 }

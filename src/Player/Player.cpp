@@ -1,7 +1,6 @@
 #include "Player.hpp"
 
 #include <cmath>
-#include <stdexcept>
 
 #include "../Global/Global.hpp"
 
@@ -29,6 +28,24 @@ void Player::remainPosition() {
 }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
+
+void Player::initPosition(const sf::Vector2f& viewCenter) {
+    sf::Vector2f spawnOffset(
+        (Global::TILE_SIZE - getLocalBounds().width) / 2.f,
+        Global::TILE_SIZE * 2.5f
+    );
+    setPosition(viewCenter + spawnOffset);
+}
+
+void Player::initTargetDistance() {
+    mTargetDistance[Directions::ID::Up] = sf::Vector2f(0.f, -Global::TILE_SIZE);
+    mTargetDistance[Directions::ID::Down] =
+        sf::Vector2f(0.f, Global::TILE_SIZE);
+    mTargetDistance[Directions::ID::Left] =
+        sf::Vector2f(-Global::TILE_SIZE, 0.f);
+    mTargetDistance[Directions::ID::Right] =
+        sf::Vector2f(Global::TILE_SIZE, 0.f);
+}
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
@@ -61,24 +78,6 @@ void Player::updateCurrent(sf::Time deltaTime) {
     }
 }
 
-void Player::initPosition(const sf::Vector2f& viewCenter) {
-    sf::Vector2f spawnOffset(
-        (Global::TILE_SIZE - getLocalBounds().width) / 2.f,
-        Global::TILE_SIZE * 2.5f
-    );
-    setPosition(viewCenter + spawnOffset);
-}
-
-void Player::initTargetDistance() {
-    mTargetDistance[Directions::ID::Up] = sf::Vector2f(0.f, -Global::TILE_SIZE);
-    mTargetDistance[Directions::ID::Down] =
-        sf::Vector2f(0.f, Global::TILE_SIZE);
-    mTargetDistance[Directions::ID::Left] =
-        sf::Vector2f(-Global::TILE_SIZE, 0.f);
-    mTargetDistance[Directions::ID::Right] =
-        sf::Vector2f(Global::TILE_SIZE, 0.f);
-}
-
 bool Player::isOutOfBounds() const {
     sf::FloatRect hitbox = getGlobalBounds(),
                   viewBounds = sf::FloatRect(
@@ -89,6 +88,3 @@ bool Player::isOutOfBounds() const {
 
     return !viewBounds.intersects(hitbox);
 }
-
-// // TODO: Customize
-// void Player::dieOutofBounds() { throw std::runtime_error("Player died!"); }

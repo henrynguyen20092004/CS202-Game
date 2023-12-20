@@ -3,7 +3,7 @@
 PowerUpSettings::PowerUpSettings() {
     assignKey(sf::Keyboard::Num1, PowerUp::Type::BonusHealth);
     assignKey(sf::Keyboard::Num2, PowerUp::Type::Immortality);
-    assignKey(sf::Keyboard::Num3, PowerUp::Type::Jump);
+    assignKey(sf::Keyboard::Num3, PowerUp::Type::IncreaseScore);
     assignKey(sf::Keyboard::Num4, PowerUp::Type::SlowTime);
 }
 

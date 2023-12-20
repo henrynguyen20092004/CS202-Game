@@ -1,8 +1,5 @@
 #include "VehicleLane.hpp"
 
-#include "../../Factory/VehicleFactory/VehicleFactory.hpp"
-#include "../../TrafficLight/TrafficLight.hpp"
-
 VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position
 )
@@ -12,6 +9,7 @@ VehicleLane::VehicleLane(
 
 void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
+
     VehicleFactory::Ptr factory(new VehicleFactory(mTextureHolder));
     mVehicleFactory = factory.get();
     mSceneLayers[ObjectLayer]->attachChild(std::move(factory));

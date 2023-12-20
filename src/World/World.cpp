@@ -1,14 +1,18 @@
 #include "World.hpp"
 
+#include "../Animal/Elephant/Elephant.hpp"
 #include "../Animal/PolarBear/PolarBear.hpp"
 #include "../Global/Global.hpp"
 #include "../Map/Map.hpp"
 
-World::World(sf::RenderWindow& window, TextureHolder& textureHolder)
+World::World(
+    sf::RenderWindow& window, TextureHolder& textureHolder,
+    FontHolder& fontHolder
+)
     : mWindow(window),
       mWorldView(window.getView()),
       mTextureHolder(textureHolder),
-      mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y) {
+      mFontHolder(fontHolder) {
     buildScene();
 }
 
@@ -50,10 +54,16 @@ void World::buildScene() {
     mPowerUpList = powerUpList.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(powerUpList));
 
-    PolarBear::Ptr polarBear(new PolarBear(
-        mTextureHolder, Textures::ID::PolarBear, mWorldView, *mPowerUpList
-    ));
+    // TODO: Remove when adding AnimalFactory
+    PolarBear::Ptr polarBear(
+        new PolarBear(mTextureHolder, Textures::ID::PolarBear, *mPowerUpList)
+    );
     mSceneLayers[MapLayer]->attachChild(std::move(polarBear));
+
+    Elephant::Ptr elephant(
+        new Elephant(mTextureHolder, Textures::ID::Elephant, *mPowerUpList)
+    );
+    mSceneLayers[MapLayer]->attachChild(std::move(elephant));
 }
 
 void World::handleCollision() {

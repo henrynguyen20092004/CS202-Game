@@ -14,6 +14,8 @@ class PlayerSettings {
     Directions::ID getDirection(sf::Keyboard::Key key) const;
     sf::Keyboard::Key getAssignedKey(Directions::ID direction) const;
 
+    void setToDefault();
+
    private:
     std::map<sf::Keyboard::Key, Directions::ID> mKeyBinding;
 };

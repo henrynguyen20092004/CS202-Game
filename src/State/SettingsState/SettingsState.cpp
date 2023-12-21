@@ -22,13 +22,22 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 
     updateLabels();
 
+    auto resetButton = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, "Reset"
+    );
+    resetButton->setPosition(windowSize.x / 2, 600.f);
+    resetButton->setCallback([this]() {
+        getContext().playerSettings->setToDefault();
+        updateLabels();
+    });
+
+    mGUIContainer.addComponent(resetButton);
+
     auto backButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Back"
     );
-    backButton->setPosition(windowSize.x / 2.f, 620.f);
-    backButton->setCallback([this]() {
-        requestStackPop();
-    });
+    backButton->setPosition(windowSize.x / 2.f, 700.f);
+    backButton->setCallback([this]() { requestStackPop(); });
 
     mGUIContainer.addComponent(backButton);
 }

@@ -4,11 +4,11 @@ PowerUp::PowerUp(sf::Time duration, Player& player)
     : mDuration(duration), mPlayer(player) {}
 
 void PowerUp::start() {
-    if (mIsActivated || !count) {
+    if (mIsActivated || !mCount) {
         return;
     }
 
-    count--;
+    mCount--;
     mIsActivated = true;
     mRemainingDuration = mDuration;
     activate();
@@ -27,6 +27,6 @@ void PowerUp::update(sf::Time deltaTime) {
     }
 }
 
-void PowerUp::increaseCount() { count++; }
+void PowerUp::increaseCount() { mCount++; }
 
 void PowerUp::deactivate() {}

@@ -16,7 +16,6 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
     }
 
     mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
-
     mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
 
     init();
@@ -26,6 +25,7 @@ Directions::ID VehicleFactory::getDirection() const { return mDirection; }
 
 void VehicleFactory::setVelocityPercent(float percent) {
     mVelocityPercent = percent;
+
     for (auto vehicle : mVehicles) {
         vehicle->setVelocity(mVelocity * percent);
     }
@@ -36,8 +36,8 @@ void VehicleFactory::init() {
     int numVehicles = std::min(
         Random<int>::generate(0, Global::WINDOW_WIDTH / vehicleWidth + 1), 3
     );
-
     std::vector<float> positions;
+
     for (int i = 0; i < numVehicles; ++i) {
         positions.push_back(Random<float>::generate(
             -vehicleWidth, Global::WINDOW_WIDTH - numVehicles * vehicleWidth
@@ -96,6 +96,7 @@ void VehicleFactory::updateCurrent(sf::Time deltaTime) {
 
     if (!mVehicles.empty()) {
         Vehicle* vehicle = mVehicles.back();
+
         if (mDirection == Directions::ID::Left) {
             if (vehicle->getPosition().x < -vehicle->getSize().x) {
                 removeVehicle();

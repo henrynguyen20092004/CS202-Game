@@ -3,7 +3,8 @@
 #include "../PauseState/PauseState.hpp"
 
 GameState::GameState(StateStack& stack, Context context)
-    : State(stack, context), mWorld(*context.window, *context.textureHolder) {}
+    : State(stack, context),
+      mWorld(*context.window, *context.textureHolder, *context.fontHolder) {}
 
 bool GameState::handleEvent(const sf::Event& event) {
     mWorld.handleEvent(event);

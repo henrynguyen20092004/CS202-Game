@@ -16,12 +16,12 @@ TrafficLight::TrafficLight(
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 
     if (direction == Directions::ID::Left) {
-        this->setPosition(Global::WINDOW_WIDTH - this->getSize().x, 0);
+        setPosition(Global::WINDOW_WIDTH - getLocalBounds().width, 0);
     } else {
-        this->setPosition(this->getSize().x, 0);
+        setPosition(getLocalBounds().width, 0);
     }
 
-    this->setTextureRect(sf::IntRect(
+    mSprite.setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }
@@ -42,7 +42,7 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
         mTimeCount = sf::Time::Zero;
     }
 
-    this->setTextureRect(sf::IntRect(
+    mSprite.setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }

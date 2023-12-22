@@ -16,6 +16,7 @@ class Player : public MovableSpriteNode {
     void damage();
     void heal();
     void remainPosition();
+
     bool isAlive() const;
 
    private:
@@ -29,11 +30,11 @@ class Player : public MovableSpriteNode {
 
     int mHealth = 1;
 
-    void handleEventCurrent(const sf::Event& event) override;
-    void updateCurrent(sf::Time deltaTime) override;
-
     void initPosition(const sf::Vector2f& viewCenter);
     void initTargetDistance();
+
+    void handleEventCurrent(const sf::Event& event) override;
+    void updateCurrent(sf::Time deltaTime) override;
 
     bool isOutOfBounds() const;
 };

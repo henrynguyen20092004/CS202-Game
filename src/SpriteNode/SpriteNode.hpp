@@ -11,7 +11,6 @@ class SpriteNode : public SceneNode {
         sf::IntRect textureRect = sf::IntRect()
     );
 
-    void setTextureRect(sf::IntRect textureRect);
     void setSprite(
         Textures::ID textureID, sf::IntRect textureRect = sf::IntRect()
     );
@@ -24,10 +23,9 @@ class SpriteNode : public SceneNode {
 
    protected:
     TextureHolder& mTextureHolder;
-
-   private:
     sf::Sprite mSprite;
 
+   private:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
     void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states)

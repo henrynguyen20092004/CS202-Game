@@ -5,11 +5,9 @@
 
 class PolarBear : public Animal {
    public:
-    typedef std::unique_ptr<PolarBear> Ptr;
-
     PolarBear(
         TextureHolder& TextureHolder, Textures::ID textureID,
-        sf::View& worldView, PowerUpList& powerUpList
+        PowerUpList& powerUpList
     );
 
    private:

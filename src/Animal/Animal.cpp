@@ -3,13 +3,16 @@
 #include "../Global/Global.hpp"
 
 Animal::Animal(
-    TextureHolder& TextureHolder, Textures::ID textureID, sf::View& worldView,
-    PowerUpList& powerUpList
+    TextureHolder& TextureHolder, Textures::ID textureID,
+    PowerUpList& powerUpList, int numFrames, sf::Time duration
 )
     : SpriteNode(TextureHolder, textureID),
-      mWorldView(worldView),
+      mAnimation(
+          mSprite, sf::Vector2i(Global::TILE_SIZE, Global::TILE_SIZE),
+          numFrames, duration, true
+      ),
       mPowerUpList(powerUpList) {
-    initPosition(worldView.getCenter());
+    initPosition();
 }
 
 void Animal::onPlayerCollision(Player& player) {
@@ -17,11 +20,10 @@ void Animal::onPlayerCollision(Player& player) {
     getParent()->detachChild(*this);
 }
 
-void Animal::initPosition(const sf::Vector2f& worldViewPosition) {
-    sf::Vector2f position = worldViewPosition;
-    int num = rand() % 16 - 8;
-    position.x += num * Global::TILE_SIZE;
-    num = rand() % 9 - 4;
-    position.y += (num - .5f) * Global::TILE_SIZE;
-    setPosition(position);
+void Animal::initPosition() {
+    setPosition(sf::Vector2f(
+        rand() % 16 * Global::TILE_SIZE, rand() % 9 * Global::TILE_SIZE
+    ));
 }
+
+void Animal::updateCurrent(sf::Time deltaTime) { mAnimation.update(deltaTime); }

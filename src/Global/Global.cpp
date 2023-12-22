@@ -9,3 +9,5 @@ float Global::SPEED_MODIFIER = 1.f;
 
 const int Global::WINDOW_WIDTH = DESKTOP_MODE.width * WINDOW_DESKTOP_RATIO;
 const int Global::WINDOW_HEIGHT = DESKTOP_MODE.height * WINDOW_DESKTOP_RATIO;
+
+const int Global::TILE_SIZE = 90;

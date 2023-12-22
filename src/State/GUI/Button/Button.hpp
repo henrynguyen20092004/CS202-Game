@@ -29,7 +29,12 @@ class Button : public Component {
     virtual void activate() override;
     virtual void deactivate() override;
 
-    virtual void handleEvent(const sf::Event& event) override;
+    virtual void handleRealTimeInput(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) override;
+    virtual void handleEvent(const sf::Event& event,const sf::RenderWindow& window) override;
+
+    sf::FloatRect getGlobalBounds() const override;
 
    private:
     const sf::Texture& mNormalTexture;

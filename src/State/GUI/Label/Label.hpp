@@ -12,8 +12,11 @@ class Label : public Component {
     Label(const std::string& text, const FontHolder& fonts);
     bool isSelectable() const override;
     void setText(const std::string& text);
-    void handleEvent(const sf::Event& event) override;
     void setTextColor(const sf::Color& color);
+    void handleRealTimeInput(const sf::Event& event, const sf::RenderWindow& window) override;
+    void handleEvent(const sf::Event& event,const sf::RenderWindow& window) override;
+
+    sf::FloatRect getGlobalBounds() const override;
 
    private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

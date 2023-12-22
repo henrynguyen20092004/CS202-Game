@@ -60,7 +60,17 @@ void Button::deactivate() {
     }
 }
 
-void Button::handleEvent(const sf::Event&) {}
+void Button::handleRealTimeInput(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
+
+void Button::handleEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
+
+sf::FloatRect Button::getGlobalBounds() const {
+    return getTransform().transformRect(mSprite.getGlobalBounds());
+}
 
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();

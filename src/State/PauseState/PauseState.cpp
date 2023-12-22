@@ -35,7 +35,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 }
 
 bool PauseState::handleEvent(const sf::Event& event) {
-    mGUIContainer.handleEvent(event);
+    mGUIContainer.handleEvent(event, *getContext().window);
     return false;
 }
 

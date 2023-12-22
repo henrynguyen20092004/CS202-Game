@@ -14,9 +14,42 @@ void Container::addComponent(Component::Ptr component) {
 
 bool Container::isSelectable() const { return false; }
 
-void Container::handleEvent(const sf::Event& event) {
+void Container::handleRealTimeInput(
+    const sf::Event& event, const sf::RenderWindow& window
+) {
+    if (event.type == sf::Event::MouseMoved) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+        for (int i = 0; i < mChildren.size(); i++) {
+            if (!mChildren[i]->isSelectable()) continue;
+            sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+            if (bounds.contains(mousePosition.x, mousePosition.y)) {
+                mChildren[mSelectedChild]->deselect();
+                select(i);
+            }
+        }
+    } else if (event.type == sf::Event::MouseButtonPressed) {
+        if (!hasSelection()) {
+            return;
+        }
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+        for (int i = 0; i < mChildren.size(); i++) {
+            sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+            if (bounds.contains(mousePosition.x, mousePosition.y)) {
+                if (!mChildren[i]->isSelectable()) continue;
+                mChildren[mSelectedChild]->deactivate();
+                mChildren[i]->activate();
+                mSelectedChild = i;
+            }
+        }
+    }
+}
+
+void Container::handleEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {
     if (hasSelection() && mChildren[mSelectedChild]->isActive()) {
-        mChildren[mSelectedChild]->handleEvent(event);
+        mChildren[mSelectedChild]->handleEvent(event, window);
     } else if (event.type == sf::Event::KeyReleased) {
         switch (event.key.code) {
             case sf::Keyboard::W:
@@ -36,6 +69,8 @@ void Container::handleEvent(const sf::Event& event) {
                 }
                 break;
         }
+    } else {
+        handleRealTimeInput(event, window);
     }
 }
 

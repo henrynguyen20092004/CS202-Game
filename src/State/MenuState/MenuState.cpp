@@ -51,7 +51,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 }
 
 bool MenuState::handleEvent(const sf::Event& event) {
-    mGUIContainer.handleEvent(event);
+    mGUIContainer.handleEvent(event, *getContext().window);
     return false;
 }
 

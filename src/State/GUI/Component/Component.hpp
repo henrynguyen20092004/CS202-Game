@@ -24,7 +24,12 @@ class Component : public sf::Drawable,
     virtual void activate();
     virtual void deactivate();
 
-    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual void handleRealTimeInput(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) = 0;
+    virtual void handleEvent(const sf::Event& event,const sf::RenderWindow& window) = 0;
+
+    virtual sf::FloatRect getGlobalBounds() const;
 
    private:
     bool mIsSelected;

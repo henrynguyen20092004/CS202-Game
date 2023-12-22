@@ -9,7 +9,9 @@ Label::Label(const std::string& text, const FontHolder& fonts)
 
 bool Label::isSelectable() const { return false; }
 
-void Label::handleEvent(const sf::Event& event) {}
+sf::FloatRect Label::getGlobalBounds() const {
+    return getTransform().transformRect(mText.getGlobalBounds());
+}
 
 void Label::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
@@ -19,5 +21,13 @@ void Label::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 void Label::setText(const std::string& text) { mText.setString(text); }
 
 void Label::setTextColor(const sf::Color& color) { mText.setFillColor(color); }
+
+void Label::handleRealTimeInput(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
+
+void Label::handleEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
 
 }  // namespace GUI

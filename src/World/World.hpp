@@ -5,7 +5,7 @@
 
 #include "../Player/Player.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
-
+#include"../Score/Score.hpp"
 class World : private sf::NonCopyable {
    public:
     World(
@@ -16,7 +16,7 @@ class World : private sf::NonCopyable {
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
-
+  
     bool isPlayerAlive() const;
 
    private:
@@ -29,11 +29,11 @@ class World : private sf::NonCopyable {
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
-
+    
     // TODO: Create SettingsState and move these there
     PlayerSettings mPlayerSettings;
     PowerUpSettings mPowerUpSettings;
-
+    
     Player* mPlayer;
     PowerUpList* mPowerUpList;
 

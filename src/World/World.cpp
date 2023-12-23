@@ -4,7 +4,7 @@
 #include "../Animal/PolarBear/PolarBear.hpp"
 #include "../Global/Global.hpp"
 #include "../Map/Map.hpp"
-
+#include"../Score/Score.hpp"
 World::World(
     sf::RenderWindow& window, TextureHolder& textureHolder,
     FontHolder& fontHolder
@@ -64,17 +64,20 @@ void World::buildScene() {
         new Elephant(mTextureHolder, Textures::ID::Elephant, *mPowerUpList)
     );
     mSceneLayers[MapLayer]->attachChild(std::move(elephant));
+    Score::Ptr score(new Score(*mPlayer,mWorldView,mFontHolder));
+    mSceneLayers[IconLayer]->attachChild(std::move(score));
+
 }
 
 void World::handleCollision() {
-    std::set<SceneNode::Pair> collisionPairs;
-    mSceneGraph.checkNodeCollision(*mPlayer, collisionPairs);
+    // std::set<SceneNode::Pair> collisionPairs;
+    // mSceneGraph.checkNodeCollision(*mPlayer, collisionPairs);
 
-    for (SceneNode::Pair pair : collisionPairs) {
-        if (SpriteNode* spriteNode = dynamic_cast<SpriteNode*>(pair.first)) {
-            spriteNode->onPlayerCollision(*mPlayer);
-        }
-    }
+    // for (SceneNode::Pair pair : collisionPairs) {
+    //     if (SpriteNode* spriteNode = dynamic_cast<SpriteNode*>(pair.first)) {
+    //         spriteNode->onPlayerCollision(*mPlayer);
+    //     }
+    // }
 }
 
 void World::updateView() {

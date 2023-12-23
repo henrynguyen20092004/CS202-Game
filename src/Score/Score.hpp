@@ -11,11 +11,12 @@ class Score : public SceneNode {
     float highPosition;
     sf::View& mView;
     TextNode* mScoreText;
-    int bonus;
+    int mBonus;
 
    public:
     void updateCurrent(sf::Time dt) override;
     typedef std::unique_ptr<Score> Ptr;
      Score(Player& player, sf::View& view, FontHolder& fontHolder);
+     void getBonus();
 };
 #endif

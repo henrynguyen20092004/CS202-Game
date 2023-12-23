@@ -11,7 +11,7 @@ class Score : public SceneNode {
     float highPosition;
     sf::View& mView;
     TextNode* mScoreText;
-    
+    int bonus;
 
    public:
     void updateCurrent(sf::Time dt) override;

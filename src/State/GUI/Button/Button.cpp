@@ -60,7 +60,7 @@ void Button::deactivate() {
     }
 }
 
-void Button::handleRealTimeInput(
+void Button::handleMouseEvent(
     const sf::Event& event, const sf::RenderWindow& window
 ) {}
 

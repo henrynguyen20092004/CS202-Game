@@ -29,7 +29,7 @@ class Button : public Component {
     virtual void activate() override;
     virtual void deactivate() override;
 
-    virtual void handleRealTimeInput(
+    virtual void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
     virtual void handleEvent(const sf::Event& event,const sf::RenderWindow& window) override;

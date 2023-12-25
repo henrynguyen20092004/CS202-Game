@@ -22,7 +22,7 @@ void Label::setText(const std::string& text) { mText.setString(text); }
 
 void Label::setTextColor(const sf::Color& color) { mText.setFillColor(color); }
 
-void Label::handleRealTimeInput(
+void Label::handleMouseEvent(
     const sf::Event& event, const sf::RenderWindow& window
 ) {}
 

@@ -14,7 +14,7 @@ void Container::addComponent(Component::Ptr component) {
 
 bool Container::isSelectable() const { return false; }
 
-void Container::handleRealTimeInput(
+void Container::handleMouseEvent(
     const sf::Event& event, const sf::RenderWindow& window
 ) {
     if (event.type == sf::Event::MouseMoved) {
@@ -24,7 +24,6 @@ void Container::handleRealTimeInput(
             if (!mChildren[i]->isSelectable()) continue;
             sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
             if (bounds.contains(mousePosition.x, mousePosition.y)) {
-                mChildren[mSelectedChild]->deselect();
                 select(i);
             }
         }
@@ -39,7 +38,6 @@ void Container::handleRealTimeInput(
                 if (!mChildren[i]->isSelectable()) continue;
                 mChildren[mSelectedChild]->deactivate();
                 mChildren[i]->activate();
-                mSelectedChild = i;
             }
         }
     }
@@ -70,7 +68,7 @@ void Container::handleEvent(
                 break;
         }
     } else {
-        handleRealTimeInput(event, window);
+        handleMouseEvent(event, window);
     }
 }
 

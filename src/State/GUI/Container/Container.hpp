@@ -16,10 +16,12 @@ class Container : public Component {
     void addComponent(Component::Ptr component);
 
     virtual bool isSelectable() const override;
-    virtual void handleRealTimeInput(
+    virtual void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
-    virtual void handleEvent(const sf::Event& event, const sf::RenderWindow& window) override;
+    virtual void handleEvent(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) override;
 
    private:
     std::vector<Component::Ptr> mChildren;

@@ -8,7 +8,7 @@ class TextNode : public SceneNode {
    public:
     typedef std::unique_ptr<TextNode> Ptr;
 
-    TextNode(const FontHolder& fonts, const std::string& text);
+    TextNode(const FontHolder& fonts, const std::string& text, int size);
 
     void setString(const std::string& text);
 

@@ -2,8 +2,8 @@
 
 #include "../Utility/Utility.hpp"
 
-TextNode::TextNode(const FontHolder& fonts, const std::string& text, int size)
-    : mText(text, fonts.get(Fonts::ID::Dosis), size) {
+TextNode::TextNode(const FontHolder& fontHolder, const std::string& text, int size)
+    : mText(text, fontHolder.get(Fonts::ID::Dosis), size) {
     centerOrigin(mText);
 }
 

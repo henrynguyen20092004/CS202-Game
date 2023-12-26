@@ -7,18 +7,22 @@ class PowerUpList : public SceneNode {
    public:
     typedef std::unique_ptr<PowerUpList> Ptr;
 
-    PowerUpList(Player& player, PowerUpSettings& powerUpSettings);
+    PowerUpList(
+        PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
+        const FontHolder& fontHolder, sf::View& worldView, Player& player
+    );
 
     void addPowerUp(PowerUp::Type type);
 
    private:
     PowerUpSettings& mPowerUpSettings;
-    std::map<PowerUp::Type, std::unique_ptr<PowerUp>> mPowerUps;
+    std::map<PowerUp::Type, PowerUp*> mPowerUps;
 
     void handleEventCurrent(const sf::Event& event) override;
-    void updateCurrent(sf::Time deltaTime) override;
-
-    void initPowerUps(Player& player);
+    void initPowerUps(
+        TextureHolder& textureHolder, const FontHolder& fontHolder,
+        sf::View& worldView, Player& player
+    );
 };
 
 #endif

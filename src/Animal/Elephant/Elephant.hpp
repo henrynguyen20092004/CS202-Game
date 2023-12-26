@@ -10,7 +10,7 @@ class Elephant : public Animal {
     );
 
    private:
-    PowerUp::Type getPowerUpType() const override;
+    void onPlayerCollision(Player& player) override;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "GameOverState.hpp"
 
+#include "../../Global/Global.hpp"
 #include "../../Utility/Utility.hpp"
 
 GameOverState::GameOverState(StateStack& stack, Context context)
@@ -29,6 +30,7 @@ bool GameOverState::update(sf::Time deltaTime) {
     mElapsedTime += deltaTime;
 
     if (mElapsedTime.asSeconds() >= 1.f) {
+        Global::SPEED_MODIFIER = 1.f;
         requestStateClear();
         requestStackPush(States::ID::Menu);
     }

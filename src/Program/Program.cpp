@@ -60,7 +60,9 @@ void Program::loadTextures() {
         Textures::ID::TrainRight, "assets/Textures/TrainRight.png"
     );
 
+    mTextureHolder.load(Textures::ID::Cat, "assets/Textures/Cat.png");
     mTextureHolder.load(Textures::ID::Elephant, "assets/Textures/Elephant.png");
+    mTextureHolder.load(Textures::ID::Phoenix, "assets/Textures/Phoenix.png");
     mTextureHolder.load(
         Textures::ID::PolarBear, "assets/Textures/PolarBear.png"
     );

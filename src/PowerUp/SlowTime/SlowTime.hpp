@@ -5,7 +5,7 @@
 
 class SlowTime : public PowerUp {
    public:
-    SlowTime(Player& player);
+    SlowTime(const PowerUpIconArgs& powerUpIconArgs, Player& player);
 
    private:
     void activate() override;

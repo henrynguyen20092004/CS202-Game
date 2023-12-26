@@ -1,13 +1,16 @@
 #include "PowerUpList.hpp"
 
-#include "../PowerUp/BonusHealth/BonusHealth.hpp"
+#include "../Global/Global.hpp"
 #include "../PowerUp/Immortality/Immortality.hpp"
-#include "../PowerUp/IncreaseScore/IncreaseScore.hpp"
+#include "../PowerUp/Regenerate/Regenerate.hpp"
 #include "../PowerUp/SlowTime/SlowTime.hpp"
 
-PowerUpList::PowerUpList(Player& player, PowerUpSettings& powerUpSettings)
+PowerUpList::PowerUpList(
+    PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
+    const FontHolder& fontHolder, sf::View& worldView, Player& player
+)
     : mPowerUpSettings(powerUpSettings) {
-    initPowerUps(player);
+    initPowerUps(textureHolder, fontHolder, worldView, player);
 }
 
 void PowerUpList::addPowerUp(PowerUp::Type type) {
@@ -24,18 +27,34 @@ void PowerUpList::handleEventCurrent(const sf::Event& event) {
     }
 }
 
-void PowerUpList::updateCurrent(sf::Time deltaTime) {
-    for (auto& powerUp : mPowerUps) {
-        powerUp.second->update(deltaTime);
-    }
-}
+void PowerUpList::initPowerUps(
+    TextureHolder& textureHolder, const FontHolder& fontHolder,
+    sf::View& worldView, Player& player
+) {
+    sf::Vector2f positionOffset = sf::Vector2f();
 
-void PowerUpList::initPowerUps(Player& player) {
-    mPowerUps[PowerUp::Type::BonusHealth] =
-        std::make_unique<BonusHealth>(player);
-    mPowerUps[PowerUp::Type::Immortality] =
-        std::make_unique<Immortality>(player);
-    mPowerUps[PowerUp::Type::IncreaseScore] =
-        std::make_unique<IncreaseScore>(player);
-    mPowerUps[PowerUp::Type::SlowTime] = std::make_unique<SlowTime>(player);
+    Immortality::Ptr immortality(new Immortality(
+        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
+        player
+    ));
+    mPowerUps[PowerUp::Type::Immortality] = immortality.get();
+    attachChild(std::move(immortality));
+
+    positionOffset.x += Global::TILE_SIZE * 1.25f;
+
+    Regenerate::Ptr regenerate(new Regenerate(
+        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
+        player
+    ));
+    mPowerUps[PowerUp::Type::Regenerate] = regenerate.get();
+    attachChild(std::move(regenerate));
+
+    positionOffset.x += Global::TILE_SIZE * 1.25f;
+
+    SlowTime::Ptr slowTime(new SlowTime(
+        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
+        player
+    ));
+    mPowerUps[PowerUp::Type::SlowTime] = slowTime.get();
+    attachChild(std::move(slowTime));
 }

@@ -4,7 +4,10 @@
 
 #define SLOW_FACTOR 10
 
-SlowTime::SlowTime(Player& player) : PowerUp(sf::seconds(10.f), player) {}
+SlowTime::SlowTime(const PowerUpIconArgs& powerUpIconArgs, Player& player)
+    : PowerUp(
+          powerUpIconArgs, Textures::ID::PolarBear, player, sf::seconds(10.f)
+      ) {}
 
 void SlowTime::activate() { Global::SPEED_MODIFIER /= SLOW_FACTOR; }
 

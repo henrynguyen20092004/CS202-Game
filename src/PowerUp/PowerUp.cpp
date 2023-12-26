@@ -1,7 +1,15 @@
 #include "PowerUp.hpp"
 
-PowerUp::PowerUp(sf::Time duration, Player& player)
-    : mDuration(duration), mPlayer(player) {}
+PowerUp::PowerUp(
+    const PowerUpIconArgs& powerUpIconArgs, Textures::ID textureID,
+    Player& player, sf::Time duration
+)
+    : mPlayer(player), mDuration(duration) {
+    PowerUpIcon::Ptr powerUpIcon(
+        new PowerUpIcon(powerUpIconArgs, textureID, mCount)
+    );
+    attachChild(std::move(powerUpIcon));
+};
 
 void PowerUp::start() {
     if (mIsActivated || !mCount) {
@@ -14,7 +22,7 @@ void PowerUp::start() {
     activate();
 }
 
-void PowerUp::update(sf::Time deltaTime) {
+void PowerUp::updateCurrent(sf::Time deltaTime) {
     if (!mIsActivated) {
         return;
     }

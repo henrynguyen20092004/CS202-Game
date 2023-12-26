@@ -3,6 +3,7 @@
 
 #include "../../Player/Player.hpp"
 #include "../../PlayerSettings/PlayerSettings.hpp"
+#include "../../PowerUpSettings/PowerUpSettings.hpp"
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"
 #include "../GUI/Container/Container.hpp"
@@ -23,16 +24,22 @@ class SettingsState : public State {
     GUI::Container mGUIContainer;
 
     std::array<
-        GUI::Button::Ptr, static_cast<int>(Directions::ID::DirectionCount)>
+        GUI::Button::Ptr, static_cast<int>(Directions::ID::DirectionCount) +
+                              static_cast<int>(PowerUp::Type::TypeButtonCount)>
         mBindingButtons;
     std::array<
-        GUI::Label::Ptr, static_cast<int>(Directions::ID::DirectionCount)>
+        GUI::Label::Ptr, static_cast<int>(Directions::ID::DirectionCount) +
+                             static_cast<int>(PowerUp::Type::TypeButtonCount)>
         mBindingLabels;
 
     void updateLabels();
-    void addButtonLabel(
-        Directions::ID direction, float y, const std::string& text,
-        Context context
+    void addDirButtonLabel(
+        Directions::ID direction, const sf::Vector2f& position,
+        const std::string& text, Context context
+    );
+    void addPowButtonLabel(
+        PowerUp::Type power, const sf::Vector2f& position,
+        const std::string& text, Context context
     );
 };
 

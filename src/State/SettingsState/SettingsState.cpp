@@ -15,10 +15,28 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         windowSize.y / backgroundTexture.getSize().y
     );
 
-    addButtonLabel(Directions::ID::Left, 300.f, "Move Left", context);
-    addButtonLabel(Directions::ID::Right, 350.f, "Move Right", context);
-    addButtonLabel(Directions::ID::Up, 400.f, "Move Up", context);
-    addButtonLabel(Directions::ID::Down, 450.f, "Move Down", context);
+    addDirButtonLabel(
+        Directions::ID::Left, sf::Vector2f(-250.f, 300.f), "Move Left", context
+    );
+    addDirButtonLabel(
+        Directions::ID::Right, sf::Vector2f(-250.f, 350.f), "Move Right",
+        context
+    );
+    addDirButtonLabel(
+        Directions::ID::Up, sf::Vector2f(-250.f, 400.f), "Move Up", context
+    );
+    addDirButtonLabel(
+        Directions::ID::Down, sf::Vector2f(-250.f, 450.f), "Move Down", context
+    );
+
+    addPowButtonLabel(
+        PowerUp::Type::Immortality, sf::Vector2f(250.f, 300.f), "Immortality",
+        context
+    );
+    addPowButtonLabel(
+        PowerUp::Type::SlowTime, sf::Vector2f(250.f, 350.f), "Slow Time",
+        context
+    );
 
     updateLabels();
 
@@ -28,6 +46,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     resetButton->setPosition(windowSize.x / 2, 600.f);
     resetButton->setCallback([this]() {
         getContext().playerSettings->setToDefault();
+        getContext().powerUpSettings->setToDefault();
         updateLabels();
     });
 
@@ -53,11 +72,22 @@ bool SettingsState::update(sf::Time deltaTime) { return true; }
 
 bool SettingsState::handleEvent(const sf::Event& event) {
     bool isKeyBinding = false;
-    for (std::size_t action = 0;
-         action < static_cast<int>(Directions::ID::DirectionCount); ++action) {
+    int ActionCount = static_cast<int>(PowerUp::Type::TypeButtonCount) +
+                      static_cast<int>(Directions::ID::DirectionCount);
+    for (std::size_t action = 0; action < ActionCount; ++action) {
         if (mBindingButtons[action]->isActive()) {
             isKeyBinding = true;
-            if (event.type == sf::Event::KeyReleased) {
+            if (event.type == sf::Event::KeyReleased &&
+                action >= static_cast<int>(Directions::ID::DirectionCount)) {
+                getContext().powerUpSettings->assignKey(
+                    event.key.code,
+                    static_cast<PowerUp::Type>(
+                        action -
+                        static_cast<int>(Directions::ID::DirectionCount)
+                    )
+                );
+                mBindingButtons[action]->deactivate();
+            } else if (event.type == sf::Event::KeyReleased) {
                 getContext().playerSettings->assignKey(
                     event.key.code, static_cast<Directions::ID>(action)
                 );
@@ -84,29 +114,69 @@ void SettingsState::updateLabels() {
         mBindingLabels[i]->setText(toString(key));
         mBindingLabels[i]->setTextColor(sf::Color(0, 255, 255));
     }
+    for (std::size_t i = 0;
+         i < static_cast<int>(PowerUp::Type::TypeButtonCount); ++i) {
+        sf::Keyboard::Key key = getContext().powerUpSettings->getAssignedKey(
+            static_cast<PowerUp::Type>(i)
+        );
+        mBindingLabels[i + static_cast<int>(Directions::ID::DirectionCount)]
+            ->setText(toString(key));
+        mBindingLabels[i + static_cast<int>(Directions::ID::DirectionCount)]
+            ->setTextColor(sf::Color(0, 255, 255));
+    }
 }
 
-void SettingsState::addButtonLabel(
-    Directions::ID direction, float y, const std::string& text, Context context
+void SettingsState::addDirButtonLabel(
+    Directions::ID direction, const sf::Vector2f& position,
+    const std::string& text, Context context
 ) {
-    mBindingButtons[static_cast<int>(direction)] =
-        std::make_shared<GUI::Button>(
-            *context.fontHolder, *context.textureHolder, text
-        );
+    int index = static_cast<int>(direction);
+
+    mBindingButtons[index] = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, text
+    );
 
     sf::Vector2f windowSize(context.window->getSize());
 
-    mBindingButtons[static_cast<int>(direction)]->setPosition(
-        windowSize.x / 2.f, y
+    mBindingButtons[index]->setPosition(
+        windowSize.x / 2.f + position.x, position.y
     );
-    mBindingButtons[static_cast<int>(direction)]->setToggle(true);
+    mBindingButtons[index]->setToggle(true);
 
-    mBindingLabels[static_cast<int>(direction)] =
+    mBindingLabels[index] =
         std::make_shared<GUI::Label>("", *context.fontHolder);
-    mBindingLabels[static_cast<int>(direction)]->setPosition(
-        windowSize.x / 2.f + 120.f, y
+    mBindingLabels[index]->setPosition(
+        windowSize.x / 2.f + position.x + 120.f, position.y
     );
 
-    mGUIContainer.addComponent(mBindingButtons[static_cast<int>(direction)]);
-    mGUIContainer.addComponent(mBindingLabels[static_cast<int>(direction)]);
+    mGUIContainer.addComponent(mBindingButtons[index]);
+    mGUIContainer.addComponent(mBindingLabels[index]);
+}
+
+void SettingsState::addPowButtonLabel(
+    PowerUp::Type power, const sf::Vector2f& position, const std::string& text,
+    Context context
+) {
+    int index = static_cast<int>(Directions::ID::DirectionCount) +
+                static_cast<int>(power);
+
+    mBindingButtons[index] = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, text
+    );
+
+    sf::Vector2f windowSize(context.window->getSize());
+
+    mBindingButtons[index]->setPosition(
+        windowSize.x / 2.f + position.x, position.y
+    );
+    mBindingButtons[index]->setToggle(true);
+
+    mBindingLabels[index] =
+        std::make_shared<GUI::Label>("", *context.fontHolder);
+    mBindingLabels[index]->setPosition(
+        windowSize.x / 2.f + position.x + 120.f, position.y
+    );
+
+    mGUIContainer.addComponent(mBindingButtons[index]);
+    mGUIContainer.addComponent(mBindingLabels[index]);
 }

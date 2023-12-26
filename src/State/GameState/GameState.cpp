@@ -21,6 +21,7 @@ bool GameState::update(sf::Time deltaTime) {
     if (!mWorld.isPlayerAlive()) {
         requestStackPush(States::ID::GameOver);
     }
+
     return true;
 }
 

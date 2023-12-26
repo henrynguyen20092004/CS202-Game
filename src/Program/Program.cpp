@@ -5,7 +5,11 @@
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
+<<<<<<< HEAD
 #include "../State/SettingsState/SettingsState.hpp"
+=======
+#include "../State/TitleState/TitleState.hpp"
+>>>>>>> 4708950 (Create Title State)
 
 Program::Program()
     : mWindow(
@@ -21,7 +25,7 @@ Program::Program()
     loadFonts();
     registerStates();
 
-    mStateStack.pushState(States::ID::Menu);
+    mStateStack.pushState(States::ID::Title);
 }
 
 Program::~Program() {}
@@ -51,6 +55,10 @@ void Program::run() {
 
 void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Player, "assets/Textures/Player.png");
+
+    mTextureHolder.load(
+        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
+    );
 
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
@@ -106,12 +114,11 @@ void Program::loadFonts() {
 }
 
 void Program::registerStates() {
+    mStateStack.registerState<TitleState>(States::ID::Title);
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<SettingsState>(States::ID::Settings);
     mStateStack.registerState<GameState>(States::ID::Game);
     mStateStack.registerState<PauseState>(States::ID::Pause);
-    //     mStateStack.registerState<TitleState>(States::ID::Title);
-    //     mStateStack.registerState<LoadingState>(States::ID::Loading);
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
 }
 

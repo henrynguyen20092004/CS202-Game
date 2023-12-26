@@ -6,7 +6,6 @@ enum class ID {
     Title,
     Menu,
     Game,
-    Loading,
     Pause,
     GameOver,
     Settings,
@@ -38,6 +37,7 @@ namespace Textures {
 enum class ID {
     Player,
 
+    TitleBackground,
     MenuBackground,
 
     Car,

@@ -24,7 +24,7 @@ class Animal : public SpriteNode {
 
     void updateCurrent(sf::Time deltaTime) override;
 
-    virtual PowerUp::Type getPowerUpType() const = 0;
+    virtual PowerUp::Type getPowerUpType() const;
 };
 
 #endif

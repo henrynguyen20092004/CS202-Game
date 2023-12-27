@@ -27,3 +27,5 @@ void Animal::initPosition() {
 }
 
 void Animal::updateCurrent(sf::Time deltaTime) { mAnimation.update(deltaTime); }
+
+PowerUp::Type Animal::getPowerUpType() const { return PowerUp::Type::None; }

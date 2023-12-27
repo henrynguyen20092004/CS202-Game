@@ -1,6 +1,7 @@
 #include "Immortality.hpp"
 
-Immortality::Immortality(Player& player) : PowerUp(sf::seconds(10.f), player) {}
+Immortality::Immortality(const PowerUpIconArgs& powerUpIconArgs, Player& player)
+    : PowerUp(powerUpIconArgs, Textures::ID::Pug, player, sf::seconds(10.f)) {}
 
 void Immortality::activate() {}
 

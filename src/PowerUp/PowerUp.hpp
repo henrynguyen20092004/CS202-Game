@@ -2,22 +2,27 @@
 #define POWER_UP_HPP
 
 #include "../Player/Player.hpp"
+#include "../PowerUpIcon/PowerUpIcon.hpp"
 
-class PowerUp {
+class PowerUp : public SceneNode {
    public:
     enum class Type {
         None,
-        BonusHealth,
         Immortality,
-        IncreaseScore,
+        Regenerate,
         SlowTime,
     };
 
-    PowerUp(sf::Time duration, Player& player);
+    typedef std::unique_ptr<PowerUp> Ptr;
+
+    PowerUp(
+        const PowerUpIconArgs& powerUpIconArgs, Textures::ID textureID,
+        Player& player, sf::Time duration
+    );
 
     void start();
 
-    void update(sf::Time deltaTime);
+    void updateCurrent(sf::Time deltaTime) override;
 
     void increaseCount();
 
@@ -26,7 +31,6 @@ class PowerUp {
 
    private:
     sf::Time mDuration, mRemainingDuration;
-
     int mCount = 0;
     bool mIsActivated = false;
 

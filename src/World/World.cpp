@@ -51,9 +51,11 @@ void World::buildScene() {
     mPlayer = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
-    PowerUpList::Ptr powerUpList(new PowerUpList(*mPlayer, mPowerUpSettings));
+    PowerUpList::Ptr powerUpList(new PowerUpList(
+        mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, *mPlayer
+    ));
     mPowerUpList = powerUpList.get();
-    mSceneLayers[PlayerLayer]->attachChild(std::move(powerUpList));
+    mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
 
     // TODO: Remove when adding AnimalFactory
     PolarBear::Ptr polarBear(

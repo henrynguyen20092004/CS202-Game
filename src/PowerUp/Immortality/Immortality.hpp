@@ -5,7 +5,7 @@
 
 class Immortality : public PowerUp {
    public:
-    Immortality(Player& player);
+    Immortality(const PowerUpIconArgs& powerUpIconArgs, Player& player);
 
    private:
     void activate() override;

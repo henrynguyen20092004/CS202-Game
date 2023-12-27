@@ -6,6 +6,7 @@ Elephant::Elephant(
 )
     : Animal(textureHolder, textureID, powerUpList, 10, sf::seconds(2.f)) {}
 
-PowerUp::Type Elephant::getPowerUpType() const {
-    return PowerUp::Type::BonusHealth;
+void Elephant::onPlayerCollision(Player& player) {
+    player.heal();
+    getParent()->detachChild(*this);
 }

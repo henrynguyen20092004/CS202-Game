@@ -7,8 +7,14 @@ ObstacleLane::ObstacleLane(
     buildScene(isEmpty);
 }
 
+void ObstacleLane::handlePlayerCollision(Player& player) {
+    mObstacleFactory->handlePlayerCollision(player);
+}
+
 void ObstacleLane::buildScene(bool isEmpty) {
     Lane::buildScene(Textures::ID::ObstacleLane);
-    Factory::Ptr factory(new ObstacleFactory(mTextureHolder, isEmpty));
+
+    ObstacleFactory::Ptr factory(new ObstacleFactory(mTextureHolder, isEmpty));
+    mObstacleFactory = factory.get();
     mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
 }

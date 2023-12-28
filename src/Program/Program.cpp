@@ -12,6 +12,8 @@ Program::Program()
           "Crossy Road Gameplay", sf::Style::Close
       ),
       mStateStack(State::Context(mWindow, mTextureHolder, mFontHolder)) {
+    mWindow.setKeyRepeatEnabled(false);
+
     loadTextures();
     loadFonts();
     registerStates();
@@ -51,14 +53,8 @@ void Program::loadTextures() {
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );
 
-    mTextureHolder.load(Textures::ID::CarLeft, "assets/Textures/CarLeft.png");
-    mTextureHolder.load(Textures::ID::CarRight, "assets/Textures/CarRight.png");
-    mTextureHolder.load(
-        Textures::ID::TrainLeft, "assets/Textures/TrainLeft.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::TrainRight, "assets/Textures/TrainRight.png"
-    );
+    mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextureHolder.load(Textures::ID::Train, "assets/Textures/Train.png");
 
     mTextureHolder.load(Textures::ID::Cat, "assets/Textures/Cat.png");
     mTextureHolder.load(Textures::ID::Elephant, "assets/Textures/Elephant.png");

@@ -16,6 +16,8 @@ class VehicleFactory : public Factory {
 
     void setVelocityPercent(float percent);
 
+    void handlePlayerCollision(Player& player) override;
+
    private:
     Textures::ID mTextureID;
     Directions::ID mDirection;
@@ -24,6 +26,7 @@ class VehicleFactory : public Factory {
     std::deque<Vehicle*> mVehicles;
     float mVelocityPercent;
 
+    Vehicle* createVehicle();
     void init() override;
 
     void addVehicle();

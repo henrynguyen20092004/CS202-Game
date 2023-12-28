@@ -1,10 +1,10 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "../MovableSpriteNode/MovableSpriteNode.hpp"
+#include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 
-class Player : public MovableSpriteNode {
+class Player : public Entity {
    public:
     typedef std::unique_ptr<Player> Ptr;
 

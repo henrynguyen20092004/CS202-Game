@@ -9,6 +9,8 @@ class VehicleLane : public Lane {
    public:
     VehicleLane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
+    void handlePlayerCollision(Player& player) override;
+
    private:
     VehicleFactory* mVehicleFactory;
     TrafficLight* mTrafficLight;

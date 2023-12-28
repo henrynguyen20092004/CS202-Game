@@ -7,6 +7,10 @@ VehicleLane::VehicleLane(
     buildScene();
 }
 
+void VehicleLane::handlePlayerCollision(Player& player) {
+    mVehicleFactory->handlePlayerCollision(player);
+}
+
 void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
 

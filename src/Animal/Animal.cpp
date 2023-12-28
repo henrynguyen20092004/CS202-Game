@@ -6,7 +6,7 @@ Animal::Animal(
     TextureHolder& TextureHolder, Textures::ID textureID,
     PowerUpList& powerUpList, int numFrames, sf::Time duration
 )
-    : SpriteNode(TextureHolder, textureID),
+    : Entity(TextureHolder, textureID),
       mAnimation(
           mSprite, sf::Vector2i(Global::TILE_SIZE, Global::TILE_SIZE),
           numFrames, duration, true
@@ -15,9 +15,11 @@ Animal::Animal(
     initPosition();
 }
 
-void Animal::onPlayerCollision(Player& player) {
-    mPowerUpList.addPowerUp(getPowerUpType());
-    getParent()->detachChild(*this);
+void Animal::handlePlayerCollision(Player& player) {
+    if (collidePlayer(player)) {
+        mPowerUpList.addPowerUp(getPowerUpType());
+        getParent()->detachChild(*this);
+    }
 }
 
 void Animal::initPosition() {

@@ -27,9 +27,6 @@ class SceneNode : public sf::Transformable,
 
     sf::Vector2f getWorldPosition() const;
     sf::Transform getWorldTransform() const;
-    virtual sf::FloatRect getGlobalBounds() const;
-
-    void checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs);
 
    private:
     std::vector<Ptr> mChildren;
@@ -45,8 +42,6 @@ class SceneNode : public sf::Transformable,
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const;
     void drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
-
-    bool collision(const SceneNode& other);
 };
 
 #endif

@@ -2,6 +2,7 @@
 
 #include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
+#include "../../Vehicle/Train/Train.hpp"
 
 TrainFactory::TrainFactory(TextureHolder& textureHolder)
     : Factory(textureHolder), mTrain(nullptr) {
@@ -9,18 +10,18 @@ TrainFactory::TrainFactory(TextureHolder& textureHolder)
         {Directions::ID::Left, Directions::ID::Right}
     );
 
-    if (mDirection == Directions::ID::Left) {
-        mTextureID = Textures::ID::TrainLeft;
-    } else {
-        mTextureID = Textures::ID::TrainRight;
-    }
-
     mVelocity = sf::Vector2f(Random<float>::generate(5000.f, 10000.f), 0.f);
     mSpawnClock = sf::seconds(Random<float>::generate(0.f, 10.f));
 }
 
+void TrainFactory::handlePlayerCollision(Player& player) {
+    if (mTrain) {
+        mTrain->handlePlayerCollision(player);
+    }
+}
+
 void TrainFactory::addTrain() {
-    Vehicle::Ptr train(new Vehicle(mTextureHolder, mTextureID, mDirection));
+    Vehicle::Ptr train(new Train(mTextureHolder, mDirection));
     train->setVelocity(mVelocity);
 
     if (mDirection == Directions::ID::Left) {

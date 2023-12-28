@@ -7,9 +7,11 @@ Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
       mView(view),
       mInitialPlayerPosition(player.getPosition().y),
       mHighestPlayerPosition(mInitialPlayerPosition) {
-    TextNode::Ptr textnode(new TextNode(fontHolder, "Score: 0", 40));
-    mScoreText = textnode.get();
-    attachChild(std::move(textnode));
+    TextNode::Ptr text(
+        new TextNode(fontHolder, Fonts::ID::Dosis, "Score: 0", 40)
+    );
+    mScoreText = text.get();
+    attachChild(std::move(text));
 }
 
 void Score::addBonus() { mBonus += 1; }
@@ -21,9 +23,9 @@ void Score::updateCurrent(sf::Time deltaTime) {
         (mInitialPlayerPosition - mHighestPlayerPosition) / Global::TILE_SIZE +
         mBonus;
 
-    mScoreText->setString("Score: " + std::to_string(score));
+    mScoreText->setText("Score: " + std::to_string(score));
     mScoreText->setPosition(
-        mView.getCenter().x + mView.getSize().x / 2.f - Global::TILE_SIZE,
-        mView.getCenter().y - mView.getSize().y / 2.f + 20.f
+        mView.getCenter().x + mView.getSize().x / 2.f - 150.f,
+        mView.getCenter().y - mView.getSize().y / 2.f + 10.f
     );
 }

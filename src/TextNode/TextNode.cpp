@@ -2,12 +2,13 @@
 
 #include "../Utility/Utility.hpp"
 
-TextNode::TextNode(const FontHolder& fontHolder, const std::string& text, int size)
-    : mText(text, fontHolder.get(Fonts::ID::Dosis), size) {
-    centerOrigin(mText);
-}
+TextNode::TextNode(
+    const FontHolder& FontHolder, Fonts::ID fontID, const std::string& text,
+    unsigned int size
+)
+    : mText(text, FontHolder.get(fontID), size) {}
 
-void TextNode::setString(const std::string& text) { mText.setString(text); }
+void TextNode::setText(const std::string& text) { mText.setString(text); }
 
 void TextNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {

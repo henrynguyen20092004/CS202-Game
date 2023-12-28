@@ -3,7 +3,6 @@
 #include "../Animal/Elephant/Elephant.hpp"
 #include "../Animal/PolarBear/PolarBear.hpp"
 #include "../Global/Global.hpp"
-#include "../Map/Map.hpp"
 #include "../Score/Score.hpp"
 
 World::World(
@@ -26,7 +25,7 @@ void World::update(sf::Time deltaTime) {
         0.f, mScrollSpeed * Global::SPEED_MODIFIER * deltaTime.asSeconds()
     );
     updateView();
-    handleCollision();
+    handlePlayerCollision();
     mSceneGraph.update(deltaTime);
 }
 
@@ -45,6 +44,7 @@ void World::buildScene() {
     }
 
     Map::Ptr map(new Map(mTextureHolder, mWorldView));
+    mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
     Player::Ptr player(new Player(mTextureHolder, mWorldView, mPlayerSettings));
@@ -58,29 +58,18 @@ void World::buildScene() {
     mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
 
     // TODO: Remove when adding AnimalFactory
-    PolarBear::Ptr polarBear(
-        new PolarBear(mTextureHolder, Textures::ID::PolarBear, *mPowerUpList)
-    );
-    mSceneLayers[MapLayer]->attachChild(std::move(polarBear));
+    // PolarBear::Ptr polarBear(
+    //     new PolarBear(mTextureHolder, Textures::ID::PolarBear, *mPowerUpList)
+    // );
+    // mSceneLayers[MapLayer]->attachChild(std::move(polarBear));
 
-    Elephant::Ptr elephant(
-        new Elephant(mTextureHolder, Textures::ID::Elephant, *mPowerUpList)
-    );
-    mSceneLayers[MapLayer]->attachChild(std::move(elephant));
+    // Elephant::Ptr elephant(
+    //     new Elephant(mTextureHolder, Textures::ID::Elephant, *mPowerUpList)
+    // );
+    // mSceneLayers[MapLayer]->attachChild(std::move(elephant));
 
     Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
     mSceneLayers[IconLayer]->attachChild(std::move(score));
-}
-
-void World::handleCollision() {
-    std::set<SceneNode::Pair> collisionPairs;
-    mSceneGraph.checkNodeCollision(*mPlayer, collisionPairs);
-
-    for (SceneNode::Pair pair : collisionPairs) {
-        if (SpriteNode* spriteNode = dynamic_cast<SpriteNode*>(pair.first)) {
-            spriteNode->onPlayerCollision(*mPlayer);
-        }
-    }
 }
 
 void World::updateView() {
@@ -90,3 +79,5 @@ void World::updateView() {
         mWorldView.setCenter(mWorldView.getCenter().x, playerY);
     }
 }
+
+void World::handlePlayerCollision() { mMap->handlePlayerCollision(*mPlayer); }

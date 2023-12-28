@@ -7,8 +7,14 @@ TrainLane::TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position)
     buildScene();
 }
 
+void TrainLane::handlePlayerCollision(Player& player) {
+    mTrainFactory->handlePlayerCollision(player);
+}
+
 void TrainLane::buildScene() {
     Lane::buildScene(Textures::ID::TrainLane);
-    Factory::Ptr factory(new TrainFactory(mTextureHolder));
+
+    TrainFactory::Ptr factory(new TrainFactory(mTextureHolder));
+    mTrainFactory = factory.get();
     mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
 }

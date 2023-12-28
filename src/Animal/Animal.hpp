@@ -2,10 +2,10 @@
 #define ANIMAL_HPP
 
 #include "../Animation/Animation.hpp"
+#include "../Entity/Entity.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
-#include "../SpriteNode/SpriteNode.hpp"
 
-class Animal : public SpriteNode {
+class Animal : public Entity {
    public:
     typedef std::unique_ptr<Animal> Ptr;
 
@@ -14,17 +14,17 @@ class Animal : public SpriteNode {
         PowerUpList& powerUpList, int numFrames, sf::Time duration
     );
 
+    virtual void handlePlayerCollision(Player& player) override;
+
    private:
     PowerUpList& mPowerUpList;
     Animation mAnimation;
 
     void initPosition();
 
-    void onPlayerCollision(Player& player) override;
+    virtual PowerUp::Type getPowerUpType() const = 0;
 
-    void updateCurrent(sf::Time deltaTime) override;
-
-    virtual PowerUp::Type getPowerUpType() const;
+    virtual void updateCurrent(sf::Time deltaTime) override;
 };
 
 #endif

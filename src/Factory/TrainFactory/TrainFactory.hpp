@@ -6,10 +6,13 @@
 
 class TrainFactory : public Factory {
    public:
+    typedef std::unique_ptr<TrainFactory> Ptr;
+
     TrainFactory(TextureHolder& textureHolder);
 
+    void handlePlayerCollision(Player& player) override;
+
    private:
-    Textures::ID mTextureID;
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
     sf::Time mSpawnClock;

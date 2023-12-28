@@ -1,16 +1,17 @@
 #ifndef OBSTACLE_HPP
 #define OBSTACLE_HPP
 
-#include "../SpriteNode/SpriteNode.hpp"
+#include "../Entity/Entity.hpp"
 
-class Obstacle : public SpriteNode {
+class Obstacle : public Entity {
    public:
     typedef std::unique_ptr<Obstacle> Ptr;
 
-    using SpriteNode::SpriteNode;
+   protected:
+    Obstacle(TextureHolder& textureHolder);
 
-   private:
-    void onPlayerCollision(Player& player) override;
+   public:
+    void handlePlayerCollision(Player& player) override;
 };
 
 #endif

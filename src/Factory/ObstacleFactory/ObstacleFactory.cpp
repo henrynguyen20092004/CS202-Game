@@ -1,12 +1,29 @@
 #include "ObstacleFactory.hpp"
 
 #include "../../Global/Global.hpp"
+#include "../../Obstacle/Rock/Rock.hpp"
 #include "../../Random/Random.hpp"
 
 ObstacleFactory::ObstacleFactory(TextureHolder& textureHolder, bool isEmpty)
     : Factory(textureHolder) {
     if (!isEmpty) {
         init();
+    }
+}
+
+void ObstacleFactory::handlePlayerCollision(Player& player) {
+    for (Obstacle* obstacle : mObstacles) {
+        obstacle->handlePlayerCollision(player);
+    }
+}
+
+Obstacle* ObstacleFactory::createObstacle(Textures::ID textureID) {
+    switch (textureID) {
+        case Textures::ID::Rock:
+            return new Rock(mTextureHolder);
+
+        default:
+            return nullptr;
     }
 }
 
@@ -21,14 +38,15 @@ void ObstacleFactory::init() {
     }
 
     for (int position : positions) {
-        Textures::ID textureID =
-            Random<Textures::ID>::generate({Textures::ID::Rock});
-        Obstacle::Ptr obstacle(new Obstacle(mTextureHolder, textureID));
+        Obstacle::Ptr obstacle(
+            createObstacle(Random<Textures::ID>::generate({Textures::ID::Rock}))
+        );
         obstacle->setPosition(
             position * Global::TILE_SIZE +
                 (Global::TILE_SIZE - obstacle->getSize().x) / 2.f,
             (Global::TILE_SIZE - obstacle->getSize().y) / 2.f
         );
+        mObstacles.push_back(obstacle.get());
         attachChild(std::move(obstacle));
     }
 }

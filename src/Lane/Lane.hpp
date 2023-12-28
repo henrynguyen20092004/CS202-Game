@@ -4,7 +4,6 @@
 #include <array>
 
 #include "../Factory/Factory.hpp"
-#include "../SpriteNode/SpriteNode.hpp"
 
 class Lane : public SceneNode {
    public:
@@ -12,11 +11,14 @@ class Lane : public SceneNode {
 
     Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
+    virtual void handlePlayerCollision(Player& player) = 0;
+
    protected:
     TextureHolder& mTextureHolder;
 
     enum Layer {
         LaneLayer,
+        TileLayer,
         ObjectLayer,
         TrafficLightLayer,
         LayerCount,

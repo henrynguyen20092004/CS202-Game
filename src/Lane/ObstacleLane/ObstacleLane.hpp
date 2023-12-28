@@ -11,7 +11,11 @@ class ObstacleLane : public Lane {
         bool isEmpty = false
     );
 
+    void handlePlayerCollision(Player& player) override;
+
    private:
+    ObstacleFactory* mObstacleFactory;
+
     void buildScene(bool isEmpty);
 };
 

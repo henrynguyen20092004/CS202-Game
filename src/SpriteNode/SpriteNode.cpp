@@ -1,5 +1,8 @@
 #include "SpriteNode.hpp"
 
+SpriteNode::SpriteNode(TextureHolder& textureHolder)
+    : mTextureHolder(textureHolder) {}
+
 SpriteNode::SpriteNode(
     TextureHolder& textureHolder, Textures::ID textureID,
     sf::IntRect textureRect
@@ -28,21 +31,14 @@ sf::FloatRect SpriteNode::getGlobalBounds() const {
     return getWorldTransform().transformRect(getLocalBounds());
 }
 
-void SpriteNode::onPlayerCollision(Player& player) {}
+void SpriteNode::flipHorizontally() {
+    sf::IntRect textureRect = mSprite.getTextureRect();
+    textureRect.left += textureRect.width;
+    textureRect.width = -textureRect.width;
+    mSprite.setTextureRect(textureRect);
+}
 
 void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {
     target.draw(mSprite, states);
-}
-
-void SpriteNode::drawBoundingRect(
-    sf::RenderTarget& target, sf::RenderStates states
-) const {
-    sf::RectangleShape shape(getSize());
-    shape.setPosition(getPosition());
-    shape.setFillColor(sf::Color::Transparent);
-    shape.setOutlineColor(sf::Color::Green);
-    shape.setOutlineThickness(2.f);
-
-    target.draw(shape, states);
 }

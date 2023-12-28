@@ -8,11 +8,12 @@ Player::Player(
     TextureHolder& textureHolder, sf::View& worldView,
     PlayerSettings& playerSettings
 )
-    : MovableSpriteNode(textureHolder, Textures::ID::Player),
+    : Entity(textureHolder, Textures::ID::Player),
       mWorldView(worldView),
       mPlayerSettings(playerSettings),
       mDirection(Directions::ID::None),
       mIsMoving(false) {
+    setHitbox(getLocalBounds());  // TODO: set hitbox properly
     initPosition(worldView.getCenter());
     initTargetDistance();
     setVelocity(sf::Vector2f(500.f, 500.f));
@@ -66,7 +67,8 @@ void Player::updateCurrent(sf::Time deltaTime) {
             std::sqrt(movement.x * movement.x + movement.y * movement.y);
 
         float displacement =
-            ((static_cast<int>(mDirection) < 2) ? mVelocity.x : mVelocity.y) *
+            ((static_cast<int>(mDirection) < 2) ? getVelocity().x
+                                                : getVelocity().y) *
             deltaTime.asSeconds();
         if (distance <= displacement) {
             setPosition(mTargetPosition);
@@ -79,12 +81,11 @@ void Player::updateCurrent(sf::Time deltaTime) {
 }
 
 bool Player::isOutOfBounds() const {
-    sf::FloatRect hitbox = getGlobalBounds(),
-                  viewBounds = sf::FloatRect(
-                      mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
-                      mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
-                      mWorldView.getSize().x, mWorldView.getSize().y
-                  );
+    sf::FloatRect viewBounds = sf::FloatRect(
+        mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
+        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
+        mWorldView.getSize().x, mWorldView.getSize().y
+    );
 
-    return !viewBounds.intersects(hitbox);
+    return !viewBounds.intersects(getGlobalHitbox());
 }

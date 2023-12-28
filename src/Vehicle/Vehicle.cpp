@@ -2,29 +2,30 @@
 
 #include "../Player/Player.hpp"
 
-Vehicle::Vehicle(
-    TextureHolder& textureHolder, Textures::ID texureID,
-    Directions::ID direction
-)
-    : MovableSpriteNode(textureHolder, texureID), mDirection(direction) {}
+Vehicle::Vehicle(TextureHolder& textureHolder, Directions::ID direction)
+    : Entity(textureHolder), mDirection(direction) {}
 
 Directions::ID Vehicle::getDirection() const { return mDirection; }
 
 void Vehicle::setDirection(Directions::ID direction) { mDirection = direction; }
 
+void Vehicle::handlePlayerCollision(Player& player) {
+    if (collidePlayer(player)) {
+        player.damage();
+    }
+}
+
 void Vehicle::updateCurrent(sf::Time deltaTime) {
     switch (mDirection) {
         case Directions::ID::Left:
-            MovableSpriteNode::updateCurrent(-deltaTime);
+            Entity::updateCurrent(-deltaTime);
             break;
 
         case Directions::ID::Right:
-            MovableSpriteNode::updateCurrent(deltaTime);
+            Entity::updateCurrent(deltaTime);
             break;
 
         default:
             break;
     }
 }
-
-void Vehicle::onPlayerCollision(Player& player) { player.damage(); }

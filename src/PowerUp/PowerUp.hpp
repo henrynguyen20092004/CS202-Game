@@ -11,6 +11,7 @@ class PowerUp : public SceneNode {
         Immortality,
         Regenerate,
         SlowTime,
+        Heal,
     };
 
     typedef std::unique_ptr<PowerUp> Ptr;

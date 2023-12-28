@@ -47,20 +47,6 @@ sf::Transform SceneNode::getWorldTransform() const {
     return transform;
 }
 
-sf::FloatRect SceneNode::getGlobalBounds() const { return sf::FloatRect(); }
-
-void SceneNode::checkNodeCollision(
-    SceneNode& node, std::set<Pair>& collisionPairs
-) {
-    if (this != &node && collision(node)) {
-        collisionPairs.insert(std::make_pair(this, &node));
-    }
-
-    for (Ptr& child : mChildren) {
-        child->checkNodeCollision(node, collisionPairs);
-    }
-}
-
 void SceneNode::handleEventCurrent(const sf::Event&) {}
 
 void SceneNode::handleEventChildren(const sf::Event& event) {
@@ -90,8 +76,4 @@ void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states)
     for (const Ptr& child : mChildren) {
         child->draw(target, states);
     }
-}
-
-bool SceneNode::collision(const SceneNode& other) {
-    return getGlobalBounds().intersects(other.getGlobalBounds());
 }

@@ -17,6 +17,12 @@ Map::Map(TextureHolder& textureHolder, sf::View& worldView)
     }
 }
 
+void Map::handlePlayerCollision(Player& player) {
+    for (Lane* lane : mLanes) {
+        lane->handlePlayerCollision(player);
+    }
+}
+
 void Map::addEmptyLane() {
     Lane::Ptr lane(new ObstacleLane(
         mTextureHolder,
@@ -32,35 +38,34 @@ void Map::addEmptyLane() {
     attachChild(std::move(lane));
 }
 
-void Map::addRandomLane() {
-    Textures::ID textureID = Random<Textures::ID>::generate(
-        {Textures::ID::VehicleLane, Textures::ID::TrainLane,
-         Textures::ID::ObstacleLane}
-    );
-
-    Lane::Ptr lane;
-    sf::Vector2f position = sf::Vector2f(
-        0, (mLanes.empty() ? Global::WINDOW_HEIGHT
-                           : mLanes.front()->getPosition().y) -
-               Global::TILE_SIZE
-    );
-
+Lane* Map::makeLane(Textures::ID textureID, sf::Vector2f position) {
     switch (textureID) {
         case Textures::ID::VehicleLane:
-            lane = std::make_unique<VehicleLane>(mTextureHolder, position);
-            break;
+            return new VehicleLane(mTextureHolder, position);
 
         case Textures::ID::TrainLane:
-            lane = std::make_unique<TrainLane>(mTextureHolder, position);
-            break;
+            return new TrainLane(mTextureHolder, position);
 
         case Textures::ID::ObstacleLane:
-            lane = std::make_unique<ObstacleLane>(mTextureHolder, position);
-            break;
+            return new ObstacleLane(mTextureHolder, position);
 
         default:
-            break;
+            return nullptr;
     }
+}
+
+void Map::addRandomLane() {
+    Lane::Ptr lane(makeLane(
+        Random<Textures::ID>::generate(
+            {Textures::ID::VehicleLane, Textures::ID::TrainLane,
+             Textures::ID::ObstacleLane}
+        ),
+        sf::Vector2f(
+            0, (mLanes.empty() ? Global::WINDOW_HEIGHT
+                               : mLanes.front()->getPosition().y) -
+                   Global::TILE_SIZE
+        )
+    ));
 
     mLanes.push_front(lane.get());
     attachChild(std::move(lane));
@@ -77,8 +82,9 @@ void Map::updateCurrent(sf::Time deltaTime) {
         addRandomLane();
     }
 
-    if (mLanes.back()->getPosition().y >
-        mWorldView.getCenter().y + mWorldView.getSize().y / 2.f) {
+    if (mLanes.back()->getPosition().y > mWorldView.getCenter().y +
+                                             mWorldView.getSize().y / 2.f +
+                                             Global::TILE_SIZE) {
         removeLane();
     }
 }

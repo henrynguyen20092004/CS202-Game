@@ -2,4 +2,10 @@
 
 #include "../Player/Player.hpp"
 
-void Obstacle::onPlayerCollision(Player& player) { player.remainPosition(); }
+Obstacle::Obstacle(TextureHolder& textureHolder) : Entity(textureHolder) {}
+
+void Obstacle::handlePlayerCollision(Player& player) {
+    if (collidePlayer(player)) {
+        player.remainPosition();
+    }
+}

@@ -19,7 +19,8 @@ PowerUpIcon::PowerUpIcon(
       mPositionOffset(powerUpIconArgs.positionOffset),
       mCount(count) {
     TextNode::Ptr textnode(new TextNode(
-        powerUpIconArgs.fontHolder, "x" + std::to_string(mCount), 30
+        powerUpIconArgs.fontHolder, Fonts::ID::Dosis,
+        "x" + std::to_string(mCount), 30
     ));
     mSprite.setTextureRect(sf::IntRect(0, 0, 90, 90));
 
@@ -32,6 +33,6 @@ void PowerUpIcon::updateCurrent(sf::Time deltaTime) {
         mWorldView.getCenter() - mWorldView.getSize() / 2.f;
 
     setPosition(viewPosition + mPositionOffset);
-    mTextNode->setString("x" + std::to_string(mCount));
+    mTextNode->setText("x" + std::to_string(mCount));
     mTextNode->setPosition(90.f, 75.f);
 }

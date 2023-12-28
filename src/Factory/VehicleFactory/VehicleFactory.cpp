@@ -2,6 +2,7 @@
 
 #include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
+#include "../../Vehicle/Car/Car.hpp"
 
 VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
     : Factory(textureHolder), mVelocityPercent(1.f) {
@@ -9,11 +10,7 @@ VehicleFactory::VehicleFactory(TextureHolder& textureHolder)
         {Directions::ID::Left, Directions::ID::Right}
     );
 
-    if (mDirection == Directions::ID::Left) {
-        mTextureID = Random<Textures::ID>::generate({Textures::ID::CarLeft});
-    } else {
-        mTextureID = Random<Textures::ID>::generate({Textures::ID::CarRight});
-    }
+    mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
 
     mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
     mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
@@ -28,6 +25,21 @@ void VehicleFactory::setVelocityPercent(float percent) {
 
     for (auto vehicle : mVehicles) {
         vehicle->setVelocity(mVelocity * percent);
+    }
+}
+
+void VehicleFactory::handlePlayerCollision(Player& player) {
+    for (auto vehicle : mVehicles) {
+        vehicle->handlePlayerCollision(player);
+    }
+}
+
+Vehicle* VehicleFactory::createVehicle() {
+    switch (mTextureID) {
+        case Textures::ID::Car:
+            return new Car(mTextureHolder, mDirection);
+        default:
+            return nullptr;
     }
 }
 
@@ -49,8 +61,7 @@ void VehicleFactory::init() {
     for (int i = 0; i < numVehicles; ++i) {
         positions[i] += i * vehicleWidth;
 
-        Vehicle::Ptr vehicle(new Vehicle(mTextureHolder, mTextureID, mDirection)
-        );
+        Vehicle::Ptr vehicle(createVehicle());
         vehicle->setVelocity(mVelocity);
         vehicle->setPosition(
             positions[i], (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
@@ -62,7 +73,7 @@ void VehicleFactory::init() {
 }
 
 void VehicleFactory::addVehicle() {
-    Vehicle::Ptr vehicle(new Vehicle(mTextureHolder, mTextureID, mDirection));
+    Vehicle::Ptr vehicle(createVehicle());
     vehicle->setVelocity(mVelocity);
 
     if (mDirection == Directions::ID::Left) {

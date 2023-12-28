@@ -1,5 +1,7 @@
 #include "Lane.hpp"
 
+#include "../Global/Global.hpp"
+
 Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
     : mTextureHolder(textureHolder) {
     setPosition(position);

@@ -3,6 +3,7 @@
 
 #include <array>
 
+#include "../Map/Map.hpp"
 #include "../Player/Player.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
 
@@ -34,6 +35,7 @@ class World : private sf::NonCopyable {
     PlayerSettings mPlayerSettings;
     PowerUpSettings mPowerUpSettings;
 
+    Map* mMap;
     Player* mPlayer;
     PowerUpList* mPowerUpList;
 
@@ -41,7 +43,7 @@ class World : private sf::NonCopyable {
 
     void buildScene();
     void updateView();
-    void handleCollision();
+    void handlePlayerCollision();
 };
 
 #endif

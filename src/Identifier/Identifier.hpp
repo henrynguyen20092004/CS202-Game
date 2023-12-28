@@ -30,11 +30,11 @@ enum class ID {
 
     MenuBackground,
 
-    CarLeft,
-    CarRight,
+    Car,
     Truck,
-    TrainLeft,
-    TrainRight,
+    Train,
+    Bus,
+    PoliceCar,
 
     Cat,
     Elephant,
@@ -44,9 +44,14 @@ enum class ID {
 
     Rock,
 
+    ShortLog,
+    MediumLog,
+    LongLog,
+
     VehicleLane,
     TrainLane,
     ObstacleLane,
+    River,
 
     ButtonNormal,
     ButtonSelected,

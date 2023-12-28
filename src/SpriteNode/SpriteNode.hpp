@@ -6,6 +6,8 @@
 
 class SpriteNode : public SceneNode {
    public:
+    SpriteNode(TextureHolder& textureHolder);
+
     SpriteNode(
         TextureHolder& textureHolder, Textures::ID textureID,
         sf::IntRect textureRect = sf::IntRect()
@@ -17,19 +19,17 @@ class SpriteNode : public SceneNode {
 
     sf::Vector2f getSize() const;
     sf::FloatRect getLocalBounds() const;
-    sf::FloatRect getGlobalBounds() const override;
-
-    virtual void onPlayerCollision(Player& player);
+    sf::FloatRect getGlobalBounds() const;
 
    protected:
     TextureHolder& mTextureHolder;
     sf::Sprite mSprite;
 
-   private:
+    void flipHorizontally();
+
+   protected:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
-    void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states)
-        const;
 };
 
 #endif

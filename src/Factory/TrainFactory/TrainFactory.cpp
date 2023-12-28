@@ -23,17 +23,11 @@ void TrainFactory::handlePlayerCollision(Player& player) {
 void TrainFactory::addTrain() {
     Vehicle::Ptr train(new Train(mTextureHolder, mDirection));
     train->setVelocity(mVelocity);
-
-    if (mDirection == Directions::ID::Left) {
-        train->setPosition(
-            Global::WINDOW_WIDTH, (Global::TILE_SIZE - train->getSize().y) / 2.f
-        );
-    } else {
-        train->setPosition(
-            -train->getSize().x, (Global::TILE_SIZE - train->getSize().y) / 2.f
-        );
-    }
-
+    train->setPosition(
+        mDirection == Directions::ID::Left ? Global::WINDOW_WIDTH
+                                           : -train->getSize().x,
+        (Global::TILE_SIZE - train->getSize().y) / 2.f
+    );
     mTrain = train.get();
     attachChild(std::move(train));
 }

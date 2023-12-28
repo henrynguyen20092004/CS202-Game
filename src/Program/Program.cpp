@@ -65,6 +65,9 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
 
     mTextureHolder.load(Textures::ID::Rock, "assets/Textures/Rock.png");
+    mTextureHolder.load(
+        Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
+    );
 
     mTextureHolder.load(
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
@@ -84,9 +87,6 @@ void Program::loadTextures() {
     );
     mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
     );
 }
 

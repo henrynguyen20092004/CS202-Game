@@ -8,4 +8,4 @@ class Rock : public Obstacle {
     Rock(TextureHolder& textureHolder);
 };
 
-#endif  // ROCK_HPP
+#endif

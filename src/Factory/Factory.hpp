@@ -2,13 +2,8 @@
 #define FACTORY_HPP
 
 #include "../Player/Player.hpp"
-#include "../ResourceHolder/ResourceHolder.hpp"
-#include "../SceneNode/SceneNode.hpp"
 
 class Factory : public SceneNode {
-   protected:
-    Factory(TextureHolder& textureHolder);
-
    public:
     typedef std::unique_ptr<Factory> Ptr;
 
@@ -16,6 +11,8 @@ class Factory : public SceneNode {
 
    protected:
     TextureHolder& mTextureHolder;
+
+    Factory(TextureHolder& textureHolder);
 
    private:
     virtual void init();

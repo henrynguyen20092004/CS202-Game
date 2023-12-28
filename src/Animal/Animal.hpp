@@ -22,7 +22,7 @@ class Animal : public Entity {
 
     void initPosition();
 
-    virtual PowerUp::Type getPowerUpType() const = 0;
+    virtual PowerUp::Type getPowerUpType() const;
 
     virtual void updateCurrent(sf::Time deltaTime) override;
 };

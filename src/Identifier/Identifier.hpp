@@ -43,6 +43,7 @@ enum class ID {
     Pug,
 
     Rock,
+    TrafficLight,
 
     ShortLog,
     MediumLog,
@@ -56,8 +57,6 @@ enum class ID {
     ButtonNormal,
     ButtonSelected,
     ButtonPressed,
-
-    TrafficLight,
 };
 }
 

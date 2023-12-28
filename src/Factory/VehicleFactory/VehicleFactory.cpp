@@ -38,6 +38,7 @@ Vehicle* VehicleFactory::createVehicle() {
     switch (mTextureID) {
         case Textures::ID::Car:
             return new Car(mTextureHolder, mDirection);
+
         default:
             return nullptr;
     }
@@ -75,19 +76,11 @@ void VehicleFactory::init() {
 void VehicleFactory::addVehicle() {
     Vehicle::Ptr vehicle(createVehicle());
     vehicle->setVelocity(mVelocity);
-
-    if (mDirection == Directions::ID::Left) {
-        vehicle->setPosition(
-            Global::WINDOW_WIDTH,
-            (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
-        );
-    } else {
-        vehicle->setPosition(
-            -vehicle->getSize().x,
-            (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
-        );
-    }
-
+    vehicle->setPosition(
+        mDirection == Directions::ID::Left ? Global::WINDOW_WIDTH
+                                           : -vehicle->getSize().x,
+        (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
+    );
     mVehicles.push_front(vehicle.get());
     attachChild(std::move(vehicle));
 }

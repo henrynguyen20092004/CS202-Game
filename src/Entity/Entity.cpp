@@ -22,6 +22,16 @@ bool Entity::collidePlayer(const Player& player) const {
 
 void Entity::handlePlayerCollision(Player& player) {}
 
+void Entity::updateCurrent(sf::Time deltaTime) {
+    move(mVelocity * deltaTime.asSeconds());
+}
+
+void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
+    const {
+    SpriteNode::drawCurrent(target, states);
+    drawHitbox(target, states);
+}
+
 void Entity::drawHitbox(sf::RenderTarget& target, sf::RenderStates states)
     const {
     sf::RectangleShape hitbox(sf::Vector2f(mHitbox.width, mHitbox.height));
@@ -31,14 +41,4 @@ void Entity::drawHitbox(sf::RenderTarget& target, sf::RenderStates states)
     hitbox.setOutlineThickness(1.f);
 
     target.draw(hitbox, states);
-}
-
-void Entity::updateCurrent(sf::Time deltaTime) {
-    move(mVelocity * deltaTime.asSeconds());
-}
-
-void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-    const {
-    SpriteNode::drawCurrent(target, states);
-    drawHitbox(target, states);
 }

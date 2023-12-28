@@ -5,5 +5,6 @@
 void Obstacle::handlePlayerCollision(Player& player) {
     if (collidePlayer(player)) {
         player.goBack();
+        player.damage();
     }
 }

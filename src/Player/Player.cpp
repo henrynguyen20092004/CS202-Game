@@ -55,13 +55,42 @@ void Player::setScorePtr(Score* score) { mScore = score; }
 
 void Player::addBonusScore() const { mScore->addBonus(); }
 
-bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
+bool Player::isAlive() {
+    if (!isOutOfBounds() && mHealth > 0) {
+        return true;
+    } else {
+        if (mIsRegenerate || mactiveRegenrate.active) {
+            isRegenerate();
+            return true;
+        }
+        return false;
+    }
+}
 
 void Player::handlePlayerCollision(Player& player) {
     if (&player != this && collidePlayer(player)) {
         goBack();
     }
 }
+
+void Player::setRegenerate() { mIsRegenerate = true; }
+
+void Player::isRegenerate() {
+    if (mIsRegenerate) {
+        mactiveRegenrate.active = true;
+        mactiveRegenrate.time = sf::seconds(2.f);
+        mIsRegenerate = false;
+    }
+    if (mactiveRegenrate.active) {
+        mactiveRegenrate.time -= sf::seconds(1.f / 60.f);
+    }
+    if (mactiveRegenrate.time <= sf::Time::Zero) {
+        heal();
+        mactiveRegenrate.active = false;
+    }
+}
+
+bool Player::isRegenerateActive() { return mactiveRegenrate.active; }
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {

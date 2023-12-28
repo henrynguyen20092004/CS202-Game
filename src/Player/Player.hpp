@@ -7,10 +7,15 @@
 
 class Score;
 
+struct ActiveRegenrate {
+    bool active = false;
+    sf::Time time = sf::seconds(2.f);
+};
+
 class Player : public Entity {
    public:
     typedef std::unique_ptr<Player> Ptr;
-
+    void setRegenerate();
     Player(
         TextureHolder& mTextureHolder, Textures::ID textureID,
         sf::View& worldView, PlayerSettings& playerSettings
@@ -31,11 +36,15 @@ class Player : public Entity {
     void setScorePtr(Score* score);
     void addBonusScore() const;
 
-    bool isAlive() const;
+    bool isAlive();
 
     void handlePlayerCollision(Player& player) override;
 
+    bool isRegenerateActive();
+    void isRegenerate();
+
    private:
+    ActiveRegenrate mactiveRegenrate;
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
     Score* mScore = nullptr;
@@ -43,9 +52,8 @@ class Player : public Entity {
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
-
-    int mHealth = 1;
-
+    int mHealth = 2;
+    bool mIsRegenerate = true;
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;
 

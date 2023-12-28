@@ -31,6 +31,7 @@ class World : private sf::NonCopyable {
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
+    sf::Time mImmortalTime = sf::seconds(0.f);
     Map* mMap;
     std::vector<Player*> mPlayers;  // 1 or 2 players
     PowerUpList* mPowerUpList;

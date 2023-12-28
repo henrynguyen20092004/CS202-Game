@@ -14,5 +14,3 @@ void Elephant::handlePlayerCollision(Player& player) {
         getParent()->detachChild(*this);
     }
 }
-
-PowerUp::Type Elephant::getPowerUpType() const { return PowerUp::Type::Heal; }

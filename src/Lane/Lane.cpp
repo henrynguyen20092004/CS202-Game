@@ -1,7 +1,5 @@
 #include "Lane.hpp"
 
-#include "../Global/Global.hpp"
-
 Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
     : mTextureHolder(textureHolder) {
     setPosition(position);
@@ -9,7 +7,7 @@ Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
 
 void Lane::buildScene(Textures::ID textureID) {
     for (int i = 0; i < LayerCount; ++i) {
-        SceneNode::Ptr layer(new SceneNode());
+        SceneNode::Ptr layer(new SceneNode);
         mSceneLayers[i] = layer.get();
         attachChild(std::move(layer));
     }

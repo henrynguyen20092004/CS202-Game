@@ -63,13 +63,12 @@ void Player::handleEventCurrent(const sf::Event& event) {
 void Player::updateCurrent(sf::Time deltaTime) {
     if (mIsMoving) {
         sf::Vector2f movement = mTargetPosition - getPosition();
-        float distance =
-            std::sqrt(movement.x * movement.x + movement.y * movement.y);
-
+        float distance = std::hypotf(movement.x, movement.y);
         float displacement =
             ((static_cast<int>(mDirection) < 2) ? getVelocity().x
                                                 : getVelocity().y) *
             deltaTime.asSeconds();
+
         if (distance <= displacement) {
             setPosition(mTargetPosition);
             mIsMoving = false;

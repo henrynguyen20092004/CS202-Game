@@ -2,8 +2,11 @@
 
 #include "../Player/Player.hpp"
 
-Vehicle::Vehicle(TextureHolder& textureHolder, Directions::ID direction)
-    : Entity(textureHolder), mDirection(direction) {}
+Vehicle::Vehicle(
+    TextureHolder& textureHolder, Textures::ID textureID,
+    Directions::ID direction
+)
+    : Entity(textureHolder, textureID), mDirection(direction) {}
 
 Directions::ID Vehicle::getDirection() const { return mDirection; }
 

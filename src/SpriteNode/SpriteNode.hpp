@@ -6,8 +6,6 @@
 
 class SpriteNode : public SceneNode {
    public:
-    SpriteNode(TextureHolder& textureHolder);
-
     SpriteNode(
         TextureHolder& textureHolder, Textures::ID textureID,
         sf::IntRect textureRect = sf::IntRect()
@@ -27,7 +25,6 @@ class SpriteNode : public SceneNode {
 
     void flipHorizontally();
 
-   protected:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
 };

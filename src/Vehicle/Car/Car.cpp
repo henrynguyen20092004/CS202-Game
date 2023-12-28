@@ -1,8 +1,7 @@
 #include "Car.hpp"
 
 Car::Car(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, direction) {
-    setSprite(Textures::ID::Car);
+    : Vehicle(textureHolder, Textures::ID::Car, direction) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

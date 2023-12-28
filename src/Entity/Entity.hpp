@@ -24,9 +24,9 @@ class Entity : public SpriteNode {
     virtual void handlePlayerCollision(Player& player);
 
    protected:
-    void drawHitbox(sf::RenderTarget& target, sf::RenderStates states) const;
-
     virtual void updateCurrent(sf::Time deltaTime) override;
+
+    void drawHitbox(sf::RenderTarget& target, sf::RenderStates states) const;
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
 

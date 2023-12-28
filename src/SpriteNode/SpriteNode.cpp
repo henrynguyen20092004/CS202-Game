@@ -1,8 +1,5 @@
 #include "SpriteNode.hpp"
 
-SpriteNode::SpriteNode(TextureHolder& textureHolder)
-    : mTextureHolder(textureHolder) {}
-
 SpriteNode::SpriteNode(
     TextureHolder& textureHolder, Textures::ID textureID,
     sf::IntRect textureRect

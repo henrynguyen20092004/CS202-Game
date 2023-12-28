@@ -38,7 +38,7 @@ bool World::isPlayerAlive() const { return mPlayer->isAlive(); }
 
 void World::buildScene() {
     for (int i = 0; i < LayerCount; ++i) {
-        SceneNode::Ptr layer(new SceneNode());
+        SceneNode::Ptr layer(new SceneNode);
         mSceneLayers[i] = layer.get();
         mSceneGraph.attachChild(std::move(layer));
     }

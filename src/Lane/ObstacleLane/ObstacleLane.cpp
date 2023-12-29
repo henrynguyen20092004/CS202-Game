@@ -16,5 +16,5 @@ void ObstacleLane::buildScene(bool isEmpty) {
 
     ObstacleFactory::Ptr factory(new ObstacleFactory(mTextureHolder, isEmpty));
     mObstacleFactory = factory.get();
-    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
+    mSceneLayers[FactoryLayer]->attachChild(std::move(factory));
 }

@@ -16,6 +16,7 @@ class VehicleLane : public Lane {
     TrafficLight* mTrafficLight;
 
     void buildScene();
+
     void updateCurrent(sf::Time deltaTime) override;
 };
 

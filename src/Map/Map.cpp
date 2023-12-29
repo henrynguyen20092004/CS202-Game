@@ -2,6 +2,7 @@
 
 #include "../Global/Global.hpp"
 #include "../Lane/ObstacleLane/ObstacleLane.hpp"
+#include "../Lane/River/River.hpp"
 #include "../Lane/TrainLane/TrainLane.hpp"
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Random/Random.hpp"
@@ -49,6 +50,9 @@ Lane* Map::makeLane(Textures::ID textureID, sf::Vector2f position) {
         case Textures::ID::ObstacleLane:
             return new ObstacleLane(mTextureHolder, position);
 
+        case Textures::ID::River:
+            return new River(mTextureHolder, position);
+
         default:
             return nullptr;
     }
@@ -58,7 +62,7 @@ void Map::addRandomLane() {
     Lane::Ptr lane(makeLane(
         Random<Textures::ID>::generate(
             {Textures::ID::VehicleLane, Textures::ID::TrainLane,
-             Textures::ID::ObstacleLane}
+             Textures::ID::ObstacleLane, Textures::ID::River}
         ),
         sf::Vector2f(
             0, (mLanes.empty() ? Global::WINDOW_HEIGHT

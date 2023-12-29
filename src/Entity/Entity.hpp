@@ -1,24 +1,20 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-#include "../SpriteNode/SpriteNode.hpp"
+#include "../MovableSpriteNode/MovableSpriteNode.hpp"
 
 class Player;
 
-class Entity : public SpriteNode {
+class Entity : public MovableSpriteNode {
    public:
     typedef std::unique_ptr<Entity> Ptr;
 
-    using SpriteNode::SpriteNode;
+    using MovableSpriteNode::MovableSpriteNode;
 
     sf::FloatRect getLocalHitbox() const;
     sf::FloatRect getGlobalHitbox() const;
-    sf::Vector2f getVelocity() const;
 
     void setHitbox(const sf::FloatRect& hitbox);
-    void setVelocity(const sf::Vector2f& velocity);
-
-    void accelerate(const sf::Vector2f& velocity);
 
     bool collidePlayer(const Player& player) const;
     virtual void handlePlayerCollision(Player& player);
@@ -32,7 +28,6 @@ class Entity : public SpriteNode {
 
    private:
     sf::FloatRect mHitbox;
-    sf::Vector2f mVelocity;
 };
 
 #endif

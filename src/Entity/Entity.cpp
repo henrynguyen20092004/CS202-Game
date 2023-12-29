@@ -8,13 +8,7 @@ sf::FloatRect Entity::getGlobalHitbox() const {
     return getWorldTransform().transformRect(mHitbox);
 }
 
-sf::Vector2f Entity::getVelocity() const { return mVelocity; }
-
 void Entity::setHitbox(const sf::FloatRect& hitbox) { mHitbox = hitbox; }
-
-void Entity::setVelocity(const sf::Vector2f& velocity) { mVelocity = velocity; }
-
-void Entity::accelerate(const sf::Vector2f& velocity) { mVelocity += velocity; }
 
 bool Entity::collidePlayer(const Player& player) const {
     return getGlobalHitbox().intersects(player.getGlobalHitbox());

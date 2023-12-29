@@ -16,7 +16,7 @@ void VehicleLane::buildScene() {
 
     VehicleFactory::Ptr factory(new VehicleFactory(mTextureHolder));
     mVehicleFactory = factory.get();
-    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
+    mSceneLayers[FactoryLayer]->attachChild(std::move(factory));
 
     TrafficLight::Ptr trafficLight(
         new TrafficLight(mTextureHolder, mVehicleFactory->getDirection())

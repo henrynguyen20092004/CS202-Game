@@ -16,5 +16,5 @@ void TrainLane::buildScene() {
 
     TrainFactory::Ptr factory(new TrainFactory(mTextureHolder));
     mTrainFactory = factory.get();
-    mSceneLayers[ObjectLayer]->attachChild(std::move(factory));
+    mSceneLayers[FactoryLayer]->attachChild(std::move(factory));
 }

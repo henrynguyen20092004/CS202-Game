@@ -4,6 +4,7 @@
 #include <array>
 
 #include "../Factory/Factory.hpp"
+#include "../Tile/Tile.hpp"
 
 class Lane : public SceneNode {
    public:
@@ -11,20 +12,21 @@ class Lane : public SceneNode {
 
     Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
-    virtual void handlePlayerCollision(Player& player) = 0;
+    virtual void handlePlayerCollision(Player& player);
 
    protected:
     TextureHolder& mTextureHolder;
 
     enum Layer {
         LaneLayer,
+        FactoryLayer,
         TileLayer,
-        ObjectLayer,
         TrafficLightLayer,
         LayerCount,
     };
 
     std::array<SceneNode*, LayerCount> mSceneLayers;
+    std::vector<Tile*> mLaneTiles, mLogTiles;
 
     void buildScene(Textures::ID textureID);
 };

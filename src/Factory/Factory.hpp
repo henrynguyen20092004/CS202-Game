@@ -7,7 +7,7 @@ class Factory : public SceneNode {
    public:
     typedef std::unique_ptr<Factory> Ptr;
 
-    virtual void handlePlayerCollision(Player& player) = 0;
+    virtual void handlePlayerCollision(Player& player);
 
    protected:
     TextureHolder& mTextureHolder;

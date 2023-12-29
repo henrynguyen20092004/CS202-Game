@@ -5,11 +5,8 @@
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
-<<<<<<< HEAD
 #include "../State/SettingsState/SettingsState.hpp"
-=======
 #include "../State/TitleState/TitleState.hpp"
->>>>>>> 4708950 (Create Title State)
 
 Program::Program()
     : mWindow(

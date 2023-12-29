@@ -15,3 +15,7 @@ bool GUI::Component::isActive() const { return mIsActive; }
 void GUI::Component::activate() { mIsActive = true; }
 
 void GUI::Component::deactivate() { mIsActive = false; }
+
+sf::FloatRect GUI::Component::getGlobalBounds() const {
+    return sf::FloatRect();
+}

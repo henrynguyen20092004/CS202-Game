@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "../PlayerSettings/PlayerSettings.hpp"
+#include "../PowerUpSettings/PowerUpSettings.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
 
 class StateStack;
@@ -14,12 +16,16 @@ class State {
     struct Context {
         Context(
             sf::RenderWindow& window, TextureHolder& textureHolder,
-            FontHolder& fontHolder
+            FontHolder& fontHolder, PlayerSettings& playerSettings,
+            PowerUpSettings& powerUpSettings
         );
 
         sf::RenderWindow* window;
         TextureHolder* textureHolder;
         FontHolder* fontHolder;
+
+        PlayerSettings* playerSettings;
+        PowerUpSettings* powerUpSettings;
     };
 
     State(StateStack& stack, Context context);

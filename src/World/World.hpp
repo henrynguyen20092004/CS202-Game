@@ -5,13 +5,11 @@
 
 #include "../Map/Map.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
+#include "../State/State.hpp"
 
 class World : private sf::NonCopyable {
    public:
-    World(
-        sf::RenderWindow& window, TextureHolder& textureHolder,
-        FontHolder& fontHolder
-    );
+    World(State::Context context);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
@@ -23,16 +21,14 @@ class World : private sf::NonCopyable {
     enum Layer { MapLayer, PlayerLayer, IconLayer, LayerCount };
 
     sf::RenderWindow& mWindow;
-    sf::View mWorldView;
     TextureHolder& mTextureHolder;
     FontHolder& mFontHolder;
+    PlayerSettings& mPlayerSettings;
+    PowerUpSettings& mPowerUpSettings;
 
+    sf::View mWorldView;
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
-
-    // TODO: Create SettingsState and move these there
-    PlayerSettings mPlayerSettings;
-    PowerUpSettings mPowerUpSettings;
 
     Map* mMap;
     Player* mPlayer;

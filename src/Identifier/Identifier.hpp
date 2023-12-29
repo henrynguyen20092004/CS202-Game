@@ -8,8 +8,17 @@ enum class ID {
     Game,
     Loading,
     Pause,
-    Setting,
     GameOver,
+    Settings,
+    None,
+};
+}
+
+namespace TrafficLightStates {
+enum class ID {
+    Red,
+    Yellow,
+    Green,
     None,
 };
 }
@@ -20,6 +29,7 @@ enum class ID {
     Down,
     Left,
     Right,
+    DirectionCount,
     None,
 };
 }

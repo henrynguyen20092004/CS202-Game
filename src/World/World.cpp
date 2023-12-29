@@ -5,14 +5,13 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
-World::World(
-    sf::RenderWindow& window, TextureHolder& textureHolder,
-    FontHolder& fontHolder
-)
-    : mWindow(window),
-      mWorldView(window.getView()),
-      mTextureHolder(textureHolder),
-      mFontHolder(fontHolder) {
+World::World(State::Context context)
+    : mWindow(*context.window),
+      mTextureHolder(*context.textureHolder),
+      mFontHolder(*context.fontHolder),
+      mPlayerSettings(*context.playerSettings),
+      mPowerUpSettings(*context.powerUpSettings),
+      mWorldView(mWindow.getView()) {
     buildScene();
 }
 

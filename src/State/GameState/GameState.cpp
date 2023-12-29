@@ -3,8 +3,7 @@
 #include "../PauseState/PauseState.hpp"
 
 GameState::GameState(StateStack& stack, Context context)
-    : State(stack, context),
-      mWorld(*context.window, *context.textureHolder, *context.fontHolder) {}
+    : State(stack, context), mWorld(context) {}
 
 bool GameState::handleEvent(const sf::Event& event) {
     mWorld.handleEvent(event);
@@ -22,6 +21,7 @@ bool GameState::update(sf::Time deltaTime) {
     if (!mWorld.isPlayerAlive()) {
         requestStackPush(States::ID::GameOver);
     }
+
     return true;
 }
 

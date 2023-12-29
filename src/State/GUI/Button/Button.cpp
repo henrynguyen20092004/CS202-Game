@@ -22,6 +22,11 @@ void Button::setCallback(const Callback& callback) {
     mCallback = std::move(callback);
 }
 
+void Button::setText(const std::string& text) {
+    mText.setString(text);
+    centerOrigin(mText);
+}
+
 void Button::setToggle(bool flag) { mIsToggle = flag; }
 
 bool Button::isSelectable() const { return true; }
@@ -38,13 +43,14 @@ void Button::deselect() {
 
 void Button::activate() {
     Component::activate();
-    mCallback();
 
     if (mIsToggle) {
         mSprite.setTexture(mPressedTexture);
     } else {
         deactivate();
     }
+
+    if (mCallback) mCallback();
 }
 
 void Button::deactivate() {
@@ -55,7 +61,17 @@ void Button::deactivate() {
     }
 }
 
-void Button::handleEvent(const sf::Event&) {}
+void Button::handleMouseEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
+
+void Button::handleEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {}
+
+sf::FloatRect Button::getGlobalBounds() const {
+    return getTransform().transformRect(mSprite.getGlobalBounds());
+}
 
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();

@@ -6,11 +6,12 @@
 
 class PowerUp : public SceneNode {
    public:
-    enum class Type {
-        None,
+    enum Type {
         Immortality,
-        Regenerate,
         SlowTime,
+        TypeButtonCount,
+        Regenerate,
+        None,
     };
 
     typedef std::unique_ptr<PowerUp> Ptr;

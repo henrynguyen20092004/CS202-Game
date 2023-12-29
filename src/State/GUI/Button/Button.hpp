@@ -19,6 +19,7 @@ class Button : public Component {
     );
 
     void setCallback(const Callback& callback);
+    void setText(const std::string& text);
     void setToggle(bool flag);
 
     virtual bool isSelectable() const override;
@@ -28,7 +29,14 @@ class Button : public Component {
     virtual void activate() override;
     virtual void deactivate() override;
 
-    virtual void handleEvent(const sf::Event& event) override;
+    virtual void handleMouseEvent(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) override;
+    virtual void handleEvent(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) override;
+
+    sf::FloatRect getGlobalBounds() const override;
 
    private:
     const sf::Texture& mNormalTexture;

@@ -1,8 +1,10 @@
 #include "Container.hpp"
 
-GUI::Container::Container() : mSelectedChild(-1) {}
+namespace GUI {
 
-void GUI::Container::addComponent(Component::Ptr component) {
+Container::Container() : mSelectedChild(-1) {}
+
+void Container::addComponent(Component::Ptr component) {
     mChildren.push_back(component);
 
     if (!hasSelection() && component->isSelectable()) {
@@ -10,12 +12,52 @@ void GUI::Container::addComponent(Component::Ptr component) {
     }
 }
 
-bool GUI::Container::isSelectable() const { return false; }
+bool Container::isSelectable() const { return false; }
 
-void GUI::Container::handleEvent(const sf::Event& event) {
+void Container::handleMouseEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {
+    if (event.type == sf::Event::MouseMoved) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+        for (int i = 0; i < mChildren.size(); i++) {
+            if (!mChildren[i]->isSelectable()) {
+                continue;
+            }
+
+            sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+
+            if (bounds.contains(mousePosition.x, mousePosition.y)) {
+                select(i);
+            }
+        }
+    } else if (event.type == sf::Event::MouseButtonPressed) {
+        if (!hasSelection()) {
+            return;
+        }
+
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+        for (int i = 0; i < mChildren.size(); i++) {
+            sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+            if (bounds.contains(mousePosition.x, mousePosition.y)) {
+                if (!mChildren[i]->isSelectable()) {
+                    continue;
+                }
+
+                mChildren[mSelectedChild]->deactivate();
+                mChildren[i]->activate();
+            }
+        }
+    }
+}
+
+void Container::handleEvent(
+    const sf::Event& event, const sf::RenderWindow& window
+) {
     if (hasSelection() && mChildren[mSelectedChild]->isActive()) {
-        mChildren[mSelectedChild]->handleEvent(event);
-    } else if (event.type == sf::Event::KeyReleased) {
+        mChildren[mSelectedChild]->handleEvent(event, window);
+    } else if (event.type == sf::Event::KeyPressed) {
         switch (event.key.code) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
@@ -35,11 +77,12 @@ void GUI::Container::handleEvent(const sf::Event& event) {
 
                 break;
         }
+    } else {
+        handleMouseEvent(event, window);
     }
 }
 
-void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states)
-    const {
+void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
 
     for (const Component::Ptr& child : mChildren) {
@@ -47,9 +90,9 @@ void GUI::Container::draw(sf::RenderTarget& target, sf::RenderStates states)
     }
 }
 
-bool GUI::Container::hasSelection() const { return mSelectedChild >= 0; }
+bool Container::hasSelection() const { return mSelectedChild >= 0; }
 
-void GUI::Container::select(int index) {
+void Container::select(int index) {
     if (mChildren[index]->isSelectable()) {
         if (hasSelection()) {
             mChildren[mSelectedChild]->deselect();
@@ -60,7 +103,7 @@ void GUI::Container::select(int index) {
     }
 }
 
-void GUI::Container::selectNext() {
+void Container::selectNext() {
     if (!hasSelection()) {
         return;
     }
@@ -74,7 +117,7 @@ void GUI::Container::selectNext() {
     select(next);
 }
 
-void GUI::Container::selectPrevious() {
+void Container::selectPrevious() {
     if (!hasSelection()) {
         return;
     }
@@ -87,3 +130,5 @@ void GUI::Container::selectPrevious() {
 
     select(prev);
 }
+
+}  // namespace GUI

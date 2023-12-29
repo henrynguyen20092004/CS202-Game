@@ -23,7 +23,9 @@ PowerUp::Type PowerUpSettings::getPowerUpType(sf::Keyboard::Key key) const {
 
 sf::Keyboard::Key PowerUpSettings::getAssignedKey(PowerUp::Type type) const {
     for (auto pair : mKeyBinding) {
-        if (pair.second == type) return pair.first;
+        if (pair.second == type) {
+            return pair.first;
+        }
     }
 
     return sf::Keyboard::Unknown;

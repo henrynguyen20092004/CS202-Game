@@ -5,14 +5,18 @@
 #include "../Component/Component.hpp"
 
 namespace GUI {
+
 class Label : public Component {
    public:
     typedef std::shared_ptr<Label> Ptr;
 
     Label(const std::string& text, const FontHolder& fonts);
+
     bool isSelectable() const override;
+
     void setText(const std::string& text);
     void setTextColor(const sf::Color& color);
+
     void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
@@ -22,10 +26,11 @@ class Label : public Component {
     sf::FloatRect getGlobalBounds() const override;
 
    private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
     sf::Text mText;
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
+
 }  // namespace GUI
 
 #endif

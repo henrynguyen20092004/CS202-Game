@@ -26,7 +26,9 @@ Directions::ID PlayerSettings::getDirection(sf::Keyboard::Key key) const {
 sf::Keyboard::Key PlayerSettings::getAssignedKey(Directions::ID direction
 ) const {
     for (auto pair : mKeyBinding) {
-        if (pair.second == direction) return pair.first;
+        if (pair.second == direction) {
+            return pair.first;
+        }
     }
 
     return sf::Keyboard::Unknown;

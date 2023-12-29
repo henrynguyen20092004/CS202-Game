@@ -32,7 +32,9 @@ class Button : public Component {
     virtual void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
-    virtual void handleEvent(const sf::Event& event,const sf::RenderWindow& window) override;
+    virtual void handleEvent(
+        const sf::Event& event, const sf::RenderWindow& window
+    ) override;
 
     sf::FloatRect getGlobalBounds() const override;
 

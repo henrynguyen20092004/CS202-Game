@@ -21,15 +21,14 @@ class World : private sf::NonCopyable {
     enum Layer { MapLayer, PlayerLayer, IconLayer, LayerCount };
 
     sf::RenderWindow& mWindow;
-    sf::View mWorldView;
     TextureHolder& mTextureHolder;
     FontHolder& mFontHolder;
-
-    SceneNode mSceneGraph;
-    std::array<SceneNode*, LayerCount> mSceneLayers;
-
     PlayerSettings& mPlayerSettings;
     PowerUpSettings& mPowerUpSettings;
+
+    sf::View mWorldView;
+    SceneNode mSceneGraph;
+    std::array<SceneNode*, LayerCount> mSceneLayers;
 
     Map* mMap;
     Player* mPlayer;

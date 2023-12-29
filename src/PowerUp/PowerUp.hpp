@@ -6,11 +6,10 @@
 
 class PowerUp : public SceneNode {
    public:
-    enum class Type {
+    enum Type {
         Immortality,
         SlowTime,
         TypeButtonCount,
-        Heal,
         Regenerate,
         None,
     };

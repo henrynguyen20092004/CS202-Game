@@ -7,11 +7,11 @@
 
 World::World(State::Context context)
     : mWindow(*context.window),
-      mWorldView(mWindow.getView()),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
       mPlayerSettings(*context.playerSettings),
-      mPowerUpSettings(*context.powerUpSettings) {
+      mPowerUpSettings(*context.powerUpSettings),
+      mWorldView(mWindow.getView()) {
     buildScene();
 }
 

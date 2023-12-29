@@ -21,8 +21,12 @@ void Container::handleMouseEvent(
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
         for (int i = 0; i < mChildren.size(); i++) {
-            if (!mChildren[i]->isSelectable()) continue;
+            if (!mChildren[i]->isSelectable()) {
+                continue;
+            }
+
             sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+
             if (bounds.contains(mousePosition.x, mousePosition.y)) {
                 select(i);
             }
@@ -31,11 +35,16 @@ void Container::handleMouseEvent(
         if (!hasSelection()) {
             return;
         }
+
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
         for (int i = 0; i < mChildren.size(); i++) {
             sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
             if (bounds.contains(mousePosition.x, mousePosition.y)) {
-                if (!mChildren[i]->isSelectable()) continue;
+                if (!mChildren[i]->isSelectable()) {
+                    continue;
+                }
+
                 mChildren[mSelectedChild]->deactivate();
                 mChildren[i]->activate();
             }
@@ -65,6 +74,7 @@ void Container::handleEvent(
                 if (hasSelection()) {
                     mChildren[mSelectedChild]->activate();
                 }
+
                 break;
         }
     } else {

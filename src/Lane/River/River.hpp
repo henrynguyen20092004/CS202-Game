@@ -11,8 +11,8 @@ class River : public Lane {
    private:
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
-    int mTileToNextSpawn;
     std::deque<Log*> mLogs;
+    std::deque<int> mTileToNextSpawns;
 
     void buildScene();
 

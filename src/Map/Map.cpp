@@ -8,10 +8,15 @@
 #include "../Random/Random.hpp"
 
 Map::Map(TextureHolder& textureHolder, sf::View& worldView, Player* player)
-    : mTextureHolder(textureHolder), mWorldView(worldView), mPlayer(player) {
+    : mTextureHolder(textureHolder),
+      mWorldView(worldView),
+      mPlayer(player),
+      mIsPlayerMoved(false) {
     initLanes();
     initPlayer();
 }
+
+bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
 
 void Map::handlePlayerCollision() {
     for (Lane* lane : mLanes) {
@@ -62,7 +67,8 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
                             : Directions::ID::None
                     );  // Good luck understanding this
 
-        if (playerNextTile != nullptr) {
+        if (playerNextTile != nullptr &&
+            mPlayer->getSourceTile()->distanceTo(playerNextTile) <= 101.f) {
             break;
         }
     }
@@ -81,21 +87,6 @@ void Map::movePlayerTile(Tile* destinationTile) {
     }
 
     mPlayer->setTargetTile(destinationTile);
-}
-
-void Map::addEmptyLane() {
-    Lane::Ptr lane(new ObstacleLane(
-        mTextureHolder,
-        sf::Vector2f(
-            0, (mLanes.empty() ? Global::WINDOW_HEIGHT
-                               : mLanes.front()->getPosition().y) -
-                   Global::TILE_SIZE
-        ),
-        true
-    ));
-
-    mLanes.push_front(lane.get());
-    attachChild(std::move(lane));
 }
 
 Lane* Map::makeLane(Textures::ID textureID, sf::Vector2f position) {
@@ -118,7 +109,7 @@ Lane* Map::makeLane(Textures::ID textureID, sf::Vector2f position) {
 }
 
 void Map::initLanes() {
-    for (int i = 0; i < Global::NUM_TILES_Y; ++i) {
+    for (int i = -1; i < Global::NUM_TILES_Y; ++i) {
         if (i <= 2) {
             addEmptyLane();
         } else {
@@ -127,11 +118,26 @@ void Map::initLanes() {
     }
 }
 
+void Map::addEmptyLane() {
+    Lane::Ptr lane(new ObstacleLane(
+        mTextureHolder,
+        sf::Vector2f(
+            0, (mLanes.empty() ? Global::WINDOW_HEIGHT + Global::TILE_SIZE
+                               : mLanes.front()->getPosition().y) -
+                   Global::TILE_SIZE
+        ),
+        true
+    ));
+
+    mLanes.push_front(lane.get());
+    attachChild(std::move(lane));
+}
+
 void Map::addRandomLane() {
     Lane::Ptr lane(makeLane(
         Random<Textures::ID>::generate(
             {Textures::ID::VehicleLane, Textures::ID::TrainLane,
-             Textures::ID::ObstacleLane}
+             Textures::ID::ObstacleLane, Textures::ID::River}
         ),
         sf::Vector2f(
             0, (mLanes.empty() ? Global::WINDOW_HEIGHT
@@ -168,6 +174,7 @@ void Map::updatePlayer() {
         return;
     }
 
+    mIsPlayerMoved = true;
     movePlayerTile(getPlayerNextTile(direction));
     mPlayer->unsetDirection();
 }

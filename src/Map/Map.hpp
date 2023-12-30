@@ -12,6 +12,8 @@ class Map : public SceneNode {
 
     Map(TextureHolder& textureHolder, sf::View& worldView, Player* player);
 
+    bool isPlayerMoved() const;
+
     void handlePlayerCollision();
 
    private:
@@ -19,6 +21,7 @@ class Map : public SceneNode {
     sf::View& mWorldView;
     std::deque<Lane*> mLanes;
     Player* mPlayer;
+    bool mIsPlayerMoved;
 
     void initPlayer();
     int getPlayerLaneIndex() const;

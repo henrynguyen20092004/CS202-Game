@@ -1,0 +1,13 @@
+#ifndef SHORT_LOG_HPP
+#define SHORT_LOG_HPP
+
+#include "../Log.hpp"
+
+class ShortLog : public Log {
+   public:
+    ShortLog(TextureHolder& textureHolder, Directions::ID direction);
+
+    int getLength() const override;
+};
+
+#endif

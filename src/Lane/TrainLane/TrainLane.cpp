@@ -34,6 +34,7 @@ void TrainLane::addTrain() {
     );
     mTrain = train.get();
     mSceneLayers[ObjectLayer]->attachChild(std::move(train));
+    mSpawnClock = sf::seconds(Random<float>::generate(5.f, 10.f));
 }
 
 void TrainLane::removeTrain() {
@@ -46,7 +47,6 @@ void TrainLane::updateCurrent(sf::Time deltaTime) {
 
     if (mSpawnClock < sf::Time::Zero) {
         addTrain();
-        mSpawnClock = sf::seconds(Random<float>::generate(5.f, 10.f));
     }
 
     if (mTrain) {

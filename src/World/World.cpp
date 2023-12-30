@@ -20,9 +20,12 @@ void World::handleEvent(const sf::Event& event) {
 }
 
 void World::update(sf::Time deltaTime) {
-    mWorldView.move(
-        0.f, mScrollSpeed * Global::SPEED_MODIFIER * deltaTime.asSeconds()
-    );
+    if (mMap->isPlayerMoved()) {
+        mWorldView.move(
+            0.f, mScrollSpeed * Global::SPEED_MODIFIER * deltaTime.asSeconds()
+        );
+    }
+
     mMap->handlePlayerCollision();
     mSceneGraph.update(deltaTime);
     updateView();

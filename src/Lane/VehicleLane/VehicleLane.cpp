@@ -94,6 +94,7 @@ void VehicleLane::addVehicle() {
     );
     mVehicles.push_front(vehicle.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
+    mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
 }
 
 void VehicleLane::removeVehicle() {
@@ -123,7 +124,6 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
 
     if (mSpawnClock < sf::Time::Zero) {
         addVehicle();
-        mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
     }
 
     if (!mVehicles.empty()) {

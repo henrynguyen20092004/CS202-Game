@@ -15,11 +15,17 @@ class Tile : public SceneNode {
 
     Type getType() const;
 
+    void setDirection(Directions::ID direction);
+    void setVelocity(sf::Vector2f velocity);
+
     float distanceTo(Tile* tile) const;
 
    private:
     Type mType;
+    Directions::ID mDirection;
+    sf::Vector2f mVelocity;
 
+    virtual void updateCurrent(sf::Time deltaTime) override;
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
 };

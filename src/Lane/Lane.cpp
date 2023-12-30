@@ -63,7 +63,7 @@ void Lane::buildScene(Textures::ID textureID) {
         return;
     }
 
-    for (int i = 0; i < Global::NUM_TILES_X; ++i) {
+    for (int i = -1; i <= Global::NUM_TILES_X; ++i) {
         Tile::Ptr tile(
             new Tile(Tile::Type::Good, sf::Vector2f(i * Global::TILE_SIZE, 0.f))
         );

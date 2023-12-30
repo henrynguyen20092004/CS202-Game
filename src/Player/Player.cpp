@@ -69,6 +69,16 @@ void Player::updateCurrent(sf::Time deltaTime) {
             movement *= displacement / distance;
             move(movement);
         }
+    } else {
+        if (mSourceTile->getType() == Tile::Type::Bad) {
+            damage();
+        }
+
+        setPosition(
+            mSourceTile->getGlobalPosition() +
+            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - getSize()) /
+                2.f
+        );
     }
 }
 

@@ -34,11 +34,10 @@ class World : private sf::NonCopyable {
     Player* mPlayer;
     PowerUpList* mPowerUpList;
 
-    float mScrollSpeed = -50.f;
+    float mScrollSpeed = 0.f;
 
     void buildScene();
     void updateView();
-    void handlePlayerCollision();
 };
 
 #endif

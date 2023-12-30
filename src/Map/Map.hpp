@@ -4,26 +4,36 @@
 #include <queue>
 
 #include "../Lane/Lane.hpp"
+#include "../Player/Player.hpp"
 
 class Map : public SceneNode {
    public:
     typedef std::unique_ptr<Map> Ptr;
 
-    Map(TextureHolder& textureHolder, sf::View& worldView);
+    Map(TextureHolder& textureHolder, sf::View& worldView, Player* player);
 
-    void handlePlayerCollision(Player& player);
+    void handlePlayerCollision();
 
    private:
     TextureHolder& mTextureHolder;
     sf::View& mWorldView;
     std::deque<Lane*> mLanes;
+    Player* mPlayer;
+
+    void initPlayer();
+    int getPlayerLaneIndex() const;
+    Tile* getPlayerNextTile(Directions::ID direction) const;
+    void movePlayerTile(Tile* destinationTile);
 
     Lane* makeLane(Textures::ID textureID, sf::Vector2f position);
 
+    void initLanes();
     void addEmptyLane();
     void addRandomLane();
     void removeLane();
 
+    void updateLanes();
+    void updatePlayer();
     void updateCurrent(sf::Time deltaTime) override;
 };
 

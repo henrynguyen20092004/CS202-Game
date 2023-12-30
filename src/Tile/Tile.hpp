@@ -15,7 +15,7 @@ class Tile : public SceneNode {
 
     Type getType() const;
 
-    float distanceTo(const Tile& other) const;
+    float distanceTo(Tile* tile) const;
 
    private:
     Type mType;

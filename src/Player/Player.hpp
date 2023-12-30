@@ -3,6 +3,7 @@
 
 #include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
+#include "../Tile/Tile.hpp"
 
 class Player : public Entity {
    public:
@@ -13,6 +14,14 @@ class Player : public Entity {
         PlayerSettings& playerSettings
     );
 
+    Directions::ID getDirection() const;
+    Tile* getSourceTile() const;
+    Tile* getTargetTile() const;
+
+    void unsetDirection();
+    void setTargetTile(Tile* targetTile);
+
+    void kill();
     void damage();
     void heal();
     void remainPosition();
@@ -22,16 +31,13 @@ class Player : public Entity {
    private:
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
-    std::map<Directions::ID, sf::Vector2f> mTargetDistance;
 
     Directions::ID mDirection;
-    sf::Vector2f mTargetPosition;
+    Tile* mSourceTile;
+    Tile* mTargetTile;
     bool mIsMoving;
 
     int mHealth = 1;
-
-    void initPosition(const sf::Vector2f& viewCenter);
-    void initTargetDistance();
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

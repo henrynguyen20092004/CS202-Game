@@ -23,9 +23,9 @@ void World::update(sf::Time deltaTime) {
     mWorldView.move(
         0.f, mScrollSpeed * Global::SPEED_MODIFIER * deltaTime.asSeconds()
     );
-    updateView();
-    handlePlayerCollision();
+    mMap->handlePlayerCollision();
     mSceneGraph.update(deltaTime);
+    updateView();
 }
 
 void World::draw() {
@@ -42,13 +42,13 @@ void World::buildScene() {
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    Map::Ptr map(new Map(mTextureHolder, mWorldView));
-    mMap = map.get();
-    mSceneLayers[MapLayer]->attachChild(std::move(map));
-
     Player::Ptr player(new Player(mTextureHolder, mWorldView, mPlayerSettings));
     mPlayer = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
+
+    Map::Ptr map(new Map(mTextureHolder, mWorldView, mPlayer));
+    mMap = map.get();
+    mSceneLayers[MapLayer]->attachChild(std::move(map));
 
     PowerUpList::Ptr powerUpList(new PowerUpList(
         mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, *mPlayer
@@ -72,11 +72,15 @@ void World::buildScene() {
 }
 
 void World::updateView() {
-    float viewY = mWorldView.getCenter().y, playerY = mPlayer->getPosition().y;
+    float viewY = mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
+          playerY = mPlayer->getGlobalPosition().y -
+                    (Global::TILE_SIZE - mPlayer->getSize().y) / 2.f;
 
-    if (playerY < viewY) {
-        mWorldView.setCenter(mWorldView.getCenter().x, playerY);
+    if (playerY - Global::NUM_TILES_Y / 2 * Global::TILE_SIZE < viewY) {
+        mWorldView.setCenter(
+            mWorldView.getCenter().x,
+            playerY - Global::NUM_TILES_Y / 2 * Global::TILE_SIZE +
+                mWorldView.getSize().y / 2.f
+        );
     }
 }
-
-void World::handlePlayerCollision() { mMap->handlePlayerCollision(*mPlayer); }

@@ -1,16 +1,16 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
-#include "../Entity/Entity.hpp"
+#include "../MovableSpriteNode/MovableSpriteNode.hpp"
 
-class Log : public Entity {
+class Log : public MovableSpriteNode {
    public:
     typedef std::unique_ptr<Log> Ptr;
 
     Directions::ID getDirection() const;
-    void setDirection(Directions::ID direction);
+    virtual int getLength() const = 0;
 
-    virtual void handlePlayerCollision(Player& player) override;
+    void setDirection(Directions::ID direction);
 
    protected:
     Log(TextureHolder& textureHolder, Textures::ID textureID,

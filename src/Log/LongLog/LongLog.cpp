@@ -5,6 +5,6 @@ LongLog::LongLog(TextureHolder& textureHolder, Directions::ID direction)
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }
-
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
 }
+
+int LongLog::getLength() const { return 3; }

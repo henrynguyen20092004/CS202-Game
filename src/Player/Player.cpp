@@ -14,39 +14,31 @@ Player::Player(
       mDirection(Directions::ID::None),
       mIsMoving(false) {
     setHitbox(getLocalBounds());  // TODO: set hitbox properly
-    initPosition(worldView.getCenter());
-    initTargetDistance();
     setVelocity(sf::Vector2f(500.f, 500.f));
 }
+
+Directions::ID Player::getDirection() const { return mDirection; }
+
+Tile* Player::getSourceTile() const { return mSourceTile; }
+
+Tile* Player::getTargetTile() const { return mTargetTile; }
+
+void Player::unsetDirection() { mDirection = Directions::ID::None; }
+
+void Player::setTargetTile(Tile* targetTile) {
+    mTargetTile = targetTile;
+    mIsMoving = true;
+}
+
+void Player::kill() { mHealth = 0; }
 
 void Player::damage() { --mHealth; }
 
 void Player::heal() { ++mHealth; }
 
-void Player::remainPosition() {
-    mDirection = static_cast<Directions::ID>(static_cast<int>(mDirection) ^ 1);
-    mTargetPosition += mTargetDistance[mDirection];
-}
+void Player::remainPosition() { std::swap(mSourceTile, mTargetTile); }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
-
-void Player::initPosition(const sf::Vector2f& viewCenter) {
-    sf::Vector2f spawnOffset(
-        (Global::TILE_SIZE - getLocalBounds().width) / 2.f,
-        Global::TILE_SIZE * 2.5f
-    );
-    setPosition(viewCenter + spawnOffset);
-}
-
-void Player::initTargetDistance() {
-    mTargetDistance[Directions::ID::Up] = sf::Vector2f(0.f, -Global::TILE_SIZE);
-    mTargetDistance[Directions::ID::Down] =
-        sf::Vector2f(0.f, Global::TILE_SIZE);
-    mTargetDistance[Directions::ID::Left] =
-        sf::Vector2f(-Global::TILE_SIZE, 0.f);
-    mTargetDistance[Directions::ID::Right] =
-        sf::Vector2f(Global::TILE_SIZE, 0.f);
-}
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
@@ -54,23 +46,24 @@ void Player::handleEventCurrent(const sf::Event& event) {
 
         if (!mIsMoving && direction != Directions::ID::None) {
             mDirection = direction;
-            mTargetPosition = getPosition() + mTargetDistance[direction];
-            mIsMoving = true;
         }
     }
 }
 
 void Player::updateCurrent(sf::Time deltaTime) {
     if (mIsMoving) {
-        sf::Vector2f movement = mTargetPosition - getPosition();
+        sf::Vector2f targetPosition =
+            mTargetTile->getGlobalPosition() +
+            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - getSize()) /
+                2.f;
+        sf::Vector2f movement = targetPosition - getGlobalPosition();
         float distance = std::hypotf(movement.x, movement.y);
-        float displacement =
-            ((static_cast<int>(mDirection) < 2) ? getVelocity().x
-                                                : getVelocity().y) *
-            deltaTime.asSeconds();
+        float displacement = getVelocity().x * deltaTime.asSeconds();
 
         if (distance <= displacement) {
-            setPosition(mTargetPosition);
+            setPosition(targetPosition);
+            mSourceTile = mTargetTile;
+            mTargetTile = nullptr;
             mIsMoving = false;
         } else {
             movement *= displacement / distance;

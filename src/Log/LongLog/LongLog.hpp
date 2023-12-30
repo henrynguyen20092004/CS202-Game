@@ -6,6 +6,8 @@
 class LongLog : public Log {
    public:
     LongLog(TextureHolder& textureHolder, Directions::ID direction);
+
+    int getLength() const override;
 };
 
 #endif

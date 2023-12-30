@@ -2,8 +2,9 @@
 #define LANE_HPP
 
 #include <array>
+#include <queue>
 
-#include "../Factory/Factory.hpp"
+#include "../ResourceHolder/ResourceHolder.hpp"
 #include "../Tile/Tile.hpp"
 
 class Lane : public SceneNode {
@@ -12,6 +13,10 @@ class Lane : public SceneNode {
 
     Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
 
+    Tile* getTile(int index) const;
+    Tile* getNearestTile(Tile* tile, Tile::Type type, Directions::ID direction)
+        const;
+
     virtual void handlePlayerCollision(Player& player);
 
    protected:
@@ -19,14 +24,14 @@ class Lane : public SceneNode {
 
     enum Layer {
         LaneLayer,
-        FactoryLayer,
-        TileLayer,
+        ObjectLayer,
         TrafficLightLayer,
+        TileLayer,
         LayerCount,
     };
 
     std::array<SceneNode*, LayerCount> mSceneLayers;
-    std::vector<Tile*> mLaneTiles, mLogTiles;
+    std::deque<Tile*> mLaneTiles;
 
     void buildScene(Textures::ID textureID);
 };

@@ -169,6 +169,10 @@ void Map::updateLanes() {
 }
 
 void Map::updatePlayer() {
+    if (!mPlayer->askToMove()) {
+        return;
+    }
+
     Directions::ID direction = mPlayer->getDirection();
     if (direction == Directions::ID::None) {
         return;
@@ -176,7 +180,6 @@ void Map::updatePlayer() {
 
     mIsPlayerMoved = true;
     movePlayerTile(getPlayerNextTile(direction));
-    mPlayer->unsetDirection();
 }
 
 void Map::updateCurrent(sf::Time deltaTime) {

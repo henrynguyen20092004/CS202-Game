@@ -6,5 +6,5 @@ Car::Car(TextureHolder& textureHolder, Directions::ID direction)
         flipHorizontally();
     }
 
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 180, 60));  // TODO: Set hitbox properly
 }

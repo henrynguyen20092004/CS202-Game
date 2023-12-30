@@ -12,9 +12,20 @@ Player::Player(
       mWorldView(worldView),
       mPlayerSettings(playerSettings),
       mDirection(Directions::ID::None),
-      mIsMoving(false) {
-    setHitbox(getLocalBounds());  // TODO: set hitbox properly
+      mIsMoving(false),
+      mNeedToMove(false),
+      mForceGoGack(false) {
+    setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
+}
+
+bool Player::askToMove() {
+    if (mNeedToMove) {
+        mNeedToMove = false;
+        return true;
+    }
+
+    return false;
 }
 
 Directions::ID Player::getDirection() const { return mDirection; }
@@ -22,8 +33,6 @@ Directions::ID Player::getDirection() const { return mDirection; }
 Tile* Player::getSourceTile() const { return mSourceTile; }
 
 Tile* Player::getTargetTile() const { return mTargetTile; }
-
-void Player::unsetDirection() { mDirection = Directions::ID::None; }
 
 void Player::setTargetTile(Tile* targetTile) {
     mTargetTile = targetTile;
@@ -36,7 +45,14 @@ void Player::damage() { --mHealth; }
 
 void Player::heal() { ++mHealth; }
 
-void Player::remainPosition() { std::swap(mSourceTile, mTargetTile); }
+void Player::goBack() {
+    if (mForceGoGack) {
+        return;
+    }
+
+    std::swap(mSourceTile, mTargetTile);
+    mForceGoGack = true;
+}
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 
@@ -46,6 +62,7 @@ void Player::handleEventCurrent(const sf::Event& event) {
 
         if (!mIsMoving && direction != Directions::ID::None) {
             mDirection = direction;
+            mNeedToMove = true;
         }
     }
 }
@@ -58,13 +75,23 @@ void Player::updateCurrent(sf::Time deltaTime) {
                 2.f;
         sf::Vector2f movement = targetPosition - getGlobalPosition();
         float distance = std::hypotf(movement.x, movement.y);
-        float displacement = getVelocity().x * deltaTime.asSeconds();
+        float velocity = getVelocity().x;
+        if (mDirection == Directions::ID::Left ||
+            mDirection == Directions::ID::Right) {
+            velocity +=
+                (mDirection == Directions::ID::Left ? -1 : 1) *
+                (mTargetTile->getDirection() == Directions::ID::Left ? -1 : 1) *
+                mTargetTile->getVelocity().x;
+        }
+
+        float displacement = velocity * deltaTime.asSeconds();
 
         if (distance <= displacement) {
             setPosition(targetPosition);
             mSourceTile = mTargetTile;
             mTargetTile = nullptr;
             mIsMoving = false;
+            mForceGoGack = false;
         } else {
             movement *= displacement / distance;
             move(movement);
@@ -89,5 +116,5 @@ bool Player::isOutOfBounds() const {
         mWorldView.getSize().x, mWorldView.getSize().y
     );
 
-    return !viewBounds.intersects(getGlobalHitbox());
+    return !viewBounds.intersects(getGlobalBounds());
 }

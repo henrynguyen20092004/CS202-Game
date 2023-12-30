@@ -23,7 +23,7 @@ void Entity::updateCurrent(sf::Time deltaTime) {
 void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {
     SpriteNode::drawCurrent(target, states);
-    drawHitbox(target, states);
+    // drawHitbox(target, states);
 }
 
 void Entity::drawHitbox(sf::RenderTarget& target, sf::RenderStates states)

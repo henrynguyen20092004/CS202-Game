@@ -52,7 +52,7 @@ void River::init() {
     log->setPosition(position);
     mLogs.push_front(log.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(log));
-    mTileToNextSpawns.push_front(Random<int>::generate(2, 10));
+    mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
 
     for (int i = 0; i < mLogs.front()->getLength(); ++i) {
         Tile::Ptr tile(new Tile(
@@ -100,7 +100,7 @@ void River::addLog() {
     log->setPosition(position);
     mLogs.push_front(log.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(log));
-    mTileToNextSpawns.push_front(Random<int>::generate(2, 10));
+    mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
 
     for (int i = 0; i < mLogs.front()->getLength(); ++i) {
         Tile::Ptr tile(new Tile(

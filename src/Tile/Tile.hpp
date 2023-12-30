@@ -14,6 +14,8 @@ class Tile : public SceneNode {
     Tile(Type type, sf::Vector2f position);
 
     Type getType() const;
+    Directions::ID getDirection() const;
+    sf::Vector2f getVelocity() const;
 
     void setDirection(Directions::ID direction);
     void setVelocity(sf::Vector2f velocity);

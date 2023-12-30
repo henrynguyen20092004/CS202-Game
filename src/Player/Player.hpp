@@ -14,17 +14,17 @@ class Player : public Entity {
         PlayerSettings& playerSettings
     );
 
+    bool askToMove();
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
 
-    void unsetDirection();
     void setTargetTile(Tile* targetTile);
 
     void kill();
     void damage();
     void heal();
-    void remainPosition();
+    void goBack();
 
     bool isAlive() const;
 
@@ -35,7 +35,9 @@ class Player : public Entity {
     Directions::ID mDirection;
     Tile* mSourceTile;
     Tile* mTargetTile;
-    bool mIsMoving;
+    bool mNeedToMove, mIsMoving;
+
+    bool mForceGoGack;
 
     int mHealth = 1;
 

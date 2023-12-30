@@ -4,11 +4,16 @@
 
 #include "../Global/Global.hpp"
 
-Tile::Tile(Type type, sf::Vector2f position) : mType(type) {
+Tile::Tile(Type type, sf::Vector2f position)
+    : mType(type), mDirection(Directions::ID::None) {
     setPosition(position);
 }
 
 Tile::Type Tile::getType() const { return mType; }
+
+Directions::ID Tile::getDirection() const { return mDirection; }
+
+sf::Vector2f Tile::getVelocity() const { return mVelocity; }
 
 void Tile::setDirection(Directions::ID direction) { mDirection = direction; }
 
@@ -18,9 +23,8 @@ float Tile::distanceTo(Tile* tile) const {
     sf::Vector2f thisPosition = getPosition();
     sf::Vector2f tilePosition = tile->getPosition();
 
-    return std::sqrt(
-        (thisPosition.x - tilePosition.x) * (thisPosition.x - tilePosition.x) +
-        (thisPosition.y - tilePosition.y) * (thisPosition.y - tilePosition.y)
+    return std::hypotf(
+        thisPosition.x - tilePosition.x, thisPosition.y - tilePosition.y
     );
 }
 

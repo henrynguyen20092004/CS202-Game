@@ -1,6 +1,9 @@
 #include "GameOverState.hpp"
 
+#include <string>
+
 #include "../../Global/Global.hpp"
+#include "../../Score/Score.hpp"
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"
 
@@ -9,11 +12,17 @@ GameOverState::GameOverState(StateStack& stack, Context context)
       mElapsedTime(sf::Time::Zero),
       mGameOverText(
           "Game Over!", context.fontHolder->get(Fonts::ID::Dosis), 70
+      ),
+      mScoreText(
+          "Your Score:", context.fontHolder->get(Fonts::ID::Dosis), 30
       ) {
     sf::Vector2f windowSize(context.window->getSize());
-
+    // Todo: Create data table to display current score and highest score
     centerOrigin(mGameOverText);
-    mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 120.f);
+    mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 140.f);
+
+    centerOrigin(mScoreText);
+    mScoreText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Back to menu"
@@ -49,6 +58,7 @@ void GameOverState::draw() {
 
     window.draw(backgroundShape);
     window.draw(mGameOverText);
+    window.draw(mScoreText);
     window.draw(mGUIContainer);
 }
 

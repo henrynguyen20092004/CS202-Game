@@ -20,6 +20,7 @@ class Score : public SceneNode {
     float mInitialPlayerPosition, mHighestPlayerPosition;
     int mBonus = 0;
 
+    int getScore();
     void updateCurrent(sf::Time deltaTime) override;
 };
 

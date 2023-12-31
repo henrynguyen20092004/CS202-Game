@@ -16,6 +16,8 @@ Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
 
 void Score::addBonus() { ++mBonus; }
 
+int Score::getScore() { return mBonus; }
+
 void Score::updateCurrent(sf::Time deltaTime) {
     mHighestPlayerPosition =
         std::min(mPlayer.getPosition().y, mHighestPlayerPosition);

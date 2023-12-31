@@ -14,6 +14,7 @@ class GameOverState : public State {
 
    private:
     sf::Text mGameOverText;
+    sf::Text mScoreText;
     sf::Time mElapsedTime;
     GUI::Container mGUIContainer;
 };

@@ -1,8 +1,8 @@
 #ifndef VEHICLE_LANE_HPP
 #define VEHICLE_LANE_HPP
 
-#include "../../Factory/VehicleFactory/VehicleFactory.hpp"
 #include "../../TrafficLight/TrafficLight.hpp"
+#include "../../Vehicle/Vehicle.hpp"
 #include "../Lane.hpp"
 
 class VehicleLane : public Lane {
@@ -12,10 +12,22 @@ class VehicleLane : public Lane {
     void handlePlayerCollision(Player& player) override;
 
    private:
-    VehicleFactory* mVehicleFactory;
+    Textures::ID mTextureID;
+    Directions::ID mDirection;
+    sf::Vector2f mVelocity;
+    sf::Time mSpawnClock;
+    std::deque<Vehicle*> mVehicles;
+    float mVelocityPercent;
     TrafficLight* mTrafficLight;
 
     void buildScene();
+
+    void setVelocityPercent(float percent);
+    Vehicle* createVehicle();
+    void init();
+    void addVehicle();
+    void removeVehicle();
+
     void updateCurrent(sf::Time deltaTime) override;
 };
 

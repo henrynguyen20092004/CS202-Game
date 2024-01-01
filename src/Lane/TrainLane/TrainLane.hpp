@@ -1,7 +1,7 @@
 #ifndef TRAIN_LANE_HPP
 #define TRAIN_LANE_HPP
 
-#include "../../Factory/TrainFactory/TrainFactory.hpp"
+#include "../../Vehicle/Vehicle.hpp"
 #include "../Lane.hpp"
 
 class TrainLane : public Lane {
@@ -11,9 +11,17 @@ class TrainLane : public Lane {
     void handlePlayerCollision(Player& player) override;
 
    private:
-    TrainFactory* mTrainFactory;
+    Directions::ID mDirection;
+    sf::Vector2f mVelocity;
+    sf::Time mSpawnClock;
+    Vehicle* mTrain;
 
     void buildScene();
+
+    void addTrain();
+    void removeTrain();
+
+    void updateCurrent(sf::Time deltaTime) override;
 };
 
 #endif

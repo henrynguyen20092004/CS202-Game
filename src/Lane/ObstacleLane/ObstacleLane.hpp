@@ -1,7 +1,7 @@
 #ifndef OBSTACLE_LANE_HPP
 #define OBSTACLE_LANE_HPP
 
-#include "../../Factory/ObstacleFactory/ObstacleFactory.hpp"
+#include "../../Obstacle/Obstacle.hpp"
 #include "../Lane.hpp"
 
 class ObstacleLane : public Lane {
@@ -14,9 +14,12 @@ class ObstacleLane : public Lane {
     void handlePlayerCollision(Player& player) override;
 
    private:
-    ObstacleFactory* mObstacleFactory;
+    std::vector<Obstacle*> mObstacles;
 
     void buildScene(bool isEmpty);
+
+    Obstacle* createObstacle(Textures::ID textureID);
+    void init();
 };
 
 #endif

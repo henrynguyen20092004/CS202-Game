@@ -47,6 +47,10 @@ sf::Transform SceneNode::getWorldTransform() const {
     return transform;
 }
 
+sf::Vector2f SceneNode::getGlobalPosition() const {
+    return getWorldTransform().transformPoint(sf::Vector2f());
+}
+
 void SceneNode::handleEventCurrent(const sf::Event&) {}
 
 void SceneNode::handleEventChildren(const sf::Event& event) {

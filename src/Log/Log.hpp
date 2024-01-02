@@ -14,7 +14,7 @@ class Log : public MovableSpriteNode {
 
    protected:
     Log(TextureHolder& textureHolder, Textures::ID textureID,
-        Directions::ID direction);
+        sf::IntRect textureRect, Directions::ID direction);
 
    private:
     Directions::ID mDirection;

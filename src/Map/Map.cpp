@@ -155,8 +155,9 @@ void Map::removeLane() {
 }
 
 void Map::updateLanes() {
-    if (mLanes.front()->getPosition().y >
-        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f) {
+    if (mLanes.front()->getPosition().y > mWorldView.getCenter().y -
+                                              mWorldView.getSize().y / 2.f -
+                                              Global::TILE_SIZE) {
         addRandomLane();
     }
 

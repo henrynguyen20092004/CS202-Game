@@ -9,7 +9,7 @@ Player::Player(
     TextureHolder& textureHolder, sf::View& worldView,
     PlayerSettings& playerSettings
 )
-    : Entity(textureHolder, Textures::ID::Player),
+    : Entity(textureHolder, Textures::ID::Player, sf::IntRect(0, 0, 60, 60)),
       mWorldView(worldView),
       mPlayerSettings(playerSettings) {
     setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
@@ -64,6 +64,9 @@ void Player::handleEventCurrent(const sf::Event& event) {
         if (!mIsMoving && direction != Directions::ID::None) {
             mDirection = direction;
             mNeedToMove = true;
+            setTextureRect(
+                sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
+            );
         }
     }
 }

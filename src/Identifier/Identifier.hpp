@@ -55,11 +55,12 @@ enum class ID {
     Pug,
 
     Rock,
-    TrafficLight,
-
+    Tree,
+    Log,
     ShortLog,
     MediumLog,
     LongLog,
+    TrafficLight,
 
     VehicleLane,
     TrainLane,

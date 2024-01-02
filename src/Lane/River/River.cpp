@@ -19,7 +19,22 @@ River::River(TextureHolder& textureHolder, const sf::Vector2f& position)
     init();
 }
 
-void River::buildScene() { Lane::buildScene(Textures::ID::River); }
+void River::buildScene() {
+    Lane::buildScene(Textures::ID::River);
+
+    for (int i = 0; i < Global::NUM_TILES_X; ++i) {
+        SpriteNode::Ptr sprite(new SpriteNode(
+            mTextureHolder, Textures::ID::River,
+            sf::IntRect(
+                Random<int>::generate({0, 1, 2, 3}, {90, 0, 5, 5}) *
+                    Global::TILE_SIZE,
+                0, Global::TILE_SIZE, Global::TILE_SIZE
+            )
+        ));
+        sprite->setPosition(i * Global::TILE_SIZE, 0.f);
+        mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    }
+}
 
 void River::init() {
     mTileToNextSpawns.push_front(0);

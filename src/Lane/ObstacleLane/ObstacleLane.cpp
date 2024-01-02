@@ -2,6 +2,7 @@
 
 #include "../../Global/Global.hpp"
 #include "../../Obstacle/Rock/Rock.hpp"
+#include "../../Obstacle/Tree/Tree.hpp"
 #include "../../Random/Random.hpp"
 
 ObstacleLane::ObstacleLane(
@@ -20,6 +21,19 @@ void ObstacleLane::handlePlayerCollision(Player& player) {
 void ObstacleLane::buildScene(bool isEmpty) {
     Lane::buildScene(Textures::ID::ObstacleLane);
 
+    for (int i = 0; i < Global::NUM_TILES_X; ++i) {
+        SpriteNode::Ptr sprite(new SpriteNode(
+            mTextureHolder, Textures::ID::ObstacleLane,
+            sf::IntRect(
+                Random<int>::generate({0, 1, 2, 3, 4}, {70, 5, 5, 10, 10}) *
+                    Global::TILE_SIZE,
+                0, Global::TILE_SIZE, Global::TILE_SIZE
+            )
+        ));
+        sprite->setPosition(i * Global::TILE_SIZE, 0.f);
+        mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    }
+
     if (!isEmpty) {
         init();
     }
@@ -36,9 +50,9 @@ void ObstacleLane::init() {
     }
 
     for (int position : positions) {
-        Obstacle::Ptr obstacle(
-            createObstacle(Random<Textures::ID>::generate({Textures::ID::Rock}))
-        );
+        Obstacle::Ptr obstacle(createObstacle(Random<Textures::ID>::generate(
+            {Textures::ID::Rock, Textures::ID::Tree}, {50, 50}
+        )));
         obstacle->setPosition(
             position * Global::TILE_SIZE +
                 (Global::TILE_SIZE - obstacle->getSize().x) / 2.f,
@@ -53,6 +67,9 @@ Obstacle* ObstacleLane::createObstacle(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::Rock:
             return new Rock(mTextureHolder);
+
+        case Textures::ID::Tree:
+            return new Tree(mTextureHolder);
 
         default:
             return nullptr;

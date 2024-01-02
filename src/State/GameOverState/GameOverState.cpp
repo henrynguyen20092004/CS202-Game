@@ -11,18 +11,34 @@ GameOverState::GameOverState(StateStack& stack, Context context)
     : State(stack, context),
       mElapsedTime(sf::Time::Zero),
       mGameOverText(
-          "Game Over!", context.fontHolder->get(Fonts::ID::Dosis), 70
+          "Game Over!", context.fontHolder->get(Fonts::ID::VTV323), 80
       ),
-      mScoreText(
-          "Your Score:", context.fontHolder->get(Fonts::ID::Dosis), 30
+      mCurrentScoreText(
+          "Your Current Score: " + std::to_string(Global::SCORE),
+          context.fontHolder->get(Fonts::ID::VTV323), 40
+      ),
+      mHighestScoreText(
+          "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323),
+          30
       ) {
     sf::Vector2f windowSize(context.window->getSize());
-    // Todo: Create data table to display current score and highest score
+    // Todo: Create data table to display highest score
     centerOrigin(mGameOverText);
-    mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 140.f);
+    mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 160.f);
 
-    centerOrigin(mScoreText);
-    mScoreText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
+    centerOrigin(mCurrentScoreText);
+    mCurrentScoreText.setPosition(
+        windowSize.x / 2.f, windowSize.y / 2.f - 80.f
+    );
+
+    auto replayButton = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, "Replay"
+    );
+    replayButton->setPosition(windowSize.x / 2, windowSize.y / 2.f);
+    replayButton->setCallback([this]() {
+        requestStateClear();
+        requestStackPush(States::ID::Game);
+    });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Back to menu"
@@ -33,15 +49,6 @@ GameOverState::GameOverState(StateStack& stack, Context context)
     backToMenuButton->setCallback([this]() {
         requestStateClear();
         requestStackPush(States::ID::Menu);
-    });
-
-    auto replayButton = std::make_shared<GUI::Button>(
-        *context.fontHolder, *context.textureHolder, "Replay"
-    );
-    replayButton->setPosition(windowSize.x / 2, windowSize.y / 2.f);
-    replayButton->setCallback([this]() {
-        requestStateClear();
-        requestStackPush(States::ID::Game);
     });
 
     mGUIContainer.addComponent(replayButton);
@@ -58,7 +65,8 @@ void GameOverState::draw() {
 
     window.draw(backgroundShape);
     window.draw(mGameOverText);
-    window.draw(mScoreText);
+    window.draw(mCurrentScoreText);
+    window.draw(mHighestScoreText);
     window.draw(mGUIContainer);
 }
 

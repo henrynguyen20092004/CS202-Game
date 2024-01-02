@@ -6,7 +6,7 @@
 MenuState::MenuState(StateStack& stack, Context context)
     : State(stack, context),
       mTitleText(
-          "Crossy Road", context.fontHolder->get(Fonts::ID::Pacifico), 100
+          "Crossy Road", context.fontHolder->get(Fonts::ID::VTV323), 100
       ) {
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);

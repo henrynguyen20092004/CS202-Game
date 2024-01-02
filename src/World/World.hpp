@@ -7,6 +7,8 @@
 #include "../PowerUpList/PowerUpList.hpp"
 #include "../State/State.hpp"
 
+class Score;
+
 class World : private sf::NonCopyable {
    public:
     World(State::Context context);
@@ -33,6 +35,8 @@ class World : private sf::NonCopyable {
     Player* mPlayer;
     Map* mMap;
     PowerUpList* mPowerUpList;
+
+    Score* mScore;
 
     const float mScrollSpeed = -50.f;
 

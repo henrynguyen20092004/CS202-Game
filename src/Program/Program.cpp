@@ -108,6 +108,7 @@ void Program::loadTextures() {
 void Program::loadFonts() {
     mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
     mFontHolder.load(Fonts::ID::Pacifico, "assets/Fonts/Pacifico-Regular.ttf");
+    mFontHolder.load(Fonts::ID::VTV323, "assets/Fonts/VT323-Regular.ttf");
 }
 
 void Program::registerStates() {

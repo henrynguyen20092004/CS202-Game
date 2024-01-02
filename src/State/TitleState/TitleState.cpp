@@ -7,7 +7,7 @@ TitleState::TitleState(StateStack& stack, Context context)
       mShowText(true),
       mText(
           "Press any key to start",
-          context.fontHolder->get(Fonts::ID::Pacifico), 20
+          context.fontHolder->get(Fonts::ID::VTV323), 30
       ) {
     mBackgroundSprite.setTexture(
         context.textureHolder->get(Textures::ID::TitleBackground)
@@ -45,7 +45,7 @@ bool TitleState::update(sf::Time deltaTime) {
 }
 
 bool TitleState::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
+    if (event.type == sf::Event::KeyReleased) {
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }

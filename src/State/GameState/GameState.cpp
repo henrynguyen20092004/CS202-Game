@@ -1,9 +1,12 @@
 #include "GameState.hpp"
 
+#include "../../Global/Global.hpp"
 #include "../PauseState/PauseState.hpp"
 
 GameState::GameState(StateStack& stack, Context context)
-    : State(stack, context), mWorld(context) {}
+    : State(stack, context), mWorld(context) {
+    Global::SCORE = 0;
+}
 
 bool GameState::handleEvent(const sf::Event& event) {
     mWorld.handleEvent(event);

@@ -10,6 +10,8 @@ struct Global {
     static const int TILE_SIZE;
     static const int NUM_TILES_X;
     static const int NUM_TILES_Y;
+    
+    static int SCORE;
 };
 
 #endif

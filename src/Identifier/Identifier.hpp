@@ -74,6 +74,7 @@ namespace Fonts {
 enum class ID {
     Dosis,
     Pacifico,
+    VTV323,
 };
 }
 

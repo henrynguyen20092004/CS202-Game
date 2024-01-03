@@ -90,7 +90,8 @@ void Player::updateCurrent(sf::Time deltaTime) {
                 mTargetTile->getVelocity().x;
         }
 
-        float displacement = velocity * deltaTime.asSeconds();
+        float displacement =
+            velocity * Global::DIFFICULTY_MODIFIER * deltaTime.asSeconds();
 
         if (distance <= displacement) {
             setPosition(targetPosition);

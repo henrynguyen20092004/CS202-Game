@@ -34,7 +34,7 @@ class World : private sf::NonCopyable {
     Map* mMap;
     PowerUpList* mPowerUpList;
 
-    const float mScrollSpeed = 0.f;
+    const float mScrollSpeed = -50.f;
 
     void buildScene();
     void updateView();

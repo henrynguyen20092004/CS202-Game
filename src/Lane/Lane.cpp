@@ -57,6 +57,17 @@ void Lane::buildScene(Textures::ID textureID) {
         attachChild(std::move(layer));
     }
 
+<<<<<<< HEAD
+=======
+    if (textureID == Textures::ID::ObstacleLane ||
+        textureID == Textures::ID::River ||
+        textureID == Textures::ID::VehicleLane) {
+    } else {
+        SpriteNode::Ptr sprite(new SpriteNode(mTextureHolder, textureID));
+        mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    }
+
+>>>>>>> 6b914de (Add difficulty)
     if (textureID == Textures::ID::River) {
         return;
     }

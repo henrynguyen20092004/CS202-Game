@@ -13,5 +13,8 @@ void MovableSpriteNode::accelerate(const sf::Vector2f& velocity) {
 }
 
 void MovableSpriteNode::updateCurrent(sf::Time deltaTime) {
-    move(mVelocity * Global::SPEED_MODIFIER * deltaTime.asSeconds());
+    move(
+        mVelocity * Global::SPEED_MODIFIER * Global::DIFFICULTY_MODIFIER *
+        deltaTime.asSeconds()
+    );
 }

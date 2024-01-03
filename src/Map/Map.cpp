@@ -14,6 +14,7 @@ Map::Map(TextureHolder& textureHolder, sf::View& worldView, Player* player)
       mIsPlayerMoved(false) {
     initLanes();
     initPlayer();
+    Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
@@ -159,6 +160,7 @@ void Map::updateLanes() {
                                               mWorldView.getSize().y / 2.f -
                                               Global::TILE_SIZE) {
         addRandomLane();
+        Global::DIFFICULTY_MODIFIER += 0.01f;
     }
 
     if (mLanes.back()->getPosition().y > mWorldView.getCenter().y +

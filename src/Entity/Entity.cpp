@@ -1,5 +1,6 @@
 #include "Entity.hpp"
 
+#include "../Global/Global.hpp"
 #include "../Player/Player.hpp"
 
 sf::FloatRect Entity::getLocalHitbox() const { return mHitbox; }
@@ -17,7 +18,7 @@ bool Entity::collidePlayer(const Player& player) const {
 void Entity::handlePlayerCollision(Player& player) {}
 
 void Entity::updateCurrent(sf::Time deltaTime) {
-    move(mVelocity * deltaTime.asSeconds());
+    MovableSpriteNode::updateCurrent(deltaTime);
 }
 
 void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)

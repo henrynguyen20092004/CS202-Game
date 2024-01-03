@@ -30,11 +30,17 @@ float Tile::distanceTo(Tile* other) const {
 void Tile::updateCurrent(sf::Time deltaTime) {
     switch (mDirection) {
         case Directions::ID::Left:
-            move(-mVelocity * Global::SPEED_MODIFIER * deltaTime.asSeconds());
+            move(
+                -mVelocity * Global::SPEED_MODIFIER *
+                Global::DIFFICULTY_MODIFIER * deltaTime.asSeconds()
+            );
             break;
 
         case Directions::ID::Right:
-            move(mVelocity * Global::SPEED_MODIFIER * deltaTime.asSeconds());
+            move(
+                mVelocity * Global::SPEED_MODIFIER *
+                Global::DIFFICULTY_MODIFIER * deltaTime.asSeconds()
+            );
             break;
 
         default:

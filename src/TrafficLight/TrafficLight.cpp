@@ -33,7 +33,9 @@ void TrafficLight::switchState(TrafficLight::State state) {
 }
 
 void TrafficLight::updateCurrent(sf::Time deltaTime) {
-    mTimeCount += deltaTime;
+    mTimeCount +=
+        deltaTime * Global::SPEED_MODIFIER * Global::DIFFICULTY_MODIFIER;
+
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 

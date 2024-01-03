@@ -27,12 +27,12 @@ Tile* Lane::getNearestTile(
     Tile* nearestTile = nullptr;
     float nearestTileDistance = std::numeric_limits<float>::max();
 
-    for (auto& laneTile : mLaneTiles) {
+    for (Tile* laneTile : mLaneTiles) {
         if (laneTile->getType() != type ||
             (direction == Directions::ID::Left &&
-             laneTile->getGlobalPosition().x >= tile->getGlobalPosition().x) ||
+             laneTile->getWorldPosition().x >= tile->getWorldPosition().x) ||
             (direction == Directions::ID::Right &&
-             laneTile->getGlobalPosition().x <= tile->getGlobalPosition().x)) {
+             laneTile->getWorldPosition().x <= tile->getWorldPosition().x)) {
             continue;
         }
 

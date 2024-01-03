@@ -37,24 +37,6 @@ void VehicleLane::buildScene() {
     mSceneLayers[TrafficLightLayer]->attachChild(std::move(trafficLight));
 }
 
-void VehicleLane::setVelocityPercent(float percent) {
-    mVelocityPercent = percent;
-
-    for (auto vehicle : mVehicles) {
-        vehicle->setVelocity(mVelocity * percent);
-    }
-}
-
-Vehicle* VehicleLane::createVehicle() {
-    switch (mTextureID) {
-        case Textures::ID::Car:
-            return new Car(mTextureHolder, mDirection);
-
-        default:
-            return nullptr;
-    }
-}
-
 void VehicleLane::init() {
     float vehicleWidth = mTextureHolder.get(mTextureID).getSize().x;
     int numVehicles = std::min(
@@ -81,6 +63,24 @@ void VehicleLane::init() {
 
         mVehicles.push_front(vehicle.get());
         mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
+    }
+}
+
+void VehicleLane::setVelocityPercent(float percent) {
+    mVelocityPercent = percent;
+
+    for (auto vehicle : mVehicles) {
+        vehicle->setVelocity(mVelocity * percent);
+    }
+}
+
+Vehicle* VehicleLane::createVehicle() {
+    switch (mTextureID) {
+        case Textures::ID::Car:
+            return new Car(mTextureHolder, mDirection);
+
+        default:
+            return nullptr;
     }
 }
 
@@ -129,14 +129,11 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
     if (!mVehicles.empty()) {
         Vehicle* vehicle = mVehicles.back();
 
-        if (mDirection == Directions::ID::Left) {
-            if (vehicle->getPosition().x < -vehicle->getSize().x) {
-                removeVehicle();
-            }
-        } else {
-            if (vehicle->getPosition().x > Global::WINDOW_WIDTH) {
-                removeVehicle();
-            }
+        if (mDirection == Directions::ID::Left &&
+                vehicle->getPosition().x < -vehicle->getSize().x ||
+            mDirection == Directions::ID::Right &&
+                vehicle->getPosition().x > Global::WINDOW_WIDTH) {
+            removeVehicle();
         }
     }
 }

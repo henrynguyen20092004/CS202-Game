@@ -16,8 +16,10 @@ class River : public Lane {
 
     void buildScene();
 
-    Log* createLog(Textures::ID textureID);
     void init();
+
+    Log* createLog(Textures::ID textureID);
+    void addLogTiles(const sf::Vector2f& logPosition);
     void addLog();
     void removeLog();
 

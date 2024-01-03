@@ -50,14 +50,11 @@ void TrainLane::updateCurrent(sf::Time deltaTime) {
     }
 
     if (mTrain) {
-        if (mDirection == Directions::ID::Left) {
-            if (mTrain->getPosition().x < -mTrain->getSize().x) {
-                removeTrain();
-            }
-        } else {
-            if (mTrain->getPosition().x > Global::WINDOW_WIDTH) {
-                removeTrain();
-            }
+        if (mDirection == Directions::ID::Left &&
+                mTrain->getPosition().x < -mTrain->getSize().x ||
+            mDirection == Directions::ID::Right &&
+                mTrain->getPosition().x > Global::WINDOW_WIDTH) {
+            removeTrain();
         }
     }
 }

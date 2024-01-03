@@ -4,8 +4,8 @@
 
 #include "../Global/Global.hpp"
 
-Tile::Tile(Type type, sf::Vector2f position)
-    : mType(type), mDirection(Directions::ID::None) {
+Tile::Tile(Type type, sf::Vector2f position, Directions::ID direction)
+    : mType(type), mDirection(direction) {
     setPosition(position);
 }
 
@@ -17,14 +17,13 @@ sf::Vector2f Tile::getVelocity() const { return mVelocity; }
 
 void Tile::setDirection(Directions::ID direction) { mDirection = direction; }
 
-void Tile::setVelocity(sf::Vector2f velocity) { mVelocity = velocity; }
+void Tile::setVelocity(const sf::Vector2f& velocity) { mVelocity = velocity; }
 
-float Tile::distanceTo(Tile* tile) const {
-    sf::Vector2f thisPosition = getPosition();
-    sf::Vector2f tilePosition = tile->getPosition();
+float Tile::distanceTo(Tile* other) const {
+    sf::Vector2f position = getPosition(), otherPosition = other->getPosition();
 
     return std::hypotf(
-        thisPosition.x - tilePosition.x, thisPosition.y - tilePosition.y
+        position.x - otherPosition.x, position.y - otherPosition.y
     );
 }
 

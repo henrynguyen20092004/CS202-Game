@@ -8,11 +8,6 @@ SpriteNode::SpriteNode(
     setSprite(textureID, textureRect);
 }
 
-void SpriteNode::centerOrigin() {
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-}
-
 void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
     mSprite.setTexture(mTextureHolder.get(textureID));
 

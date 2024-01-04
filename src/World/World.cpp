@@ -51,6 +51,10 @@ void World::buildScene() {
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
+    Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
+    mPlayer->setScorePtr(score.get());
+    mSceneLayers[IconLayer]->attachChild(std::move(score));
+
     PowerUpList::Ptr powerUpList(new PowerUpList(
         mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, *mPlayer
     ));
@@ -68,8 +72,8 @@ void World::buildScene() {
     // );
     // mSceneLayers[MapLayer]->attachChild(std::move(elephant));
 
-    Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
-    mSceneLayers[IconLayer]->attachChild(std::move(score));
+    // Cat::Ptr cat(new Cat(mTextureHolder, Textures::ID::Cat, *mPowerUpList));
+    // mSceneLayers[MapLayer]->attachChild(std::move(cat));
 }
 
 void World::updateView() {

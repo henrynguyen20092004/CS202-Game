@@ -7,7 +7,7 @@
 
 PowerUpList::PowerUpList(
     PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
-    const FontHolder& fontHolder, sf::View& worldView, Player& player
+    FontHolder& fontHolder, sf::View& worldView, Player& player
 )
     : mPowerUpSettings(powerUpSettings) {
     initPowerUps(textureHolder, fontHolder, worldView, player);
@@ -28,33 +28,24 @@ void PowerUpList::handleEventCurrent(const sf::Event& event) {
 }
 
 void PowerUpList::initPowerUps(
-    TextureHolder& textureHolder, const FontHolder& fontHolder,
-    sf::View& worldView, Player& player
+    TextureHolder& textureHolder, FontHolder& fontHolder, sf::View& worldView,
+    Player& player
 ) {
-    sf::Vector2f positionOffset = sf::Vector2f();
+    PowerUpIconArgs defaultArgs(
+        textureHolder, fontHolder, worldView, sf::Vector2f()
+    );
 
-    Immortality::Ptr immortality(new Immortality(
-        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
-        player
-    ));
+    Immortality::Ptr immortality(new Immortality(defaultArgs, player));
     mPowerUps[PowerUp::Type::Immortality] = immortality.get();
     attachChild(std::move(immortality));
 
-    positionOffset.x += Global::TILE_SIZE * 1.25f;
-
-    Regenerate::Ptr regenerate(new Regenerate(
-        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
-        player
-    ));
+    defaultArgs.positionOffset.x += Global::TILE_SIZE * 1.25f;
+    Regenerate::Ptr regenerate(new Regenerate(defaultArgs, player));
     mPowerUps[PowerUp::Type::Regenerate] = regenerate.get();
     attachChild(std::move(regenerate));
 
-    positionOffset.x += Global::TILE_SIZE * 1.25f;
-
-    SlowTime::Ptr slowTime(new SlowTime(
-        PowerUpIconArgs(textureHolder, fontHolder, worldView, positionOffset),
-        player
-    ));
+    defaultArgs.positionOffset.x += Global::TILE_SIZE * 1.25f;
+    SlowTime::Ptr slowTime(new SlowTime(defaultArgs, player));
     mPowerUps[PowerUp::Type::SlowTime] = slowTime.get();
     attachChild(std::move(slowTime));
 }

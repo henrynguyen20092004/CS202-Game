@@ -14,7 +14,7 @@ Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
     attachChild(std::move(text));
 }
 
-void Score::addBonus() { mBonus += 1; }
+void Score::addBonus() { ++mBonus; }
 
 void Score::updateCurrent(sf::Time deltaTime) {
     mHighestPlayerPosition =

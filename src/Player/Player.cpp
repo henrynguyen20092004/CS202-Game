@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "../Global/Global.hpp"
+#include "../Score/Score.hpp"
 
 Player::Player(
     TextureHolder& textureHolder, sf::View& worldView,
@@ -49,6 +50,10 @@ void Player::goBack() {
     std::swap(mSourceTile, mTargetTile);
     mForceGoGack = true;
 }
+
+void Player::setScorePtr(Score* score) { mScore = score; }
+
+void Player::addBonusScore() const { mScore->addBonus(); }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 

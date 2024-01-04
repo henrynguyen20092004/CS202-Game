@@ -2,6 +2,7 @@
 #define SCORE_HPP
 
 #include "../Player/Player.hpp"
+#include "../PowerUpList/PowerUpList.hpp"
 #include "../TextNode/TextNode.hpp"
 
 class Score : public SceneNode {

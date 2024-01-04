@@ -30,8 +30,8 @@ class World : private sf::NonCopyable {
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
-    Map* mMap;
     Player* mPlayer;
+    Map* mMap;
     PowerUpList* mPowerUpList;
 
     const float mScrollSpeed = -50.f;

@@ -9,7 +9,7 @@ class PowerUpList : public SceneNode {
 
     PowerUpList(
         PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
-        const FontHolder& fontHolder, sf::View& worldView, Player& player
+        FontHolder& fontHolder, sf::View& worldView, Player& player
     );
 
     void addPowerUp(PowerUp::Type type);
@@ -20,7 +20,7 @@ class PowerUpList : public SceneNode {
 
     void handleEventCurrent(const sf::Event& event) override;
     void initPowerUps(
-        TextureHolder& textureHolder, const FontHolder& fontHolder,
+        TextureHolder& textureHolder, FontHolder& fontHolder,
         sf::View& worldView, Player& player
     );
 };

@@ -28,7 +28,7 @@ void Map::initPlayer() {
     Tile* playerTile =
         mLanes[Global::NUM_TILES_Y - 2]->getTile(Global::NUM_TILES_X / 2);
     mPlayer->setPosition(
-        playerTile->getGlobalPosition() +
+        playerTile->getWorldPosition() +
         (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - mPlayer->getSize()
         ) / 2.f
     );
@@ -37,10 +37,8 @@ void Map::initPlayer() {
 
 int Map::getPlayerLaneIndex() const {
     for (int i = 0; i < mLanes.size() - 1; ++i) {
-        if (mLanes[i]->getPosition().y <
-                mPlayer->getGlobalBounds().getPosition().y &&
-            mLanes[i + 1]->getPosition().y >
-                mPlayer->getGlobalBounds().getPosition().y) {
+        if (mLanes[i]->getPosition().y < mPlayer->getWorldPosition().y &&
+            mLanes[i + 1]->getPosition().y > mPlayer->getWorldPosition().y) {
             return i;
         }
     }
@@ -54,7 +52,8 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
 
     int playerLaneIndex = getPlayerLaneIndex();
     Tile* playerNextTile = nullptr;
-    for (auto type : {Tile::Type::Good, Tile::Type::Bad}) {
+
+    for (Tile::Type type : {Tile::Type::Good, Tile::Type::Bad}) {
         playerNextTile =
             mLanes
                 [playerLaneIndex - (direction == Directions::ID::Up) +
@@ -65,15 +64,15 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
                          direction == Directions::ID::Right)
                             ? direction
                             : Directions::ID::None
-                    );  // Good luck understanding this
+                    );
 
-        if (playerNextTile != nullptr &&
+        if (playerNextTile &&
             mPlayer->getSourceTile()->distanceTo(playerNextTile) <= 101.f) {
             break;
         }
     }
 
-    if (playerNextTile == nullptr) {
+    if (!playerNextTile) {
         mPlayer->kill();
     }
 
@@ -89,7 +88,7 @@ void Map::movePlayerTile(Tile* destinationTile) {
     mPlayer->setTargetTile(destinationTile);
 }
 
-Lane* Map::makeLane(Textures::ID textureID, sf::Vector2f position) {
+Lane* Map::createLane(Textures::ID textureID, sf::Vector2f position) {
     switch (textureID) {
         case Textures::ID::VehicleLane:
             return new VehicleLane(mTextureHolder, position);
@@ -134,7 +133,7 @@ void Map::addEmptyLane() {
 }
 
 void Map::addRandomLane() {
-    Lane::Ptr lane(makeLane(
+    Lane::Ptr lane(createLane(
         Random<Textures::ID>::generate(
             {Textures::ID::VehicleLane, Textures::ID::TrainLane,
              Textures::ID::ObstacleLane, Textures::ID::River}
@@ -174,6 +173,7 @@ void Map::updatePlayer() {
     }
 
     Directions::ID direction = mPlayer->getDirection();
+
     if (direction == Directions::ID::None) {
         return;
     }

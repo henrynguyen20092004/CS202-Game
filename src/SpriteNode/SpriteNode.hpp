@@ -15,8 +15,6 @@ class SpriteNode : public SceneNode {
         Textures::ID textureID, sf::IntRect textureRect = sf::IntRect()
     );
 
-    void centerOrigin();
-
     sf::Vector2f getSize() const;
     sf::FloatRect getLocalBounds() const;
     sf::FloatRect getGlobalBounds() const;

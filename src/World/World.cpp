@@ -1,7 +1,5 @@
 #include "World.hpp"
 
-#include "../Animal/Elephant/Elephant.hpp"
-#include "../Animal/PolarBear/PolarBear.hpp"
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
@@ -76,7 +74,7 @@ void World::buildScene() {
 
 void World::updateView() {
     float viewY = mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
-          playerY = mPlayer->getGlobalPosition().y -
+          playerY = mPlayer->getWorldPosition().y -
                     (Global::TILE_SIZE - mPlayer->getSize().y) / 2.f;
 
     if (playerY - Global::NUM_TILES_Y / 2 * Global::TILE_SIZE < viewY) {

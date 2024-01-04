@@ -10,11 +10,7 @@ Player::Player(
 )
     : Entity(textureHolder, Textures::ID::Player),
       mWorldView(worldView),
-      mPlayerSettings(playerSettings),
-      mDirection(Directions::ID::None),
-      mIsMoving(false),
-      mNeedToMove(false),
-      mForceGoGack(false) {
+      mPlayerSettings(playerSettings) {
     setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
 }
@@ -68,14 +64,16 @@ void Player::handleEventCurrent(const sf::Event& event) {
 }
 
 void Player::updateCurrent(sf::Time deltaTime) {
+    sf::Vector2f positionInTile =
+        (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - getSize()) / 2.f;
+
     if (mIsMoving) {
         sf::Vector2f targetPosition =
-            mTargetTile->getGlobalPosition() +
-            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - getSize()) /
-                2.f;
-        sf::Vector2f movement = targetPosition - getGlobalPosition();
-        float distance = std::hypotf(movement.x, movement.y);
-        float velocity = getVelocity().x;
+            mTargetTile->getWorldPosition() + positionInTile;
+        sf::Vector2f movement = targetPosition - getWorldPosition();
+        float distance = std::hypotf(movement.x, movement.y),
+              velocity = getVelocity().x;
+
         if (mDirection == Directions::ID::Left ||
             mDirection == Directions::ID::Right) {
             velocity +=
@@ -101,11 +99,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             damage();
         }
 
-        setPosition(
-            mSourceTile->getGlobalPosition() +
-            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - getSize()) /
-                2.f
-        );
+        setPosition(mSourceTile->getWorldPosition() + positionInTile);
     }
 }
 

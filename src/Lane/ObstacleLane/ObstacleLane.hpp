@@ -11,15 +11,16 @@ class ObstacleLane : public Lane {
         bool isEmpty = false
     );
 
-    void handlePlayerCollision(Player& player) override;
-
    private:
     std::vector<Obstacle*> mObstacles;
 
+    void handlePlayerCollision(Player& player) override;
+
     void buildScene(bool isEmpty);
 
-    Obstacle* createObstacle(Textures::ID textureID);
     void init();
+
+    Obstacle* createObstacle(Textures::ID textureID);
 };
 
 #endif

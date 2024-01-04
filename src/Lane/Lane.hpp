@@ -20,8 +20,6 @@ class Lane : public SceneNode {
     virtual void handlePlayerCollision(Player& player);
 
    protected:
-    TextureHolder& mTextureHolder;
-
     enum Layer {
         LaneLayer,
         ObjectLayer,
@@ -29,6 +27,8 @@ class Lane : public SceneNode {
         TileLayer,
         LayerCount,
     };
+
+    TextureHolder& mTextureHolder;
 
     std::array<SceneNode*, LayerCount> mSceneLayers;
     std::deque<Tile*> mLaneTiles;

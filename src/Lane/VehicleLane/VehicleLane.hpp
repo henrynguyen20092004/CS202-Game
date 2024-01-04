@@ -17,14 +17,16 @@ class VehicleLane : public Lane {
     sf::Vector2f mVelocity;
     sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
-    float mVelocityPercent;
     TrafficLight* mTrafficLight;
+    float mVelocityPercent;
 
     void buildScene();
 
-    void setVelocityPercent(float percent);
-    Vehicle* createVehicle();
     void init();
+
+    void setVelocityPercent(float percent);
+
+    Vehicle* createVehicle();
     void addVehicle();
     void removeVehicle();
 

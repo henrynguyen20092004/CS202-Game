@@ -32,12 +32,9 @@ class Player : public Entity {
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
 
-    Directions::ID mDirection;
-    Tile* mSourceTile;
-    Tile* mTargetTile;
-    bool mNeedToMove, mIsMoving;
-
-    bool mForceGoGack;
+    Directions::ID mDirection = Directions::ID::None;
+    Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
+    bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
 
     int mHealth = 1;
 

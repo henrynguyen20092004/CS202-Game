@@ -25,16 +25,6 @@ void ObstacleLane::buildScene(bool isEmpty) {
     }
 }
 
-Obstacle* ObstacleLane::createObstacle(Textures::ID textureID) {
-    switch (textureID) {
-        case Textures::ID::Rock:
-            return new Rock(mTextureHolder);
-
-        default:
-            return nullptr;
-    }
-}
-
 void ObstacleLane::init() {
     int numObstacles = Random<int>::generate(0, 5);
     std::set<int> positions;
@@ -56,5 +46,15 @@ void ObstacleLane::init() {
         );
         mObstacles.push_back(obstacle.get());
         attachChild(std::move(obstacle));
+    }
+}
+
+Obstacle* ObstacleLane::createObstacle(Textures::ID textureID) {
+    switch (textureID) {
+        case Textures::ID::Rock:
+            return new Rock(mTextureHolder);
+
+        default:
+            return nullptr;
     }
 }

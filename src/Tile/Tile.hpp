@@ -8,19 +8,20 @@ class Tile : public SceneNode {
     typedef std::unique_ptr<Tile> Ptr;
 
     enum Type { Good, Bad };
-    // Good tiles are the ones that the player should step on
-    // Bad tiles are the ones that the player should avoid
 
-    Tile(Type type, sf::Vector2f position);
+    Tile(
+        Type type, sf::Vector2f position,
+        Directions::ID direction = Directions::ID::None
+    );
 
     Type getType() const;
     Directions::ID getDirection() const;
     sf::Vector2f getVelocity() const;
 
     void setDirection(Directions::ID direction);
-    void setVelocity(sf::Vector2f velocity);
+    void setVelocity(const sf::Vector2f& velocity);
 
-    float distanceTo(Tile* tile) const;
+    float distanceTo(Tile* other) const;
 
    private:
     Type mType;

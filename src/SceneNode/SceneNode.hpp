@@ -28,8 +28,6 @@ class SceneNode : public sf::Transformable,
     sf::Vector2f getWorldPosition() const;
     sf::Transform getWorldTransform() const;
 
-    sf::Vector2f getGlobalPosition() const;
-
    private:
     std::vector<Ptr> mChildren;
     SceneNode* mParent = nullptr;

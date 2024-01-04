@@ -1,8 +1,6 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <queue>
-
 #include "../Lane/Lane.hpp"
 #include "../Player/Player.hpp"
 
@@ -28,8 +26,7 @@ class Map : public SceneNode {
     Tile* getPlayerNextTile(Directions::ID direction) const;
     void movePlayerTile(Tile* destinationTile);
 
-    Lane* makeLane(Textures::ID textureID, sf::Vector2f position);
-
+    Lane* createLane(Textures::ID textureID, sf::Vector2f position);
     void initLanes();
     void addEmptyLane();
     void addRandomLane();

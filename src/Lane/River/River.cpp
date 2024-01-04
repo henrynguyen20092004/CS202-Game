@@ -21,6 +21,27 @@ River::River(TextureHolder& textureHolder, const sf::Vector2f& position)
 
 void River::buildScene() { Lane::buildScene(Textures::ID::River); }
 
+void River::init() {
+    mTileToNextSpawns.push_front(0);
+
+    Log::Ptr log(
+        createLog(Random<Textures::ID>::generate({Textures::ID::ShortLog}))
+    );
+    sf::Vector2f position(
+        mDirection == Directions::ID::Left ? -log->getSize().x
+                                           : Global::WINDOW_WIDTH,
+        0.f
+    );
+
+    log->setVelocity(mVelocity);
+    log->setPosition(position);
+    mLogs.push_front(log.get());
+    mSceneLayers[ObjectLayer]->attachChild(std::move(log));
+    mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
+
+    addLogTiles(position);
+}
+
 Log* River::createLog(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::ShortLog:
@@ -37,29 +58,12 @@ Log* River::createLog(Textures::ID textureID) {
     }
 }
 
-void River::init() {
-    mTileToNextSpawns.push_front(0);
-
-    Log::Ptr log(
-        createLog(Random<Textures::ID>::generate({Textures::ID::ShortLog}))
-    );
-    log->setVelocity(mVelocity);
-    sf::Vector2f position = sf::Vector2f(
-        mDirection == Directions::ID::Left ? -log->getSize().x
-                                           : Global::WINDOW_WIDTH,
-        0.f
-    );
-    log->setPosition(position);
-    mLogs.push_front(log.get());
-    mSceneLayers[ObjectLayer]->attachChild(std::move(log));
-    mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
-
+void River::addLogTiles(const sf::Vector2f& logPosition) {
     for (int i = 0; i < mLogs.front()->getLength(); ++i) {
         Tile::Ptr tile(new Tile(
             Tile::Type::Good,
-            position + sf::Vector2f(i * Global::TILE_SIZE, 0.f)
+            logPosition + sf::Vector2f(i * Global::TILE_SIZE, 0.f), mDirection
         ));
-        tile->setDirection(mDirection);
         tile->setVelocity(mVelocity);
         mLaneTiles.push_front(tile.get());
         mSceneLayers[TileLayer]->attachChild(std::move(tile));
@@ -68,15 +72,15 @@ void River::init() {
     for (int i = 0; i < mTileToNextSpawns.front(); ++i) {
         Tile::Ptr tile(new Tile(
             Tile::Type::Bad,
-            position +
+            logPosition +
                 sf::Vector2f(
-                    mDirection == Directions::ID::Left
-                        ? (i + mLogs.front()->getLength()) * Global::TILE_SIZE
-                        : -(i + 1) * Global::TILE_SIZE,
+                    Global::TILE_SIZE * (mDirection == Directions::ID::Left
+                                             ? (i + mLogs.front()->getLength())
+                                             : -(i + 1)),
                     0.f
-                )
+                ),
+            mDirection
         ));
-        tile->setDirection(mDirection);
         tile->setVelocity(mVelocity);
         mLaneTiles.push_front(tile.get());
         mSceneLayers[TileLayer]->attachChild(std::move(tile));
@@ -84,51 +88,26 @@ void River::init() {
 }
 
 void River::addLog() {
+    float frontLogPosX = mLogs.front()->getPosition().x;
     Log::Ptr log(createLog(Random<Textures::ID>::generate(
         {Textures::ID::ShortLog, Textures::ID::MediumLog, Textures::ID::LongLog}
     )));
-    log->setVelocity(mVelocity);
-    sf::Vector2f position = sf::Vector2f(
+    sf::Vector2f position(
         mDirection == Directions::ID::Left
-            ? mLogs.front()->getPosition().x + mLogs.front()->getSize().x +
+            ? frontLogPosX + mLogs.front()->getSize().x +
                   mTileToNextSpawns.front() * Global::TILE_SIZE
-            : mLogs.front()->getPosition().x -
-                  mTileToNextSpawns.front() * Global::TILE_SIZE -
+            : frontLogPosX - mTileToNextSpawns.front() * Global::TILE_SIZE -
                   log->getSize().x,
         (Global::TILE_SIZE - log->getSize().y) / 2.f
     );
+
+    log->setVelocity(mVelocity);
     log->setPosition(position);
     mLogs.push_front(log.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(log));
     mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
 
-    for (int i = 0; i < mLogs.front()->getLength(); ++i) {
-        Tile::Ptr tile(new Tile(
-            Tile::Type::Good,
-            position + sf::Vector2f(i * Global::TILE_SIZE, 0.f)
-        ));
-        tile->setDirection(mDirection);
-        tile->setVelocity(mVelocity);
-        mLaneTiles.push_front(tile.get());
-        mSceneLayers[TileLayer]->attachChild(std::move(tile));
-    }
-
-    for (int i = 0; i < mTileToNextSpawns.front(); ++i) {
-        Tile::Ptr tile(new Tile(
-            Tile::Type::Bad,
-            position +
-                sf::Vector2f(
-                    mDirection == Directions::ID::Left
-                        ? (i + mLogs.front()->getLength()) * Global::TILE_SIZE
-                        : -(i + 1) * Global::TILE_SIZE,
-                    0.f
-                )
-        ));
-        tile->setDirection(mDirection);
-        tile->setVelocity(mVelocity);
-        mLaneTiles.push_front(tile.get());
-        mSceneLayers[TileLayer]->attachChild(std::move(tile));
-    }
+    addLogTiles(position);
 }
 
 void River::removeLog() {

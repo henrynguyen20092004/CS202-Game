@@ -51,7 +51,12 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
-    mTextureHolder.load(Textures::ID::Player, "assets/Textures/Player.png");
+    mTextureHolder.load(
+        Textures::ID::BlueNinja, "assets/Textures/BlueNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::BlackNinja, "assets/Textures/BlackNinja.png"
+    );
 
     mTextureHolder.load(
         Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"

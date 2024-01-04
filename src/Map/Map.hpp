@@ -8,7 +8,8 @@ class Map : public SceneNode {
    public:
     typedef std::unique_ptr<Map> Ptr;
 
-    Map(TextureHolder& textureHolder, sf::View& worldView, Player* player);
+    Map(TextureHolder& textureHolder, sf::View& worldView,
+        std::vector<Player*> players);
 
     bool isPlayerMoved() const;
 
@@ -18,13 +19,13 @@ class Map : public SceneNode {
     TextureHolder& mTextureHolder;
     sf::View& mWorldView;
     std::deque<Lane*> mLanes;
-    Player* mPlayer;
+    std::vector<Player*> mPlayers;
     bool mIsPlayerMoved;
 
     void initPlayer();
-    int getPlayerLaneIndex() const;
-    Tile* getPlayerNextTile(Directions::ID direction) const;
-    void movePlayerTile(Tile* destinationTile);
+    int getPlayerLaneIndex(int playerIndex) const;
+    Tile* getPlayerNextTile(int playerIndex, Directions::ID direction) const;
+    void movePlayerTile(int playerIndex, Tile* destinationTile);
 
     Lane* createLane(Textures::ID textureID, sf::Vector2f position);
     void initLanes();

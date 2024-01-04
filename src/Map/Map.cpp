@@ -7,10 +7,13 @@
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Random/Random.hpp"
 
-Map::Map(TextureHolder& textureHolder, sf::View& worldView, Player* player)
+Map::Map(
+    TextureHolder& textureHolder, sf::View& worldView,
+    std::vector<Player*> players
+)
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
-      mPlayer(player),
+      mPlayers(players),
       mIsPlayerMoved(false) {
     initLanes();
     initPlayer();
@@ -20,8 +23,15 @@ Map::Map(TextureHolder& textureHolder, sf::View& worldView, Player* player)
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
 
 void Map::handlePlayerCollision() {
+    if (mPlayers.size() == 2) {
+        mPlayers[0]->handlePlayerCollision(*mPlayers[1]);
+        mPlayers[1]->handlePlayerCollision(*mPlayers[0]);
+    }
+
     for (Lane* lane : mLanes) {
-        lane->handlePlayerCollision(*mPlayer);
+        for (Player* player : mPlayers) {
+            lane->handlePlayerCollision(*player);
+        }
     }
 }
 
@@ -36,7 +46,7 @@ void Map::initPlayer() {
     mPlayer->setTargetTile(playerTile);
 }
 
-int Map::getPlayerLaneIndex() const {
+int Map::getPlayerLaneIndex(int playerIndex) const {
     for (int i = 0; i < mLanes.size() - 1; ++i) {
         if (mLanes[i]->getPosition().y < mPlayer->getWorldPosition().y &&
             mLanes[i + 1]->getPosition().y > mPlayer->getWorldPosition().y) {
@@ -44,14 +54,14 @@ int Map::getPlayerLaneIndex() const {
         }
     }
 
-    mPlayer->kill();
+    mPlayers[playerIndex]->kill();
     return -1;
 }
 
-Tile* Map::getPlayerNextTile(Directions::ID direction) const {
+Tile* Map::getPlayerNextTile(int playerIndex, Directions::ID direction) const {
     assert(direction != Directions::ID::None);
 
-    int playerLaneIndex = getPlayerLaneIndex();
+    int playerLaneIndex = getPlayerLaneIndex(playerIndex);
     Tile* playerNextTile = nullptr;
 
     for (Tile::Type type : {Tile::Type::Good, Tile::Type::Bad}) {
@@ -60,7 +70,7 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
                 [playerLaneIndex - (direction == Directions::ID::Up) +
                  (direction == Directions::ID::Down)]
                     ->getNearestTile(
-                        mPlayer->getSourceTile(), type,
+                        mPlayers[playerIndex]->getSourceTile(), type,
                         (direction == Directions::ID::Left ||
                          direction == Directions::ID::Right)
                             ? direction
@@ -80,13 +90,13 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
     return playerNextTile;
 }
 
-void Map::movePlayerTile(Tile* destinationTile) {
+void Map::movePlayerTile(int playerIndex, Tile* destinationTile) {
     if (!destinationTile) {
-        mPlayer->kill();
+        mPlayers[playerIndex]->kill();
         return;
     }
 
-    mPlayer->setTargetTile(destinationTile);
+    mPlayers[playerIndex]->setTargetTile(destinationTile);
 }
 
 Lane* Map::createLane(Textures::ID textureID, sf::Vector2f position) {
@@ -171,18 +181,26 @@ void Map::updateLanes() {
 }
 
 void Map::updatePlayer() {
-    if (!mPlayer->askToMove()) {
-        return;
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        if (!mPlayers[i]->askToMove()) {
+            continue;
+        }
+
+<<<<<<< HEAD
+        Directions::ID direction = mPlayer->getDirection();
+
+        if (direction == Directions::ID::None) {
+            return;
+        }
+        == == == = Directions::ID direction = mPlayers[i]->getDirection();
+        if (direction == Directions::ID::None) {
+            return;
+        }
+>>>>>>> f530970 (Draw Black Ninja and Blue Ninja, Create multiplayer mode)
+
+        mIsPlayerMoved = true;
+        movePlayerTile(i, getPlayerNextTile(i, direction));
     }
-
-    Directions::ID direction = mPlayer->getDirection();
-
-    if (direction == Directions::ID::None) {
-        return;
-    }
-
-    mIsPlayerMoved = true;
-    movePlayerTile(getPlayerNextTile(direction));
 }
 
 void Map::updateCurrent(sf::Time deltaTime) {

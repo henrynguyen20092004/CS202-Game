@@ -3,13 +3,14 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
-World::World(State::Context context)
+World::World(State::Context context, bool isTwoPlayers)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
       mPlayerSettings(*context.playerSettings),
       mPowerUpSettings(*context.powerUpSettings),
-      mWorldView(mWindow.getView()) {
+      mWorldView(mWindow.getView()),
+      mPlayers(1 + isTwoPlayers, nullptr) {
     buildScene();
 }
 
@@ -35,7 +36,15 @@ void World::draw() {
     mWindow.draw(mSceneGraph);
 }
 
-bool World::isPlayerAlive() const { return mPlayer->isAlive(); }
+bool World::isPlayerAlive() const {
+    for (Player* player : mPlayers) {
+        if (!player->isAlive()) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 void World::buildScene() {
     for (int i = 0; i < LayerCount; ++i) {
@@ -44,23 +53,35 @@ void World::buildScene() {
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    Player::Ptr player(new Player(mTextureHolder, mWorldView, mPlayerSettings));
-    mPlayer = player.get();
+    Player::Ptr player(new Player(
+        mTextureHolder, Textures::ID::BlackNinja, mWorldView, mPlayerSettings
+    ));
+    mPlayers[0] = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
-    Map::Ptr map(new Map(mTextureHolder, mWorldView, mPlayer));
+    if (mPlayers.size() == 2) {
+        mPlayerSettings2.assignKey(sf::Keyboard::W, Directions::ID::Up);
+        mPlayerSettings2.assignKey(sf::Keyboard::S, Directions::ID::Down);
+        mPlayerSettings2.assignKey(sf::Keyboard::A, Directions::ID::Left);
+        mPlayerSettings2.assignKey(sf::Keyboard::D, Directions::ID::Right);
+
+        player.reset(new Player(
+            mTextureHolder, Textures::ID::BlueNinja, mWorldView,
+            mPlayerSettings2
+        ));
+        mPlayers[1] = player.get();
+        mSceneLayers[PlayerLayer]->attachChild(std::move(player));
+    }
+
+    Map::Ptr map(new Map(mTextureHolder, mWorldView, mPlayers));
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
-    Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
-    mPlayer->setScorePtr(score.get());
-    mSceneLayers[IconLayer]->attachChild(std::move(score));
-
-    PowerUpList::Ptr powerUpList(new PowerUpList(
-        mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, *mPlayer
-    ));
-    mPowerUpList = powerUpList.get();
-    mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
+    // PowerUpList::Ptr powerUpList(new PowerUpList(
+    //     mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, mPlayers
+    // ));
+    // mPowerUpList = powerUpList.get();
+    // mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
 
     // TODO: Remove when adding AnimalFactory
     // PolarBear::Ptr polarBear(
@@ -75,12 +96,19 @@ void World::buildScene() {
 
     // Cat::Ptr cat(new Cat(mTextureHolder, Textures::ID::Cat, *mPowerUpList));
     // mSceneLayers[MapLayer]->attachChild(std::move(cat));
+    // Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
+    // mSceneLayers[IconLayer]->attachChild(std::move(score));
 }
 
 void World::updateView() {
     float viewY = mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
-          playerY = mPlayer->getWorldPosition().y -
-                    (Global::TILE_SIZE - mPlayer->getSize().y) / 2.f;
+          playerY = Global::WINDOW_HEIGHT;
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        playerY = std::min(
+            playerY, mPlayers[i]->getWorldPosition().y -
+                         (Global::TILE_SIZE - mPlayers[i]->getSize().y) / 2.f
+        );
+    }
 
     if (playerY - Global::NUM_TILES_Y / 2 * Global::TILE_SIZE < viewY) {
         mWorldView.setCenter(

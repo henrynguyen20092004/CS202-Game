@@ -6,10 +6,10 @@
 #include "../Score/Score.hpp"
 
 Player::Player(
-    TextureHolder& textureHolder, sf::View& worldView,
+    TextureHolder& textureHolder, Textures::ID textureID, sf::View& worldView,
     PlayerSettings& playerSettings
 )
-    : Entity(textureHolder, Textures::ID::Player, sf::IntRect(0, 0, 60, 60)),
+    : Entity(textureHolder, textureID, sf::IntRect(0, 0, 60, 60)),
       mWorldView(worldView),
       mPlayerSettings(playerSettings) {
     setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
@@ -43,7 +43,7 @@ void Player::damage() { --mHealth; }
 void Player::heal() { ++mHealth; }
 
 void Player::goBack() {
-    if (mForceGoGack) {
+    if (!mTargetTile || mForceGoGack) {
         return;
     }
 
@@ -56,6 +56,14 @@ void Player::setScorePtr(Score* score) { mScore = score; }
 void Player::addBonusScore() const { mScore->addBonus(); }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
+
+#include <iostream>
+
+void Player::handlePlayerCollision(Player& player) {
+    if (&player != this && collidePlayer(player)) {
+        goBack();
+    }
+}
 
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {

@@ -37,7 +37,8 @@ enum class ID {
 
 namespace Textures {
 enum class ID {
-    Player,
+    BlueNinja,
+    BlackNinja,
 
     TitleBackground,
     MenuBackground,

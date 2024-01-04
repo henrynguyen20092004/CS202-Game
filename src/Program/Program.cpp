@@ -5,6 +5,7 @@
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
+#include "../State/SelectPlayerState/SelectPlayerState.hpp"
 #include "../State/SettingsState/SettingsState.hpp"
 #include "../State/TitleState/TitleState.hpp"
 
@@ -53,12 +54,7 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
-    mTextureHolder.load(
-        Textures::ID::BlueNinja, "assets/Textures/BlueNinja.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::BlackNinja, "assets/Textures/BlackNinja.png"
-    );
+
     mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
     mTextureHolder.load(
@@ -109,6 +105,12 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice1, "assets/Textures/BlackNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice2, "assets/Textures/BlueNinja.png"
+    );
 }
 
 void Program::loadFonts() {
@@ -124,6 +126,7 @@ void Program::registerStates() {
     mStateStack.registerState<GameState>(States::ID::Game);
     mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
+    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer);
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
     mStateStack.registerState<GameOverState>(
         States::ID::MultiplayerGameOver, true

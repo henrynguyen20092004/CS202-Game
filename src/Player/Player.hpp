@@ -50,7 +50,6 @@ class Player : public Entity {
     int mHealth = 1;
     Blood* mBlood;
 
-
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;
 

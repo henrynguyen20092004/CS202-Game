@@ -6,14 +6,14 @@
 
 struct PowerUpIconArgs {
     PowerUpIconArgs(
-        TextureHolder& textureHolder, const FontHolder& fontHolder,
-        sf::View& worldView, const sf::Vector2f& positionOffset
+        TextureHolder& textureHolder, FontHolder& fontHolder,
+        sf::View& worldView, sf::Vector2f positionOffset
     );
 
     TextureHolder& textureHolder;
-    const FontHolder& fontHolder;
+    FontHolder& fontHolder;
     sf::View& worldView;
-    const sf::Vector2f& positionOffset;
+    sf::Vector2f& positionOffset;
 };
 
 class PowerUpIcon : public SpriteNode {

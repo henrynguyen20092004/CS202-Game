@@ -5,6 +5,8 @@
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
 
+class Score;
+
 class Player : public Entity {
    public:
     typedef std::unique_ptr<Player> Ptr;
@@ -26,11 +28,15 @@ class Player : public Entity {
     void heal();
     void goBack();
 
+    void setScorePtr(Score* score);
+    void addBonusScore() const;
+
     bool isAlive() const;
 
    private:
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
+    Score* mScore = nullptr;
 
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;

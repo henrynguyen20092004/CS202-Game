@@ -3,7 +3,7 @@
 
 #include "../MovableSpriteNode/MovableSpriteNode.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
-
+#include "../Blood/Blood.hpp"
 class Player : public MovableSpriteNode {
    public:
     typedef std::unique_ptr<Player> Ptr;
@@ -29,7 +29,7 @@ class Player : public MovableSpriteNode {
     bool mIsMoving;
 
     int mHealth = 1;
-
+    Blood* mBlood;
     void initPosition(const sf::Vector2f& viewCenter);
     void initTargetDistance();
 

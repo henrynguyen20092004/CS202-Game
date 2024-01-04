@@ -6,17 +6,18 @@
 
 class GameOverState : public State {
    public:
-    GameOverState(StateStack& stack, Context context);
+    GameOverState(
+        StateStack& stack, Context context, bool isMultiplayer = false
+    );
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;
     void draw() override;
 
    private:
-    sf::Text mGameOverText;
-    sf::Text mCurrentScoreText;
-    sf::Text mHighestScoreText;
+    sf::Text mGameOverText, mCurrentScoreText, mHighestScoreText;
     sf::Time mElapsedTime;
     GUI::Container mGUIContainer;
 };
+
 #endif

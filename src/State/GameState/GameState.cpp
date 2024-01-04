@@ -3,8 +3,10 @@
 #include "../../Global/Global.hpp"
 #include "../PauseState/PauseState.hpp"
 
-GameState::GameState(StateStack& stack, Context context)
-    : State(stack, context), mWorld(context) {
+GameState::GameState(StateStack& stack, Context context, bool isMultiplayer)
+    : State(stack, context),
+      mWorld(context /*, isMultiplayer*/),
+      isMultiplayer(isMultiplayer) {
     Global::SCORE = 0;
 }
 
@@ -22,7 +24,11 @@ bool GameState::handleEvent(const sf::Event& event) {
 bool GameState::update(sf::Time deltaTime) {
     mWorld.update(deltaTime);
     if (!mWorld.isPlayerAlive()) {
-        requestStackPush(States::ID::GameOver);
+        if (isMultiplayer) {
+            requestStackPush(States::ID::MultiplayerGameOver);
+        } else {
+            requestStackPush(States::ID::GameOver);
+        }
     }
 
     return true;

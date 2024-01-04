@@ -14,4 +14,4 @@ const int Global::TILE_SIZE = 90;
 const int Global::NUM_TILES_X = Global::WINDOW_WIDTH / Global::TILE_SIZE;
 const int Global::NUM_TILES_Y = Global::WINDOW_HEIGHT / Global::TILE_SIZE;
 
-int Global::SCORE=0;
+int Global::SCORE = 0;

@@ -116,8 +116,12 @@ void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<SettingsState>(States::ID::Settings);
     mStateStack.registerState<GameState>(States::ID::Game);
+    mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
+    mStateStack.registerState<GameOverState>(
+        States::ID::MultiplayerGameOver, true
+    );
 }
 
 void Program::handleEvent(sf::Event& event) {

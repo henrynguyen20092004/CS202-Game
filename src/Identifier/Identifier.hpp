@@ -6,8 +6,10 @@ enum class ID {
     Title,
     Menu,
     Game,
+    MultiplayerGame,
     Pause,
     GameOver,
+    MultiplayerGameOver,
     Settings,
     None,
 };

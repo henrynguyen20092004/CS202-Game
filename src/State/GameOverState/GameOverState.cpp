@@ -7,7 +7,9 @@
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"
 
-GameOverState::GameOverState(StateStack& stack, Context context)
+GameOverState::GameOverState(
+    StateStack& stack, Context context, bool isMultiplayer
+)
     : State(stack, context),
       mElapsedTime(sf::Time::Zero),
       mGameOverText(
@@ -18,8 +20,7 @@ GameOverState::GameOverState(StateStack& stack, Context context)
           context.fontHolder->get(Fonts::ID::VTV323), 40
       ),
       mHighestScoreText(
-          "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323),
-          30
+          "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323), 30
       ) {
     sf::Vector2f windowSize(context.window->getSize());
     // Todo: Create data table to display highest score
@@ -35,9 +36,14 @@ GameOverState::GameOverState(StateStack& stack, Context context)
         *context.fontHolder, *context.textureHolder, "Replay"
     );
     replayButton->setPosition(windowSize.x / 2, windowSize.y / 2.f);
-    replayButton->setCallback([this]() {
+    replayButton->setCallback([this, isMultiplayer]() {
         requestStateClear();
-        requestStackPush(States::ID::Game);
+
+        if (isMultiplayer) {
+            requestStackPush(States::ID::MultiplayerGame);
+        } else {
+            requestStackPush(States::ID::Game);
+        }
     });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(

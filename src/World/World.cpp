@@ -72,14 +72,8 @@ void World::buildScene() {
     // );
     // mSceneLayers[MapLayer]->attachChild(std::move(elephant));
 
-<<<<<<< HEAD
     // Cat::Ptr cat(new Cat(mTextureHolder, Textures::ID::Cat, *mPowerUpList));
     // mSceneLayers[MapLayer]->attachChild(std::move(cat));
-=======
-    Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
-    mScore = score.get();
-    mSceneLayers[IconLayer]->attachChild(std::move(score));
->>>>>>> cfd4571 (Display current score)
 }
 
 void World::updateView() {

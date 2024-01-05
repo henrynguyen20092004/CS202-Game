@@ -9,7 +9,7 @@ class Map : public SceneNode {
     typedef std::unique_ptr<Map> Ptr;
 
     Map(TextureHolder& textureHolder, sf::View& worldView,
-        std::vector<Player*> players);
+        const std::vector<Player*>& players);
 
     bool isPlayerMoved() const;
 

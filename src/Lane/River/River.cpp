@@ -157,15 +157,12 @@ void River::updateCurrent(sf::Time deltaTime) {
         addLog();
     }
 
-    if (mDirection == Directions::ID::Left) {
-        if (mLogs.back()->getPosition().x <
-            -mLogs.back()->getSize().x - Global::TILE_SIZE) {
-            removeLog();
-        }
-    } else {
-        if (mLogs.back()->getPosition().x >
-            Global::WINDOW_WIDTH + Global::TILE_SIZE) {
-            removeLog();
-        }
+    float backLogPosX = mLogs.back()->getPosition().x;
+
+    if (mDirection == Directions::ID::Left &&
+            backLogPosX < -mLogs.back()->getSize().x - Global::TILE_SIZE ||
+        mDirection == Directions::ID::Right &&
+            backLogPosX > Global::WINDOW_WIDTH + Global::TILE_SIZE) {
+        removeLog();
     }
 }

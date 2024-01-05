@@ -9,7 +9,7 @@
 
 Map::Map(
     TextureHolder& textureHolder, sf::View& worldView,
-    std::vector<Player*> players
+    const std::vector<Player*>& players
 )
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
@@ -53,9 +53,9 @@ void Map::initPlayer() {
 int Map::getPlayerLaneIndex(int playerIndex) const {
     for (int i = 0; i < mLanes.size() - 1; ++i) {
         if (mLanes[i]->getPosition().y <
-                mPlayers[playerIndex]->getGlobalBounds().getPosition().y &&
+                mPlayers[playerIndex]->getWorldPosition().y &&
             mLanes[i + 1]->getPosition().y >
-                mPlayers[playerIndex]->getGlobalBounds().getPosition().y) {
+                mPlayers[playerIndex]->getWorldPosition().y) {
             return i;
         }
     }
@@ -193,6 +193,7 @@ void Map::updatePlayer() {
         }
 
         Directions::ID direction = mPlayers[i]->getDirection();
+
         if (direction == Directions::ID::None) {
             return;
         }

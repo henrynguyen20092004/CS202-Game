@@ -12,8 +12,8 @@ class Player : public Entity {
     typedef std::unique_ptr<Player> Ptr;
 
     Player(
-        TextureHolder& mTextureHolder, sf::View& worldView,
-        PlayerSettings& playerSettings
+        TextureHolder& mTextureHolder, Textures::ID textureID,
+        sf::View& worldView, PlayerSettings& playerSettings
     );
 
     bool askToMove();
@@ -32,6 +32,8 @@ class Player : public Entity {
     void addBonusScore() const;
 
     bool isAlive() const;
+
+    void handlePlayerCollision(Player& player) override;
 
    private:
     PlayerSettings& mPlayerSettings;

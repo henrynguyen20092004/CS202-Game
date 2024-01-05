@@ -3,6 +3,7 @@
 
 #include "../../Vehicle/Vehicle.hpp"
 #include "../Lane.hpp"
+#include "RailwaySignal/RailwaySignal.hpp"
 
 class TrainLane : public Lane {
    public:
@@ -15,6 +16,7 @@ class TrainLane : public Lane {
     sf::Vector2f mVelocity;
     sf::Time mSpawnClock;
     Vehicle* mTrain;
+    RailwaySignal* mRailwaySignal;
 
     void buildScene();
 

@@ -7,59 +7,75 @@
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Random/Random.hpp"
 
-Map::Map(TextureHolder& textureHolder, sf::View& worldView, Player* player)
+Map::Map(
+    TextureHolder& textureHolder, sf::View& worldView,
+    std::vector<Player*> players
+)
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
-      mPlayer(player),
+      mPlayers(players),
       mIsPlayerMoved(false) {
     initLanes();
     initPlayer();
+    Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
 
 void Map::handlePlayerCollision() {
+    if (mPlayers.size() == 2) {
+        mPlayers[0]->handlePlayerCollision(*mPlayers[1]);
+        mPlayers[1]->handlePlayerCollision(*mPlayers[0]);
+    }
+
     for (Lane* lane : mLanes) {
-        lane->handlePlayerCollision(*mPlayer);
+        for (Player* player : mPlayers) {
+            lane->handlePlayerCollision(*player);
+        }
     }
 }
 
 void Map::initPlayer() {
-    Tile* playerTile =
-        mLanes[Global::NUM_TILES_Y - 2]->getTile(Global::NUM_TILES_X / 2);
-    mPlayer->setPosition(
-        playerTile->getWorldPosition() +
-        (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - mPlayer->getSize()
-        ) / 2.f
-    );
-    mPlayer->setTargetTile(playerTile);
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        Tile* playerTile = mLanes[Global::NUM_TILES_Y - 2]->getTile(
+            Global::NUM_TILES_X / 2 + 1 - i
+        );
+        mPlayers[i]->setPosition(
+            playerTile->getWorldPosition() +
+            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) -
+             mPlayers[i]->getSize()) /
+                2.f
+        );
+        mPlayers[i]->setTargetTile(playerTile);
+    }
 }
 
-int Map::getPlayerLaneIndex() const {
+int Map::getPlayerLaneIndex(int playerIndex) const {
     for (int i = 0; i < mLanes.size() - 1; ++i) {
-        if (mLanes[i]->getPosition().y < mPlayer->getWorldPosition().y &&
-            mLanes[i + 1]->getPosition().y > mPlayer->getWorldPosition().y) {
+        if (mLanes[i]->getPosition().y <
+                mPlayers[playerIndex]->getGlobalBounds().getPosition().y &&
+            mLanes[i + 1]->getPosition().y >
+                mPlayers[playerIndex]->getGlobalBounds().getPosition().y) {
             return i;
         }
     }
 
-    mPlayer->kill();
+    mPlayers[playerIndex]->kill();
     return -1;
 }
 
-Tile* Map::getPlayerNextTile(Directions::ID direction) const {
+Tile* Map::getPlayerNextTile(int playerIndex, Directions::ID direction) const {
     assert(direction != Directions::ID::None);
 
-    int playerLaneIndex = getPlayerLaneIndex();
+    int playerLaneIndex = getPlayerLaneIndex(playerIndex);
     Tile* playerNextTile = nullptr;
-
-    for (Tile::Type type : {Tile::Type::Good, Tile::Type::Bad}) {
+    for (auto type : {Tile::Type::Good, Tile::Type::Bad}) {
         playerNextTile =
             mLanes
                 [playerLaneIndex - (direction == Directions::ID::Up) +
                  (direction == Directions::ID::Down)]
                     ->getNearestTile(
-                        mPlayer->getSourceTile(), type,
+                        mPlayers[playerIndex]->getSourceTile(), type,
                         (direction == Directions::ID::Left ||
                          direction == Directions::ID::Right)
                             ? direction
@@ -67,25 +83,26 @@ Tile* Map::getPlayerNextTile(Directions::ID direction) const {
                     );
 
         if (playerNextTile &&
-            mPlayer->getSourceTile()->distanceTo(playerNextTile) <= 101.f) {
+            mPlayers[playerIndex]->getSourceTile()->distanceTo(playerNextTile
+            ) <= 101.f) {
             break;
         }
     }
 
     if (!playerNextTile) {
-        mPlayer->kill();
+        mPlayers[playerIndex]->kill();
     }
 
     return playerNextTile;
 }
 
-void Map::movePlayerTile(Tile* destinationTile) {
+void Map::movePlayerTile(int playerIndex, Tile* destinationTile) {
     if (!destinationTile) {
-        mPlayer->kill();
+        mPlayers[playerIndex]->kill();
         return;
     }
 
-    mPlayer->setTargetTile(destinationTile);
+    mPlayers[playerIndex]->setTargetTile(destinationTile);
 }
 
 Lane* Map::createLane(Textures::ID textureID, sf::Vector2f position) {
@@ -155,9 +172,11 @@ void Map::removeLane() {
 }
 
 void Map::updateLanes() {
-    if (mLanes.front()->getPosition().y >
-        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f) {
+    if (mLanes.front()->getPosition().y > mWorldView.getCenter().y -
+                                              mWorldView.getSize().y / 2.f -
+                                              Global::TILE_SIZE) {
         addRandomLane();
+        Global::DIFFICULTY_MODIFIER += 0.01f;
     }
 
     if (mLanes.back()->getPosition().y > mWorldView.getCenter().y +
@@ -168,18 +187,19 @@ void Map::updateLanes() {
 }
 
 void Map::updatePlayer() {
-    if (!mPlayer->askToMove()) {
-        return;
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        if (!mPlayers[i]->askToMove()) {
+            continue;
+        }
+
+        Directions::ID direction = mPlayers[i]->getDirection();
+        if (direction == Directions::ID::None) {
+            return;
+        }
+
+        mIsPlayerMoved = true;
+        movePlayerTile(i, getPlayerNextTile(i, direction));
     }
-
-    Directions::ID direction = mPlayer->getDirection();
-
-    if (direction == Directions::ID::None) {
-        return;
-    }
-
-    mIsPlayerMoved = true;
-    movePlayerTile(getPlayerNextTile(direction));
 }
 
 void Map::updateCurrent(sf::Time deltaTime) {

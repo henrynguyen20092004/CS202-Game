@@ -3,7 +3,7 @@
 
 #include <array>
 
-#include "../SpriteNode/SpriteNode.hpp"
+#include "../../../SpriteNode/SpriteNode.hpp"
 
 class TrafficLight : public SpriteNode {
    public:
@@ -22,7 +22,7 @@ class TrafficLight : public SpriteNode {
 
    private:
     const std::array<sf::Time, 3> mStateTimeCount{
-        sf::seconds(2), sf::seconds(1), sf::seconds(2)
+        sf::seconds(2), sf::seconds(1), sf::seconds(3)
     };
     TrafficLight::State mState;
     sf::Time mTimeCount;

@@ -1,9 +1,9 @@
 #ifndef VEHICLE_LANE_HPP
 #define VEHICLE_LANE_HPP
 
-#include "../../TrafficLight/TrafficLight.hpp"
 #include "../../Vehicle/Vehicle.hpp"
 #include "../Lane.hpp"
+#include "TrafficLight/TrafficLight.hpp"
 
 class VehicleLane : public Lane {
    public:
@@ -15,8 +15,8 @@ class VehicleLane : public Lane {
     Textures::ID mTextureID;
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
-    sf::Time mSpawnClock;
     std::deque<Vehicle*> mVehicles;
+    int mTileToNextSpawns;
     TrafficLight* mTrafficLight;
     float mVelocityPercent;
 

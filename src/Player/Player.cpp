@@ -6,13 +6,13 @@
 #include "../Score/Score.hpp"
 
 Player::Player(
-    TextureHolder& textureHolder, sf::View& worldView,
+    TextureHolder& textureHolder, Textures::ID textureID, sf::View& worldView,
     PlayerSettings& playerSettings
 )
-    : Entity(textureHolder, Textures::ID::Player),
+    : Entity(textureHolder, textureID, sf::IntRect(0, 0, 60, 60)),
       mWorldView(worldView),
       mPlayerSettings(playerSettings) {
-    setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
 }
 
@@ -43,7 +43,7 @@ void Player::damage() { --mHealth; }
 void Player::heal() { ++mHealth; }
 
 void Player::goBack() {
-    if (mForceGoGack) {
+    if (!mIsMoving || mForceGoGack) {
         return;
     }
 
@@ -57,6 +57,12 @@ void Player::addBonusScore() const { mScore->addBonus(); }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 
+void Player::handlePlayerCollision(Player& player) {
+    if (&player != this && collidePlayer(player)) {
+        goBack();
+    }
+}
+
 void Player::handleEventCurrent(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {
         Directions::ID direction = mPlayerSettings.getDirection(event.key.code);
@@ -64,6 +70,9 @@ void Player::handleEventCurrent(const sf::Event& event) {
         if (!mIsMoving && direction != Directions::ID::None) {
             mDirection = direction;
             mNeedToMove = true;
+            setTextureRect(
+                sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
+            );
         }
     }
 }
@@ -79,18 +88,19 @@ void Player::updateCurrent(sf::Time deltaTime) {
         float distance = std::hypotf(movement.x, movement.y),
               velocity = getVelocity().x;
 
-        if (mDirection == Directions::ID::Left ||
-            mDirection == Directions::ID::Right) {
+        if (!movement.y) {
             velocity +=
-                (mDirection == Directions::ID::Left ? -1 : 1) *
+                (movement.x < 0 ? -1 : 1) *
                 (mTargetTile->getDirection() == Directions::ID::Left ? -1 : 1) *
                 mTargetTile->getVelocity().x;
         }
 
-        float displacement = velocity * deltaTime.asSeconds();
+        float displacement =
+            velocity * Global::DIFFICULTY_MODIFIER * deltaTime.asSeconds();
 
         if (distance <= displacement) {
             setPosition(targetPosition);
+            mDirection = Directions::ID::None;
             mSourceTile = mTargetTile;
             mTargetTile = nullptr;
             mIsMoving = false;

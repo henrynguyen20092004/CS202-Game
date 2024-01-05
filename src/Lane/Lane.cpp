@@ -4,6 +4,7 @@
 #include <limits>
 
 #include "../Global/Global.hpp"
+#include "../Random/Random.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
 
 Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
@@ -55,9 +56,6 @@ void Lane::buildScene(Textures::ID textureID) {
         mSceneLayers[i] = layer.get();
         attachChild(std::move(layer));
     }
-
-    SpriteNode::Ptr sprite(new SpriteNode(mTextureHolder, textureID));
-    mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
 
     if (textureID == Textures::ID::River) {
         return;

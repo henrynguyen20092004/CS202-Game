@@ -37,7 +37,8 @@ enum class ID {
 
 namespace Textures {
 enum class ID {
-    Player,
+    BlueNinja,
+    BlackNinja,
 
     TitleBackground,
     MenuBackground,
@@ -55,11 +56,13 @@ enum class ID {
     Pug,
 
     Rock,
-    TrafficLight,
-
+    Tree,
+    Log,
     ShortLog,
     MediumLog,
     LongLog,
+    RailwaySignal,
+    TrafficLight,
 
     VehicleLane,
     TrainLane,

@@ -22,7 +22,7 @@ PowerUpIcon::PowerUpIcon(
         powerUpIconArgs.fontHolder, Fonts::ID::Dosis,
         "x" + std::to_string(mCount), 30
     ));
-    mSprite.setTextureRect(sf::IntRect(0, 0, 90, 90));
+    setTextureRect(sf::IntRect(0, 0, 90, 90));
 
     mTextNode = textnode.get();
     attachChild(std::move(textnode));

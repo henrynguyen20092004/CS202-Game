@@ -25,7 +25,8 @@ T Random<T>::generate(
     }
 
     int sum = 0;
-    for (auto& p : percent) {
+
+    for (int p : percent) {
         if (p < 0) {
             throw std::invalid_argument("Invalid percent, must be >= 0");
         }
@@ -39,8 +40,10 @@ T Random<T>::generate(
 
     int random = Random<int>::generate(1, 100);
     int current = 0;
+
     for (size_t i = 0; i < percent.size(); ++i) {
         current += percent[i];
+
         if (random <= current) {
             return list[i];
         }

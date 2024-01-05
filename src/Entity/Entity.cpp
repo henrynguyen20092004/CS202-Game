@@ -1,6 +1,5 @@
 #include "Entity.hpp"
 
-#include "../Global/Global.hpp"
 #include "../Player/Player.hpp"
 
 sf::FloatRect Entity::getLocalHitbox() const { return mHitbox; }

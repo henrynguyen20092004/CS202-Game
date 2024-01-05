@@ -23,7 +23,7 @@ TrafficLight::TrafficLight(
         setPosition(Global::TILE_SIZE, 0);
     }
 
-    mSprite.setTextureRect(sf::IntRect(
+    setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }
@@ -46,7 +46,7 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
         mTimeCount = sf::Time::Zero;
     }
 
-    mSprite.setTextureRect(sf::IntRect(
+    setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }

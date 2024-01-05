@@ -81,15 +81,15 @@ Vehicle* VehicleLane::createVehicle() {
 }
 
 void VehicleLane::addVehicle() {
+    float frontVehiclePosX = mVehicles.front()->getPosition().x;
     Vehicle::Ptr vehicle(createVehicle());
     vehicle->setVelocity(mVelocity);
     vehicle->setPosition(sf::Vector2f(
         mDirection == Directions::ID::Left
-            ? mVehicles.front()->getPosition().x +
-                  mVehicles.front()->getSize().x +
+            ? frontVehiclePosX + mVehicles.front()->getSize().x +
                   mTileToNextSpawns * Global::TILE_SIZE
-            : mVehicles.front()->getPosition().x -
-                  mTileToNextSpawns * Global::TILE_SIZE - vehicle->getSize().x,
+            : frontVehiclePosX - mTileToNextSpawns * Global::TILE_SIZE -
+                  vehicle->getSize().x,
         (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
     ));
     mVehicles.push_front(vehicle.get());
@@ -122,13 +122,14 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
             break;
     }
 
-    while ((mDirection == Directions::ID::Left &&
-            mVehicles.front()->getPosition().x +
-                    mVehicles.front()->getSize().x <
-                Global::WINDOW_WIDTH - mTileToNextSpawns * Global::TILE_SIZE) ||
-           (mDirection == Directions::ID::Right &&
-            mVehicles.front()->getPosition().x >
-                mTileToNextSpawns * Global::TILE_SIZE)) {
+    while (mDirection == Directions::ID::Left &&
+               mVehicles.front()->getPosition().x +
+                       mVehicles.front()->getSize().x <
+                   Global::WINDOW_WIDTH -
+                       mTileToNextSpawns * Global::TILE_SIZE ||
+           mDirection == Directions::ID::Right &&
+               mVehicles.front()->getPosition().x >
+                   mTileToNextSpawns * Global::TILE_SIZE) {
         addVehicle();
     }
 

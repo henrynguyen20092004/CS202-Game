@@ -15,8 +15,6 @@ RailwaySignal::RailwaySignal(TextureHolder& textureHolder)
     setPosition(Global::WINDOW_WIDTH / 2 - getSize().x / 2, 0);
 }
 
-#include <iostream>
-
 void RailwaySignal::switchState(RailwaySignal::State state) {
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::RailwaySignal).getSize();

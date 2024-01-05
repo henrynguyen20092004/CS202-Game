@@ -1,7 +1,7 @@
 #include "SettingsState.hpp"
 
 SettingsState::SettingsState(StateStack& stack, Context context)
-    : State(stack, context), mPlayerSettings(*context.playerSettings) {
+    : State(stack, context) {
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
     sf::Vector2f windowSize(context.window->getSize());
@@ -11,29 +11,33 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y
     );
+    for (int player = 1; player <= 2; ++player) {
+        addDirectionButtonLabel(
+            Directions::ID::Left, player, sf::Vector2f(-250.f, 200.f),
+            "Move Left", context
+        );
+        addDirectionButtonLabel(
+            Directions::ID::Right, player, sf::Vector2f(-250.f, 250.f),
+            "Move Right", context
+        );
+        addDirectionButtonLabel(
+            Directions::ID::Up, player, sf::Vector2f(-250.f, 300.f), "Move Up",
+            context
+        );
+        addDirectionButtonLabel(
+            Directions::ID::Down, player, sf::Vector2f(-250.f, 350.f),
+            "Move Down", context
+        );
 
-    addDirectionButtonLabel(
-        Directions::ID::Left, sf::Vector2f(-250.f, 300.f), "Move Left", context
-    );
-    addDirectionButtonLabel(
-        Directions::ID::Right, sf::Vector2f(-250.f, 350.f), "Move Right",
-        context
-    );
-    addDirectionButtonLabel(
-        Directions::ID::Up, sf::Vector2f(-250.f, 400.f), "Move Up", context
-    );
-    addDirectionButtonLabel(
-        Directions::ID::Down, sf::Vector2f(-250.f, 450.f), "Move Down", context
-    );
-
-    addPowerButtonLabel(
-        PowerUp::Type::Immortality, sf::Vector2f(250.f, 300.f), "Immortality",
-        context
-    );
-    addPowerButtonLabel(
-        PowerUp::Type::SlowTime, sf::Vector2f(250.f, 350.f), "Slow Time",
-        context
-    );
+        addPowerButtonLabel(
+            PowerUp::Type::Immortality, player, sf::Vector2f(-250.f, 400.f),
+            "Immortality", context
+        );
+        addPowerButtonLabel(
+            PowerUp::Type::SlowTime, player, sf::Vector2f(-250.f, 450.f),
+            "Slow Time", context
+        );
+    }
 
     updateLabels();
 
@@ -42,8 +46,10 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     );
     resetButton->setPosition(windowSize.x / 2, 600.f);
     resetButton->setCallback([this]() {
-        getContext().playerSettings->setToDefault();
-        getContext().powerUpSettings->setToDefault();
+        getContext().playerSettings1->setToDefault();
+        getContext().powerUpSettings1->setToDefault();
+        getContext().playerSettings2->setToDefault(true);
+        getContext().powerUpSettings2->setToDefault(true);
         updateLabels();
     });
 
@@ -60,24 +66,44 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 bool SettingsState::handleEvent(const sf::Event& event) {
     bool isKeyBinding = false;
     int directionCount = static_cast<int>(Directions::ID::DirectionCount);
+    int actionCount =
+        directionCount + static_cast<int>(PowerUp::Type::TypeButtonCount);
 
-    for (std::size_t action = 0; action < mBindingButtons.size(); ++action) {
-        if (mBindingButtons[action]->isActive()) {
+    for (std::size_t buttonIndex = 0; buttonIndex < mBindingButtons.size();
+         ++buttonIndex) {
+        if (mBindingButtons[buttonIndex]->isActive()) {
             isKeyBinding = true;
 
-            if (event.type == sf::Event::KeyReleased) {
-                if (action >= directionCount) {
-                    getContext().powerUpSettings->assignKey(
+            if (buttonIndex < actionCount &&
+                event.type == sf::Event::KeyReleased) {
+                if (buttonIndex >= directionCount) {
+                    getContext().powerUpSettings1->assignKey(
                         event.key.code,
-                        static_cast<PowerUp::Type>(action - directionCount)
+                        static_cast<PowerUp::Type>(buttonIndex - directionCount)
                     );
                 } else {
-                    getContext().playerSettings->assignKey(
-                        event.key.code, static_cast<Directions::ID>(action)
+                    getContext().playerSettings1->assignKey(
+                        event.key.code, static_cast<Directions::ID>(buttonIndex)
                     );
                 }
 
-                mBindingButtons[action]->deactivate();
+                mBindingButtons[buttonIndex]->deactivate();
+            } else if (event.type == sf::Event::KeyReleased) {
+                if (buttonIndex >= directionCount + actionCount) {
+                    getContext().powerUpSettings2->assignKey(
+                        event.key.code,
+                        static_cast<PowerUp::Type>(
+                            buttonIndex - directionCount - actionCount
+                        )
+                    );
+                } else {
+                    getContext().playerSettings2->assignKey(
+                        event.key.code,
+                        static_cast<Directions::ID>(buttonIndex - actionCount)
+                    );
+                }
+
+                mBindingButtons[buttonIndex]->deactivate();
             }
 
             break;
@@ -103,30 +129,49 @@ void SettingsState::draw() {
 }
 
 void SettingsState::updateLabels() {
-    sf::Keyboard::Key key;
+    sf::Keyboard::Key key1;
+    sf::Keyboard::Key key2;
     int directionCount = static_cast<int>(Directions::ID::DirectionCount);
+    int actionCount =
+        directionCount + static_cast<int>(PowerUp::Type::TypeButtonCount);
 
-    for (int i = 0; i < mBindingLabels.size(); ++i) {
+    for (int i = 0; i < actionCount; ++i) {
         if (i < directionCount) {
-            key = getContext().playerSettings->getAssignedKey(
+            key1 = getContext().playerSettings1->getAssignedKey(
+                static_cast<Directions::ID>(i)
+            );
+            key2 = getContext().playerSettings2->getAssignedKey(
                 static_cast<Directions::ID>(i)
             );
         } else {
-            key = getContext().powerUpSettings->getAssignedKey(
+            key1 = getContext().powerUpSettings1->getAssignedKey(
+                static_cast<PowerUp::Type>(i - directionCount)
+            );
+            key2 = getContext().powerUpSettings2->getAssignedKey(
                 static_cast<PowerUp::Type>(i - directionCount)
             );
         }
 
-        mBindingLabels[i]->setText(toString(key));
+        mBindingLabels[i]->setText(toString(key1));
         mBindingLabels[i]->setTextColor(sf::Color(0, 255, 255));
+        mBindingLabels[i + actionCount]->setText(toString(key2));
+        mBindingLabels[i + actionCount]->setTextColor(sf::Color(0, 255, 255));
     }
 }
 
 void SettingsState::addDirectionButtonLabel(
-    Directions::ID direction, const sf::Vector2f& position,
+    Directions::ID direction, int player, sf::Vector2f position,
     const std::string& text, Context context
 ) {
     int index = static_cast<int>(direction);
+
+    if (player == 2) {
+        position.x = -position.x;
+        index +=
+            (static_cast<int>(Directions::ID::DirectionCount) +
+             static_cast<int>(PowerUp::Type::TypeButtonCount));
+    }
+
     sf::Vector2f windowSize(context.window->getSize());
 
     mBindingButtons[index] = std::make_shared<GUI::Button>(
@@ -148,11 +193,19 @@ void SettingsState::addDirectionButtonLabel(
 }
 
 void SettingsState::addPowerButtonLabel(
-    PowerUp::Type power, const sf::Vector2f& position, const std::string& text,
-    Context context
+    PowerUp::Type power, int player, sf::Vector2f position,
+    const std::string& text, Context context
 ) {
     int index = static_cast<int>(Directions::ID::DirectionCount) +
                 static_cast<int>(power);
+
+    if (player == 2) {
+        position.x = -position.x;
+        index +=
+            (static_cast<int>(Directions::ID::DirectionCount) +
+             static_cast<int>(PowerUp::Type::TypeButtonCount));
+    }
+
     sf::Vector2f windowSize(context.window->getSize());
 
     mBindingButtons[index] = std::make_shared<GUI::Button>(

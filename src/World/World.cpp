@@ -7,10 +7,16 @@ World::World(State::Context context, bool isMultiplayer)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
+<<<<<<< HEAD
       mPlayerSettings(*context.playerSettings),
       mPowerUpSettings(*context.powerUpSettings),
       mWorldView(mWindow.getView()),
       mPlayers(1 + isMultiplayer, nullptr) {
+=======
+      mPlayerSettings(*context.playerSettings1),
+      mPowerUpSettings(*context.powerUpSettings1),
+      mWorldView(mWindow.getView()) {
+>>>>>>> d14bcc6 (Adjust State, SettingState for multiplayer)
     buildScene();
 }
 

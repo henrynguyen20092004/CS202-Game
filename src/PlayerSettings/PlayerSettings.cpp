@@ -1,6 +1,6 @@
 #include "PlayerSettings.hpp"
 
-PlayerSettings::PlayerSettings() { setToDefault(); }
+PlayerSettings::PlayerSettings(bool isPlayer2) { setToDefault(isPlayer2); }
 
 void PlayerSettings::assignKey(
     sf::Keyboard::Key key, Directions::ID direction
@@ -34,9 +34,17 @@ sf::Keyboard::Key PlayerSettings::getAssignedKey(Directions::ID direction
     return sf::Keyboard::Unknown;
 }
 
-void PlayerSettings::setToDefault() {
-    assignKey(sf::Keyboard::Up, Directions::ID::Up);
-    assignKey(sf::Keyboard::Down, Directions::ID::Down);
-    assignKey(sf::Keyboard::Left, Directions::ID::Left);
-    assignKey(sf::Keyboard::Right, Directions::ID::Right);
+void PlayerSettings::setToDefault(bool isPlayer2) {
+    if (isPlayer2) {
+        assignKey(sf::Keyboard::W, Directions::ID::Up);
+        assignKey(sf::Keyboard::S, Directions::ID::Down);
+        assignKey(sf::Keyboard::A, Directions::ID::Left);
+        assignKey(sf::Keyboard::D, Directions::ID::Right);
+        return;
+    } else {
+        assignKey(sf::Keyboard::Up, Directions::ID::Up);
+        assignKey(sf::Keyboard::Down, Directions::ID::Down);
+        assignKey(sf::Keyboard::Left, Directions::ID::Left);
+        assignKey(sf::Keyboard::Right, Directions::ID::Right);
+    }
 }

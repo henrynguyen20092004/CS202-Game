@@ -13,9 +13,11 @@ Program::Program()
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT),
           "Crossy Road Gameplay", sf::Style::Close
       ),
+      mPlayerSettings2(true),
+      mPowerUpSettings2(true),
       mStateStack(State::Context(
-          mWindow, mTextureHolder, mFontHolder, mPlayerSettings,
-          mPowerUpSettings
+          mWindow, mTextureHolder, mFontHolder, mPlayerSettings1,
+          mPlayerSettings2, mPowerUpSettings1, mPowerUpSettings2
       )) {
     mWindow.setKeyRepeatEnabled(false);
     loadTextures();

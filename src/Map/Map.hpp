@@ -27,6 +27,7 @@ class Map : public SceneNode {
     std::deque<Lane*> mLanes;
     std::vector<Player*> mPlayers;
     std::vector<PowerUpList*> mPowerUpList;
+    int mLaneCount = 0;
     bool mIsPlayerMoved = false;
 
     void initPlayer();

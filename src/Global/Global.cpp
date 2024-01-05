@@ -5,6 +5,8 @@
 #define DESKTOP_MODE sf::VideoMode::getDesktopMode()
 #define WINDOW_DESKTOP_RATIO 0.75f
 
+int Global::SEASON_INDEX = 0;
+
 float Global::SPEED_MODIFIER = 1.f;
 float Global::DIFFICULTY_MODIFIER = 1.f;
 

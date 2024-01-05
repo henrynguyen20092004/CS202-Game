@@ -1,5 +1,6 @@
 #include "World.hpp"
 
+#include "../FallingSnow/FallingSnow.hpp"
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
@@ -98,6 +99,9 @@ void World::buildScene(const State::Context& context, bool isLoading) {
         mPowerUpLists[1] = powerUpList.get();
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
+
+    FallingSnow::Ptr fallingSnow(new FallingSnow(mWorldView));
+    mSceneLayers[EffectLayer]->attachChild(std::move(fallingSnow));
 
     if (mPlayers.size() == 1) {
         Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));

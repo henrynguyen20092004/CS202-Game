@@ -27,6 +27,9 @@ Map::Map(
     if (mScore) {
         mScore->init();
     }
+
+    Global::SEASON_INDEX = 0;
+    Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
@@ -165,6 +168,7 @@ void Map::addEmptyLane() {
         mPowerUpList, mScore, false, true
     ));
     mLanes.push_front(lane.get());
+    mLaneCount++;
     attachChild(std::move(lane));
 }
 
@@ -183,6 +187,7 @@ void Map::addRandomLane() {
         false
     ));
     mLanes.push_front(lane.get());
+    mLaneCount++;
     attachChild(std::move(lane));
 }
 
@@ -226,6 +231,12 @@ void Map::updatePlayer() {
 void Map::updateCurrent(sf::Time deltaTime) {
     updateLanes();
     updatePlayer();
+
+    if (mLaneCount == 25) {
+        (Global::SEASON_INDEX += 1) %=
+            static_cast<int>(Seasons::ID::SeasonCount);
+        mLaneCount = 0;
+    }
 }
 
 void Map::saveCurrent(std::ofstream& fout) const {

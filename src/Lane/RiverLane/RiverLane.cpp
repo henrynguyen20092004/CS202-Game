@@ -20,7 +20,13 @@ RiverLane::RiverLane(
     mDirection = Random<Directions::ID>::generate(
         {Directions::ID::Left, Directions::ID::Right}
     );
-    mVelocity = sf::Vector2f(Random<float>::generate(250.f, 300.f), 0.f);
+
+    mVelocity = sf::Vector2f(
+        static_cast<Seasons::ID>(Global::SEASON_INDEX) == Seasons::ID::Winter
+            ? 0
+            : Random<float>::generate(250.f, 300.f),
+        0.f
+    );
 
     init();
 }
@@ -32,9 +38,10 @@ void RiverLane::buildScene(bool isLoading) {
         SpriteNode::Ptr sprite(new SpriteNode(
             mTextureHolder, Textures::ID::RiverLane,
             sf::IntRect(
-                Random<int>::generate({0, 1, 2, 3}, {90, 0, 5, 5}) *
+                Random<int>::generate({0, 1, 2}, {90, 5, 5}) *
                     Global::TILE_SIZE,
-                0, Global::TILE_SIZE, Global::TILE_SIZE
+                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                Global::TILE_SIZE
             )
         ));
         sprite->setPosition(i * Global::TILE_SIZE, 0.f);
@@ -58,7 +65,7 @@ void RiverLane::init() {
     log->setPosition(position);
     mLogs.push_front(log.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(log));
-    mTileToNextSpawns.push_front(Random<int>::generate(1, 5));
+    mTileToNextSpawns.push_front(Random<int>::generate(0, 5));
 
     addLogTiles(position);
 }
@@ -92,7 +99,10 @@ void RiverLane::addLogTiles(const sf::Vector2f& logPosition) {
 
     for (int i = 0; i < mTileToNextSpawns.front(); ++i) {
         Tile::Ptr tile(new Tile(
-            Tile::Type::Bad,
+            static_cast<Seasons::ID>(Global::SEASON_INDEX) ==
+                    Seasons::ID::Winter
+                ? Tile::Type::Good
+                : Tile::Type::Bad,
             logPosition +
                 sf::Vector2f(
                     Global::TILE_SIZE * (mDirection == Directions::ID::Left

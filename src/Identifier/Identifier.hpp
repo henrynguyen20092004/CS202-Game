@@ -23,7 +23,16 @@ enum class ID {
     GameOver,
     MultiplayerGameOverDead1,
     MultiplayerGameOverDead2,
+    MultiplayerGameOver,
     None,
+};
+}
+
+namespace Seasons {
+enum class ID {
+    Spring,
+    Winter,
+    SeasonCount,
 };
 }
 

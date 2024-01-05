@@ -49,8 +49,9 @@ void VehicleLane::buildScene(bool isLoading) {
         SpriteNode::Ptr sprite(new SpriteNode(
             mTextureHolder, Textures::ID::VehicleLane,
             sf::IntRect(
-                Random<int>::generate({0}) * Global::TILE_SIZE, 0,
-                Global::TILE_SIZE, Global::TILE_SIZE
+                Random<int>::generate({0}) * Global::TILE_SIZE,
+                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                Global::TILE_SIZE
             )
         ));
         sprite->setPosition(i * Global::TILE_SIZE, 0.f);

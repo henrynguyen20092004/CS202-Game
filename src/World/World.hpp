@@ -18,7 +18,7 @@ class World : private sf::NonCopyable {
     int getDeadPlayer() const;
 
    private:
-    enum Layer { MapLayer, PlayerLayer, IconLayer, LayerCount };
+    enum Layer { MapLayer, PlayerLayer, EffectLayer, IconLayer, LayerCount };
 
     sf::RenderWindow& mWindow;
     TextureHolder& mTextureHolder;

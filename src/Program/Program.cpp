@@ -64,6 +64,8 @@ void Program::loadTextures() {
         Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
     );
 
+    
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );

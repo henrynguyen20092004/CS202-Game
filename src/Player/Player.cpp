@@ -14,6 +14,11 @@ Player::Player(
       mPlayerSettings(playerSettings) {
     setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
+    Blood::Ptr blood(new Blood(textureHolder, mHealth));
+    mBlood = blood.get();
+    attachChild(std::move(blood));
+
+    mBlood->setPosition(10.f, -10.f);
 }
 
 bool Player::askToMove() {

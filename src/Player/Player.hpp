@@ -4,7 +4,7 @@
 #include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
-
+#include "../Blood/Blood.hpp"
 class Score;
 
 class Player : public Entity {
@@ -47,7 +47,9 @@ class Player : public Entity {
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
     bool mIsImmortal = false;
 
-    int mHealth = 2;
+    int mHealth = 1;
+    Blood* mBlood;
+
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

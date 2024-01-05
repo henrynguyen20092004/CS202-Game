@@ -41,6 +41,8 @@ enum class ID {
     BlackNinja,
 
     TitleBackground,
+   
+    Blood,
     MenuBackground,
 
     Car,

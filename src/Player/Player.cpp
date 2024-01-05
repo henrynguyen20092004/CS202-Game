@@ -57,8 +57,6 @@ void Player::addBonusScore() const { mScore->addBonus(); }
 
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 
-#include <iostream>
-
 void Player::handlePlayerCollision(Player& player) {
     if (&player != this && collidePlayer(player)) {
         goBack();

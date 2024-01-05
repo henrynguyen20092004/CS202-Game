@@ -3,14 +3,14 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
-World::World(State::Context context, bool isTwoPlayers)
+World::World(State::Context context, bool isMultiplayer)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
       mPlayerSettings(*context.playerSettings),
       mPowerUpSettings(*context.powerUpSettings),
       mWorldView(mWindow.getView()),
-      mPlayers(1 + isTwoPlayers, nullptr) {
+      mPlayers(1 + isMultiplayer, nullptr) {
     buildScene();
 }
 
@@ -77,11 +77,14 @@ void World::buildScene() {
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
-    // PowerUpList::Ptr powerUpList(new PowerUpList(
-    //     mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView, mPlayers
-    // ));
-    // mPowerUpList = powerUpList.get();
-    // mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
+    if (mPlayers.size() == 1) {
+        PowerUpList::Ptr powerUpList(new PowerUpList(
+            mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView,
+            *mPlayers[0]
+        ));
+        mPowerUpList = powerUpList.get();
+        mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
+    }
 
     // TODO: Remove when adding AnimalFactory
     // PolarBear::Ptr polarBear(
@@ -96,8 +99,11 @@ void World::buildScene() {
 
     // Cat::Ptr cat(new Cat(mTextureHolder, Textures::ID::Cat, *mPowerUpList));
     // mSceneLayers[MapLayer]->attachChild(std::move(cat));
-    // Score::Ptr score(new Score(*mPlayer, mWorldView, mFontHolder));
-    // mSceneLayers[IconLayer]->attachChild(std::move(score));
+
+    if (mPlayers.size() == 1) {
+        Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));
+        mSceneLayers[IconLayer]->attachChild(std::move(score));
+    }
 }
 
 void World::updateView() {

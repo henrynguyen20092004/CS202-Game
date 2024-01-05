@@ -20,7 +20,8 @@ void Tile::setDirection(Directions::ID direction) { mDirection = direction; }
 void Tile::setVelocity(const sf::Vector2f& velocity) { mVelocity = velocity; }
 
 float Tile::distanceTo(Tile* other) const {
-    sf::Vector2f position = getPosition(), otherPosition = other->getPosition();
+    sf::Vector2f position = getWorldPosition(),
+                 otherPosition = other->getWorldPosition();
 
     return std::hypotf(
         position.x - otherPosition.x, position.y - otherPosition.y

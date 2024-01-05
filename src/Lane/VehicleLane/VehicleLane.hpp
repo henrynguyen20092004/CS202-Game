@@ -1,9 +1,9 @@
 #ifndef VEHICLE_LANE_HPP
 #define VEHICLE_LANE_HPP
 
-#include "../../TrafficLight/TrafficLight.hpp"
 #include "../../Vehicle/Vehicle.hpp"
 #include "../Lane.hpp"
+#include "TrafficLight/TrafficLight.hpp"
 
 class VehicleLane : public Lane {
    public:

@@ -36,20 +36,26 @@ void Map::handlePlayerCollision() {
 }
 
 void Map::initPlayer() {
-    Tile* playerTile =
-        mLanes[Global::NUM_TILES_Y - 2]->getTile(Global::NUM_TILES_X / 2);
-    mPlayer->setPosition(
-        playerTile->getWorldPosition() +
-        (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) - mPlayer->getSize()
-        ) / 2.f
-    );
-    mPlayer->setTargetTile(playerTile);
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        Tile* playerTile = mLanes[Global::NUM_TILES_Y - 2]->getTile(
+            Global::NUM_TILES_X / 2 + 1 - i
+        );
+        mPlayers[i]->setPosition(
+            playerTile->getWorldPosition() +
+            (sf::Vector2f(Global::TILE_SIZE, Global::TILE_SIZE) -
+             mPlayers[i]->getSize()) /
+                2.f
+        );
+        mPlayers[i]->setTargetTile(playerTile);
+    }
 }
 
 int Map::getPlayerLaneIndex(int playerIndex) const {
     for (int i = 0; i < mLanes.size() - 1; ++i) {
-        if (mLanes[i]->getPosition().y < mPlayer->getWorldPosition().y &&
-            mLanes[i + 1]->getPosition().y > mPlayer->getWorldPosition().y) {
+        if (mLanes[i]->getPosition().y <
+                mPlayers[playerIndex]->getGlobalBounds().getPosition().y &&
+            mLanes[i + 1]->getPosition().y >
+                mPlayers[playerIndex]->getGlobalBounds().getPosition().y) {
             return i;
         }
     }
@@ -63,8 +69,7 @@ Tile* Map::getPlayerNextTile(int playerIndex, Directions::ID direction) const {
 
     int playerLaneIndex = getPlayerLaneIndex(playerIndex);
     Tile* playerNextTile = nullptr;
-
-    for (Tile::Type type : {Tile::Type::Good, Tile::Type::Bad}) {
+    for (auto type : {Tile::Type::Good, Tile::Type::Bad}) {
         playerNextTile =
             mLanes
                 [playerLaneIndex - (direction == Directions::ID::Up) +
@@ -78,13 +83,14 @@ Tile* Map::getPlayerNextTile(int playerIndex, Directions::ID direction) const {
                     );
 
         if (playerNextTile &&
-            mPlayer->getSourceTile()->distanceTo(playerNextTile) <= 101.f) {
+            mPlayers[playerIndex]->getSourceTile()->distanceTo(playerNextTile
+            ) <= 101.f) {
             break;
         }
     }
 
     if (!playerNextTile) {
-        mPlayer->kill();
+        mPlayers[playerIndex]->kill();
     }
 
     return playerNextTile;
@@ -186,17 +192,10 @@ void Map::updatePlayer() {
             continue;
         }
 
-<<<<<<< HEAD
-        Directions::ID direction = mPlayer->getDirection();
-
+        Directions::ID direction = mPlayers[i]->getDirection();
         if (direction == Directions::ID::None) {
             return;
         }
-        == == == = Directions::ID direction = mPlayers[i]->getDirection();
-        if (direction == Directions::ID::None) {
-            return;
-        }
->>>>>>> f530970 (Draw Black Ninja and Blue Ninja, Create multiplayer mode)
 
         mIsPlayerMoved = true;
         movePlayerTile(i, getPlayerNextTile(i, direction));

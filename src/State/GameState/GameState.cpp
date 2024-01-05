@@ -5,7 +5,7 @@
 
 GameState::GameState(StateStack& stack, Context context, bool isMultiplayer)
     : State(stack, context),
-      mWorld(context /*, isMultiplayer*/),
+      mWorld(context, isMultiplayer),
       isMultiplayer(isMultiplayer) {
     Global::SCORE = 0;
 }
@@ -13,8 +13,9 @@ GameState::GameState(StateStack& stack, Context context, bool isMultiplayer)
 bool GameState::handleEvent(const sf::Event& event) {
     mWorld.handleEvent(event);
 
-    if (event.type == sf::Event::KeyPressed &&
-        event.key.code == sf::Keyboard::Escape) {
+    if ((event.type == sf::Event::KeyPressed &&
+         event.key.code == sf::Keyboard::Escape) ||
+        event.type == sf::Event::LostFocus) {
         requestStackPush(States::ID::Pause);
     }
 

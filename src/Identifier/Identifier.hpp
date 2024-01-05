@@ -61,6 +61,7 @@ enum class ID {
     ShortLog,
     MediumLog,
     LongLog,
+    RailwaySignal,
     TrafficLight,
 
     VehicleLane,

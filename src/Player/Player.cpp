@@ -12,7 +12,7 @@ Player::Player(
     : Entity(textureHolder, textureID, sf::IntRect(0, 0, 60, 60)),
       mWorldView(worldView),
       mPlayerSettings(playerSettings) {
-    setHitbox(sf::FloatRect(10, 10, 60, 60));  // TODO: set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
 }
 
@@ -43,7 +43,7 @@ void Player::damage() { --mHealth; }
 void Player::heal() { ++mHealth; }
 
 void Player::goBack() {
-    if (!mTargetTile || mForceGoGack) {
+    if (!mIsMoving || mForceGoGack) {
         return;
     }
 
@@ -88,10 +88,9 @@ void Player::updateCurrent(sf::Time deltaTime) {
         float distance = std::hypotf(movement.x, movement.y),
               velocity = getVelocity().x;
 
-        if (mDirection == Directions::ID::Left ||
-            mDirection == Directions::ID::Right) {
+        if (!movement.y) {
             velocity +=
-                (mDirection == Directions::ID::Left ? -1 : 1) *
+                (movement.x < 0 ? -1 : 1) *
                 (mTargetTile->getDirection() == Directions::ID::Left ? -1 : 1) *
                 mTargetTile->getVelocity().x;
         }
@@ -101,6 +100,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
 
         if (distance <= displacement) {
             setPosition(targetPosition);
+            mDirection = Directions::ID::None;
             mSourceTile = mTargetTile;
             mTargetTile = nullptr;
             mIsMoving = false;

@@ -8,8 +8,6 @@ VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position
 )
     : Lane(textureHolder, position) {
-    buildScene();
-
     mDirection = Random<Directions::ID>::generate(
         {Directions::ID::Left, Directions::ID::Right}
     );
@@ -18,6 +16,7 @@ VehicleLane::VehicleLane(
 
     mVelocity = sf::Vector2f(Random<float>::generate(100.f, 400.f), 0.f);
 
+    buildScene();
     init();
 }
 
@@ -45,7 +44,7 @@ void VehicleLane::buildScene() {
     TrafficLight::Ptr trafficLight(new TrafficLight(mTextureHolder, mDirection)
     );
     mTrafficLight = trafficLight.get();
-    mSceneLayers[TrafficLightLayer]->attachChild(std::move(trafficLight));
+    mSceneLayers[SignalLightLayer]->attachChild(std::move(trafficLight));
 }
 
 void VehicleLane::init() {

@@ -1,7 +1,7 @@
 #include "TrafficLight.hpp"
 
-#include "../Global/Global.hpp"
-#include "../Random/Random.hpp"
+#include "../../../Global/Global.hpp"
+#include "../../../Random/Random.hpp"
 
 TrafficLight::TrafficLight(
     TextureHolder& mTextureHolder, Directions::ID direction
@@ -16,9 +16,11 @@ TrafficLight::TrafficLight(
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 
     if (direction == Directions::ID::Left) {
-        setPosition(Global::WINDOW_WIDTH - getLocalBounds().width, 0);
+        setPosition(
+            Global::WINDOW_WIDTH - Global::TILE_SIZE - textureSize.x / 3, 0
+        );
     } else {
-        setPosition(getLocalBounds().width, 0);
+        setPosition(Global::TILE_SIZE, 0);
     }
 
     mSprite.setTextureRect(sf::IntRect(

@@ -81,6 +81,9 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Tree, "assets/Textures/Tree.png");
     mTextureHolder.load(Textures::ID::Log, "assets/Textures/Log.png");
     mTextureHolder.load(
+        Textures::ID::RailwaySignal, "assets/Textures/RailwaySignal.png"
+    );
+    mTextureHolder.load(
         Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
     );
 

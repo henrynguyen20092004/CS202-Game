@@ -57,15 +57,6 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     mGUIContainer.addComponent(backButton);
 }
 
-void SettingsState::draw() {
-    sf::RenderWindow& window = *getContext().window;
-
-    window.draw(mBackgroundSprite);
-    window.draw(mGUIContainer);
-}
-
-bool SettingsState::update(sf::Time deltaTime) { return true; }
-
 bool SettingsState::handleEvent(const sf::Event& event) {
     bool isKeyBinding = false;
     int directionCount = static_cast<int>(Directions::ID::DirectionCount);
@@ -100,6 +91,15 @@ bool SettingsState::handleEvent(const sf::Event& event) {
     }
 
     return false;
+}
+
+bool SettingsState::update(sf::Time deltaTime) { return true; }
+
+void SettingsState::draw() {
+    sf::RenderWindow& window = *getContext().window;
+
+    window.draw(mBackgroundSprite);
+    window.draw(mGUIContainer);
 }
 
 void SettingsState::updateLabels() {

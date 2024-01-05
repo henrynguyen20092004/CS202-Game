@@ -57,7 +57,7 @@ void Container::handleEvent(
 ) {
     if (hasSelection() && mChildren[mSelectedChild]->isActive()) {
         mChildren[mSelectedChild]->handleEvent(event, window);
-    } else if (event.type == sf::Event::KeyPressed) {
+    } else if (event.type == sf::Event::KeyReleased) {
         switch (event.key.code) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:

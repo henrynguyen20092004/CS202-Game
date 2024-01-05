@@ -6,9 +6,10 @@ enum class ID {
     Title,
     Menu,
     Game,
-    Loading,
+    MultiplayerGame,
     Pause,
     GameOver,
+    MultiplayerGameOver,
     Settings,
     None,
 };
@@ -38,6 +39,7 @@ namespace Textures {
 enum class ID {
     Player,
 
+    TitleBackground,
     MenuBackground,
 
     Car,
@@ -74,6 +76,7 @@ namespace Fonts {
 enum class ID {
     Dosis,
     Pacifico,
+    VTV323,
 };
 }
 

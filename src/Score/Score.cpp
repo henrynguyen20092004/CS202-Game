@@ -19,11 +19,11 @@ void Score::addBonus() { ++mBonus; }
 void Score::updateCurrent(sf::Time deltaTime) {
     mHighestPlayerPosition =
         std::min(mPlayer.getPosition().y, mHighestPlayerPosition);
-    int score =
+    Global::SCORE =
         (mInitialPlayerPosition - mHighestPlayerPosition) / Global::TILE_SIZE +
         mBonus;
 
-    mScoreText->setText("Score: " + std::to_string(score));
+    mScoreText->setText("Score: " + std::to_string(Global::SCORE));
     mScoreText->setPosition(
         mView.getCenter().x + mView.getSize().x / 2.f - 150.f,
         mView.getCenter().y - mView.getSize().y / 2.f + 10.f

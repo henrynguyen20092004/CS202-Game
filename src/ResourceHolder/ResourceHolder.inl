@@ -34,7 +34,7 @@ template <typename Resource, typename Identifier>
 inline void ResourceHolder<Resource, Identifier>::load(
     Identifier id1, Identifier id2
 ) {
-    mResourceMap[id1] = std::move(mResourceMap[id2]);
+    mResourceMap[id1] = mResourceMap[id2];
 }
 
 template <typename Resource, typename Identifier>

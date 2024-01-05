@@ -47,7 +47,7 @@ SelectPlayerState::SelectPlayerState(StateStack& stack, Context context)
     });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
-        *context.fontHolder, *context.textureHolder, "Back to menu"
+        *context.fontHolder, *context.textureHolder, "Back to Menu"
     );
     backToMenuButton->setCallback([this]() {
         requestStateClear();

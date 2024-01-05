@@ -105,6 +105,8 @@ void Player::handleEventCurrent(const sf::Event& event) {
                 sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
             );
         }
+        setTextureRect(sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
+        );
     }
 }
 

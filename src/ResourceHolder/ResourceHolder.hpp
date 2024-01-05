@@ -21,7 +21,7 @@ class ResourceHolder {
     const Resource& get(Identifier id) const;
 
    private:
-    std::map<Identifier, std::unique_ptr<Resource>> mResourceMap;
+    std::map<Identifier, std::shared_ptr<Resource>> mResourceMap;
 };
 
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;

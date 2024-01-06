@@ -7,17 +7,9 @@ World::World(State::Context context, bool isMultiplayer)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
-<<<<<<< HEAD
-      mPlayerSettings(*context.playerSettings),
-      mPowerUpSettings(*context.powerUpSettings),
       mWorldView(mWindow.getView()),
       mPlayers(1 + isMultiplayer, nullptr) {
-=======
-      mPlayerSettings(*context.playerSettings1),
-      mPowerUpSettings(*context.powerUpSettings1),
-      mWorldView(mWindow.getView()) {
->>>>>>> d14bcc6 (Adjust State, SettingState for multiplayer)
-    buildScene();
+    buildScene(context);
 }
 
 void World::handleEvent(const sf::Event& event) {
@@ -52,7 +44,7 @@ bool World::isPlayerAlive() const {
     return true;
 }
 
-void World::buildScene() {
+void World::buildScene(const State::Context& context) {
     for (int i = 0; i < LayerCount; ++i) {
         SceneNode::Ptr layer(new SceneNode);
         mSceneLayers[i] = layer.get();
@@ -60,20 +52,16 @@ void World::buildScene() {
     }
 
     Player::Ptr player(new Player(
-        mTextureHolder, Textures::ID::BlackNinja, mWorldView, mPlayerSettings
+        mTextureHolder, Textures::ID::BlackNinja, mWorldView,
+        *context.playerSettings1
     ));
     mPlayers[0] = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
     if (mPlayers.size() == 2) {
-        mPlayerSettings2.assignKey(sf::Keyboard::W, Directions::ID::Up);
-        mPlayerSettings2.assignKey(sf::Keyboard::S, Directions::ID::Down);
-        mPlayerSettings2.assignKey(sf::Keyboard::A, Directions::ID::Left);
-        mPlayerSettings2.assignKey(sf::Keyboard::D, Directions::ID::Right);
-
         player.reset(new Player(
             mTextureHolder, Textures::ID::BlueNinja, mWorldView,
-            mPlayerSettings2
+            *context.playerSettings2
         ));
         mPlayers[1] = player.get();
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));
@@ -83,12 +71,18 @@ void World::buildScene() {
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
 
-    if (mPlayers.size() == 1) {
-        PowerUpList::Ptr powerUpList(new PowerUpList(
-            mPowerUpSettings, mTextureHolder, mFontHolder, mWorldView,
-            *mPlayers[0]
+    PowerUpList::Ptr powerUpList(new PowerUpList(
+        *context.powerUpSettings1, mTextureHolder, mFontHolder, mWorldView,
+        *mPlayers[0]
+    ));
+    mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
+
+    if (mPlayers.size() == 2) {
+        powerUpList.reset(new PowerUpList(
+            *context.powerUpSettings1, mTextureHolder, mFontHolder, mWorldView,
+            *mPlayers[1],
+            sf::Vector2f(Global::WINDOW_WIDTH - Global::TILE_SIZE * 4.f, 0.f)
         ));
-        mPowerUpList = powerUpList.get();
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
 

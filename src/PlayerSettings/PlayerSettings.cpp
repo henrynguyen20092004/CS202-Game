@@ -40,7 +40,6 @@ void PlayerSettings::setToDefault(bool isPlayer2) {
         assignKey(sf::Keyboard::S, Directions::ID::Down);
         assignKey(sf::Keyboard::A, Directions::ID::Left);
         assignKey(sf::Keyboard::D, Directions::ID::Right);
-        return;
     } else {
         assignKey(sf::Keyboard::Up, Directions::ID::Up);
         assignKey(sf::Keyboard::Down, Directions::ID::Down);

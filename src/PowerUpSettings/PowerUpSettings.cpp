@@ -35,10 +35,9 @@ void PowerUpSettings::setToDefault(bool isPlayer2) {
     if (isPlayer2) {
         assignKey(sf::Keyboard::U, PowerUp::Type::Immortality);
         assignKey(sf::Keyboard::I, PowerUp::Type::SlowTime);
-        return;
+
     } else {
         assignKey(sf::Keyboard::Numpad1, PowerUp::Type::Immortality);
         assignKey(sf::Keyboard::Numpad2, PowerUp::Type::SlowTime);
-        return;
     }
 }

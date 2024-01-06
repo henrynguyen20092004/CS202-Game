@@ -7,9 +7,11 @@
 
 PowerUpList::PowerUpList(
     PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
-    FontHolder& fontHolder, sf::View& worldView, Player& player
+    FontHolder& fontHolder, sf::View& worldView, Player& player,
+    sf::Vector2f position
 )
     : mPowerUpSettings(powerUpSettings) {
+    setPosition(position);
     initPowerUps(textureHolder, fontHolder, worldView, player);
 }
 

@@ -20,8 +20,10 @@ class Player : public Entity {
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
+    bool getImmortal() const;
 
     void setTargetTile(Tile* targetTile);
+    void setImmortal(bool isImmortal);
 
     void kill();
     void damage();
@@ -43,8 +45,9 @@ class Player : public Entity {
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
+    bool mIsImmortal = false;
 
-    int mHealth = 1;
+    int mHealth = 2;
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

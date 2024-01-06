@@ -38,7 +38,7 @@ void Map::handlePlayerCollision() {
 void Map::initPlayer() {
     for (int i = 0; i < mPlayers.size(); ++i) {
         Tile* playerTile = mLanes[Global::NUM_TILES_Y - 2]->getTile(
-            Global::NUM_TILES_X / 2 + 1 - i
+            Global::NUM_TILES_X / 2 + i
         );
         mPlayers[i]->setPosition(
             playerTile->getWorldPosition() +

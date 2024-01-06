@@ -33,11 +33,10 @@ sf::Keyboard::Key PowerUpSettings::getAssignedKey(PowerUp::Type type) const {
 
 void PowerUpSettings::setToDefault(bool isPlayer2) {
     if (isPlayer2) {
-        assignKey(sf::Keyboard::U, PowerUp::Type::Immortality);
-        assignKey(sf::Keyboard::I, PowerUp::Type::SlowTime);
-
+        assignKey(sf::Keyboard::K, PowerUp::Type::Immortality);
+        assignKey(sf::Keyboard::L, PowerUp::Type::SlowTime);
     } else {
-        assignKey(sf::Keyboard::Numpad1, PowerUp::Type::Immortality);
-        assignKey(sf::Keyboard::Numpad2, PowerUp::Type::SlowTime);
+        assignKey(sf::Keyboard::Num1, PowerUp::Type::Immortality);
+        assignKey(sf::Keyboard::Num2, PowerUp::Type::SlowTime);
     }
 }

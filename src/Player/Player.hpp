@@ -1,10 +1,10 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../Blood/Blood.hpp"
 #include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
-#include "../Blood/Blood.hpp"
 class Score;
 
 class Player : public Entity {

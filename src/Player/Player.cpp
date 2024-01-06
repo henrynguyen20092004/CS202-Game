@@ -49,7 +49,7 @@ void Player::kill() { mHealth = 0; }
 
 void Player::damage() { --mHealth; }
 
-void Player::heal() { ++mHealth; }
+void Player::heal() {if(mHealth<=90) mHealth+=10; }
 
 void Player::goBack() {
     if (!mIsMoving || mForceGoGack) {

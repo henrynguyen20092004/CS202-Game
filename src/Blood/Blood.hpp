@@ -10,6 +10,6 @@ class Blood : public SpriteNode {
 
    private:
     void updateCurrent(sf::Time deltaTime) override;
-    int mHealth;
+    int& mHealth;
 };
 #endif

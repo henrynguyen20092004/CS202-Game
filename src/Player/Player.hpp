@@ -47,7 +47,7 @@ class Player : public Entity {
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
     bool mIsImmortal = false;
 
-    int mHealth = 1;
+    int mHealth = 60;
     Blood* mBlood;
 
     void handleEventCurrent(const sf::Event& event) override;

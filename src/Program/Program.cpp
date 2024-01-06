@@ -97,13 +97,13 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::River, "assets/Textures/River.png");
 
     mTextureHolder.load(
-        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
+        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal2.png"
     );
     mTextureHolder.load(
-        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected.png"
+        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected2.png"
     );
     mTextureHolder.load(
-        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
+        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed2.png"
     );
     mTextureHolder.load(
         Textures::ID::PlayerChoice1, "assets/Textures/BlackNinja.png"

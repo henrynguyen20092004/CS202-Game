@@ -11,7 +11,7 @@ Button::Button(
     : mNormalTexture(textureHolder.get(Textures::ID::ButtonNormal)),
       mSelectedTexture(textureHolder.get(Textures::ID::ButtonSelected)),
       mPressedTexture(textureHolder.get(Textures::ID::ButtonPressed)),
-      mText(text, fontHolder.get(Fonts::ID::Dosis), 20),
+      mText(text, fontHolder.get(Fonts::ID::VTV323), 30),
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);
     centerOrigin(mSprite);

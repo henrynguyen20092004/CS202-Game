@@ -126,7 +126,11 @@ void Program::registerStates() {
     mStateStack.registerState<GameState>(States::ID::Game);
     mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
-    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer);
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectMultiplayer, 0
+    );
+    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer1, 1);
+    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer2, 2);
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
     mStateStack.registerState<GameOverState>(
         States::ID::MultiplayerGameOver, true

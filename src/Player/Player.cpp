@@ -105,8 +105,6 @@ void Player::handleEventCurrent(const sf::Event& event) {
                 sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
             );
         }
-        setTextureRect(sf::IntRect(static_cast<int>(mDirection) * 60, 0, 60, 60)
-        );
     }
 }
 
@@ -125,7 +123,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             velocity +=
                 (movement.x < 0 ? -1 : 1) *
                 (mTargetTile->getDirection() == Directions::ID::Left ? -1 : 1) *
-                mTargetTile->getVelocity().x;
+                mTargetTile->getVelocity().x * Global::SPEED_MODIFIER;
         }
 
         float displacement =

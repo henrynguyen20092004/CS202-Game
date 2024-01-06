@@ -28,7 +28,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 60.f);
     playButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::SelectPlayer);
+        requestStackPush(States::ID::SelectPlayer1);
     });
 
     auto mutiplayerButton = std::make_shared<GUI::Button>(
@@ -37,7 +37,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     mutiplayerButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
     mutiplayerButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::MultiplayerGame);
+        requestStackPush(States::ID::SelectMultiplayer);
     });
 
     auto settingButton = std::make_shared<GUI::Button>(

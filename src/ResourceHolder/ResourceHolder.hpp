@@ -12,9 +12,6 @@ template <typename Resource, typename Identifier>
 class ResourceHolder {
    public:
     void load(Identifier id, const std::string& filename);
-    void load(
-        Identifier id, const std::string& filename, const sf::IntRect& area
-    );
     void load(Identifier id1, Identifier id2);
 
     Resource& get(Identifier id);

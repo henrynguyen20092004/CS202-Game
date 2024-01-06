@@ -5,7 +5,9 @@ namespace States {
 enum class ID {
     Title,
     Menu,
-    SelectPlayer,
+    SelectPlayer1,
+    SelectPlayer2,
+    SelectMultiplayer,
     Game,
     MultiplayerGame,
     Pause,
@@ -36,20 +38,12 @@ enum class ID {
 };
 }
 
-namespace PlayerTextures {
-enum class ID {
-    Choice1,
-    Choice2,
-    ChoiceCount,
-    SelectedChoice,
-};
-}
-
 namespace Textures {
 enum class ID {
     PlayerChoice1,
     PlayerChoice2,
-    PlayerSelectedChoice,
+    Player1SelectedChoice,
+    Player2SelectedChoice,
     Halo,
 
     TitleBackground,

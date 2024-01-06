@@ -6,7 +6,7 @@
 
 class SelectPlayerState : public State {
    public:
-    SelectPlayerState(StateStack& stack, Context context);
+    SelectPlayerState(StateStack& stack, Context context, int selectState = 0);
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;
@@ -14,12 +14,15 @@ class SelectPlayerState : public State {
     void draw() override;
 
    private:
+    sf::Text mTitleText;
     sf::Sprite mBackgroundSprite;
     sf::Sprite mPlayerChoiceSprite;
     GUI::Container mGUIContainer;
 
     int mChoiceCount;
     int mCurrentChoiceIndex;
+
+    int mSelectState;
 };
 
 #endif

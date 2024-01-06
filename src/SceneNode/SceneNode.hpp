@@ -15,7 +15,6 @@ class SceneNode : public sf::Transformable,
                   private sf::NonCopyable {
    public:
     typedef std::unique_ptr<SceneNode> Ptr;
-    typedef std::pair<SceneNode*, SceneNode*> Pair;
 
     void attachChild(Ptr child);
     Ptr detachChild(const SceneNode& node);

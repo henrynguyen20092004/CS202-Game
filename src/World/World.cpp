@@ -3,7 +3,7 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
-World::World(State::Context context, bool isMultiplayer)
+World::World(const State::Context& context, bool isMultiplayer)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
@@ -79,7 +79,7 @@ void World::buildScene(const State::Context& context) {
 
     if (mPlayers.size() == 2) {
         powerUpList.reset(new PowerUpList(
-            *context.powerUpSettings1, mTextureHolder, mFontHolder, mWorldView,
+            *context.powerUpSettings2, mTextureHolder, mFontHolder, mWorldView,
             *mPlayers[1],
             sf::Vector2f(Global::WINDOW_WIDTH - Global::TILE_SIZE * 4.f, 0.f)
         ));
@@ -109,6 +109,7 @@ void World::buildScene(const State::Context& context) {
 void World::updateView() {
     float viewY = mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
           playerY = Global::WINDOW_HEIGHT;
+
     for (int i = 0; i < mPlayers.size(); ++i) {
         playerY = std::min(
             playerY, mPlayers[i]->getWorldPosition().y -

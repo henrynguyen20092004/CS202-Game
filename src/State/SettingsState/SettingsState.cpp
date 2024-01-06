@@ -66,10 +66,9 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 bool SettingsState::handleEvent(const sf::Event& event) {
     bool isKeyBinding = false;
     int directionCount = static_cast<int>(Directions::ID::DirectionCount);
-    int actionCount =
-        directionCount + static_cast<int>(PowerUp::Type::TypeButtonCount);
+    int actionCount = directionCount + PowerUp::Type::TypeButtonCount;
 
-    for (std::size_t buttonIndex = 0; buttonIndex < mBindingButtons.size();
+    for (size_t buttonIndex = 0; buttonIndex < mBindingButtons.size();
          ++buttonIndex) {
         if (mBindingButtons[buttonIndex]->isActive()) {
             isKeyBinding = true;
@@ -132,8 +131,7 @@ void SettingsState::updateLabels() {
     sf::Keyboard::Key key1;
     sf::Keyboard::Key key2;
     int directionCount = static_cast<int>(Directions::ID::DirectionCount);
-    int actionCount =
-        directionCount + static_cast<int>(PowerUp::Type::TypeButtonCount);
+    int actionCount = directionCount + PowerUp::Type::TypeButtonCount;
 
     for (int i = 0; i < actionCount; ++i) {
         if (i < directionCount) {
@@ -169,7 +167,7 @@ void SettingsState::addDirectionButtonLabel(
         position.x = -position.x;
         index +=
             (static_cast<int>(Directions::ID::DirectionCount) +
-             static_cast<int>(PowerUp::Type::TypeButtonCount));
+             PowerUp::Type::TypeButtonCount);
     }
 
     sf::Vector2f windowSize(context.window->getSize());
@@ -196,14 +194,13 @@ void SettingsState::addPowerButtonLabel(
     PowerUp::Type power, int player, sf::Vector2f position,
     const std::string& text, Context context
 ) {
-    int index = static_cast<int>(Directions::ID::DirectionCount) +
-                static_cast<int>(power);
+    int index = static_cast<int>(Directions::ID::DirectionCount) + power;
 
     if (player == 2) {
         position.x = -position.x;
         index +=
             (static_cast<int>(Directions::ID::DirectionCount) +
-             static_cast<int>(PowerUp::Type::TypeButtonCount));
+             PowerUp::Type::TypeButtonCount);
     }
 
     sf::Vector2f windowSize(context.window->getSize());

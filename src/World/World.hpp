@@ -9,7 +9,7 @@
 
 class World : private sf::NonCopyable {
    public:
-    World(State::Context context, bool isMultiplayer = false);
+    World(const State::Context& context, bool isMultiplayer = false);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);

@@ -31,10 +31,14 @@ Tile* Player::getSourceTile() const { return mSourceTile; }
 
 Tile* Player::getTargetTile() const { return mTargetTile; }
 
+bool Player::getImmortal() const { return mIsImmortal; }
+
 void Player::setTargetTile(Tile* targetTile) {
     mTargetTile = targetTile;
     mIsMoving = true;
 }
+
+void Player::setImmortal(bool isImmortal) { mIsImmortal = isImmortal; }
 
 void Player::kill() { mHealth = 0; }
 
@@ -58,7 +62,7 @@ void Player::addBonusScore() const { mScore->addBonus(); }
 bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
 
 void Player::handlePlayerCollision(Player& player) {
-    if (&player != this && collidePlayer(player)) {
+    if (&player != this && collidePlayer(player) && !mIsImmortal) {
         goBack();
     }
 }
@@ -110,7 +114,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             move(movement);
         }
     } else {
-        if (mSourceTile->getType() == Tile::Type::Bad) {
+        if (mSourceTile->getType() == Tile::Type::Bad && !mIsImmortal) {
             damage();
         }
 

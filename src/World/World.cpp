@@ -9,6 +9,8 @@ World::World(const State::Context& context, bool isMultiplayer)
       mFontHolder(*context.fontHolder),
       mWorldView(mWindow.getView()),
       mPlayers(1 + isMultiplayer, nullptr) {
+    Global::SPEED_MODIFIER = 1.f;
+    Global::DIFFICULTY_MODIFIER = 1.f;
     buildScene(context);
 }
 
@@ -85,20 +87,6 @@ void World::buildScene(const State::Context& context) {
         ));
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
-
-    // TODO: Remove when adding AnimalFactory
-    // PolarBear::Ptr polarBear(
-    //     new PolarBear(mTextureHolder, Textures::ID::PolarBear, *mPowerUpList)
-    // );
-    // mSceneLayers[MapLayer]->attachChild(std::move(polarBear));
-
-    // Elephant::Ptr elephant(
-    //     new Elephant(mTextureHolder, Textures::ID::Elephant, *mPowerUpList)
-    // );
-    // mSceneLayers[MapLayer]->attachChild(std::move(elephant));
-
-    // Cat::Ptr cat(new Cat(mTextureHolder, Textures::ID::Cat, *mPowerUpList));
-    // mSceneLayers[MapLayer]->attachChild(std::move(cat));
 
     if (mPlayers.size() == 1) {
         Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));

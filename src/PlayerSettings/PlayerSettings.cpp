@@ -36,14 +36,14 @@ sf::Keyboard::Key PlayerSettings::getAssignedKey(Directions::ID direction
 
 void PlayerSettings::setToDefault(bool isPlayer2) {
     if (isPlayer2) {
-        assignKey(sf::Keyboard::W, Directions::ID::Up);
-        assignKey(sf::Keyboard::S, Directions::ID::Down);
-        assignKey(sf::Keyboard::A, Directions::ID::Left);
-        assignKey(sf::Keyboard::D, Directions::ID::Right);
-    } else {
         assignKey(sf::Keyboard::Up, Directions::ID::Up);
         assignKey(sf::Keyboard::Down, Directions::ID::Down);
         assignKey(sf::Keyboard::Left, Directions::ID::Left);
         assignKey(sf::Keyboard::Right, Directions::ID::Right);
+    } else {
+        assignKey(sf::Keyboard::W, Directions::ID::Up);
+        assignKey(sf::Keyboard::S, Directions::ID::Down);
+        assignKey(sf::Keyboard::A, Directions::ID::Left);
+        assignKey(sf::Keyboard::D, Directions::ID::Right);
     }
 }

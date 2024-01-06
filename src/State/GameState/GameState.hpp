@@ -5,7 +5,10 @@
 
 class GameState : public State {
    public:
-    GameState(StateStack& stack, Context context, bool isMultiplayer = false);
+    GameState(
+        StateStack& stack, Context context, bool isMultiplayer = false,
+        bool isLoading = false
+    );
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;
@@ -13,7 +16,7 @@ class GameState : public State {
 
    private:
     World mWorld;
-    bool isMultiplayer;
+    bool isMultiplayer, isLoading;
 };
 
 #endif

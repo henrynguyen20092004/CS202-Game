@@ -6,12 +6,14 @@
 
 class Horse : public Animal {
    public:
-    Horse(TextureHolder& textureHolder, std::vector<PowerUpList*> powerUpList);
+    Horse(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList);
 
     void handlePlayerCollision(Player& player) override;
 
    private:
     std::vector<PowerUpList*> mPowerUpList;
+
+    Textures::ID getTextureID() const final;
 };
 
 #endif

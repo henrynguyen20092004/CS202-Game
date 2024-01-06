@@ -20,11 +20,14 @@ class Entity : public MovableSpriteNode {
     virtual void handlePlayerCollision(Player& player);
 
    protected:
-    virtual void updateCurrent(sf::Time deltaTime) override;
+    void updateCurrent(sf::Time deltaTime) override;
 
     void drawHitbox(sf::RenderTarget& target, sf::RenderStates states) const;
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
+    void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
+
+    void saveCurrent(std::ofstream& fout) const override;
+    void loadCurrent(std::ifstream& fin) override;
 
    private:
     sf::FloatRect mHitbox;

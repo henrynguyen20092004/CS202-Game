@@ -9,3 +9,5 @@ MediumLog::MediumLog(TextureHolder& textureHolder, Directions::ID direction)
 }
 
 int MediumLog::getLength() const { return 2; }
+
+Textures::ID MediumLog::getTextureID() const { return Textures::ID::MediumLog; }

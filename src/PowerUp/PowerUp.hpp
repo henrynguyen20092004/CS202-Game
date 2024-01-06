@@ -21,9 +21,6 @@ class PowerUp : public SceneNode {
     );
 
     void start();
-
-    void updateCurrent(sf::Time deltaTime) override;
-
     void increaseCount();
 
    protected:
@@ -36,6 +33,11 @@ class PowerUp : public SceneNode {
 
     virtual void activate() = 0;
     virtual void deactivate();
+
+    void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

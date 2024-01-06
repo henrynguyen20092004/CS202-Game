@@ -32,3 +32,13 @@ void Score::updateCurrent(sf::Time deltaTime) {
         mWorldView.getCenter().y - mWorldView.getSize().y / 2.f + 10.f
     );
 }
+
+void Score::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    fout << mInitialPlayerPosition << ' ' << mBonus << '\n';
+}
+
+void Score::loadCurrent(std::ifstream& fin) {
+    SceneNode::loadCurrent(fin);
+    fin >> mInitialPlayerPosition >> mBonus;
+}

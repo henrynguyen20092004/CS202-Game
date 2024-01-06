@@ -12,6 +12,8 @@ class Cat : public Animal {
 
    private:
     Score* mScore;
+
+    Textures::ID getTextureID() const final;
 };
 
 #endif

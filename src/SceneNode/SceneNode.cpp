@@ -31,7 +31,19 @@ void SceneNode::update(sf::Time deltaTime) {
     updateChildren(deltaTime);
 }
 
+void SceneNode::save(std::ofstream& fout) const {
+    saveCurrent(fout);
+    saveChildren(fout);
+}
+
+void SceneNode::load(std::ifstream& fin) {
+    loadCurrent(fin);
+    loadChildren(fin);
+}
+
 SceneNode* SceneNode::getParent() const { return mParent; }
+
+Textures::ID SceneNode::getTextureID() const { return Textures::ID::None; }
 
 sf::Vector2f SceneNode::getWorldPosition() const {
     return getWorldTransform() * sf::Vector2f();
@@ -47,6 +59,21 @@ sf::Transform SceneNode::getWorldTransform() const {
     return transform;
 }
 
+void SceneNode::saveCurrent(std::ofstream& fout) const {
+    fout << getPosition() << '\n';
+    fout << mChildren.size() << '\n';
+}
+
+void SceneNode::loadCurrent(std::ifstream& fin) {
+    sf::Vector2f position;
+    fin >> position;
+    setPosition(position);
+
+    std::size_t childrenCount;
+    fin >> childrenCount;
+    mChildren.reserve(childrenCount);
+}
+
 void SceneNode::handleEventCurrent(const sf::Event&) {}
 
 void SceneNode::handleEventChildren(const sf::Event& event) {
@@ -55,7 +82,7 @@ void SceneNode::handleEventChildren(const sf::Event& event) {
     }
 }
 
-void SceneNode::updateCurrent(sf::Time) {}
+void SceneNode::updateCurrent(sf::Time deltaTime) {}
 
 void SceneNode::updateChildren(sf::Time deltaTime) {
     for (Ptr& child : mChildren) {
@@ -75,5 +102,17 @@ void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states)
     const {
     for (const Ptr& child : mChildren) {
         child->draw(target, states);
+    }
+}
+
+void SceneNode::saveChildren(std::ofstream& fout) const {
+    for (const Ptr& child : mChildren) {
+        child->save(fout);
+    }
+}
+
+void SceneNode::loadChildren(std::ifstream& fin) {
+    for (Ptr& child : mChildren) {
+        child->load(fin);
     }
 }

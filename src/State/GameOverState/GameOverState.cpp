@@ -8,7 +8,7 @@
 #include "../GUI/Button/Button.hpp"
 
 GameOverState::GameOverState(
-    StateStack& stack, Context context, bool isMultiplayer
+    StateStack& stack, Context context, bool isMultiplayer, int deadPlayer
 )
     : State(stack, context),
       mElapsedTime(sf::Time::Zero),
@@ -21,17 +21,25 @@ GameOverState::GameOverState(
       ),
       mHighestScoreText(
           "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323), 30
-      ) {
+      ),
+      mWinnerText("", context.fontHolder->get(Fonts::ID::VTV323), 40),
+      mIsMultiplayer(isMultiplayer),
+      mDeadPlayer(deadPlayer) {
     context.mHighScore->rankScore(Global::SCORE);
 
     sf::Vector2f windowSize(context.window->getSize());
     centerOrigin(mGameOverText);
     mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 160.f);
 
-    centerOrigin(mCurrentScoreText);
-    mCurrentScoreText.setPosition(
-        windowSize.x / 2.f, windowSize.y / 2.f - 80.f
-    );
+    if (isMultiplayer) {
+        centerOrigin(mWinnerText);
+        mWinnerText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
+    } else {
+        centerOrigin(mCurrentScoreText);
+        mCurrentScoreText.setPosition(
+            windowSize.x / 2.f, windowSize.y / 2.f - 80.f
+        );
+    }
 
     auto replayButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Replay"
@@ -39,12 +47,10 @@ GameOverState::GameOverState(
     replayButton->setPosition(windowSize.x / 2, windowSize.y / 2.f);
     replayButton->setCallback([this, isMultiplayer]() {
         requestStateClear();
-
-        if (isMultiplayer) {
-            requestStackPush(States::ID::MultiplayerGame);
-        } else {
-            requestStackPush(States::ID::Game);
-        }
+        requestStackPush(
+            isMultiplayer ? States::ID::NewMultiplayerGame
+                          : States::ID::NewSingleGame
+        );
     });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
@@ -72,12 +78,20 @@ void GameOverState::draw() {
 
     window.draw(backgroundShape);
     window.draw(mGameOverText);
-    window.draw(mCurrentScoreText);
+    window.draw(mIsMultiplayer ? mWinnerText : mCurrentScoreText);
     // window.draw(mHighestScoreText);
     window.draw(mGUIContainer);
 }
 
-bool GameOverState::update(sf::Time deltaTime) { return false; }
+bool GameOverState::update(sf::Time deltaTime) {
+    if (mIsMultiplayer) {
+        mWinnerText.setString(
+            "Player " + std::to_string(mDeadPlayer == 0 ? 2 : 1) + " wins!"
+        );
+    }
+
+    return false;
+}
 
 bool GameOverState::handleEvent(const sf::Event& event) {
     mGUIContainer.handleEvent(event, *getContext().window);

@@ -22,20 +22,20 @@ class Button : public Component {
     void setCallback(const Callback& callback);
     void setText(const std::string& text);
     void setToggle(bool flag);
+    void setSelectable(bool flag);
 
-    virtual bool isSelectable() const override;
-    virtual void select() override;
-    virtual void deselect() override;
+    bool isSelectable() const override;
+    void select() override;
+    void deselect() override;
 
-    virtual void activate() override;
-    virtual void deactivate() override;
+    void activate() override;
+    void deactivate() override;
 
-    virtual void handleMouseEvent(
+    void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
-    virtual void handleEvent(
-        const sf::Event& event, const sf::RenderWindow& window
-    ) override;
+    void handleEvent(const sf::Event& event, const sf::RenderWindow& window)
+        override;
 
     sf::FloatRect getGlobalBounds() const override;
 
@@ -47,7 +47,7 @@ class Button : public Component {
     Callback mCallback;
     sf::Sprite mSprite;
     sf::Text mText;
-    bool mIsToggle;
+    bool mIsToggle = false, mIsSelectable = true;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

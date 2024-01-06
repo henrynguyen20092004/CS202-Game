@@ -16,6 +16,9 @@ class PlayerSettings {
 
     void setToDefault(bool isPlayer2 = false);
 
+    void save(std::ofstream& fout) const;
+    void load(std::ifstream& fin);
+
    private:
     std::map<sf::Keyboard::Key, Directions::ID> mKeyBinding;
 };

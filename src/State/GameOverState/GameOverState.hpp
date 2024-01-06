@@ -7,7 +7,8 @@
 class GameOverState : public State {
    public:
     GameOverState(
-        StateStack& stack, Context context, bool isMultiplayer = false
+        StateStack& stack, Context context, bool isMultiplayer = false,
+        int deadPlayer = 0
     );
 
     bool handleEvent(const sf::Event& event) override;
@@ -15,9 +16,12 @@ class GameOverState : public State {
     void draw() override;
 
    private:
-    sf::Text mGameOverText, mCurrentScoreText, mHighestScoreText;
+    sf::Text mGameOverText, mCurrentScoreText, mHighestScoreText, mWinnerText;
     sf::Time mElapsedTime;
     GUI::Container mGUIContainer;
+
+    bool mIsMultiplayer;
+    int mDeadPlayer;
 };
 
 #endif

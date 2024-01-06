@@ -9,3 +9,5 @@ ShortLog::ShortLog(TextureHolder& textureHolder, Directions::ID direction)
 }
 
 int ShortLog::getLength() const { return 1; }
+
+Textures::ID ShortLog::getTextureID() const { return Textures::ID::ShortLog; }

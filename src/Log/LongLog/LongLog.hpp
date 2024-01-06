@@ -8,6 +8,9 @@ class LongLog : public Log {
     LongLog(TextureHolder& textureHolder, Directions::ID direction);
 
     int getLength() const override;
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

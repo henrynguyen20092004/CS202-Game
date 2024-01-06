@@ -10,3 +10,5 @@ Halo::Halo(TextureHolder& textureHolder, Textures::ID textureID)
 void Halo::show() { setTextureRect(mTextureRect); }
 
 void Halo::hide() { setTextureRect(sf::IntRect()); }
+
+bool Halo::isShown() const { return mSprite.getTextureRect() == mTextureRect; }

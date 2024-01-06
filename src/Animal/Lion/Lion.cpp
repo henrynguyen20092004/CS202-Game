@@ -13,3 +13,5 @@ void Lion::handlePlayerCollision(Player& player) {
         getParent()->detachChild(*this);
     }
 }
+
+Textures::ID Lion::getTextureID() const { return Textures::ID::Lion; }

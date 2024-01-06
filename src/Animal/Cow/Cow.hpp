@@ -6,12 +6,14 @@
 
 class Cow : public Animal {
    public:
-    Cow(TextureHolder& textureHolder, std::vector<PowerUpList*> powerUpList);
+    Cow(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList);
 
     void handlePlayerCollision(Player& player) override;
 
    private:
     std::vector<PowerUpList*> mPowerUpList;
+
+    Textures::ID getTextureID() const final;
 };
 
 #endif

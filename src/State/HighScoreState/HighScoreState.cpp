@@ -9,11 +9,11 @@ HighScoreState::HighScoreState(StateStack& stack, Context context)
       mTitleText(
           "High Score", context.fontHolder->get(Fonts::ID::VTV323), 100
       ) {
+    sf::Vector2f windowSize(context.window->getSize());
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::SettingBackground);
-    mBackgroundSprite.setTexture(backgroundTexture);
 
-    sf::Vector2f windowSize(context.window->getSize());
+    mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y

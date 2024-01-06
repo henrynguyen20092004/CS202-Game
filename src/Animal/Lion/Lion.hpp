@@ -8,6 +8,9 @@ class Lion : public Animal {
     Lion(TextureHolder& textureHolder);
 
     void handlePlayerCollision(Player& player) override;
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

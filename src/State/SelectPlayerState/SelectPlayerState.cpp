@@ -1,7 +1,5 @@
 #include "SelectPlayerState.hpp"
 
-#include <iostream>
-
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"
 
@@ -17,9 +15,9 @@ SelectPlayerState::SelectPlayerState(
       mSelectState(selectState),
       mTitleText("Player 1", context.fontHolder->get(Fonts::ID::VTV323), 80) {
     sf::Vector2f windowSize(context.window->getSize());
-
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
+
     mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(
         windowSize.x / backgroundTexture.getSize().x,
@@ -74,19 +72,19 @@ SelectPlayerState::SelectPlayerState(
         switch (mSelectState) {
             case SelectPlayerState::Type::Player1Single:
                 context.textureHolder->load(
-                    Textures::ID::Player1SelectedChoice,
+                    Textures::ID::Player1SelectedChoiceSingle,
                     static_cast<Textures::ID>(
                         static_cast<int>(Textures::ID::PlayerChoice1) +
                         mCurrentChoiceIndex
                     )
                 );
                 requestStackPop();
-                requestStackPush(States::ID::Game);
+                requestStackPush(States::ID::NewSingleGame);
                 break;
 
             case SelectPlayerState::Type::Player1Multi:
                 context.textureHolder->load(
-                    Textures::ID::Player1SelectedChoice,
+                    Textures::ID::Player1SelectedChoiceMulti,
                     static_cast<Textures::ID>(
                         static_cast<int>(Textures::ID::PlayerChoice1) +
                         mCurrentChoiceIndex
@@ -98,14 +96,14 @@ SelectPlayerState::SelectPlayerState(
 
             case SelectPlayerState::Type::Player2Multi:
                 context.textureHolder->load(
-                    Textures::ID::Player2SelectedChoice,
+                    Textures::ID::Player2SelectedChoiceMulti,
                     static_cast<Textures::ID>(
                         static_cast<int>(Textures::ID::PlayerChoice1) +
                         mCurrentChoiceIndex
                     )
                 );
                 requestStackPop();
-                requestStackPush(States::ID::MultiplayerGame);
+                requestStackPush(States::ID::NewMultiplayerGame);
                 break;
 
             default:

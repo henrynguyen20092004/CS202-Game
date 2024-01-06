@@ -24,6 +24,10 @@ void PowerUp::start() {
     activate();
 }
 
+void PowerUp::increaseCount() { mCount++; }
+
+void PowerUp::deactivate() {}
+
 void PowerUp::updateCurrent(sf::Time deltaTime) {
     if (!mIsActivated) {
         return;
@@ -37,6 +41,12 @@ void PowerUp::updateCurrent(sf::Time deltaTime) {
     }
 }
 
-void PowerUp::increaseCount() { mCount++; }
+void PowerUp::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    fout << mRemainingDuration << ' ' << mCount << ' ' << mIsActivated << '\n';
+}
 
-void PowerUp::deactivate() {}
+void PowerUp::loadCurrent(std::ifstream& fout) {
+    SceneNode::loadCurrent(fout);
+    fout >> mRemainingDuration >> mCount >> mIsActivated;
+}

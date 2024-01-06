@@ -36,3 +36,13 @@ void Entity::drawHitbox(sf::RenderTarget& target, sf::RenderStates states)
 
     target.draw(hitbox, states);
 }
+
+void Entity::saveCurrent(std::ofstream& fout) const {
+    MovableSpriteNode::saveCurrent(fout);
+    fout << mHitbox << '\n';
+}
+
+void Entity::loadCurrent(std::ifstream& fin) {
+    MovableSpriteNode::loadCurrent(fin);
+    fin >> mHitbox;
+}

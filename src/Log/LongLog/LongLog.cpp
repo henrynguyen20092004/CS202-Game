@@ -9,3 +9,5 @@ LongLog::LongLog(TextureHolder& textureHolder, Directions::ID direction)
 }
 
 int LongLog::getLength() const { return 3; }
+
+Textures::ID LongLog::getTextureID() const { return Textures::ID::LongLog; }

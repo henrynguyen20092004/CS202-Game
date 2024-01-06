@@ -1,5 +1,7 @@
 #include "Animation.hpp"
 
+#include "../FileIO/FileIO.hpp"
+
 Animation::Animation(
     sf::Sprite& sprite, sf::Vector2i frameSize, std::size_t numFrames,
     sf::Time duration, bool repeat
@@ -45,4 +47,17 @@ void Animation::update(sf::Time deltaTime) {
     }
 
     mSprite.setTextureRect(textureRect);
+}
+
+void Animation::save(std::ofstream& fout) const {
+    fout << mCurrentFrame << ' ';
+    fout << mElapsedTime << '\n';
+}
+
+void Animation::load(std::ifstream& fin) {
+    fin >> mCurrentFrame;
+
+    float elapsedTime;
+    fin >> elapsedTime;
+    mElapsedTime = sf::seconds(elapsedTime);
 }

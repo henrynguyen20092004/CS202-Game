@@ -8,6 +8,9 @@ class MediumLog : public Log {
     MediumLog(TextureHolder& textureHolder, Directions::ID direction);
 
     int getLength() const override;
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

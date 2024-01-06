@@ -13,22 +13,26 @@ class TrafficLight : public SpriteNode {
         Red,
         Yellow,
         Green,
-        None,
+        StateCount,
     };
 
-    TrafficLight(TextureHolder& mTextureHolder, Directions::ID direction);
+    TrafficLight(TextureHolder& mTextureHolder, Directions::ID direction, bool isLoading);
 
     TrafficLight::State getState() const;
 
    private:
-    const std::array<sf::Time, 3> mStateTimeCount{
+    const std::array<sf::Time, StateCount> mStateTimeCount{
         sf::seconds(2), sf::seconds(1), sf::seconds(3)
     };
     TrafficLight::State mState;
     sf::Time mTimeCount;
 
     void switchState(TrafficLight::State state);
+
     void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

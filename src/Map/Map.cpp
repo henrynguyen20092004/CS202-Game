@@ -2,29 +2,31 @@
 
 #include "../Global/Global.hpp"
 #include "../Lane/ObstacleLane/ObstacleLane.hpp"
-#include "../Lane/River/River.hpp"
+#include "../Lane/RiverLane/RiverLane.hpp"
 #include "../Lane/TrainLane/TrainLane.hpp"
 #include "../Lane/VehicleLane/VehicleLane.hpp"
 #include "../Random/Random.hpp"
 
 Map::Map(
     TextureHolder& textureHolder, sf::View& worldView,
-    std::vector<Player*> players, std::vector<PowerUpList*> powerUpList,
-    Score* score
+    const std::vector<Player*>& players,
+    const std::vector<PowerUpList*>& powerUpList, Score* score, bool isLoading
 )
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
       mPlayers(players),
       mPowerUpList(powerUpList),
       mScore(score) {
+    if (isLoading) {
+        return;
+    }
+
     initLanes();
     initPlayer();
 
     if (mScore) {
         mScore->init();
     }
-
-    Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
@@ -40,6 +42,12 @@ void Map::handlePlayerCollision() {
             lane->handlePlayerCollision(*player);
         }
     }
+}
+
+Tile* Map::getPlayerTile(int playerIndex) const {
+    return mLanes[getPlayerLaneIndex(playerIndex)]->getPlayerTile(
+        mPlayers[playerIndex]->getWorldPosition().x
+    );
 }
 
 void Map::initPlayer() {
@@ -76,7 +84,8 @@ Tile* Map::getPlayerNextTile(int playerIndex, Directions::ID direction) const {
 
     int playerLaneIndex = getPlayerLaneIndex(playerIndex);
     Tile* playerNextTile = nullptr;
-    for (auto type : {Tile::Type::Good, Tile::Type::Bad}) {
+
+    for (Tile::Type type : {Tile::Type::Good, Tile::Type::Bad}) {
         playerNextTile =
             mLanes
                 [playerLaneIndex - (direction == Directions::ID::Up) +
@@ -112,21 +121,23 @@ void Map::movePlayerTile(int playerIndex, Tile* destinationTile) {
     mPlayers[playerIndex]->setTargetTile(destinationTile);
 }
 
-Lane* Map::createLane(Textures::ID textureID, sf::Vector2f position) {
+Lane* Map::createLane(
+    Textures::ID textureID, sf::Vector2f position, bool isLoading
+) {
     switch (textureID) {
         case Textures::ID::VehicleLane:
-            return new VehicleLane(mTextureHolder, position);
+            return new VehicleLane(mTextureHolder, position, isLoading);
 
         case Textures::ID::TrainLane:
-            return new TrainLane(mTextureHolder, position);
+            return new TrainLane(mTextureHolder, position, isLoading);
 
         case Textures::ID::ObstacleLane:
             return new ObstacleLane(
-                mTextureHolder, position, mPowerUpList, mScore
+                mTextureHolder, position, mPowerUpList, mScore, isLoading
             );
 
-        case Textures::ID::River:
-            return new River(mTextureHolder, position);
+        case Textures::ID::RiverLane:
+            return new RiverLane(mTextureHolder, position, isLoading);
 
         default:
             return nullptr;
@@ -151,9 +162,8 @@ void Map::addEmptyLane() {
                                : mLanes.front()->getPosition().y) -
                    Global::TILE_SIZE
         ),
-        mPowerUpList, mScore, true
+        mPowerUpList, mScore, false, true
     ));
-
     mLanes.push_front(lane.get());
     attachChild(std::move(lane));
 }
@@ -162,16 +172,16 @@ void Map::addRandomLane() {
     Lane::Ptr lane(createLane(
         Random<Textures::ID>::generate(
             {Textures::ID::VehicleLane, Textures::ID::TrainLane,
-             Textures::ID::ObstacleLane, Textures::ID::River},
+             Textures::ID::ObstacleLane, Textures::ID::RiverLane},
             {30, 20, 30, 20}
         ),
         sf::Vector2f(
             0, (mLanes.empty() ? Global::WINDOW_HEIGHT
                                : mLanes.front()->getPosition().y) -
                    Global::TILE_SIZE
-        )
+        ),
+        false
     ));
-
     mLanes.push_front(lane.get());
     attachChild(std::move(lane));
 }
@@ -216,4 +226,34 @@ void Map::updatePlayer() {
 void Map::updateCurrent(sf::Time deltaTime) {
     updateLanes();
     updatePlayer();
+}
+
+void Map::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    int numLanes = mLanes.size();
+    fout << numLanes << '\n';
+
+    for (int i = numLanes - 1; i >= 0; --i) {
+        fout << static_cast<int>(mLanes[i]->getTextureID()) << (i ? ' ' : '\n');
+    }
+
+    fout << mIsPlayerMoved << '\n';
+}
+
+void Map::loadCurrent(std::ifstream& fin) {
+    SceneNode::loadCurrent(fin);
+    int numLanes, textureID;
+    fin >> numLanes;
+
+    for (int i = 0; i < numLanes; ++i) {
+        fin >> textureID;
+
+        Lane::Ptr lane(createLane(
+            static_cast<Textures::ID>(textureID), sf::Vector2f(), true
+        ));
+        mLanes.push_front(lane.get());
+        attachChild(std::move(lane));
+    }
+
+    fin >> mIsPlayerMoved;
 }

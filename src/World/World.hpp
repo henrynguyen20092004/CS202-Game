@@ -7,15 +7,18 @@
 #include "../PowerUpList/PowerUpList.hpp"
 #include "../State/State.hpp"
 
+class Score;
+
 class World : private sf::NonCopyable {
    public:
-    World(const State::Context& context, bool isMultiplayer = false);
+    World(const State::Context& context, bool isMultiplayer, bool isLoading);
+    ~World();
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
     void draw();
 
-    bool isPlayerAlive() const;
+    int getDeadPlayer() const;
 
    private:
     enum Layer { MapLayer, PlayerLayer, IconLayer, LayerCount };
@@ -28,13 +31,21 @@ class World : private sf::NonCopyable {
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
-    Map* mMap;
     std::vector<Player*> mPlayers;
+    std::vector<PowerUpList*> mPowerUpLists;
+    Score* mScore = nullptr;
+    Map* mMap;
 
     const float mScrollSpeed = -50.f;
 
-    void buildScene(const State::Context& context);
+    void buildScene(const State::Context& context, bool isLoading);
     void updateView();
+
+    void saveWorld();
+    void loadWorld();
+
+    void savePlayerTexture() const;
+    void loadPlayerTexture();
 };
 
 #endif

@@ -27,8 +27,12 @@ class Program {
 
     HighScore mHighScore;
 
+    void saveSettings() const;
+
     void loadTextures();
     void loadFonts();
+    void loadSettings();
+
     void registerStates();
 
     void handleEvent(sf::Event &event);

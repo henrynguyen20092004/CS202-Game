@@ -7,7 +7,11 @@ class Tile : public SceneNode {
    public:
     typedef std::unique_ptr<Tile> Ptr;
 
-    enum Type { Good, Bad };
+    enum Type {
+        Good,
+        Bad,
+        None,
+    };
 
     Tile(
         Type type, sf::Vector2f position,
@@ -28,9 +32,10 @@ class Tile : public SceneNode {
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
 
-    virtual void updateCurrent(sf::Time deltaTime) override;
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-        const override;
+    void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

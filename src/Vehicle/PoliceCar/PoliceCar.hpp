@@ -6,6 +6,9 @@
 class PoliceCar : public Vehicle {
    public:
     PoliceCar(TextureHolder& textureHolder, Directions::ID direction);
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

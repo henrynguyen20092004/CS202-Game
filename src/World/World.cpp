@@ -3,15 +3,20 @@
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 
-World::World(const State::Context& context, bool isMultiplayer)
+World::World(const State::Context& context, bool isMultiplayer, bool isLoading)
     : mWindow(*context.window),
       mTextureHolder(*context.textureHolder),
       mFontHolder(*context.fontHolder),
       mWorldView(mWindow.getView()),
-      mPlayers(1 + isMultiplayer, nullptr) {
-    Global::SPEED_MODIFIER = 1.f;
-    Global::DIFFICULTY_MODIFIER = 1.f;
-    buildScene(context);
+      mPlayers(1 + isMultiplayer, nullptr),
+      mPowerUpLists(1 + isMultiplayer, nullptr) {
+    Global::setDefault();
+    buildScene(context, isLoading);
+}
+
+World::~World() {
+    saveWorld();
+    savePlayerTexture();
 }
 
 void World::handleEvent(const sf::Event& event) {
@@ -36,17 +41,21 @@ void World::draw() {
     mWindow.draw(mSceneGraph);
 }
 
-bool World::isPlayerAlive() const {
-    for (Player* player : mPlayers) {
-        if (!player->isAlive()) {
-            return false;
+int World::getDeadPlayer() const {
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        if (!mPlayers[i]->isAlive()) {
+            return i;
         }
     }
 
-    return true;
+    return -1;
 }
 
-void World::buildScene(const State::Context& context) {
+void World::buildScene(const State::Context& context, bool isLoading) {
+    if (isLoading) {
+        loadPlayerTexture();
+    }
+
     for (int i = 0; i < LayerCount; ++i) {
         SceneNode::Ptr layer(new SceneNode);
         mSceneLayers[i] = layer.get();
@@ -54,16 +63,18 @@ void World::buildScene(const State::Context& context) {
     }
 
     Player::Ptr player(new Player(
-        mTextureHolder, Textures::ID::Player1SelectedChoice, mWorldView,
-        *context.playerSettings1, 0
+        mTextureHolder,
+        mPlayers.size() == 1 ? Textures::ID::Player1SelectedChoiceSingle
+                             : Textures::ID::Player1SelectedChoiceMulti,
+        mWorldView, *context.playerSettings1, 0
     ));
     mPlayers[0] = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
     if (mPlayers.size() == 2) {
         player.reset(new Player(
-            mTextureHolder, Textures::ID::Player2SelectedChoice, mWorldView,
-            *context.playerSettings2, 1
+            mTextureHolder, Textures::ID::Player2SelectedChoiceMulti,
+            mWorldView, *context.playerSettings2, 1
         ));
         mPlayers[1] = player.get();
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));
@@ -72,12 +83,11 @@ void World::buildScene(const State::Context& context) {
         mPlayers[1]->setName(*context.fontHolder);
     }
 
-    std::vector<PowerUpList*> powerUpLists;
     PowerUpList::Ptr powerUpList(new PowerUpList(
         *context.powerUpSettings1, mTextureHolder, mFontHolder, mWorldView,
         *mPlayers[0]
     ));
-    powerUpLists.push_back(powerUpList.get());
+    mPowerUpLists[0] = powerUpList.get();
     mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
 
     if (mPlayers.size() == 2) {
@@ -85,22 +95,25 @@ void World::buildScene(const State::Context& context) {
             *context.powerUpSettings2, mTextureHolder, mFontHolder, mWorldView,
             *mPlayers[1]
         ));
-        powerUpLists.push_back(powerUpList.get());
+        mPowerUpLists[1] = powerUpList.get();
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
 
-    Score* scorePointer = nullptr;
     if (mPlayers.size() == 1) {
         Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));
-        scorePointer = score.get();
+        mScore = score.get();
         mSceneLayers[IconLayer]->attachChild(std::move(score));
     }
 
     Map::Ptr map(new Map(
-        mTextureHolder, mWorldView, mPlayers, powerUpLists, scorePointer
+        mTextureHolder, mWorldView, mPlayers, mPowerUpLists, mScore, isLoading
     ));
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
+
+    if (isLoading) {
+        loadWorld();
+    }
 }
 
 void World::updateView() {
@@ -121,4 +134,94 @@ void World::updateView() {
                 mWorldView.getSize().y / 2.f
         );
     }
+}
+
+void World::saveWorld() {
+    std::ofstream fout;
+
+    if (mPlayers.size() == 1) {
+        fout.open("data/Singleplayer.txt");
+        mPlayers[0]->save(fout);
+        mPowerUpLists[0]->save(fout);
+        mScore->save(fout);
+    } else {
+        fout.open("data/Multiplayer.txt");
+        mPlayers[0]->save(fout);
+        mPlayers[1]->save(fout);
+        mPowerUpLists[0]->save(fout);
+        mPowerUpLists[1]->save(fout);
+    }
+
+    mMap->save(fout);
+    Global::save(fout);
+    fout.close();
+}
+
+void World::loadWorld() {
+    std::ifstream fin;
+
+    if (mPlayers.size() == 1) {
+        fin.open("data/Singleplayer.txt");
+        mPlayers[0]->load(fin);
+        mPowerUpLists[0]->load(fin);
+        mScore->load(fin);
+    } else {
+        fin.open("data/Multiplayer.txt");
+        mPlayers[0]->load(fin);
+        mPlayers[1]->load(fin);
+        mPowerUpLists[0]->load(fin);
+        mPowerUpLists[1]->load(fin);
+    }
+
+    mMap->load(fin);
+    Global::load(fin);
+    fin.close();
+
+    for (int i = 0; i < mPlayers.size(); ++i) {
+        mPlayers[i]->setTargetTile(mMap->getPlayerTile(i));
+    }
+}
+
+void World::savePlayerTexture() const {
+    std::ofstream fout("data/PlayerTexture.txt");
+    std::vector<Textures::ID> possibleIDs = {
+        Textures::ID::PlayerChoice1, Textures::ID::PlayerChoice2,
+        Textures::ID::PlayerChoice3, Textures::ID::PlayerChoice4,
+        Textures::ID::PlayerChoice5, Textures::ID::PlayerChoice6,
+    };
+
+    fout << static_cast<int>(mTextureHolder.getSharedID(
+                Textures::ID::Player1SelectedChoiceSingle, possibleIDs
+            ))
+         << ' '
+         << static_cast<int>(mTextureHolder.getSharedID(
+                Textures::ID::Player1SelectedChoiceMulti, possibleIDs
+            ))
+         << ' '
+         << static_cast<int>(mTextureHolder.getSharedID(
+                Textures::ID::Player2SelectedChoiceMulti, possibleIDs
+            ))
+         << '\n';
+    fout.close();
+}
+
+void World::loadPlayerTexture() {
+    std::ifstream fin("data/PlayerTexture.txt");
+    int textureID;
+    fin >> textureID;
+    mTextureHolder.load(
+        Textures::ID::Player1SelectedChoiceSingle,
+        static_cast<Textures::ID>(textureID)
+    );
+    fin >> textureID;
+    mTextureHolder.load(
+        Textures::ID::Player1SelectedChoiceMulti,
+        static_cast<Textures::ID>(textureID)
+    );
+    fin >> textureID;
+    mTextureHolder.load(
+        Textures::ID::Player2SelectedChoiceMulti,
+        static_cast<Textures::ID>(textureID)
+    );
+    fin.close();
 }

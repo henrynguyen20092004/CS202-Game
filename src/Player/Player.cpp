@@ -26,6 +26,15 @@ Player::Player(
     attachChild(std::move(blood));
 }
 
+bool Player::askToMove() {
+    if (mNeedToMove) {
+        mNeedToMove = false;
+        return true;
+    }
+
+    return false;
+}
+
 int Player::getPlayerNumber() const { return mPlayerNumber; }
 
 void Player::setName(FontHolder& fontHolder) {
@@ -35,15 +44,6 @@ void Player::setName(FontHolder& fontHolder) {
     ));
     name->setPosition((getSize().x - name->getTextSize()) / 2.f, 70.f);
     attachChild(std::move(name));
-}
-
-bool Player::askToMove() {
-    if (mNeedToMove) {
-        mNeedToMove = false;
-        return true;
-    }
-
-    return false;
 }
 
 Directions::ID Player::getDirection() const { return mDirection; }
@@ -66,8 +66,6 @@ void Player::addRevival() {
     mHalo->show();
 }
 
-void Player::addBonusScore() const { mScore->addBonus(); }
-
 void Player::addHealth() { mHealth = std::min(mHealth + 10, mMaxHealth); }
 
 void Player::kill() { mHealth = 0; }
@@ -87,8 +85,9 @@ bool Player::isImmortal() const { return mIsImmortal; }
 
 void Player::setImortal(bool isImmortal) {
     mIsImmortal = isImmortal;
+
     if (mIsImmortal) {
-        mImmortalTime = sf::seconds(100.f);  // Some big number
+        mImmortalTime = sf::seconds(100.f);
         setOpacity(0.5f);
     } else {
         setOpacity(1.f);
@@ -117,6 +116,16 @@ void Player::handlePlayerCollision(Player& player) {
     if (&player != this && collidePlayer(player) && !mIsImmortal) {
         goBack();
     }
+}
+
+bool Player::isOutOfBounds() const {
+    sf::FloatRect viewBounds = sf::FloatRect(
+        mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
+        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
+        mWorldView.getSize().x, mWorldView.getSize().y
+    );
+
+    return !viewBounds.intersects(getGlobalBounds());
 }
 
 void Player::handleEventCurrent(const sf::Event& event) {
@@ -181,12 +190,33 @@ void Player::updateCurrent(sf::Time deltaTime) {
     }
 }
 
-bool Player::isOutOfBounds() const {
-    sf::FloatRect viewBounds = sf::FloatRect(
-        mWorldView.getCenter().x - mWorldView.getSize().x / 2.f,
-        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f,
-        mWorldView.getSize().x, mWorldView.getSize().y
-    );
+void Player::saveCurrent(std::ofstream& fout) const {
+    Entity::saveCurrent(fout);
+    fout << mIsImmortal << ' ';
+    fout << mImmortalTime << '\n';
+    fout << static_cast<int>(mDirection) << ' ' << mHalo->isShown() << ' '
+         << mHealth << '\n';
+    fout << mNeedToMove << ' ' << mIsMoving << ' ' << mForceGoGack << ' '
+         << mHasRevival << '\n';
+}
 
-    return !viewBounds.intersects(getGlobalBounds());
+void Player::loadCurrent(std::ifstream& fin) {
+    Entity::loadCurrent(fin);
+    fin >> mIsImmortal;
+    fin >> mImmortalTime;
+
+    int direction;
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+
+    bool isHaloShown;
+    fin >> isHaloShown >> mHealth;
+
+    if (isHaloShown) {
+        mHalo->show();
+    } else {
+        mHalo->hide();
+    }
+
+    fin >> mNeedToMove >> mIsMoving >> mForceGoGack >> mHasRevival;
 }

@@ -6,6 +6,9 @@
 class Van : public Vehicle {
    public:
     Van(TextureHolder& textureHolder, Directions::ID direction);
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

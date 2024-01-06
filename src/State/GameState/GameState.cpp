@@ -3,12 +3,13 @@
 #include "../../Global/Global.hpp"
 #include "../PauseState/PauseState.hpp"
 
-GameState::GameState(StateStack& stack, Context context, bool isMultiplayer)
+GameState::GameState(
+    StateStack& stack, Context context, bool isMultiplayer, bool isLoading
+)
     : State(stack, context),
-      mWorld(context, isMultiplayer),
-      isMultiplayer(isMultiplayer) {
-    Global::SCORE = 0;
-}
+      mWorld(context, isMultiplayer, isLoading),
+      isMultiplayer(isMultiplayer),
+      isLoading(isLoading) {}
 
 bool GameState::handleEvent(const sf::Event& event) {
     mWorld.handleEvent(event);
@@ -24,13 +25,15 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 bool GameState::update(sf::Time deltaTime) {
     mWorld.update(deltaTime);
+    int deadPlayer = mWorld.getDeadPlayer();
 
-    if (!mWorld.isPlayerAlive()) {
-        if (isMultiplayer) {
-            requestStackPush(States::ID::MultiplayerGameOver);
-        } else {
-            requestStackPush(States::ID::GameOver);
-        }
+    if (deadPlayer != -1) {
+        requestStackPush(
+            isMultiplayer
+                ? (deadPlayer == 0 ? States::ID::MultiplayerGameOverDead1
+                                   : States::ID::MultiplayerGameOverDead2)
+                : States::ID::GameOver
+        );
     }
 
     return true;

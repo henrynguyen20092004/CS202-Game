@@ -22,6 +22,9 @@ class Vehicle : public Entity {
     Directions::ID mDirection;
 
     void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "PowerUpSettings.hpp"
 
+#include "../FileIO/FileIO.hpp"
+
 PowerUpSettings::PowerUpSettings(bool isPlayer2) { setToDefault(isPlayer2); }
 
 void PowerUpSettings::assignKey(sf::Keyboard::Key key, PowerUp::Type type) {
@@ -38,5 +40,25 @@ void PowerUpSettings::setToDefault(bool isPlayer2) {
     } else {
         assignKey(sf::Keyboard::Num1, PowerUp::Type::Immortality);
         assignKey(sf::Keyboard::Num2, PowerUp::Type::SlowTime);
+    }
+}
+
+void PowerUpSettings::save(std::ofstream& fout) const {
+    fout << mKeyBinding.size() << '\n';
+
+    for (auto pair : mKeyBinding) {
+        fout << pair.first << ' ' << pair.second << '\n';
+    }
+}
+
+void PowerUpSettings::load(std::ifstream& fin) {
+    sf::Keyboard::Key key;
+    int size, type;
+
+    fin >> size;
+
+    for (int i = 0; i < size; ++i) {
+        fin >> key >> type;
+        assignKey(key, static_cast<PowerUp::Type>(type));
     }
 }

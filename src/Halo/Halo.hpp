@@ -12,6 +12,8 @@ class Halo : public SpriteNode {
     void show();
     void hide();
 
+    bool isShown() const;
+
    private:
     sf::IntRect mTextureRect;
 };

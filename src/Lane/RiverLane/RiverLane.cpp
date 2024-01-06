@@ -1,30 +1,36 @@
-#include "River.hpp"
+#include "RiverLane.hpp"
 
+#include "../../FileIO/FileIO.hpp"
 #include "../../Global/Global.hpp"
 #include "../../Log/LongLog/LongLog.hpp"
 #include "../../Log/MediumLog/MediumLog.hpp"
 #include "../../Log/ShortLog/ShortLog.hpp"
 #include "../../Random/Random.hpp"
 
-River::River(TextureHolder& textureHolder, const sf::Vector2f& position)
+RiverLane::RiverLane(
+    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
+)
     : Lane(textureHolder, position) {
-    buildScene();
+    buildScene(isLoading);
+
+    if (isLoading) {
+        return;
+    }
 
     mDirection = Random<Directions::ID>::generate(
         {Directions::ID::Left, Directions::ID::Right}
     );
-
     mVelocity = sf::Vector2f(Random<float>::generate(250.f, 300.f), 0.f);
 
     init();
 }
 
-void River::buildScene() {
-    Lane::buildScene(Textures::ID::River);
+void RiverLane::buildScene(bool isLoading) {
+    Lane::buildScene(Textures::ID::RiverLane, isLoading);
 
     for (int i = 0; i < Global::NUM_TILES_X; ++i) {
         SpriteNode::Ptr sprite(new SpriteNode(
-            mTextureHolder, Textures::ID::River,
+            mTextureHolder, Textures::ID::RiverLane,
             sf::IntRect(
                 Random<int>::generate({0, 1, 2, 3}, {90, 0, 5, 5}) *
                     Global::TILE_SIZE,
@@ -36,7 +42,7 @@ void River::buildScene() {
     }
 }
 
-void River::init() {
+void RiverLane::init() {
     mTileToNextSpawns.push_front(0);
 
     Log::Ptr log(
@@ -57,7 +63,7 @@ void River::init() {
     addLogTiles(position);
 }
 
-Log* River::createLog(Textures::ID textureID) {
+Log* RiverLane::createLog(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::ShortLog:
             return new ShortLog(mTextureHolder, mDirection);
@@ -73,7 +79,7 @@ Log* River::createLog(Textures::ID textureID) {
     }
 }
 
-void River::addLogTiles(const sf::Vector2f& logPosition) {
+void RiverLane::addLogTiles(const sf::Vector2f& logPosition) {
     for (int i = 0; i < mLogs.front()->getLength(); ++i) {
         Tile::Ptr tile(new Tile(
             Tile::Type::Good,
@@ -102,7 +108,7 @@ void River::addLogTiles(const sf::Vector2f& logPosition) {
     }
 }
 
-void River::addLog() {
+void RiverLane::addLog() {
     float frontLogPosX = mLogs.front()->getPosition().x;
     Log::Ptr log(createLog(Random<Textures::ID>::generate(
         {Textures::ID::ShortLog, Textures::ID::MediumLog, Textures::ID::LongLog
@@ -127,7 +133,7 @@ void River::addLog() {
     addLogTiles(position);
 }
 
-void River::removeLog() {
+void RiverLane::removeLog() {
     for (int i = 0; i < mTileToNextSpawns.back(); ++i) {
         mSceneLayers[TileLayer]->detachChild(*mLaneTiles.back());
         mLaneTiles.pop_back();
@@ -144,7 +150,9 @@ void River::removeLog() {
     mLogs.pop_back();
 }
 
-void River::updateCurrent(sf::Time deltaTime) {
+Textures::ID RiverLane::getTextureID() const { return Textures::ID::RiverLane; }
+
+void RiverLane::updateCurrent(sf::Time deltaTime) {
     if (mLogs.empty()) {
         return;
     }
@@ -166,5 +174,50 @@ void River::updateCurrent(sf::Time deltaTime) {
         mDirection == Directions::ID::Right &&
             backLogPosX > Global::WINDOW_WIDTH + Global::TILE_SIZE) {
         removeLog();
+    }
+}
+
+void RiverLane::saveCurrent(std::ofstream& fout) const {
+    Lane::saveCurrent(fout);
+    int numLogs = mLogs.size(), numTileToNextSpawns = mTileToNextSpawns.size();
+
+    fout << static_cast<int>(mDirection) << '\n';
+    fout << mVelocity << '\n';
+    fout << numLogs << '\n';
+
+    for (int i = numLogs - 1; i >= 0; --i) {
+        fout << static_cast<int>(mLogs[i]->getTextureID()) << (i ? ' ' : '\n');
+    }
+
+    fout << numTileToNextSpawns << '\n';
+
+    for (int i = numTileToNextSpawns - 1; i >= 0; --i) {
+        fout << mTileToNextSpawns[i] << (i ? ' ' : '\n');
+    }
+}
+
+void RiverLane::loadCurrent(std::ifstream& fin) {
+    Lane::loadCurrent(fin);
+    int direction, numLogs, textureID, numTileToNextSpawns, tileToNextSpawn;
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+
+    fin >> mVelocity;
+
+    fin >> numLogs;
+
+    for (int i = 0; i < numLogs; ++i) {
+        fin >> textureID;
+
+        Log::Ptr log(createLog(static_cast<Textures::ID>(textureID)));
+        mLogs.push_front(log.get());
+        mSceneLayers[ObjectLayer]->attachChild(std::move(log));
+    }
+
+    fin >> numTileToNextSpawns;
+
+    for (int i = 0; i < numTileToNextSpawns; ++i) {
+        fin >> tileToNextSpawn;
+        mTileToNextSpawns.push_front(tileToNextSpawn);
     }
 }

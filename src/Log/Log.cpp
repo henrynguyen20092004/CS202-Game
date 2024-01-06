@@ -25,3 +25,15 @@ void Log::updateCurrent(sf::Time deltaTime) {
             break;
     }
 }
+
+void Log::saveCurrent(std::ofstream& fout) const {
+    MovableSpriteNode::saveCurrent(fout);
+    fout << static_cast<int>(mDirection) << '\n';
+}
+
+void Log::loadCurrent(std::ifstream& fin) {
+    MovableSpriteNode::loadCurrent(fin);
+    int direction;
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+}

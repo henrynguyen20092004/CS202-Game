@@ -49,14 +49,20 @@ void Tile::updateCurrent(sf::Time deltaTime) {
     }
 }
 
-void Tile::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
-    const {
-    // sf::RectangleShape rect(sf::Vector2f(Global::TILE_SIZE,
-    // Global::TILE_SIZE)); rect.setFillColor(sf::Color::Transparent);
-    // rect.setOutlineColor(
-    //     mType == Type::Good ? sf::Color::Green : sf::Color::Red
-    // );
-    // rect.setOutlineThickness(1.f);
+void Tile::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    fout << mType << ' ' << static_cast<int>(mDirection) << '\n';
+    fout << mVelocity << '\n';
+}
 
-    // target.draw(rect, states);
+void Tile::loadCurrent(std::ifstream& fin) {
+    SceneNode::loadCurrent(fin);
+    int type, direction;
+    fin >> type;
+    mType = static_cast<Type>(type);
+
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+
+    fin >> mVelocity;
 }

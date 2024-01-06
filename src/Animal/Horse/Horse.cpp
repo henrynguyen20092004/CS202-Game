@@ -2,7 +2,7 @@
 
 #include "../../Player/Player.hpp"
 
-Horse::Horse(TextureHolder& textureHolder, std::vector<PowerUpList*> powerUpList)
+Horse::Horse(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList)
     : Animal(textureHolder, Textures::ID::Horse), mPowerUpList(powerUpList) {
     setHitbox(getLocalBounds());  // TODO: Set hitbox properly
 }
@@ -15,3 +15,5 @@ void Horse::handlePlayerCollision(Player& player) {
         getParent()->detachChild(*this);
     }
 }
+
+Textures::ID Horse::getTextureID() const { return Textures::ID::Horse; }

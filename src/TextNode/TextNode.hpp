@@ -21,8 +21,11 @@ class TextNode : public SceneNode {
    private:
     sf::Text mText;
 
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
+    void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

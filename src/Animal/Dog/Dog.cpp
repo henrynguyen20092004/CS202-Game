@@ -13,3 +13,5 @@ void Dog::handlePlayerCollision(Player& player) {
         getParent()->detachChild(*this);
     }
 }
+
+Textures::ID Dog::getTextureID() const { return Textures::ID::Dog; }

@@ -8,3 +8,5 @@ PoliceCar::PoliceCar(TextureHolder& textureHolder, Directions::ID direction)
 
     setHitbox(sf::FloatRect(10, 10, 130, 60));  // TODO: Set hitbox properly
 }
+
+Textures::ID PoliceCar::getTextureID() const { return Textures::ID::PoliceCar; }

@@ -6,6 +6,9 @@
 class Rock : public Obstacle {
    public:
     Rock(TextureHolder& textureHolder);
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

@@ -5,6 +5,16 @@ void centerOrigin(sf::Text& text) {
     text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
+void centerOriginTextForUnpressedButton(sf::Text& text) {
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setOrigin(bounds.width / 2.f, bounds.height / 2.f + 12.f);
+}
+
+void centerOriginTextForPressedButton(sf::Text& text) {
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setOrigin(bounds.width / 2.f, bounds.height / 2.f + 9.f);
+}
+
 void centerOrigin(sf::Sprite& sprite) {
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);

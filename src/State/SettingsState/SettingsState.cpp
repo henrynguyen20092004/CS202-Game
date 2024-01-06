@@ -151,9 +151,9 @@ void SettingsState::updateLabels() {
         }
 
         mBindingLabels[i]->setText(toString(key1));
-        mBindingLabels[i]->setTextColor(sf::Color(0, 255, 255));
+        mBindingLabels[i]->setTextColor(sf::Color(186, 166, 133));
         mBindingLabels[i + actionCount]->setText(toString(key2));
-        mBindingLabels[i + actionCount]->setTextColor(sf::Color(0, 255, 255));
+        mBindingLabels[i + actionCount]->setTextColor(sf::Color(162, 145, 116));
     }
 }
 

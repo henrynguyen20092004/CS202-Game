@@ -19,7 +19,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     );
 
     centerOrigin(mTitleText);
-    mTitleText.setFillColor(sf::Color(0, 255, 127));
+    mTitleText.setFillColor(sf::Color(192, 212, 112));
     mTitleText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 180.f);
 
     auto playButton = std::make_shared<GUI::Button>(

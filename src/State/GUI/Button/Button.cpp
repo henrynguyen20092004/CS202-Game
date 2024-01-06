@@ -1,7 +1,6 @@
 #include "Button.hpp"
 
 #include "../../../Utility/Utility.hpp"
-
 namespace GUI {
 
 Button::Button(
@@ -11,11 +10,11 @@ Button::Button(
     : mNormalTexture(textureHolder.get(Textures::ID::ButtonNormal)),
       mSelectedTexture(textureHolder.get(Textures::ID::ButtonSelected)),
       mPressedTexture(textureHolder.get(Textures::ID::ButtonPressed)),
-      mText(text, fontHolder.get(Fonts::ID::VTV323), 30),
+      mText(text, fontHolder.get(Fonts::ID::VTV323), 25),
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);
     centerOrigin(mSprite);
-    centerOrigin(mText);
+    centerOriginTextForUnpressedButton(mText);
 }
 
 void Button::setCallback(const Callback& callback) {
@@ -24,7 +23,7 @@ void Button::setCallback(const Callback& callback) {
 
 void Button::setText(const std::string& text) {
     mText.setString(text);
-    centerOrigin(mText);
+    centerOriginTextForPressedButton(mText);
 }
 
 void Button::setToggle(bool flag) { mIsToggle = flag; }
@@ -46,6 +45,7 @@ void Button::activate() {
 
     if (mIsToggle) {
         mSprite.setTexture(mPressedTexture);
+        centerOriginTextForPressedButton(mText);
     } else {
         deactivate();
     }
@@ -55,6 +55,8 @@ void Button::activate() {
 
 void Button::deactivate() {
     Component::deactivate();
+
+    centerOriginTextForUnpressedButton(mText);
 
     if (mIsToggle) {
         mSprite.setTexture(isSelected() ? mSelectedTexture : mNormalTexture);

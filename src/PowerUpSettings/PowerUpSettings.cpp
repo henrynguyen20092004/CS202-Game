@@ -1,6 +1,6 @@
 #include "PowerUpSettings.hpp"
 
-PowerUpSettings::PowerUpSettings() { setToDefault(); }
+PowerUpSettings::PowerUpSettings(bool isPlayer2) { setToDefault(isPlayer2); }
 
 void PowerUpSettings::assignKey(sf::Keyboard::Key key, PowerUp::Type type) {
     for (auto pair : mKeyBinding) {
@@ -31,7 +31,13 @@ sf::Keyboard::Key PowerUpSettings::getAssignedKey(PowerUp::Type type) const {
     return sf::Keyboard::Unknown;
 }
 
-void PowerUpSettings::setToDefault() {
-    assignKey(sf::Keyboard::Num1, PowerUp::Type::Immortality);
-    assignKey(sf::Keyboard::Num2, PowerUp::Type::SlowTime);
+void PowerUpSettings::setToDefault(bool isPlayer2) {
+    if (isPlayer2) {
+        assignKey(sf::Keyboard::U, PowerUp::Type::Immortality);
+        assignKey(sf::Keyboard::I, PowerUp::Type::SlowTime);
+
+    } else {
+        assignKey(sf::Keyboard::Numpad1, PowerUp::Type::Immortality);
+        assignKey(sf::Keyboard::Numpad2, PowerUp::Type::SlowTime);
+    }
 }

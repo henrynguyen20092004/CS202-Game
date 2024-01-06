@@ -23,21 +23,17 @@ class World : private sf::NonCopyable {
     sf::RenderWindow& mWindow;
     TextureHolder& mTextureHolder;
     FontHolder& mFontHolder;
-    PlayerSettings& mPlayerSettings;
-    PlayerSettings mPlayerSettings2;
-    PowerUpSettings& mPowerUpSettings;
 
     sf::View mWorldView;
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
     Map* mMap;
-    std::vector<Player*> mPlayers;  // 1 or 2 players
-    PowerUpList* mPowerUpList;
+    std::vector<Player*> mPlayers;
 
     const float mScrollSpeed = -50.f;
 
-    void buildScene();
+    void buildScene(const State::Context& context);
     void updateView();
 };
 

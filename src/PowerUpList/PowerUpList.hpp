@@ -9,7 +9,8 @@ class PowerUpList : public SceneNode {
 
     PowerUpList(
         PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
-        FontHolder& fontHolder, sf::View& worldView, Player& player
+        FontHolder& fontHolder, sf::View& worldView, Player& player,
+        sf::Vector2f position = sf::Vector2f()
     );
 
     void addPowerUp(PowerUp::Type type);

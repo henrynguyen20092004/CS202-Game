@@ -5,13 +5,13 @@
 
 class PowerUpSettings {
    public:
-    PowerUpSettings();
+    PowerUpSettings(bool isPlayer2 = false);
 
     void assignKey(sf::Keyboard::Key key, PowerUp::Type type);
     PowerUp::Type getPowerUpType(sf::Keyboard::Key key) const;
     sf::Keyboard::Key getAssignedKey(PowerUp::Type type) const;
 
-    void setToDefault();
+    void setToDefault(bool isPlayer2 = false);
 
    private:
     std::map<sf::Keyboard::Key, PowerUp::Type> mKeyBinding;

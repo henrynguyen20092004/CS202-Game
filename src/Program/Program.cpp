@@ -67,6 +67,9 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::SettingBackground, "assets/Textures/SettingBackground.png"
     );
+    mTextureHolder.load(
+        Textures::ID::SettingFrame, "assets/Textures/SettingFrame.png"
+    );
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
     mTextureHolder.load(Textures::ID::Train, "assets/Textures/Train.png");

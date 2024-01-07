@@ -6,7 +6,7 @@
 PauseState::PauseState(StateStack& stack, Context context)
     : State(stack, context),
       mPausedText(
-          "Game Paused", context.fontHolder->get(Fonts::ID::Dosis), 70
+          "Game Paused", context.fontHolder->get(Fonts::ID::VTV323), 80
       ) {
     sf::Vector2f windowSize(context.window->getSize());
 

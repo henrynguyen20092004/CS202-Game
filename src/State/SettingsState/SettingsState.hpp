@@ -1,6 +1,8 @@
 #ifndef SETTINGS_STATE_HPP
 #define SETTINGS_STATE_HPP
 
+#include <string>
+
 #include "../../Player/Player.hpp"
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"
@@ -18,6 +20,8 @@ class SettingsState : public State {
 
    private:
     sf::Sprite mBackgroundSprite;
+    sf::Sprite mFrameSprite;
+    std::array<sf::Text, 2> mBindingPlayerTexts;
     GUI::Container mGUIContainer;
 
     std::array<

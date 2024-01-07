@@ -1,6 +1,7 @@
 #ifndef RESOURCE_HOLDER_HPP
 #define RESOURCE_HOLDER_HPP
 
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <memory>
@@ -27,6 +28,7 @@ class ResourceHolder {
 
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
+typedef ResourceHolder<sf::SoundBuffer, Sounds::ID> SoundHolder;
 
 #include "ResourceHolder.inl"
 

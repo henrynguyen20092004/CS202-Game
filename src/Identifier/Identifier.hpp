@@ -117,4 +117,16 @@ enum class ID {
 };
 }
 
+namespace Music {
+enum class ID {
+    None,
+};
+}
+
+namespace Sounds {
+enum class ID {
+    CarHorn,
+};
+}
+
 #endif

@@ -6,11 +6,13 @@
 
 PowerUpList::PowerUpList(
     PowerUpSettings& powerUpSettings, TextureHolder& textureHolder,
-    FontHolder& fontHolder, sf::View& worldView, Player& player,
-    sf::Vector2f position
+    FontHolder& fontHolder, sf::View& worldView, Player& player
 )
     : mPowerUpSettings(powerUpSettings) {
-    setPosition(position);
+    if (player.getPlayerNumber() == 1) {
+        setPosition(Global::WINDOW_WIDTH - 2 * Global::TILE_SIZE - 40.f, 0.f);
+    }
+
     initPowerUps(textureHolder, fontHolder, worldView, player);
 }
 
@@ -40,7 +42,7 @@ void PowerUpList::initPowerUps(
     mPowerUps[PowerUp::Type::Immortality] = immortality.get();
     attachChild(std::move(immortality));
 
-    defaultArgs.positionOffset.x += Global::TILE_SIZE * 1.25f;
+    defaultArgs.positionOffset.x += Global::TILE_SIZE;
     SlowTime::Ptr slowTime(new SlowTime(defaultArgs, player));
     mPowerUps[PowerUp::Type::SlowTime] = slowTime.get();
     attachChild(std::move(slowTime));

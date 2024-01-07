@@ -19,13 +19,6 @@ void World::handleEvent(const sf::Event& event) {
 }
 
 void World::update(sf::Time deltaTime) {
-    for (Player* player : mPlayers) {
-        if (player->isRegenerate()) {
-            player->update(deltaTime);
-            return;
-        }
-    }
-
     if (mMap->isPlayerMoved()) {
         mWorldView.move(
             0.f, mScrollSpeed * Global::SPEED_MODIFIER *
@@ -76,29 +69,35 @@ void World::buildScene(const State::Context& context) {
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));
     }
 
-    Map::Ptr map(new Map(mTextureHolder, mWorldView, mPlayers));
-    mMap = map.get();
-    mSceneLayers[MapLayer]->attachChild(std::move(map));
-
+    std::vector<PowerUpList*> powerUpLists;
     PowerUpList::Ptr powerUpList(new PowerUpList(
         *context.powerUpSettings1, mTextureHolder, mFontHolder, mWorldView,
         *mPlayers[0]
     ));
+    powerUpLists.push_back(powerUpList.get());
     mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
 
     if (mPlayers.size() == 2) {
         powerUpList.reset(new PowerUpList(
             *context.powerUpSettings2, mTextureHolder, mFontHolder, mWorldView,
-            *mPlayers[1],
-            sf::Vector2f(Global::WINDOW_WIDTH - Global::TILE_SIZE * 3.f, 0.f)
+            *mPlayers[1]
         ));
+        powerUpLists.push_back(powerUpList.get());
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
 
+    Score* scorePointer = nullptr;
     if (mPlayers.size() == 1) {
         Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));
+        scorePointer = score.get();
         mSceneLayers[IconLayer]->attachChild(std::move(score));
     }
+
+    Map::Ptr map(new Map(
+        mTextureHolder, mWorldView, mPlayers, powerUpLists, scorePointer
+    ));
+    mMap = map.get();
+    mSceneLayers[MapLayer]->attachChild(std::move(map));
 }
 
 void World::updateView() {

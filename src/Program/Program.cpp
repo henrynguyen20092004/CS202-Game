@@ -80,12 +80,10 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Train, "assets/Textures/Train.png");
 
     mTextureHolder.load(Textures::ID::Cat, "assets/Textures/Cat.png");
-    mTextureHolder.load(Textures::ID::Elephant, "assets/Textures/Elephant.png");
-    mTextureHolder.load(Textures::ID::Phoenix, "assets/Textures/Phoenix.png");
-    mTextureHolder.load(
-        Textures::ID::PolarBear, "assets/Textures/PolarBear.png"
-    );
-    mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
+    mTextureHolder.load(Textures::ID::Dog, "assets/Textures/Dog.png");
+    mTextureHolder.load(Textures::ID::Lion, "assets/Textures/Lion.png");
+    mTextureHolder.load(Textures::ID::Cow, "assets/Textures/Cow.png");
+    mTextureHolder.load(Textures::ID::Horse, "assets/Textures/Horse.png");
 
     mTextureHolder.load(Textures::ID::Rock, "assets/Textures/Rock.png");
     mTextureHolder.load(Textures::ID::Tree, "assets/Textures/Tree.png");

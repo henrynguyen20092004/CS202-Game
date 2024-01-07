@@ -2,11 +2,8 @@
 
 #include "../Global/Global.hpp"
 
-Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
-    : mPlayer(player),
-      mView(view),
-      mInitialPlayerPosition(player.getPosition().y),
-      mHighestPlayerPosition(mInitialPlayerPosition) {
+Score::Score(Player& player, sf::View& worldView, FontHolder& fontHolder)
+    : mPlayer(player), mWorldView(worldView) {
     TextNode::Ptr text(
         new TextNode(fontHolder, Fonts::ID::VTV323, "Score: 0", 40)
     );
@@ -14,18 +11,23 @@ Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
     attachChild(std::move(text));
 }
 
-void Score::addBonus() { ++mBonus; }
+void Score::init() {
+    mInitialPlayerPosition = mPlayer.getWorldPosition().y;
+    mHighestPlayerPosition = mInitialPlayerPosition;
+}
+
+void Score::addBonus() { mBonus++; }
 
 void Score::updateCurrent(sf::Time deltaTime) {
     mHighestPlayerPosition =
-        std::min(mPlayer.getPosition().y, mHighestPlayerPosition);
+        std::min(mPlayer.getWorldPosition().y, mHighestPlayerPosition);
     Global::SCORE =
         (mInitialPlayerPosition - mHighestPlayerPosition) / Global::TILE_SIZE +
         mBonus;
 
     mScoreText->setText("Score: " + std::to_string(Global::SCORE));
     mScoreText->setPosition(
-        mView.getCenter().x + mView.getSize().x / 2.f - 150.f,
-        mView.getCenter().y - mView.getSize().y / 2.f + 10.f
+        mWorldView.getCenter().x + mWorldView.getSize().x / 2.f - 150.f,
+        mWorldView.getCenter().y - mWorldView.getSize().y / 2.f + 10.f
     );
 }

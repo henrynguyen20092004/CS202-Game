@@ -9,14 +9,21 @@
 
 Map::Map(
     TextureHolder& textureHolder, sf::View& worldView,
-    const std::vector<Player*>& players
+    std::vector<Player*> players, std::vector<PowerUpList*> powerUpList,
+    Score* score
 )
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
       mPlayers(players),
-      mIsPlayerMoved(false) {
+      mPowerUpList(powerUpList),
+      mScore(score) {
     initLanes();
     initPlayer();
+
+    if (mScore) {
+        mScore->init();
+    }
+
     Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
@@ -114,7 +121,9 @@ Lane* Map::createLane(Textures::ID textureID, sf::Vector2f position) {
             return new TrainLane(mTextureHolder, position);
 
         case Textures::ID::ObstacleLane:
-            return new ObstacleLane(mTextureHolder, position);
+            return new ObstacleLane(
+                mTextureHolder, position, mPowerUpList, mScore
+            );
 
         case Textures::ID::River:
             return new River(mTextureHolder, position);
@@ -142,7 +151,7 @@ void Map::addEmptyLane() {
                                : mLanes.front()->getPosition().y) -
                    Global::TILE_SIZE
         ),
-        true
+        mPowerUpList, mScore, true
     ));
 
     mLanes.push_front(lane.get());

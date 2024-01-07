@@ -3,12 +3,21 @@
 #include "../Utility/Utility.hpp"
 
 TextNode::TextNode(
-    const FontHolder& FontHolder, Fonts::ID fontID, const std::string& text,
-    unsigned int size
+    const FontHolder& fontHolder, Fonts::ID fontID, const std::string& text,
+    unsigned int size, sf::Color color
 )
-    : mText(text, FontHolder.get(fontID), size) {}
+    : mText(text, fontHolder.get(fontID), size) {
+    mText.setFillColor(color);
+}
 
 void TextNode::setText(const std::string& text) { mText.setString(text); }
+
+void TextNode::setOpacity(float opacity) {
+    mText.setFillColor(sf::Color(
+        mText.getFillColor().r, mText.getFillColor().g, mText.getFillColor().b,
+        (sf::Uint8)(255 * opacity)
+    ));
+}
 
 void TextNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {

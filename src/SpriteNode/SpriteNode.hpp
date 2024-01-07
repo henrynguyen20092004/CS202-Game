@@ -20,6 +20,8 @@ class SpriteNode : public SceneNode {
     sf::FloatRect getLocalBounds() const;
     sf::FloatRect getGlobalBounds() const;
 
+    void setOpacity(float opacity);
+
    protected:
     TextureHolder& mTextureHolder;
     sf::Sprite mSprite;

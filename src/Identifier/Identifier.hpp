@@ -58,10 +58,10 @@ enum class ID {
     PoliceCar,
 
     Cat,
-    Elephant,
-    Phoenix,
-    PolarBear,
-    Pug,
+    Dog,
+    Lion,
+    Cow,
+    Horse,
 
     Rock,
     Tree,
@@ -100,10 +100,10 @@ enum class ID {
 namespace Sound {
 enum class ID {
     Cat,
-    Elephant,
-    Phoenix,
-    PolarBear,
-    Pug,
+    Dog,
+    Lion,
+    Cow,
+    Horse,
 };
 }
 

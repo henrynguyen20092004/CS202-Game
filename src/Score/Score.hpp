@@ -9,13 +9,15 @@ class Score : public SceneNode {
    public:
     typedef std::unique_ptr<Score> Ptr;
 
-    Score(Player& player, sf::View& view, FontHolder& fontHolder);
+    Score(Player& player, sf::View& worldView, FontHolder& fontHolder);
+
+    void init();
 
     void addBonus();
 
    private:
     Player& mPlayer;
-    sf::View& mView;
+    sf::View& mWorldView;
     TextNode* mScoreText;
     float mInitialPlayerPosition, mHighestPlayerPosition;
     int mBonus = 0;

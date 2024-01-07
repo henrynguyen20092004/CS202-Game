@@ -77,6 +77,11 @@ void Program::loadTextures() {
     );
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextureHolder.load(
+        Textures::ID::PoliceCar, "assets/Textures/PoliceCar.png"
+    );
+    mTextureHolder.load(Textures::ID::Van, "assets/Textures/Van.png");
+    mTextureHolder.load(Textures::ID::Bus, "assets/Textures/Bus.png");
     mTextureHolder.load(Textures::ID::Train, "assets/Textures/Train.png");
 
     mTextureHolder.load(Textures::ID::Cat, "assets/Textures/Cat.png");
@@ -121,6 +126,7 @@ void Program::loadFonts() {
     mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
     mFontHolder.load(Fonts::ID::Pacifico, "assets/Fonts/Pacifico-Regular.ttf");
     mFontHolder.load(Fonts::ID::VTV323, "assets/Fonts/VT323-Regular.ttf");
+    mFontHolder.load(Fonts::ID::Minecraft, "assets/Fonts/Minecraft.ttf");
 }
 
 void Program::registerStates() {

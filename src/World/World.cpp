@@ -55,7 +55,7 @@ void World::buildScene(const State::Context& context) {
 
     Player::Ptr player(new Player(
         mTextureHolder, Textures::ID::Player1SelectedChoice, mWorldView,
-        *context.playerSettings1
+        *context.playerSettings1, 0
     ));
     mPlayers[0] = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
@@ -63,7 +63,7 @@ void World::buildScene(const State::Context& context) {
     if (mPlayers.size() == 2) {
         player.reset(new Player(
             mTextureHolder, Textures::ID::Player2SelectedChoice, mWorldView,
-            *context.playerSettings2
+            *context.playerSettings2, 1
         ));
         mPlayers[1] = player.get();
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));

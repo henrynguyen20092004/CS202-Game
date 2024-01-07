@@ -2,7 +2,10 @@
 
 #include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
+#include "../../Vehicle/Bus/Bus.hpp"
 #include "../../Vehicle/Car/Car.hpp"
+#include "../../Vehicle/PoliceCar/PoliceCar.hpp"
+#include "../../Vehicle/Van/Van.hpp"
 
 VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position
@@ -12,9 +15,17 @@ VehicleLane::VehicleLane(
         {Directions::ID::Left, Directions::ID::Right}
     );
 
-    mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
+    mTextureID = Random<Textures::ID>::generate(
+        {Textures::ID::Car, Textures::ID::PoliceCar, Textures::ID::Van,
+         Textures::ID::Bus},
+        {30, 10, 30, 30}
+    );
 
-    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 400.f), 0.f);
+    if (mTextureID == Textures::ID::PoliceCar) {
+        mVelocity = sf::Vector2f(Random<float>::generate(600.f, 900.f), 0.f);
+    } else {
+        mVelocity = sf::Vector2f(Random<float>::generate(100.f, 400.f), 0.f);
+    }
 
     buildScene();
     init();
@@ -63,6 +74,10 @@ void VehicleLane::init() {
 }
 
 void VehicleLane::setVelocityPercent(float percent) {
+    if (mTextureID == Textures::ID::PoliceCar) {
+        return;
+    }
+
     mVelocityPercent = percent;
 
     for (auto vehicle : mVehicles) {
@@ -74,6 +89,15 @@ Vehicle* VehicleLane::createVehicle() {
     switch (mTextureID) {
         case Textures::ID::Car:
             return new Car(mTextureHolder, mDirection);
+
+        case Textures::ID::PoliceCar:
+            return new PoliceCar(mTextureHolder, mDirection);
+
+        case Textures::ID::Van:
+            return new Van(mTextureHolder, mDirection);
+
+        case Textures::ID::Bus:
+            return new Bus(mTextureHolder, mDirection);
 
         default:
             return nullptr;
@@ -94,9 +118,15 @@ void VehicleLane::addVehicle() {
     );
     mVehicles.push_front(vehicle.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
-    mTileToNextSpawns = Random<int>::generate(
-        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {5, 5, 5, 5, 10, 10, 10, 10, 20, 20}
-    );
+
+    if (mTextureID == Textures::ID::PoliceCar) {
+        mTileToNextSpawns = Random<int>::generate({1, 15}, {80, 20});
+    } else {
+        mTileToNextSpawns = Random<int>::generate(
+            {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+            {5, 5, 5, 5, 10, 10, 10, 10, 20, 20}
+        );
+    }
 }
 
 void VehicleLane::removeVehicle() {

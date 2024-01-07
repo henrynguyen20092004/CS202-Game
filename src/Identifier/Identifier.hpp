@@ -52,10 +52,10 @@ enum class ID {
     SettingFrame,
 
     Car,
-    Truck,
-    Train,
-    Bus,
     PoliceCar,
+    Van,
+    Bus,
+    Train,
 
     Cat,
     Dog,
@@ -88,6 +88,7 @@ enum class ID {
     Dosis,
     Pacifico,
     VTV323,
+    Minecraft,
 };
 }
 

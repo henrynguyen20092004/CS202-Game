@@ -5,7 +5,6 @@
 #include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
-#include "../Blood/Blood.hpp"
 class Score;
 
 class Player : public Entity {

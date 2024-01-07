@@ -3,7 +3,7 @@
 SettingsState::SettingsState(StateStack& stack, Context context)
     : State(stack, context) {
     sf::Texture& backgroundTexture =
-        context.textureHolder->get(Textures::ID::MenuBackground);
+        context.textureHolder->get(Textures::ID::SettingBackground);
     sf::Vector2f windowSize(context.window->getSize());
 
     mBackgroundSprite.setTexture(backgroundTexture);
@@ -151,7 +151,7 @@ void SettingsState::updateLabels() {
         }
 
         mBindingLabels[i]->setText(toString(key1));
-        mBindingLabels[i]->setTextColor(sf::Color(186, 166, 133));
+        mBindingLabels[i]->setTextColor(sf::Color(162, 145, 116));
         mBindingLabels[i + actionCount]->setText(toString(key2));
         mBindingLabels[i + actionCount]->setTextColor(sf::Color(162, 145, 116));
     }

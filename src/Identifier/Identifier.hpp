@@ -48,6 +48,7 @@ enum class ID {
 
     TitleBackground,
     MenuBackground,
+    SettingBackground,
 
     Car,
     Truck,

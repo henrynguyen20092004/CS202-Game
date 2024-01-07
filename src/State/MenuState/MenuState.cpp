@@ -25,7 +25,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     auto playButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Play"
     );
-    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 60.f);
+    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 50.f);
     playButton->setCallback([this]() {
         requestStackPop();
         requestStackPush(States::ID::SelectPlayer1);
@@ -43,7 +43,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     auto settingButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Setting"
     );
-    settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 60.f);
+    settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 50.f);
     settingButton->setCallback([this]() {
         requestStackPush(States::ID::Settings);
     });
@@ -51,7 +51,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     auto exitButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Exit"
     );
-    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 120.f);
+    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 100.f);
     exitButton->setCallback([this]() { requestStackPop(); });
 
     mGUIContainer.addComponent(playButton);
@@ -70,6 +70,6 @@ bool MenuState::update(sf::Time deltaTime) { return true; }
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
-    window.draw(mTitleText);
+    //window.draw(mTitleText);
     window.draw(mGUIContainer);
 }

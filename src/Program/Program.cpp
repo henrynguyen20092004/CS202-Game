@@ -58,10 +58,14 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
     mTextureHolder.load(
-        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
+        Textures::ID::TitleBackground, "assets/Textures/TitleBackground2.png"
     );
     mTextureHolder.load(
-        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+        Textures::ID::MenuBackground, "assets/Textures/MenuBackground2.png"
+    );
+
+    mTextureHolder.load(
+        Textures::ID::SettingBackground, "assets/Textures/SettingBackground.png"
     );
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");

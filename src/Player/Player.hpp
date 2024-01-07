@@ -54,7 +54,7 @@ class Player : public Entity {
 
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
          mHasRegenerate = false;
-    int mHealth = 2;
+    
 
     int mHealth = 60;
     Blood* mBlood;

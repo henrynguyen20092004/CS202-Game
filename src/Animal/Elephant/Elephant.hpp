@@ -9,6 +9,7 @@ class Elephant : public Animal {
         TextureHolder& texture, Textures::ID textureID, PowerUpList& powerUpList
     );
 
+   private:
     void handlePlayerCollision(Player& player) override;
 };
 

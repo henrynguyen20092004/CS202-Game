@@ -9,7 +9,6 @@ class Immortality : public PowerUp {
 
    private:
     void activate() override;
-    void deactivate() override;
 };
 
 #endif

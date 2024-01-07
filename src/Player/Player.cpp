@@ -14,6 +14,10 @@ Player::Player(
       mPlayerSettings(playerSettings) {
     setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
+
+    Halo::Ptr halo(new Halo(mTextureHolder, Textures::ID::Halo));
+    mHalo = halo.get();
+    attachChild(std::move(halo));
 }
 
 bool Player::askToMove() {
@@ -31,14 +35,23 @@ Tile* Player::getSourceTile() const { return mSourceTile; }
 
 Tile* Player::getTargetTile() const { return mTargetTile; }
 
-bool Player::getImmortal() const { return mIsImmortal; }
+bool Player::isImmortal() const { return mImmortalTime > sf::Time::Zero; }
+
+bool Player::isRegenerate() const { return mRegenerateTime > sf::Time::Zero; }
 
 void Player::setTargetTile(Tile* targetTile) {
     mTargetTile = targetTile;
     mIsMoving = true;
 }
 
-void Player::setImmortal(bool isImmortal) { mIsImmortal = isImmortal; }
+void Player::setImmortalTime(sf::Time immortalTime) {
+    mImmortalTime = immortalTime;
+}
+
+void Player::addRegenerate() {
+    mHasRegenerate = true;
+    mHalo->show();
+}
 
 void Player::kill() { mHealth = 0; }
 
@@ -59,10 +72,24 @@ void Player::setScorePtr(Score* score) { mScore = score; }
 
 void Player::addBonusScore() const { mScore->addBonus(); }
 
-bool Player::isAlive() const { return !isOutOfBounds() && mHealth > 0; }
+bool Player::isAlive() {
+    if (!isOutOfBounds() && mHealth > 0 || isRegenerate()) {
+        return true;
+    }
+
+    if (mHasRegenerate) {
+        mRegenerateTime = sf::seconds(2.f);
+        mImmortalTime = sf::seconds(2.5f);
+        mHasRegenerate = false;
+        mHalo->hide();
+        return true;
+    }
+
+    return false;
+}
 
 void Player::handlePlayerCollision(Player& player) {
-    if (&player != this && collidePlayer(player) && !mIsImmortal) {
+    if (&player != this && collidePlayer(player) && !isImmortal()) {
         goBack();
     }
 }
@@ -114,11 +141,23 @@ void Player::updateCurrent(sf::Time deltaTime) {
             move(movement);
         }
     } else {
-        if (mSourceTile->getType() == Tile::Type::Bad && !mIsImmortal) {
+        if (mSourceTile->getType() == Tile::Type::Bad && !isImmortal()) {
             damage();
         }
 
         setPosition(mSourceTile->getWorldPosition() + positionInTile);
+    }
+
+    if (isImmortal()) {
+        mImmortalTime -= deltaTime;
+    }
+
+    if (isRegenerate()) {
+        mRegenerateTime -= deltaTime;
+
+        if (mRegenerateTime <= sf::Time::Zero) {
+            heal();
+        }
     }
 }
 

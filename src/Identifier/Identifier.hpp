@@ -39,6 +39,7 @@ namespace Textures {
 enum class ID {
     BlueNinja,
     BlackNinja,
+    Halo,
 
     TitleBackground,
     MenuBackground,

@@ -1,11 +1,11 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../Blood/Blood.hpp"
 #include "../Entity/Entity.hpp"
 #include "../Halo/Halo.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
-
 class Score;
 
 class Player : public Entity {
@@ -54,7 +54,8 @@ class Player : public Entity {
 
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
          mHasRegenerate = false;
-    int mHealth = 2;
+    int mHealth = 60;
+    Blood* mBlood;
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

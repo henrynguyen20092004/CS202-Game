@@ -42,6 +42,8 @@ enum class ID {
     Halo,
 
     TitleBackground,
+   
+    Blood,
     MenuBackground,
 
     Car,

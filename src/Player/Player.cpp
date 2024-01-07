@@ -18,6 +18,10 @@ Player::Player(
     Halo::Ptr halo(new Halo(mTextureHolder, Textures::ID::Halo));
     mHalo = halo.get();
     attachChild(std::move(halo));
+    Blood::Ptr blood(new Blood(textureHolder, mHealth));
+    mBlood = blood.get();
+    attachChild(std::move(blood));
+    mBlood->setPosition(0.f, 65.f);
 }
 
 bool Player::askToMove() {
@@ -55,15 +59,19 @@ void Player::addRegenerate() {
 
 void Player::kill() { mHealth = 0; }
 
-void Player::damage() { --mHealth; }
+void Player::damage() {
+    --mHealth;
+    goBack();
+}
 
-void Player::heal() { ++mHealth; }
+void Player::heal() {
+    if (mHealth <= 90) mHealth += 10;
+}
 
 void Player::goBack() {
     if (!mIsMoving || mForceGoGack) {
         return;
     }
-
     std::swap(mSourceTile, mTargetTile);
     mForceGoGack = true;
 }

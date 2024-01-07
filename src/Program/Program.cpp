@@ -53,6 +53,8 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
+   
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::BlueNinja, "assets/Textures/BlueNinja.png"
     );
@@ -64,6 +66,9 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
     );
+
+    
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );

@@ -84,14 +84,14 @@ void VehicleLane::addVehicle() {
     float frontVehiclePosX = mVehicles.front()->getPosition().x;
     Vehicle::Ptr vehicle(createVehicle());
     vehicle->setVelocity(mVelocity);
-    vehicle->setPosition(sf::Vector2f(
+    vehicle->setPosition(
         mDirection == Directions::ID::Left
             ? frontVehiclePosX + mVehicles.front()->getSize().x +
                   mTileToNextSpawns * Global::TILE_SIZE
             : frontVehiclePosX - mTileToNextSpawns * Global::TILE_SIZE -
                   vehicle->getSize().x,
         (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
-    ));
+    );
     mVehicles.push_front(vehicle.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
     mTileToNextSpawns = Random<int>::generate(

@@ -19,6 +19,13 @@ void World::handleEvent(const sf::Event& event) {
 }
 
 void World::update(sf::Time deltaTime) {
+    for (Player* player : mPlayers) {
+        if (player->isRegenerate()) {
+            player->update(deltaTime);
+            return;
+        }
+    }
+
     if (mMap->isPlayerMoved()) {
         mWorldView.move(
             0.f, mScrollSpeed * Global::SPEED_MODIFIER *
@@ -83,7 +90,7 @@ void World::buildScene(const State::Context& context) {
         powerUpList.reset(new PowerUpList(
             *context.powerUpSettings2, mTextureHolder, mFontHolder, mWorldView,
             *mPlayers[1],
-            sf::Vector2f(Global::WINDOW_WIDTH - Global::TILE_SIZE * 4.f, 0.f)
+            sf::Vector2f(Global::WINDOW_WIDTH - Global::TILE_SIZE * 3.f, 0.f)
         ));
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }

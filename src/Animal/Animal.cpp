@@ -23,9 +23,9 @@ void Animal::handlePlayerCollision(Player& player) {
 }
 
 void Animal::initPosition() {
-    setPosition(sf::Vector2f(
+    setPosition(
         rand() % 16 * Global::TILE_SIZE, rand() % 9 * Global::TILE_SIZE
-    ));
+    );
 }
 
 void Animal::updateCurrent(sf::Time deltaTime) { mAnimation.update(deltaTime); }

@@ -59,11 +59,17 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::BlackNinja, "assets/Textures/BlackNinja.png"
     );
+    mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
+
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
     );
+ 
 
+    
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );

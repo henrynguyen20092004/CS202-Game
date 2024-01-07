@@ -2,9 +2,10 @@
 #define PLAYER_HPP
 
 #include "../Entity/Entity.hpp"
+#include "../Halo/Halo.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
-
+#include "../Blood/Blood.hpp"
 class Score;
 
 class Player : public Entity {
@@ -20,11 +21,14 @@ class Player : public Entity {
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
-    bool getImmortal() const;
+    bool isImmortal() const;
+    bool isRegenerate() const;
 
     void setTargetTile(Tile* targetTile);
-    void setImmortal(bool isImmortal);
 
+    void setImmortalTime(sf::Time immortalTime);
+
+    void addRegenerate();
     void kill();
     void damage();
     void heal();
@@ -33,7 +37,7 @@ class Player : public Entity {
     void setScorePtr(Score* score);
     void addBonusScore() const;
 
-    bool isAlive() const;
+    bool isAlive();
 
     void handlePlayerCollision(Player& player) override;
 
@@ -41,13 +45,21 @@ class Player : public Entity {
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
     Score* mScore = nullptr;
+    Halo* mHalo = nullptr;
+
+    sf::Time mImmortalTime, mRegenerateTime;
 
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
-    bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
-    bool mIsImmortal = false;
 
+    bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
+         mHasRegenerate = false;
     int mHealth = 2;
+
+    int mHealth = 60;
+    Blood* mBlood;
+
+   
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

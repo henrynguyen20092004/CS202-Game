@@ -10,7 +10,6 @@ class PowerUp : public SceneNode {
         Immortality,
         SlowTime,
         TypeButtonCount,
-        Regenerate,
         None,
     };
 

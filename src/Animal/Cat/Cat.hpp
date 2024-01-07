@@ -8,6 +8,7 @@ class Cat : public Animal {
     Cat(TextureHolder& texture, Textures::ID textureID,
         PowerUpList& powerUpList);
 
+   private:
     void handlePlayerCollision(Player& player) override;
 };
 

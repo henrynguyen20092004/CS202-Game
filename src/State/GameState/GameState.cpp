@@ -24,6 +24,7 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 bool GameState::update(sf::Time deltaTime) {
     mWorld.update(deltaTime);
+
     if (!mWorld.isPlayerAlive()) {
         if (isMultiplayer) {
             requestStackPush(States::ID::MultiplayerGameOver);

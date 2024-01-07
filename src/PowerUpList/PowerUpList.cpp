@@ -2,7 +2,6 @@
 
 #include "../Global/Global.hpp"
 #include "../PowerUp/Immortality/Immortality.hpp"
-#include "../PowerUp/Regenerate/Regenerate.hpp"
 #include "../PowerUp/SlowTime/SlowTime.hpp"
 
 PowerUpList::PowerUpList(
@@ -40,11 +39,6 @@ void PowerUpList::initPowerUps(
     Immortality::Ptr immortality(new Immortality(defaultArgs, player));
     mPowerUps[PowerUp::Type::Immortality] = immortality.get();
     attachChild(std::move(immortality));
-
-    defaultArgs.positionOffset.x += Global::TILE_SIZE * 1.25f;
-    Regenerate::Ptr regenerate(new Regenerate(defaultArgs, player));
-    mPowerUps[PowerUp::Type::Regenerate] = regenerate.get();
-    attachChild(std::move(regenerate));
 
     defaultArgs.positionOffset.x += Global::TILE_SIZE * 1.25f;
     SlowTime::Ptr slowTime(new SlowTime(defaultArgs, player));

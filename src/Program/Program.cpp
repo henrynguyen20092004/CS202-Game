@@ -6,22 +6,25 @@
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
 #include "../State/SettingsState/SettingsState.hpp"
+#include "../State/TitleState/TitleState.hpp"
 
 Program::Program()
     : mWindow(
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT),
           "Crossy Road Gameplay", sf::Style::Close
       ),
+      mPlayerSettings2(true),
+      mPowerUpSettings2(true),
       mStateStack(State::Context(
-          mWindow, mTextureHolder, mFontHolder, mPlayerSettings,
-          mPowerUpSettings
+          mWindow, mTextureHolder, mFontHolder, mPlayerSettings1,
+          mPlayerSettings2, mPowerUpSettings1, mPowerUpSettings2
       )) {
     mWindow.setKeyRepeatEnabled(false);
     loadTextures();
     loadFonts();
     registerStates();
 
-    mStateStack.pushState(States::ID::Menu);
+    mStateStack.pushState(States::ID::Title);
 }
 
 Program::~Program() {}
@@ -50,7 +53,20 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
-    mTextureHolder.load(Textures::ID::Player, "assets/Textures/Player.png");
+   
+    mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
+    mTextureHolder.load(
+        Textures::ID::BlueNinja, "assets/Textures/BlueNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::BlackNinja, "assets/Textures/BlackNinja.png"
+    );
+
+    mTextureHolder.load(
+        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
+    );
+
+    
     mTextureHolder.load(Textures::ID::Blood, "assets/Textures/Blood.png");
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
@@ -68,15 +84,14 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
 
     mTextureHolder.load(Textures::ID::Rock, "assets/Textures/Rock.png");
+    mTextureHolder.load(Textures::ID::Tree, "assets/Textures/Tree.png");
+    mTextureHolder.load(Textures::ID::Log, "assets/Textures/Log.png");
+    mTextureHolder.load(
+        Textures::ID::RailwaySignal, "assets/Textures/RailwaySignal.png"
+    );
     mTextureHolder.load(
         Textures::ID::TrafficLight, "assets/Textures/TrafficLight.png"
     );
-
-    mTextureHolder.load(Textures::ID::ShortLog, "assets/Textures/ShortLog.png");
-    mTextureHolder.load(
-        Textures::ID::MediumLog, "assets/Textures/MediumLog.png"
-    );
-    mTextureHolder.load(Textures::ID::LongLog, "assets/Textures/LongLog.png");
 
     mTextureHolder.load(
         Textures::ID::VehicleLane, "assets/Textures/VehicleLane.png"
@@ -103,16 +118,20 @@ void Program::loadTextures() {
 void Program::loadFonts() {
     mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
     mFontHolder.load(Fonts::ID::Pacifico, "assets/Fonts/Pacifico-Regular.ttf");
+    mFontHolder.load(Fonts::ID::VTV323, "assets/Fonts/VT323-Regular.ttf");
 }
 
 void Program::registerStates() {
+    mStateStack.registerState<TitleState>(States::ID::Title);
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<SettingsState>(States::ID::Settings);
     mStateStack.registerState<GameState>(States::ID::Game);
+    mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
-    //     mStateStack.registerState<TitleState>(States::ID::Title);
-    //     mStateStack.registerState<LoadingState>(States::ID::Loading);
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
+    mStateStack.registerState<GameOverState>(
+        States::ID::MultiplayerGameOver, true
+    );
 }
 
 void Program::handleEvent(sf::Event& event) {

@@ -8,17 +8,15 @@ VehicleLane::VehicleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position
 )
     : Lane(textureHolder, position) {
-    buildScene();
-
     mDirection = Random<Directions::ID>::generate(
         {Directions::ID::Left, Directions::ID::Right}
     );
 
     mTextureID = Random<Textures::ID>::generate({Textures::ID::Car});
 
-    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 500.f), 0.f);
-    mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
+    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 400.f), 0.f);
 
+    buildScene();
     init();
 }
 
@@ -31,39 +29,37 @@ void VehicleLane::handlePlayerCollision(Player& player) {
 void VehicleLane::buildScene() {
     Lane::buildScene(Textures::ID::VehicleLane);
 
+    for (int i = 0; i < Global::NUM_TILES_X; ++i) {
+        SpriteNode::Ptr sprite(new SpriteNode(
+            mTextureHolder, Textures::ID::VehicleLane,
+            sf::IntRect(
+                Random<int>::generate({0}) * Global::TILE_SIZE, 0,
+                Global::TILE_SIZE, Global::TILE_SIZE
+            )
+        ));
+        sprite->setPosition(i * Global::TILE_SIZE, 0.f);
+        mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    }
+
     TrafficLight::Ptr trafficLight(new TrafficLight(mTextureHolder, mDirection)
     );
     mTrafficLight = trafficLight.get();
-    mSceneLayers[TrafficLightLayer]->attachChild(std::move(trafficLight));
+    mSceneLayers[SignalLightLayer]->attachChild(std::move(trafficLight));
 }
 
 void VehicleLane::init() {
-    float vehicleWidth = mTextureHolder.get(mTextureID).getSize().x;
-    int numVehicles = std::min(
-        Random<int>::generate(0, Global::WINDOW_WIDTH / vehicleWidth + 1), 3
+    Vehicle::Ptr vehicle(createVehicle());
+    vehicle->setVelocity(mVelocity);
+    vehicle->setPosition(
+        mDirection == Directions::ID::Left ? -vehicle->getSize().x
+                                           : Global::WINDOW_WIDTH,
+        (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
     );
-    std::vector<float> positions;
-
-    for (int i = 0; i < numVehicles; ++i) {
-        positions.push_back(Random<float>::generate(
-            -vehicleWidth, Global::WINDOW_WIDTH - numVehicles * vehicleWidth
-        ));
-    }
-
-    std::sort(positions.begin(), positions.end());
-
-    for (int i = 0; i < numVehicles; ++i) {
-        positions[i] += i * vehicleWidth;
-
-        Vehicle::Ptr vehicle(createVehicle());
-        vehicle->setVelocity(mVelocity);
-        vehicle->setPosition(
-            positions[i], (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
-        );
-
-        mVehicles.push_front(vehicle.get());
-        mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
-    }
+    mVehicles.push_front(vehicle.get());
+    mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
+    mTileToNextSpawns = Random<int>::generate(
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {5, 5, 5, 5, 10, 10, 10, 10, 20, 20}
+    );
 }
 
 void VehicleLane::setVelocityPercent(float percent) {
@@ -85,16 +81,22 @@ Vehicle* VehicleLane::createVehicle() {
 }
 
 void VehicleLane::addVehicle() {
+    float frontVehiclePosX = mVehicles.front()->getPosition().x;
     Vehicle::Ptr vehicle(createVehicle());
     vehicle->setVelocity(mVelocity);
-    vehicle->setPosition(
-        mDirection == Directions::ID::Left ? Global::WINDOW_WIDTH
-                                           : -vehicle->getSize().x,
+    vehicle->setPosition(sf::Vector2f(
+        mDirection == Directions::ID::Left
+            ? frontVehiclePosX + mVehicles.front()->getSize().x +
+                  mTileToNextSpawns * Global::TILE_SIZE
+            : frontVehiclePosX - mTileToNextSpawns * Global::TILE_SIZE -
+                  vehicle->getSize().x,
         (Global::TILE_SIZE - vehicle->getSize().y) / 2.f
-    );
+    ));
     mVehicles.push_front(vehicle.get());
     mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
-    mSpawnClock = sf::seconds(Random<float>::generate(1.f, 5.f));
+    mTileToNextSpawns = Random<int>::generate(
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {5, 5, 5, 5, 10, 10, 10, 10, 20, 20}
+    );
 }
 
 void VehicleLane::removeVehicle() {
@@ -120,9 +122,14 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
             break;
     }
 
-    mSpawnClock -= deltaTime * Global::SPEED_MODIFIER * mVelocityPercent;
-
-    if (mSpawnClock < sf::Time::Zero) {
+    while (mDirection == Directions::ID::Left &&
+               mVehicles.front()->getPosition().x +
+                       mVehicles.front()->getSize().x <
+                   Global::WINDOW_WIDTH -
+                       mTileToNextSpawns * Global::TILE_SIZE ||
+           mDirection == Directions::ID::Right &&
+               mVehicles.front()->getPosition().x >
+                   mTileToNextSpawns * Global::TILE_SIZE) {
         addVehicle();
     }
 

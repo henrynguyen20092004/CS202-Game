@@ -14,12 +14,27 @@ River::River(TextureHolder& textureHolder, const sf::Vector2f& position)
         {Directions::ID::Left, Directions::ID::Right}
     );
 
-    mVelocity = sf::Vector2f(Random<float>::generate(100.f, 300.f), 0.f);
+    mVelocity = sf::Vector2f(Random<float>::generate(250.f, 300.f), 0.f);
 
     init();
 }
 
-void River::buildScene() { Lane::buildScene(Textures::ID::River); }
+void River::buildScene() {
+    Lane::buildScene(Textures::ID::River);
+
+    for (int i = 0; i < Global::NUM_TILES_X; ++i) {
+        SpriteNode::Ptr sprite(new SpriteNode(
+            mTextureHolder, Textures::ID::River,
+            sf::IntRect(
+                Random<int>::generate({0, 1, 2, 3}, {90, 0, 5, 5}) *
+                    Global::TILE_SIZE,
+                0, Global::TILE_SIZE, Global::TILE_SIZE
+            )
+        ));
+        sprite->setPosition(i * Global::TILE_SIZE, 0.f);
+        mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
+    }
+}
 
 void River::init() {
     mTileToNextSpawns.push_front(0);
@@ -89,9 +104,9 @@ void River::addLogTiles(const sf::Vector2f& logPosition) {
 
 void River::addLog() {
     float frontLogPosX = mLogs.front()->getPosition().x;
-    Log::Ptr log(createLog(Random<Textures::ID>::generate(
-        {Textures::ID::ShortLog, Textures::ID::MediumLog, Textures::ID::LongLog}
-    )));
+    Log::Ptr log(createLog(
+        Random<Textures::ID>::generate({Textures::ID::LongLog}, {100})
+    ));
     sf::Vector2f position(
         mDirection == Directions::ID::Left
             ? frontLogPosX + mLogs.front()->getSize().x +
@@ -142,13 +157,12 @@ void River::updateCurrent(sf::Time deltaTime) {
         addLog();
     }
 
-    if (mDirection == Directions::ID::Left) {
-        if (mLogs.back()->getPosition().x < -mLogs.back()->getSize().x) {
-            removeLog();
-        }
-    } else {
-        if (mLogs.back()->getPosition().x > Global::WINDOW_WIDTH) {
-            removeLog();
-        }
+    float backLogPosX = mLogs.back()->getPosition().x;
+
+    if (mDirection == Directions::ID::Left &&
+            backLogPosX < -mLogs.back()->getSize().x - Global::TILE_SIZE ||
+        mDirection == Directions::ID::Right &&
+            backLogPosX > Global::WINDOW_WIDTH + Global::TILE_SIZE) {
+        removeLog();
     }
 }

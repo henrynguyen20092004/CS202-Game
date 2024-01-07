@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../Blood/Blood.hpp"
 #include "../Entity/Entity.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../Tile/Tile.hpp"
@@ -12,16 +13,18 @@ class Player : public Entity {
     typedef std::unique_ptr<Player> Ptr;
 
     Player(
-        TextureHolder& mTextureHolder, sf::View& worldView,
-        PlayerSettings& playerSettings
+        TextureHolder& mTextureHolder, Textures::ID textureID,
+        sf::View& worldView, PlayerSettings& playerSettings
     );
 
     bool askToMove();
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
+    bool getImmortal() const;
 
     void setTargetTile(Tile* targetTile);
+    void setImmortal(bool isImmortal);
 
     void kill();
     void damage();
@@ -33,6 +36,8 @@ class Player : public Entity {
 
     bool isAlive() const;
 
+    void handlePlayerCollision(Player& player) override;
+
    private:
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
@@ -41,11 +46,10 @@ class Player : public Entity {
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false;
+    bool mIsImmortal = false;
 
-    int mHealth = 1;
+    int mHealth = 60;
     Blood* mBlood;
-    void initPosition(const sf::Vector2f& viewCenter);
-    void initTargetDistance();
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

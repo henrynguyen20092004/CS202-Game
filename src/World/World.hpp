@@ -9,7 +9,7 @@
 
 class World : private sf::NonCopyable {
    public:
-    World(State::Context context);
+    World(const State::Context& context, bool isMultiplayer = false);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
@@ -23,20 +23,17 @@ class World : private sf::NonCopyable {
     sf::RenderWindow& mWindow;
     TextureHolder& mTextureHolder;
     FontHolder& mFontHolder;
-    PlayerSettings& mPlayerSettings;
-    PowerUpSettings& mPowerUpSettings;
 
     sf::View mWorldView;
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
-    Player* mPlayer;
     Map* mMap;
-    PowerUpList* mPowerUpList;
+    std::vector<Player*> mPlayers;
 
     const float mScrollSpeed = -50.f;
 
-    void buildScene();
+    void buildScene(const State::Context& context);
     void updateView();
 };
 

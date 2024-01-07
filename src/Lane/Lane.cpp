@@ -56,9 +56,6 @@ void Lane::buildScene(Textures::ID textureID) {
         attachChild(std::move(layer));
     }
 
-    SpriteNode::Ptr sprite(new SpriteNode(mTextureHolder, textureID));
-    mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
-
     if (textureID == Textures::ID::River) {
         return;
     }

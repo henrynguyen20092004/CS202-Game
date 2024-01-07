@@ -32,7 +32,7 @@ class PowerUp : public SceneNode {
 
    private:
     sf::Time mDuration, mRemainingDuration;
-    int mCount = 0;
+    int mCount = 1;  // TODO: revert after testing
     bool mIsActivated = false;
 
     virtual void activate() = 0;

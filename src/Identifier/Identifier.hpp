@@ -6,9 +6,10 @@ enum class ID {
     Title,
     Menu,
     Game,
-    Loading,
+    MultiplayerGame,
     Pause,
     GameOver,
+    MultiplayerGameOver,
     Settings,
     None,
 };
@@ -36,7 +37,11 @@ enum class ID {
 
 namespace Textures {
 enum class ID {
-    Player,
+    BlueNinja,
+    BlackNinja,
+
+    TitleBackground,
+   
     Blood,
     MenuBackground,
 
@@ -53,11 +58,13 @@ enum class ID {
     Pug,
 
     Rock,
-    TrafficLight,
-
+    Tree,
+    Log,
     ShortLog,
     MediumLog,
     LongLog,
+    RailwaySignal,
+    TrafficLight,
 
     VehicleLane,
     TrainLane,
@@ -74,6 +81,7 @@ namespace Fonts {
 enum class ID {
     Dosis,
     Pacifico,
+    VTV323,
 };
 }
 

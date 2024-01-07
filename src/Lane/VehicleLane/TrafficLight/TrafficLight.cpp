@@ -1,7 +1,7 @@
 #include "TrafficLight.hpp"
 
-#include "../Global/Global.hpp"
-#include "../Random/Random.hpp"
+#include "../../../Global/Global.hpp"
+#include "../../../Random/Random.hpp"
 
 TrafficLight::TrafficLight(
     TextureHolder& mTextureHolder, Directions::ID direction
@@ -16,12 +16,14 @@ TrafficLight::TrafficLight(
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 
     if (direction == Directions::ID::Left) {
-        setPosition(Global::WINDOW_WIDTH - getLocalBounds().width, 0);
+        setPosition(
+            Global::WINDOW_WIDTH - Global::TILE_SIZE - textureSize.x / 3, 0
+        );
     } else {
-        setPosition(getLocalBounds().width, 0);
+        setPosition(Global::TILE_SIZE, 0);
     }
 
-    mSprite.setTextureRect(sf::IntRect(
+    setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }
@@ -33,7 +35,9 @@ void TrafficLight::switchState(TrafficLight::State state) {
 }
 
 void TrafficLight::updateCurrent(sf::Time deltaTime) {
-    mTimeCount += deltaTime;
+    mTimeCount +=
+        deltaTime * Global::SPEED_MODIFIER * Global::DIFFICULTY_MODIFIER;
+
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::TrafficLight).getSize();
 
@@ -42,7 +46,7 @@ void TrafficLight::updateCurrent(sf::Time deltaTime) {
         mTimeCount = sf::Time::Zero;
     }
 
-    mSprite.setTextureRect(sf::IntRect(
+    setTextureRect(sf::IntRect(
         textureSize.x * mState / 3, 0, textureSize.x / 3, textureSize.y
     ));
 }

@@ -1,6 +1,6 @@
 #include "StateStack.hpp"
 
-StateStack::StateStack(State::Context context) : mContext(context) {}
+StateStack::StateStack(const State::Context& context) : mContext(context) {}
 
 void StateStack::handleEvent(const sf::Event& event) {
     for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr) {

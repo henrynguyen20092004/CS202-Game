@@ -13,10 +13,10 @@ class StateStack : private sf::NonCopyable {
         Clear,
     };
 
-    explicit StateStack(State::Context context);
+    explicit StateStack(const State::Context& context);
 
-    template <typename T>
-    void registerState(States::ID stateID);
+    template <typename T, typename... Params>
+    void registerState(States::ID stateID, Params... parameters);
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
@@ -48,10 +48,10 @@ class StateStack : private sf::NonCopyable {
     void applyPendingChanges();
 };
 
-template <typename T>
-void StateStack::registerState(States::ID stateID) {
-    mFactories[stateID] = [this]() {
-        return State::Ptr(new T(*this, mContext));
+template <typename T, typename... Params>
+void StateStack::registerState(States::ID stateID, Params... parameters) {
+    mFactories[stateID] = [this, parameters...]() {
+        return State::Ptr(new T(*this, mContext, parameters...));
     };
 }
 

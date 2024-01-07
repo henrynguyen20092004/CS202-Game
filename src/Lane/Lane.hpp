@@ -23,7 +23,7 @@ class Lane : public SceneNode {
     enum Layer {
         LaneLayer,
         ObjectLayer,
-        TrafficLightLayer,
+        SignalLightLayer,
         TileLayer,
         LayerCount,
     };

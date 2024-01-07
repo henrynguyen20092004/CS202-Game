@@ -11,13 +11,17 @@ sf::FloatRect Entity::getGlobalHitbox() const {
 void Entity::setHitbox(const sf::FloatRect& hitbox) { mHitbox = hitbox; }
 
 bool Entity::collidePlayer(const Player& player) const {
+    if (player.getImmortal()) {
+        return false;
+    }
+
     return getGlobalHitbox().intersects(player.getGlobalHitbox());
 }
 
 void Entity::handlePlayerCollision(Player& player) {}
 
 void Entity::updateCurrent(sf::Time deltaTime) {
-    move(mVelocity * deltaTime.asSeconds());
+    MovableSpriteNode::updateCurrent(deltaTime);
 }
 
 void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)

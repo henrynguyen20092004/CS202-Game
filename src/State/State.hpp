@@ -16,16 +16,19 @@ class State {
     struct Context {
         Context(
             sf::RenderWindow& window, TextureHolder& textureHolder,
-            FontHolder& fontHolder, PlayerSettings& playerSettings,
-            PowerUpSettings& powerUpSettings
+            FontHolder& fontHolder, PlayerSettings& playerSettings1,
+            PlayerSettings& playerSettings2, PowerUpSettings& powerUpSettings1,
+            PowerUpSettings& powerUpSettings2
         );
 
         sf::RenderWindow* window;
         TextureHolder* textureHolder;
         FontHolder* fontHolder;
 
-        PlayerSettings* playerSettings;
-        PowerUpSettings* powerUpSettings;
+        PlayerSettings* playerSettings1;
+        PlayerSettings* playerSettings2;
+        PowerUpSettings* powerUpSettings1;
+        PowerUpSettings* powerUpSettings2;
     };
 
     State(StateStack& stack, Context context);

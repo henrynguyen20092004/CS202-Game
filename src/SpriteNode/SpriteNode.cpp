@@ -16,6 +16,10 @@ void SpriteNode::setSprite(Textures::ID textureID, sf::IntRect textureRect) {
     }
 }
 
+void SpriteNode::setTextureRect(sf::IntRect textureRect) {
+    mSprite.setTextureRect(textureRect);
+}
+
 sf::Vector2f SpriteNode::getSize() const {
     return mSprite.getLocalBounds().getSize();
 }

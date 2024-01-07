@@ -3,6 +3,9 @@
 
 struct Global {
     static float SPEED_MODIFIER;
+    static float DIFFICULTY_MODIFIER;
+
+    static int SCORE;
 
     static const int WINDOW_WIDTH;
     static const int WINDOW_HEIGHT;

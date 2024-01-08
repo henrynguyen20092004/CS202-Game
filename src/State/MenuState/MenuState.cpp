@@ -28,7 +28,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 50.f);
     playButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::SelectPlayer1);
+        requestStackPush(States::ID::SelectPlayer1Single);
     });
 
     auto mutiplayerButton = std::make_shared<GUI::Button>(
@@ -37,7 +37,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     mutiplayerButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
     mutiplayerButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::SelectMultiplayer);
+        requestStackPush(States::ID::SelectPlayer1Multi);
     });
 
     auto settingButton = std::make_shared<GUI::Button>(
@@ -70,6 +70,6 @@ bool MenuState::update(sf::Time deltaTime) { return true; }
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
-    //window.draw(mTitleText);
+    // window.draw(mTitleText);
     window.draw(mGUIContainer);
 }

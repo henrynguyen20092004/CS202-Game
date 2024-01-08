@@ -54,14 +54,19 @@ void Program::run() {
 }
 
 void Program::loadTextures() {
-
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice1, "assets/Textures/BlackNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice2, "assets/Textures/BlueNinja.png"
+    );
     mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
     mTextureHolder.load(
-        Textures::ID::TitleBackground, "assets/Textures/TitleBackground2.png"
+        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.png"
     );
     mTextureHolder.load(
-        Textures::ID::MenuBackground, "assets/Textures/MenuBackground2.png"
+        Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
     );
 
     mTextureHolder.load(
@@ -104,19 +109,13 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::River, "assets/Textures/River.png");
 
     mTextureHolder.load(
-        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal2.png"
+        Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
     );
     mTextureHolder.load(
-        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected2.png"
+        Textures::ID::ButtonSelected, "assets/Textures/ButtonSelected.png"
     );
     mTextureHolder.load(
-        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed2.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::PlayerChoice1, "assets/Textures/BlackNinja.png"
-    );
-    mTextureHolder.load(
-        Textures::ID::PlayerChoice2, "assets/Textures/BlueNinja.png"
+        Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
 }
 
@@ -134,10 +133,14 @@ void Program::registerStates() {
     mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
     mStateStack.registerState<SelectPlayerState>(
-        States::ID::SelectMultiplayer, 0
+        States::ID::SelectPlayer1Single, SelectPlayerState::Type::Player1Single
     );
-    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer1, 1);
-    mStateStack.registerState<SelectPlayerState>(States::ID::SelectPlayer2, 2);
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectPlayer1Multi, SelectPlayerState::Type::Player1Multi
+    );
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectPlayer2Multi, SelectPlayerState::Type::Player2Multi
+    );
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
     mStateStack.registerState<GameOverState>(
         States::ID::MultiplayerGameOver, true

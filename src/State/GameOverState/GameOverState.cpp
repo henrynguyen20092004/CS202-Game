@@ -72,7 +72,7 @@ void GameOverState::draw() {
     window.draw(backgroundShape);
     window.draw(mGameOverText);
     window.draw(mCurrentScoreText);
-    window.draw(mHighestScoreText);
+    // window.draw(mHighestScoreText);
     window.draw(mGUIContainer);
 }
 

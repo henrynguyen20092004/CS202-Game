@@ -6,7 +6,7 @@
 #include "../GUI/Button/Button.hpp"
 
 SelectPlayerState::SelectPlayerState(
-    StateStack& stack, Context context, int selectState
+    StateStack& stack, Context context, SelectPlayerState::Type selectState
 )
     : State(stack, context),
       mChoiceCount(
@@ -18,9 +18,9 @@ SelectPlayerState::SelectPlayerState(
       mTitleText("Player 1", context.fontHolder->get(Fonts::ID::VTV323), 80) {
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
-    mBackgroundSprite.setTexture(backgroundTexture);
-
     sf::Vector2f windowSize(context.window->getSize());
+
+    mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y
@@ -28,7 +28,8 @@ SelectPlayerState::SelectPlayerState(
 
     centerOrigin(mTitleText);
     mTitleText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
-    if (mSelectState == 2) {
+
+    if (mSelectState == SelectPlayerState::Type::Player2Multi) {
         mTitleText.setString("Player 2");
     }
 
@@ -36,8 +37,8 @@ SelectPlayerState::SelectPlayerState(
         context.textureHolder->get(Textures::ID::PlayerChoice1);
     mPlayerChoiceSprite.setTexture(playerChoiceTexture);
     mPlayerChoiceSprite.setTextureRect(sf::IntRect(60, 0, 60, 60));
-    mPlayerChoiceSprite.setScale(2.f, 2.f);
     centerOrigin(mPlayerChoiceSprite);
+    mPlayerChoiceSprite.setScale(2.f, 2.f);
     mPlayerChoiceSprite.setPosition(
         windowSize.x / 2.f, windowSize.y / 2.f + 60.f
     );
@@ -46,44 +47,48 @@ SelectPlayerState::SelectPlayerState(
         *context.fontHolder, *context.textureHolder, "Accept"
     );
     acceptButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 180.f);
+    acceptButton->setCallback([this, context]() {
+        switch (mSelectState) {
+            case SelectPlayerState::Type::Player1Single:
+                context.textureHolder->load(
+                    Textures::ID::Player1SelectedChoice,
+                    static_cast<Textures::ID>(
+                        static_cast<int>(Textures::ID::PlayerChoice1) +
+                        mCurrentChoiceIndex
+                    )
+                );
+                requestStackPop();
+                requestStackPush(States::ID::Game);
+                break;
 
-    if (mSelectState == 0) {
-        acceptButton->setCallback([this, context]() {
-            context.textureHolder->load(
-                Textures::ID::Player1SelectedChoice,
-                static_cast<Textures::ID>(
-                    static_cast<int>(Textures::ID::PlayerChoice1) +
-                    mCurrentChoiceIndex
-                )
-            );
-            requestStackPop();
-            requestStackPush(States::ID::SelectPlayer2);
-        });
-    } else if (mSelectState == 1) {
-        acceptButton->setCallback([this, context]() {
-            context.textureHolder->load(
-                Textures::ID::Player1SelectedChoice,
-                static_cast<Textures::ID>(
-                    static_cast<int>(Textures::ID::PlayerChoice1) +
-                    mCurrentChoiceIndex
-                )
-            );
-            requestStackPop();
-            requestStackPush(States::ID::Game);
-        });
-    } else {
-        acceptButton->setCallback([this, context]() {
-            context.textureHolder->load(
-                Textures::ID::Player2SelectedChoice,
-                static_cast<Textures::ID>(
-                    static_cast<int>(Textures::ID::PlayerChoice1) +
-                    mCurrentChoiceIndex
-                )
-            );
-            requestStackPop();
-            requestStackPush(States::ID::MultiplayerGame);
-        });
-    }
+            case SelectPlayerState::Type::Player1Multi:
+                context.textureHolder->load(
+                    Textures::ID::Player1SelectedChoice,
+                    static_cast<Textures::ID>(
+                        static_cast<int>(Textures::ID::PlayerChoice1) +
+                        mCurrentChoiceIndex
+                    )
+                );
+                requestStackPop();
+                requestStackPush(States::ID::SelectPlayer2Multi);
+                break;
+
+            case SelectPlayerState::Type::Player2Multi:
+                context.textureHolder->load(
+                    Textures::ID::Player2SelectedChoice,
+                    static_cast<Textures::ID>(
+                        static_cast<int>(Textures::ID::PlayerChoice1) +
+                        mCurrentChoiceIndex
+                    )
+                );
+                requestStackPop();
+                requestStackPush(States::ID::MultiplayerGame);
+                break;
+
+            default:
+                break;
+        }
+    });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Back to Menu"
@@ -100,18 +105,22 @@ SelectPlayerState::SelectPlayerState(
 
 bool SelectPlayerState::handleEvent(const sf::Event& event) {
     bool isChoiceChanged = false;
+
     if (event.type == sf::Event::KeyPressed) {
         switch (event.key.code) {
             case sf::Keyboard::Left:
                 mCurrentChoiceIndex =
                     (mCurrentChoiceIndex - 1 + mChoiceCount) % mChoiceCount;
                 break;
+
             case sf::Keyboard::Right:
                 mCurrentChoiceIndex = (mCurrentChoiceIndex + 1) % mChoiceCount;
                 break;
+
             default:
                 break;
         }
+
         isChoiceChanged = true;
     }
 

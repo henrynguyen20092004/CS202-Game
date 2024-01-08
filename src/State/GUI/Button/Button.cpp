@@ -1,6 +1,7 @@
 #include "Button.hpp"
 
 #include "../../../Utility/Utility.hpp"
+
 namespace GUI {
 
 Button::Button(
@@ -14,7 +15,7 @@ Button::Button(
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);
     centerOrigin(mSprite);
-    centerOriginTextForUnpressedButton(mText);
+    centerOrigin(mText, sf::Vector2f(0.f, 12.f));
 }
 
 void Button::setCallback(const Callback& callback) {
@@ -23,7 +24,7 @@ void Button::setCallback(const Callback& callback) {
 
 void Button::setText(const std::string& text) {
     mText.setString(text);
-    centerOriginTextForPressedButton(mText);
+    centerOrigin(mText, sf::Vector2f(0.f, 9.f));
 }
 
 void Button::setToggle(bool flag) { mIsToggle = flag; }
@@ -45,7 +46,7 @@ void Button::activate() {
 
     if (mIsToggle) {
         mSprite.setTexture(mPressedTexture);
-        centerOriginTextForPressedButton(mText);
+        centerOrigin(mText, sf::Vector2f(0.f, 9.f));
     } else {
         deactivate();
     }
@@ -56,7 +57,7 @@ void Button::activate() {
 void Button::deactivate() {
     Component::deactivate();
 
-    centerOriginTextForUnpressedButton(mText);
+    centerOrigin(mText, sf::Vector2f(0.f, 12.f));
 
     if (mIsToggle) {
         mSprite.setTexture(isSelected() ? mSelectedTexture : mNormalTexture);

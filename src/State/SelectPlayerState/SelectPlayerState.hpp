@@ -6,7 +6,13 @@
 
 class SelectPlayerState : public State {
    public:
-    SelectPlayerState(StateStack& stack, Context context, int selectState = 0);
+    enum Type {
+        Player1Single,
+        Player1Multi,
+        Player2Multi,
+    };
+
+    SelectPlayerState(StateStack& stack, Context context, SelectPlayerState::Type selectState);
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;

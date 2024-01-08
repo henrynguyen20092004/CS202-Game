@@ -5,9 +5,9 @@ namespace States {
 enum class ID {
     Title,
     Menu,
-    SelectPlayer1,
-    SelectPlayer2,
-    SelectMultiplayer,
+    SelectPlayer1Single,
+    SelectPlayer1Multi,
+    SelectPlayer2Multi,
     Game,
     MultiplayerGame,
     Pause,

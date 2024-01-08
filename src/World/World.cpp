@@ -52,6 +52,7 @@ bool World::isPlayerAlive() const {
 
     return true;
 }
+
 void World::buildScene(const State::Context& context) {
     for (int i = 0; i < LayerCount; ++i) {
         SceneNode::Ptr layer(new SceneNode);

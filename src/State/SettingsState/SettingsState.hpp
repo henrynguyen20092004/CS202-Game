@@ -1,8 +1,6 @@
 #ifndef SETTINGS_STATE_HPP
 #define SETTINGS_STATE_HPP
 
-#include <string>
-
 #include "../../Player/Player.hpp"
 #include "../../Utility/Utility.hpp"
 #include "../GUI/Button/Button.hpp"

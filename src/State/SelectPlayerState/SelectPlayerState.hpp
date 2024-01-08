@@ -23,15 +23,10 @@ class SelectPlayerState : public State {
 
    private:
     sf::Text mTitleText;
-    sf::Sprite mBackgroundSprite;
-    sf::Sprite mPlayerChoiceSprite;
-    GUI::Container mDirectionButtonsContainer;
-    GUI::Container mGUIContainer;
+    sf::Sprite mBackgroundSprite, mPlayerChoiceSprite;
+    GUI::Container mDirectionButtonsContainer, mGUIContainer;
 
-    int mChoiceCount;
-    int mCurrentChoiceIndex;
-
-    int mSelectState;
+    int mChoiceCount, mCurrentChoiceIndex, mSelectState;
 };
 
 #endif

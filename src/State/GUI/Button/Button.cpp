@@ -68,7 +68,9 @@ void Button::activate() {
         deactivate();
     }
 
-    if (mCallback) mCallback();
+    if (mCallback) {
+        mCallback();
+    }
 }
 
 void Button::deactivate() {

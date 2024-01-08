@@ -41,6 +41,7 @@ void Container::handleMouseEvent(
 
         for (int i = 0; i < mChildren.size(); i++) {
             sf::FloatRect bounds = mChildren[i]->getGlobalBounds();
+
             if (bounds.contains(mousePosition.x, mousePosition.y)) {
                 if (!mChildren[i]->isSelectable()) {
                     continue;
@@ -48,6 +49,7 @@ void Container::handleMouseEvent(
 
                 mChildren[mSelectedChild]->deactivate();
                 mChildren[i]->activate();
+                mSelectedChild = i;
             }
         }
     }

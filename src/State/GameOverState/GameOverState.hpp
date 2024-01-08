@@ -16,7 +16,7 @@ class GameOverState : public State {
     void draw() override;
 
    private:
-    sf::Text mGameOverText, mCurrentScoreText, mHighestScoreText, mWinnerText;
+    sf::Text mGameOverText, mCurrentScoreText, mWinnerText;
     sf::Time mElapsedTime;
     GUI::Container mGUIContainer;
 

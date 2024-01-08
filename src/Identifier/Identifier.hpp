@@ -42,6 +42,10 @@ namespace Textures {
 enum class ID {
     PlayerChoice1,
     PlayerChoice2,
+    PlayerChoice3,
+    PlayerChoice4,
+    PlayerChoice5,
+    PlayerChoice6,
     Player1SelectedChoice,
     Player2SelectedChoice,
     Halo,

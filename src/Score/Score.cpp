@@ -27,7 +27,8 @@ void Score::updateCurrent(sf::Time deltaTime) {
 
     mScoreText->setText("Score: " + std::to_string(Global::SCORE));
     mScoreText->setPosition(
-        mWorldView.getCenter().x + mWorldView.getSize().x / 2.f - 150.f,
+        mWorldView.getCenter().x + mWorldView.getSize().x / 2.f -
+            mScoreText->getTextSize() - 20.f,
         mWorldView.getCenter().y - mWorldView.getSize().y / 2.f + 10.f
     );
 }

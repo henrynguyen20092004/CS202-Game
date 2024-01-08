@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "../Blood/Blood.hpp"
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
 #include "../TextNode/TextNode.hpp"
@@ -35,8 +36,6 @@ void Player::setName(FontHolder& fontHolder) {
     name->setPosition((getSize().x - name->getTextSize()) / 2.f, 70.f);
     attachChild(std::move(name));
 }
-
-int Player::getPlayerNumber() const { return mPlayerNumber; }
 
 bool Player::askToMove() {
     if (mNeedToMove) {

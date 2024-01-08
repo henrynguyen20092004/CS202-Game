@@ -86,6 +86,10 @@ enum class ID {
     ButtonNormal,
     ButtonSelected,
     ButtonPressed,
+    LeftButtonNormal,
+    RightButtonNormal,
+    LeftButtonSelected,
+    RightButtonSelected,
 };
 }
 

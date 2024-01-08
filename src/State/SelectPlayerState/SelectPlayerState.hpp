@@ -12,7 +12,9 @@ class SelectPlayerState : public State {
         Player2Multi,
     };
 
-    SelectPlayerState(StateStack& stack, Context context, SelectPlayerState::Type selectState);
+    SelectPlayerState(
+        StateStack& stack, Context context, SelectPlayerState::Type selectState
+    );
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;
@@ -23,6 +25,7 @@ class SelectPlayerState : public State {
     sf::Text mTitleText;
     sf::Sprite mBackgroundSprite;
     sf::Sprite mPlayerChoiceSprite;
+    GUI::Container mDirectionButtonsContainer;
     GUI::Container mGUIContainer;
 
     int mChoiceCount;

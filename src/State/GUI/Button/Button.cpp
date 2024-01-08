@@ -6,11 +6,26 @@ namespace GUI {
 
 Button::Button(
     const FontHolder& fontHolder, const TextureHolder& textureHolder,
-    const std::string& text
+    const std::string& text, bool isDirectionButton, bool isLeft
 )
-    : mNormalTexture(textureHolder.get(Textures::ID::ButtonNormal)),
-      mSelectedTexture(textureHolder.get(Textures::ID::ButtonSelected)),
-      mPressedTexture(textureHolder.get(Textures::ID::ButtonPressed)),
+    : mNormalTexture(
+          isDirectionButton
+              ? (isLeft ? textureHolder.get(Textures::ID::LeftButtonNormal)
+                        : textureHolder.get(Textures::ID::RightButtonNormal))
+              : textureHolder.get(Textures::ID::ButtonNormal)
+      ),
+      mSelectedTexture(
+          isDirectionButton
+              ? (isLeft ? textureHolder.get(Textures::ID::LeftButtonSelected)
+                        : textureHolder.get(Textures::ID::RightButtonSelected))
+              : textureHolder.get(Textures::ID::ButtonSelected)
+      ),
+      mPressedTexture(
+          isDirectionButton
+              ? (isLeft ? textureHolder.get(Textures::ID::LeftButtonSelected)
+                        : textureHolder.get(Textures::ID::RightButtonSelected))
+              : textureHolder.get(Textures::ID::ButtonPressed)
+      ),
       mText(text, fontHolder.get(Fonts::ID::VTV323), 25),
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);

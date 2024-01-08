@@ -22,8 +22,9 @@ GameOverState::GameOverState(
       mHighestScoreText(
           "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323), 30
       ) {
+    context.mHighScore->rankScore(Global::SCORE);
+
     sf::Vector2f windowSize(context.window->getSize());
-    // Todo: Create data table to display highest score
     centerOrigin(mGameOverText);
     mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 160.f);
 

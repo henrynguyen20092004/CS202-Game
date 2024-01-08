@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "../HighScore/HighScore.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../PowerUpSettings/PowerUpSettings.hpp"
 #include "../ResourceHolder/ResourceHolder.hpp"
@@ -18,7 +19,7 @@ class State {
             sf::RenderWindow& window, TextureHolder& textureHolder,
             FontHolder& fontHolder, PlayerSettings& playerSettings1,
             PlayerSettings& playerSettings2, PowerUpSettings& powerUpSettings1,
-            PowerUpSettings& powerUpSettings2
+            PowerUpSettings& powerUpSettings2, HighScore& highScore
         );
 
         sf::RenderWindow* window;
@@ -29,6 +30,8 @@ class State {
         PlayerSettings* playerSettings2;
         PowerUpSettings* powerUpSettings1;
         PowerUpSettings* powerUpSettings2;
+
+        HighScore* mHighScore;
     };
 
     State(StateStack& stack, Context context);

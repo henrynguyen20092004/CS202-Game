@@ -48,15 +48,26 @@ MenuState::MenuState(StateStack& stack, Context context)
         requestStackPush(States::ID::Settings);
     });
 
+    auto highScoreButton = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, "High Score"
+    );
+    highScoreButton->setPosition(
+        windowSize.x / 2.f, windowSize.y / 2.f + 100.f
+    );
+    highScoreButton->setCallback([this]() {
+        requestStackPush(States::ID::HighScore);
+    });
+
     auto exitButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Exit"
     );
-    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 100.f);
+    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 150.f);
     exitButton->setCallback([this]() { requestStackPop(); });
 
     mGUIContainer.addComponent(playButton);
     mGUIContainer.addComponent(mutiplayerButton);
     mGUIContainer.addComponent(settingButton);
+    mGUIContainer.addComponent(highScoreButton);
     mGUIContainer.addComponent(exitButton);
 }
 

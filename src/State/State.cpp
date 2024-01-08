@@ -6,7 +6,7 @@ State::Context::Context(
     sf::RenderWindow& window, TextureHolder& textureHolder,
     FontHolder& fontHolder, PlayerSettings& playerSettings1,
     PlayerSettings& playerSettings2, PowerUpSettings& powerUpSettings1,
-    PowerUpSettings& powerUpSettings2
+    PowerUpSettings& powerUpSettings2, HighScore& highScore
 )
     : window(&window),
       textureHolder(&textureHolder),
@@ -14,7 +14,8 @@ State::Context::Context(
       playerSettings1(&playerSettings1),
       playerSettings2(&playerSettings2),
       powerUpSettings1(&powerUpSettings1),
-      powerUpSettings2(&powerUpSettings2) {}
+      powerUpSettings2(&powerUpSettings2),
+      mHighScore(&highScore) {}
 
 State::State(StateStack& stack, Context context)
     : mStack(&stack), mContext(context) {}

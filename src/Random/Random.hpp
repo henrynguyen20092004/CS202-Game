@@ -1,8 +1,7 @@
 #ifndef RANDOM_HPP
 #define RANDOM_HPP
 
-#include <time.h>
-
+#include <ctime>
 #include <random>
 #include <vector>
 

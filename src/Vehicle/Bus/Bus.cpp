@@ -6,7 +6,7 @@ Bus::Bus(TextureHolder& textureHolder, Directions::ID direction)
         flipHorizontally();
     }
 
-    setHitbox(sf::FloatRect(10, 10, 230, 70));  // TODO: Set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 230, 70));
 }
 
 Textures::ID Bus::getTextureID() const { return Textures::ID::Bus; }

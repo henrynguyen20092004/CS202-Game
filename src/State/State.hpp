@@ -1,8 +1,6 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include <vector>
-
 #include "../HighScore/HighScore.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
 #include "../PowerUpSettings/PowerUpSettings.hpp"
@@ -36,6 +34,7 @@ class State {
 
     State(StateStack& stack, Context context);
     virtual ~State();
+
     virtual bool handleEvent(const sf::Event& event) = 0;
     virtual bool update(sf::Time deltaTime) = 0;
     virtual void draw() = 0;
@@ -43,7 +42,7 @@ class State {
    protected:
     void requestStackPush(States::ID stateID);
     void requestStackPop();
-    void requestStateClear();
+    void requestStackClear();
     Context getContext() const;
 
    private:

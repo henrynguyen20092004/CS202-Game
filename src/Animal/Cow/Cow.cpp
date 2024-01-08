@@ -4,7 +4,7 @@
 
 Cow::Cow(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList)
     : Animal(textureHolder, Textures::ID::Cow), mPowerUpList(powerUpList) {
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(getLocalBounds());
 }
 
 void Cow::handlePlayerCollision(Player& player) {

@@ -49,7 +49,7 @@ class Button : public Component {
     sf::Text mText;
     bool mIsToggle = false, mIsSelectable = true;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
 }  // namespace GUI

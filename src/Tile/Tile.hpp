@@ -22,7 +22,6 @@ class Tile : public SceneNode {
     Directions::ID getDirection() const;
     sf::Vector2f getVelocity() const;
 
-    void setDirection(Directions::ID direction);
     void setVelocity(const sf::Vector2f& velocity);
 
     float distanceTo(Tile* other) const;

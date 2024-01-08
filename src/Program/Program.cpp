@@ -175,6 +175,12 @@ void Program::loadFonts() {
 
 void Program::loadSettings() {
     std::ifstream fin("data/Settings.txt");
+
+    if (!fin.good()) {
+        fin.close();
+        return;
+    }
+
     mPlayerSettings1.load(fin);
     mPlayerSettings2.load(fin);
     mPowerUpSettings1.load(fin);

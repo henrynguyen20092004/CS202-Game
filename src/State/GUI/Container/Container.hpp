@@ -27,7 +27,7 @@ class Container : public Component {
     int mSelectedChild;
     bool isDirectionButton;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     bool hasSelection() const;
     void select(int index);

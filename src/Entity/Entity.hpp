@@ -11,7 +11,6 @@ class Entity : public MovableSpriteNode {
 
     using MovableSpriteNode::MovableSpriteNode;
 
-    sf::FloatRect getLocalHitbox() const;
     sf::FloatRect getGlobalHitbox() const;
 
     void setHitbox(const sf::FloatRect& hitbox);
@@ -22,7 +21,6 @@ class Entity : public MovableSpriteNode {
    protected:
     void updateCurrent(sf::Time deltaTime) override;
 
-    void drawHitbox(sf::RenderTarget& target, sf::RenderStates states) const;
     void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const override;
 

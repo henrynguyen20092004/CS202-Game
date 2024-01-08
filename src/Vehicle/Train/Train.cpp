@@ -6,7 +6,7 @@ Train::Train(TextureHolder& textureHolder, Directions::ID direction)
         flipHorizontally();
     }
 
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(getLocalBounds());
 }
 
 Textures::ID Train::getTextureID() const { return Textures::ID::Train; }

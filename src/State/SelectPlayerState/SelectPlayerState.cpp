@@ -69,7 +69,6 @@ SelectPlayerState::SelectPlayerState(
         *context.fontHolder, *context.textureHolder, "Accept"
     );
     acceptButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 180.f);
-
     acceptButton->setCallback([this, context]() {
         switch (mSelectState) {
             case SelectPlayerState::Type::Player1Single:
@@ -117,7 +116,7 @@ SelectPlayerState::SelectPlayerState(
         *context.fontHolder, *context.textureHolder, "Back to Menu"
     );
     backToMenuButton->setCallback([this]() {
-        requestStateClear();
+        requestStackClear();
         requestStackPush(States::ID::Menu);
     });
     backToMenuButton->setPosition(250.f, 50.f);
@@ -161,15 +160,6 @@ bool SelectPlayerState::handleEvent(const sf::Event& event) {
 
 bool SelectPlayerState::update(sf::Time deltaTime) { return true; }
 
-void SelectPlayerState::updatePlayerChoiceSprite() {
-    sf::Texture& playerChoiceTexture =
-        getContext().textureHolder->get(static_cast<Textures::ID>(
-            static_cast<int>(Textures::ID::PlayerChoice1) + mCurrentChoiceIndex
-        ));
-
-    mPlayerChoiceSprite.setTexture(playerChoiceTexture);
-}
-
 void SelectPlayerState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
@@ -177,4 +167,13 @@ void SelectPlayerState::draw() {
     window.draw(mTitleText);
     window.draw(mDirectionButtonsContainer);
     window.draw(mGUIContainer);
+}
+
+void SelectPlayerState::updatePlayerChoiceSprite() {
+    sf::Texture& playerChoiceTexture =
+        getContext().textureHolder->get(static_cast<Textures::ID>(
+            static_cast<int>(Textures::ID::PlayerChoice1) + mCurrentChoiceIndex
+        ));
+
+    mPlayerChoiceSprite.setTexture(playerChoiceTexture);
 }

@@ -4,10 +4,7 @@
 #include "../GUI/Button/Button.hpp"
 
 MenuState::MenuState(StateStack& stack, Context context)
-    : State(stack, context),
-      mTitleText(
-          "Crossy Road", context.fontHolder->get(Fonts::ID::VTV323), 100
-      ) {
+    : State(stack, context) {
     sf::Vector2f windowSize(context.window->getSize());
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
@@ -17,10 +14,6 @@ MenuState::MenuState(StateStack& stack, Context context)
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y
     );
-
-    centerOrigin(mTitleText);
-    mTitleText.setFillColor(sf::Color(192, 212, 112));
-    mTitleText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 180.f);
 
     auto newSingleplayerButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "New Singleplayer"
@@ -115,7 +108,6 @@ bool MenuState::update(sf::Time deltaTime) { return true; }
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
-    // window.draw(mTitleText);
     window.draw(mGUIContainer);
 }
 
@@ -125,6 +117,7 @@ bool MenuState::isSinglePlayerLoadable() {
     fin.open("data/Singleplayer.txt");
 
     if (!fin.good()) {
+        fin.close();
         return false;
     }
 
@@ -132,6 +125,7 @@ bool MenuState::isSinglePlayerLoadable() {
     fin.open("data/PlayerTexture.txt");
 
     if (!fin.good()) {
+        fin.close();
         return false;
     }
 
@@ -151,6 +145,7 @@ bool MenuState::isMultiPlayerLoadable() {
     fin.open("data/Multiplayer.txt");
 
     if (!fin.good()) {
+        fin.close();
         return false;
     }
 
@@ -158,6 +153,7 @@ bool MenuState::isMultiPlayerLoadable() {
     fin.open("data/PlayerTexture.txt");
 
     if (!fin.good()) {
+        fin.close();
         return false;
     }
 

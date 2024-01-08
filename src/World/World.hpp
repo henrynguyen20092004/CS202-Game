@@ -1,10 +1,7 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include <array>
-
 #include "../Map/Map.hpp"
-#include "../PowerUpList/PowerUpList.hpp"
 #include "../State/State.hpp"
 
 class Score;

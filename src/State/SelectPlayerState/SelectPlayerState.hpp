@@ -18,7 +18,6 @@ class SelectPlayerState : public State {
 
     bool handleEvent(const sf::Event& event) override;
     bool update(sf::Time deltaTime) override;
-    void updatePlayerChoiceSprite();
     void draw() override;
 
    private:
@@ -27,6 +26,8 @@ class SelectPlayerState : public State {
     GUI::Container mDirectionButtonsContainer, mGUIContainer;
 
     int mChoiceCount, mCurrentChoiceIndex, mSelectState;
+
+    void updatePlayerChoiceSprite();
 };
 
 #endif

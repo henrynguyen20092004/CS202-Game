@@ -19,9 +19,9 @@ class VehicleLane : public Lane {
     Directions::ID mDirection = Directions::ID::None;
     sf::Vector2f mVelocity;
     std::deque<Vehicle*> mVehicles;
-    int mTileToNextSpawns;
     TrafficLight* mTrafficLight;
     float mVelocityPercent;
+    int mTileToNextSpawns;
 
     void buildScene(bool isLoading);
 

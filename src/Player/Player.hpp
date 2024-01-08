@@ -24,7 +24,6 @@ class Player : public Entity {
 
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
-    Tile* getTargetTile() const;
     void setTargetTile(Tile* targetTile);
 
     int getMaxHealth() const;

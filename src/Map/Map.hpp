@@ -2,7 +2,6 @@
 #define MAP_HPP
 
 #include "../Lane/Lane.hpp"
-#include "../Player/Player.hpp"
 #include "../PowerUpList/PowerUpList.hpp"
 #include "../Score/Score.hpp"
 

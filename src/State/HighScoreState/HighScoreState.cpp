@@ -36,7 +36,7 @@ HighScoreState::HighScoreState(StateStack& stack, Context context)
     );
     backToMenuButton->setPosition(250.f, 50.f);
     backToMenuButton->setCallback([this]() {
-        requestStateClear();
+        requestStackClear();
         requestStackPush(States::ID::Menu);
     });
 

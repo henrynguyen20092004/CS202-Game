@@ -4,7 +4,7 @@
 
 Cat::Cat(TextureHolder& textureHolder, Score* score)
     : Animal(textureHolder, Textures::ID::Cat), mScore(score) {
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(getLocalBounds());
 }
 
 void Cat::handlePlayerCollision(Player& player) {

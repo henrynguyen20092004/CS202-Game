@@ -1,8 +1,5 @@
 #include "GameOverState.hpp"
 
-#include <iostream>
-#include <string>
-
 #include "../../Global/Global.hpp"
 #include "../../Score/Score.hpp"
 #include "../../Utility/Utility.hpp"
@@ -12,7 +9,6 @@ GameOverState::GameOverState(
     StateStack& stack, Context context, bool isMultiplayer, int deadPlayer
 )
     : State(stack, context),
-      mElapsedTime(sf::Time::Zero),
       mGameOverText(
           "Game Over!", context.fontHolder->get(Fonts::ID::VTV323), 80
       ),
@@ -41,7 +37,7 @@ GameOverState::GameOverState(
     );
     replayButton->setPosition(windowSize.x / 2, windowSize.y / 2.f);
     replayButton->setCallback([this, isMultiplayer]() {
-        requestStateClear();
+        requestStackClear();
         requestStackPush(
             isMultiplayer ? States::ID::NewMultiplayerGame
                           : States::ID::NewSingleGame
@@ -55,7 +51,7 @@ GameOverState::GameOverState(
         windowSize.x / 2.f, windowSize.y / 2.f + 60.f
     );
     backToMenuButton->setCallback([this]() {
-        requestStateClear();
+        requestStackClear();
         requestStackPush(States::ID::Menu);
     });
 

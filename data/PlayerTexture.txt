@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-4 44 44
-=======
-0 0 0
->>>>>>> c0a5a20 (Change gameoverstate)
+1 2 4

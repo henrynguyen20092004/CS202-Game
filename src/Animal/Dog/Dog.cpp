@@ -4,7 +4,7 @@
 
 Dog::Dog(TextureHolder& textureHolder)
     : Animal(textureHolder, Textures::ID::Dog) {
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(getLocalBounds());
 }
 
 void Dog::handlePlayerCollision(Player& player) {

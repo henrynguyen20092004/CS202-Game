@@ -5,7 +5,6 @@
 #include "../Blood/Blood.hpp"
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
-#include "../TextNode/TextNode.hpp"
 
 Player::Player(
     TextureHolder& textureHolder, Textures::ID textureID, sf::View& worldView,
@@ -15,7 +14,7 @@ Player::Player(
       mWorldView(worldView),
       mPlayerSettings(playerSettings),
       mPlayerNumber(playerNumber) {
-    setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 40, 40));
     setVelocity(sf::Vector2f(500.f, 500.f));
 
     Halo::Ptr halo(new Halo(mTextureHolder, Textures::ID::Halo));
@@ -49,8 +48,6 @@ void Player::setName(FontHolder& fontHolder) {
 Directions::ID Player::getDirection() const { return mDirection; }
 
 Tile* Player::getSourceTile() const { return mSourceTile; }
-
-Tile* Player::getTargetTile() const { return mTargetTile; }
 
 void Player::setTargetTile(Tile* targetTile) {
     mTargetTile = targetTile;
@@ -110,7 +107,6 @@ bool Player::isAlive() {
     }
 
     setTextureRect(sf::IntRect(240, 0, 60, 60));
-
     return false;
 }
 

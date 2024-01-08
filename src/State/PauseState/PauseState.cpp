@@ -26,7 +26,7 @@ PauseState::PauseState(StateStack& stack, Context context)
         windowSize.x / 2.f, windowSize.y / 2.f + 60.f
     );
     backToMenuButton->setCallback([this]() {
-        requestStateClear();
+        requestStackClear();
         requestStackPush(States::ID::Menu);
     });
 

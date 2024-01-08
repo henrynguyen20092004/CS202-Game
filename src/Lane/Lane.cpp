@@ -1,6 +1,5 @@
 #include "Lane.hpp"
 
-#include <cassert>
 #include <limits>
 
 #include "../Global/Global.hpp"
@@ -11,19 +10,11 @@ Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
     setPosition(position);
 }
 
-Tile* Lane::getTile(int index) const {
-    assert(index >= 0 && index < Global::NUM_TILES_X);
-    return mLaneTiles[index];
-}
+Tile* Lane::getTile(int index) const { return mLaneTiles[index]; }
 
 Tile* Lane::getNearestTile(
     Tile* tile, Tile::Type type, Directions::ID direction
 ) const {
-    assert(
-        direction == Directions::ID::Left ||
-        direction == Directions::ID::Right || direction == Directions::ID::None
-    );
-
     Tile* nearestTile = nullptr;
     float nearestTileDistance = std::numeric_limits<float>::max();
 

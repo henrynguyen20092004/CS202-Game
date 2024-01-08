@@ -193,7 +193,7 @@ void VehicleLane::saveCurrent(std::ofstream& fout) const {
          << '\n';
     fout << numVehicles << '\n';
     fout << mVelocity << '\n';
-    fout << mTileToNextSpawns << ' ' << mVelocityPercent << '\n';
+    fout << mVelocityPercent << ' ' << mTileToNextSpawns << '\n';
 }
 
 void VehicleLane::loadCurrent(std::ifstream& fin) {
@@ -209,6 +209,6 @@ void VehicleLane::loadCurrent(std::ifstream& fin) {
         mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
     }
 
-    fin >> mVelocity >> mTileToNextSpawns >> mVelocityPercent;
+    fin >> mVelocity >> mVelocityPercent >> mTileToNextSpawns;
     setVelocityPercent(mVelocityPercent);
 }

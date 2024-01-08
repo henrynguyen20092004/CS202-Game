@@ -17,7 +17,6 @@ class GameOverState : public State {
 
    private:
     sf::Text mGameOverText, mCurrentScoreText, mWinnerText;
-    sf::Time mElapsedTime;
     GUI::Container mGUIContainer;
 
     bool mIsMultiplayer;

@@ -7,10 +7,6 @@ Log::Log(
     : MovableSpriteNode(textureHolder, textureID, textureRect),
       mDirection(direction) {}
 
-Directions::ID Log::getDirection() const { return mDirection; }
-
-void Log::setDirection(Directions::ID direction) { mDirection = direction; }
-
 void Log::updateCurrent(sf::Time deltaTime) {
     switch (mDirection) {
         case Directions::ID::Left:

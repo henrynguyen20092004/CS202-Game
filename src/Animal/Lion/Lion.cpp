@@ -4,7 +4,7 @@
 
 Lion::Lion(TextureHolder& textureHolder)
     : Animal(textureHolder, Textures::ID::Lion) {
-    setHitbox(getLocalBounds());  // TODO: Set hitbox properly
+    setHitbox(getLocalBounds());
 }
 
 void Lion::handlePlayerCollision(Player& player) {

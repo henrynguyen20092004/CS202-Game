@@ -6,7 +6,7 @@ Van::Van(TextureHolder& textureHolder, Directions::ID direction)
         flipHorizontally();
     }
 
-    setHitbox(sf::FloatRect(10, 10, 90, 60));  // TODO: Set hitbox properly
+    setHitbox(sf::FloatRect(10, 10, 90, 60));
 }
 
 Textures::ID Van::getTextureID() const { return Textures::ID::Van; }

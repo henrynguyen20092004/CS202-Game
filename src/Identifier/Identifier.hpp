@@ -27,15 +27,6 @@ enum class ID {
 };
 }
 
-namespace TrafficLightStates {
-enum class ID {
-    Red,
-    Yellow,
-    Green,
-    None,
-};
-}
-
 namespace Directions {
 enum class ID {
     Up,
@@ -114,22 +105,6 @@ enum class ID {
     Pacifico,
     VTV323,
     Minecraft,
-};
-}
-
-namespace Music {
-enum class ID {
-    None,
-};
-}
-
-namespace Sound {
-enum class ID {
-    Cat,
-    Dog,
-    Lion,
-    Cow,
-    Horse,
 };
 }
 

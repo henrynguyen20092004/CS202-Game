@@ -15,7 +15,8 @@ class Button : public Component {
 
     Button(
         const FontHolder& fontHolder, const TextureHolder& textureHolder,
-        const std::string& text
+        const std::string& text, bool isDirectionButton = false,
+        bool isLeft = false
     );
 
     void setCallback(const Callback& callback);

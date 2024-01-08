@@ -132,6 +132,20 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::ButtonPressed, "assets/Textures/ButtonPressed.png"
     );
+    mTextureHolder.load(
+        Textures::ID::LeftButtonNormal, "assets/Textures/LeftButtonNormal.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::RightButtonNormal, "assets/Textures/RightButtonNormal.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::RightButtonSelected,
+        "assets/Textures/RightButtonSelected.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::LeftButtonSelected,
+        "assets/Textures/LeftButtonSelected.png"
+    );
 }
 
 void Program::loadFonts() {

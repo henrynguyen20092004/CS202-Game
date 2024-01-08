@@ -16,10 +16,10 @@ SelectPlayerState::SelectPlayerState(
       mCurrentChoiceIndex(0),
       mSelectState(selectState),
       mTitleText("Player 1", context.fontHolder->get(Fonts::ID::VTV323), 80) {
-    sf::Texture& backgroundTexture =
-        context.textureHolder->get(Textures::ID::MenuBackground);
     sf::Vector2f windowSize(context.window->getSize());
 
+    sf::Texture& backgroundTexture =
+        context.textureHolder->get(Textures::ID::MenuBackground);
     mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(
         windowSize.x / backgroundTexture.getSize().x,
@@ -42,6 +42,29 @@ SelectPlayerState::SelectPlayerState(
     mPlayerChoiceSprite.setPosition(
         windowSize.x / 2.f, windowSize.y / 2.f + 60.f
     );
+
+    auto leftButtonNormal = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, "", true, true
+    );
+    leftButtonNormal->setPosition(
+        windowSize.x / 2.f - 100.f, windowSize.y / 2.f + 60.f
+    );
+    leftButtonNormal->setCallback([this]() {
+        mCurrentChoiceIndex =
+            (mCurrentChoiceIndex - 1 + mChoiceCount) % mChoiceCount;
+        updatePlayerChoiceSprite();
+    });
+
+    auto rightButtonNormal = std::make_shared<GUI::Button>(
+        *context.fontHolder, *context.textureHolder, "", true, false
+    );
+    rightButtonNormal->setPosition(
+        windowSize.x / 2.f + 100.f, windowSize.y / 2.f + 60.f
+    );
+    rightButtonNormal->setCallback([this]() {
+        mCurrentChoiceIndex = (mCurrentChoiceIndex + 1) % mChoiceCount;
+        updatePlayerChoiceSprite();
+    });
 
     auto acceptButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Accept"
@@ -99,6 +122,9 @@ SelectPlayerState::SelectPlayerState(
     });
     backToMenuButton->setPosition(250.f, 50.f);
 
+    mDirectionButtonsContainer.addComponent(leftButtonNormal);
+    mDirectionButtonsContainer.addComponent(rightButtonNormal);
+
     mGUIContainer.addComponent(acceptButton);
     mGUIContainer.addComponent(backToMenuButton);
 }
@@ -128,6 +154,7 @@ bool SelectPlayerState::handleEvent(const sf::Event& event) {
         updatePlayerChoiceSprite();
     }
 
+    mDirectionButtonsContainer.handleEvent(event, *getContext().window);
     mGUIContainer.handleEvent(event, *getContext().window);
     return false;
 }
@@ -148,5 +175,6 @@ void SelectPlayerState::draw() {
     window.draw(mBackgroundSprite);
     window.draw(mPlayerChoiceSprite);
     window.draw(mTitleText);
+    window.draw(mDirectionButtonsContainer);
     window.draw(mGUIContainer);
 }

@@ -12,8 +12,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         windowSize.y / backgroundTexture.getSize().y
     );
 
-    sf::Texture& frameTexture =
-        context.textureHolder->get(Textures::ID::SettingFrame);
+    sf::Texture& frameTexture = context.textureHolder->get(Textures::ID::Frame);
     mFrameSprite.setTexture(frameTexture);
     centerOrigin(mFrameSprite);
     mFrameSprite.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);

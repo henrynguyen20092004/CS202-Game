@@ -10,6 +10,7 @@ enum class ID {
     SelectPlayer2Multi,
     Game,
     MultiplayerGame,
+    HighScore,
     Pause,
     GameOver,
     MultiplayerGameOver,
@@ -53,7 +54,7 @@ enum class ID {
     TitleBackground,
     MenuBackground,
     SettingBackground,
-    SettingFrame,
+    Frame,
 
     Car,
     PoliceCar,
@@ -81,6 +82,7 @@ enum class ID {
     ObstacleLane,
     River,
 
+    ButtonBack,
     ButtonNormal,
     ButtonSelected,
     ButtonPressed,

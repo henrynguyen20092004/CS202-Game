@@ -25,6 +25,8 @@ class Program {
     PowerUpSettings mPowerUpSettings1;
     PowerUpSettings mPowerUpSettings2;
 
+    HighScore mHighScore;
+
     void loadTextures();
     void loadFonts();
     void registerStates();

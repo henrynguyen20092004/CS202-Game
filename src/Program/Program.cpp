@@ -1,8 +1,10 @@
 #include "Program.hpp"
 
 #include "../Global/Global.hpp"
+#include "../HighScore/HighScore.hpp"
 #include "../State/GameOverState/GameOverState.hpp"
 #include "../State/GameState/GameState.hpp"
+#include "../State/HighScoreState/HighScoreState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
 #include "../State/SelectPlayerState/SelectPlayerState.hpp"
@@ -18,7 +20,7 @@ Program::Program()
       mPowerUpSettings2(true),
       mStateStack(State::Context(
           mWindow, mTextureHolder, mFontHolder, mPlayerSettings1,
-          mPlayerSettings2, mPowerUpSettings1, mPowerUpSettings2
+          mPlayerSettings2, mPowerUpSettings1, mPowerUpSettings2, mHighScore
       )) {
     mWindow.setKeyRepeatEnabled(false);
     loadTextures();
@@ -84,9 +86,7 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::SettingBackground, "assets/Textures/SettingBackground.png"
     );
-    mTextureHolder.load(
-        Textures::ID::SettingFrame, "assets/Textures/SettingFrame.png"
-    );
+    mTextureHolder.load(Textures::ID::Frame, "assets/Textures/Frame.png");
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
     mTextureHolder.load(
@@ -124,6 +124,9 @@ void Program::loadTextures() {
     mTextureHolder.load(Textures::ID::River, "assets/Textures/River.png");
 
     mTextureHolder.load(
+        Textures::ID::ButtonBack, "assets/Textures/ButtonBack.png"
+    );
+    mTextureHolder.load(
         Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
     );
     mTextureHolder.load(
@@ -146,6 +149,7 @@ void Program::registerStates() {
     mStateStack.registerState<MenuState>(States::ID::Menu);
     mStateStack.registerState<SettingsState>(States::ID::Settings);
     mStateStack.registerState<GameState>(States::ID::Game);
+    mStateStack.registerState<HighScoreState>(States::ID::HighScore);
     mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
     mStateStack.registerState<SelectPlayerState>(

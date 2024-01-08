@@ -13,7 +13,8 @@ SelectPlayerState::SelectPlayerState(
       ),
       mCurrentChoiceIndex(0),
       mSelectState(selectState),
-      mTitleText("Player 1", context.fontHolder->get(Fonts::ID::VTV323), 80) {
+      mTitleText("Player 1", context.fontHolder->get(Fonts::ID::VTV323), 80),
+      mDirectionButtonsContainer(true) {
     sf::Vector2f windowSize(context.window->getSize());
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::MenuBackground);
@@ -68,6 +69,7 @@ SelectPlayerState::SelectPlayerState(
         *context.fontHolder, *context.textureHolder, "Accept"
     );
     acceptButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 180.f);
+
     acceptButton->setCallback([this, context]() {
         switch (mSelectState) {
             case SelectPlayerState::Type::Player1Single:

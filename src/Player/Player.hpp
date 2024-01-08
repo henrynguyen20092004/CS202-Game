@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../Blood/Blood.hpp"
 #include "../Entity/Entity.hpp"
 #include "../Halo/Halo.hpp"
 #include "../PlayerSettings/PlayerSettings.hpp"
@@ -18,12 +19,16 @@ class Player : public Entity {
     );
 
     int getPlayerNumber() const;
+    void setName(FontHolder& fontHolder);
 
     bool askToMove();
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
     void setTargetTile(Tile* targetTile);
+
+    int getMaxHealth() const;
+    int getHealth() const;
 
     void addRevival();
     void addBonusScore() const;
@@ -57,7 +62,7 @@ class Player : public Entity {
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
          mHasRevival = false;
 
-    const int mMaxHealth = 2;
+    const int mMaxHealth = 100;
     int mHealth = mMaxHealth;
 
     void handleEventCurrent(const sf::Event& event) override;

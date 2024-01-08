@@ -162,7 +162,8 @@ void Map::addRandomLane() {
     Lane::Ptr lane(createLane(
         Random<Textures::ID>::generate(
             {Textures::ID::VehicleLane, Textures::ID::TrainLane,
-             Textures::ID::ObstacleLane, Textures::ID::River}
+             Textures::ID::ObstacleLane, Textures::ID::River},
+            {30, 20, 30, 20}
         ),
         sf::Vector2f(
             0, (mLanes.empty() ? Global::WINDOW_HEIGHT

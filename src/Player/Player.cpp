@@ -4,6 +4,7 @@
 
 #include "../Global/Global.hpp"
 #include "../Score/Score.hpp"
+#include "../TextNode/TextNode.hpp"
 
 Player::Player(
     TextureHolder& textureHolder, Textures::ID textureID, sf::View& worldView,
@@ -19,6 +20,20 @@ Player::Player(
     Halo::Ptr halo(new Halo(mTextureHolder, Textures::ID::Halo));
     mHalo = halo.get();
     attachChild(std::move(halo));
+
+    Blood::Ptr blood(new Blood(*this));
+    attachChild(std::move(blood));
+}
+
+int Player::getPlayerNumber() const { return mPlayerNumber; }
+
+void Player::setName(FontHolder& fontHolder) {
+    TextNode::Ptr name(new TextNode(
+        fontHolder, Fonts::ID::VTV323, "P" + std::to_string(mPlayerNumber + 1),
+        30
+    ));
+    name->setPosition((getSize().x - name->getTextSize()) / 2.f, 70.f);
+    attachChild(std::move(name));
 }
 
 int Player::getPlayerNumber() const { return mPlayerNumber; }
@@ -43,6 +58,10 @@ void Player::setTargetTile(Tile* targetTile) {
     mIsMoving = true;
 }
 
+int Player::getMaxHealth() const { return mMaxHealth; }
+
+int Player::getHealth() const { return mHealth; }
+
 void Player::addRevival() {
     mHasRevival = true;
     mHalo->show();
@@ -50,7 +69,7 @@ void Player::addRevival() {
 
 void Player::addBonusScore() const { mScore->addBonus(); }
 
-void Player::addHealth() { mHealth++; }
+void Player::addHealth() { mHealth = std::min(mHealth + 10, mMaxHealth); }
 
 void Player::kill() { mHealth = 0; }
 

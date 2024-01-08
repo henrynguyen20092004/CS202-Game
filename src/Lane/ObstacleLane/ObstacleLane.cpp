@@ -88,11 +88,19 @@ void ObstacleLane::init() {
     }
 
     for (int position : animalsPosition) {
-        Animal::Ptr animal(createAnimal(Random<Textures::ID>::generate(
-            {Textures::ID::Cat, Textures::ID::Dog, Textures::ID::Lion,
-             Textures::ID::Cow, Textures::ID::Horse},
-            {30, 30, 10, 15, 15}
-        )));
+        Animal::Ptr animal(createAnimal(
+            mPowerUpList.size() == 1
+                ? Random<Textures::ID>::generate(
+                      {Textures::ID::Cat, Textures::ID::Dog, Textures::ID::Lion,
+                       Textures::ID::Cow, Textures::ID::Horse},
+                      {30, 30, 10, 15, 15}
+                  )
+                : Random<Textures::ID>::generate(
+                      {Textures::ID::Dog, Textures::ID::Lion,
+                       Textures::ID::Horse},
+                      {70, 10, 20}
+                  )
+        ));
         animal->setPosition(
             position * Global::TILE_SIZE +
                 (Global::TILE_SIZE - animal->getSize().x) / 2.f,

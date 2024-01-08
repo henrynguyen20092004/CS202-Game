@@ -1,5 +1,6 @@
 #include "GameOverState.hpp"
 
+#include <iostream>
 #include <string>
 
 #include "../../Global/Global.hpp"
@@ -19,9 +20,6 @@ GameOverState::GameOverState(
           "Your Current Score: " + std::to_string(Global::SCORE),
           context.fontHolder->get(Fonts::ID::VTV323), 40
       ),
-      mHighestScoreText(
-          "Your Highest Score: ", context.fontHolder->get(Fonts::ID::VTV323), 30
-      ),
       mWinnerText("", context.fontHolder->get(Fonts::ID::VTV323), 40),
       mIsMultiplayer(isMultiplayer),
       mDeadPlayer(deadPlayer) {
@@ -31,10 +29,7 @@ GameOverState::GameOverState(
     centerOrigin(mGameOverText);
     mGameOverText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 160.f);
 
-    if (isMultiplayer) {
-        centerOrigin(mWinnerText);
-        mWinnerText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
-    } else {
+    if (!isMultiplayer) {
         centerOrigin(mCurrentScoreText);
         mCurrentScoreText.setPosition(
             windowSize.x / 2.f, windowSize.y / 2.f - 80.f
@@ -79,7 +74,6 @@ void GameOverState::draw() {
     window.draw(backgroundShape);
     window.draw(mGameOverText);
     window.draw(mIsMultiplayer ? mWinnerText : mCurrentScoreText);
-    // window.draw(mHighestScoreText);
     window.draw(mGUIContainer);
 }
 
@@ -88,6 +82,10 @@ bool GameOverState::update(sf::Time deltaTime) {
         mWinnerText.setString(
             "Player " + std::to_string(mDeadPlayer == 0 ? 2 : 1) + " wins!"
         );
+
+        sf::Vector2f windowSize(getContext().window->getSize());
+        centerOrigin(mWinnerText);
+        mWinnerText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 80.f);
     }
 
     return false;

@@ -54,12 +54,9 @@ class Player : public Entity {
 
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
          mHasRegenerate = false;
-    
 
     int mHealth = 60;
     Blood* mBlood;
-
-   
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

@@ -9,7 +9,8 @@ class Blood : public SpriteNode {
     Blood(TextureHolder& textureHolder, int& Health);
 
    private:
-    void updateCurrent(sf::Time deltaTime) override;
     int& mHealth;
+    void updateCurrent(sf::Time deltaTime) override;
+   
 };
 #endif

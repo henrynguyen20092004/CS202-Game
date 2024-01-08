@@ -60,6 +60,18 @@ void Program::loadTextures() {
     mTextureHolder.load(
         Textures::ID::PlayerChoice2, "assets/Textures/BlueNinja.png"
     );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice3, "assets/Textures/GrayNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice4, "assets/Textures/GreenNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice5, "assets/Textures/RedNinja.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::PlayerChoice6, "assets/Textures/YellowNinja.png"
+    );
     mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
     mTextureHolder.load(

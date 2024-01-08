@@ -10,7 +10,7 @@ SelectPlayerState::SelectPlayerState(
 )
     : State(stack, context),
       mChoiceCount(
-          static_cast<int>(Textures::ID::PlayerChoice2) -
+          static_cast<int>(Textures::ID::PlayerChoice6) -
           static_cast<int>(Textures::ID::PlayerChoice1) + 1
       ),
       mCurrentChoiceIndex(0),

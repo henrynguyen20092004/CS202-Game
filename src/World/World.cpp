@@ -67,6 +67,9 @@ void World::buildScene(const State::Context& context) {
         ));
         mPlayers[1] = player.get();
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));
+
+        mPlayers[0]->setName(*context.fontHolder);
+        mPlayers[1]->setName(*context.fontHolder);
     }
 
     std::vector<PowerUpList*> powerUpLists;

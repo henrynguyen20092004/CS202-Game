@@ -13,6 +13,8 @@ class TextNode : public SceneNode {
         unsigned int size, sf::Color color = sf::Color::Black
     );
 
+    float getTextSize() const;
+
     void setText(const std::string& text);
     void setOpacity(float opacity);
 

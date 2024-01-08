@@ -19,7 +19,7 @@ class Score : public SceneNode {
     Player& mPlayer;
     sf::View& mWorldView;
     TextNode* mScoreText;
-    float mInitialPlayerPosition, mHighestPlayerPosition;
+    float mInitialPlayerPosition = 0, mHighestPlayerPosition = 0;
     int mBonus = 0;
 
     void updateCurrent(sf::Time deltaTime) override;

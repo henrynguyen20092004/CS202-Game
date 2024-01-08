@@ -10,6 +10,8 @@ TextNode::TextNode(
     mText.setFillColor(color);
 }
 
+float TextNode::getTextSize() const { return mText.getLocalBounds().width; }
+
 void TextNode::setText(const std::string& text) { mText.setString(text); }
 
 void TextNode::setOpacity(float opacity) {

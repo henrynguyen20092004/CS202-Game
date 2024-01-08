@@ -11,10 +11,6 @@ sf::FloatRect Entity::getGlobalHitbox() const {
 void Entity::setHitbox(const sf::FloatRect& hitbox) { mHitbox = hitbox; }
 
 bool Entity::collidePlayer(const Player& player) const {
-    if (player.isImmortal()) {
-        return false;
-    }
-
     return getGlobalHitbox().intersects(player.getGlobalHitbox());
 }
 

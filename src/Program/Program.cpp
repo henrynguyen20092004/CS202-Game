@@ -77,15 +77,18 @@ void Program::loadTextures() {
     );
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
+    mTextureHolder.load(
+        Textures::ID::PoliceCar, "assets/Textures/PoliceCar.png"
+    );
+    mTextureHolder.load(Textures::ID::Van, "assets/Textures/Van.png");
+    mTextureHolder.load(Textures::ID::Bus, "assets/Textures/Bus.png");
     mTextureHolder.load(Textures::ID::Train, "assets/Textures/Train.png");
 
     mTextureHolder.load(Textures::ID::Cat, "assets/Textures/Cat.png");
-    mTextureHolder.load(Textures::ID::Elephant, "assets/Textures/Elephant.png");
-    mTextureHolder.load(Textures::ID::Phoenix, "assets/Textures/Phoenix.png");
-    mTextureHolder.load(
-        Textures::ID::PolarBear, "assets/Textures/PolarBear.png"
-    );
-    mTextureHolder.load(Textures::ID::Pug, "assets/Textures/Pug.png");
+    mTextureHolder.load(Textures::ID::Dog, "assets/Textures/Dog.png");
+    mTextureHolder.load(Textures::ID::Lion, "assets/Textures/Lion.png");
+    mTextureHolder.load(Textures::ID::Cow, "assets/Textures/Cow.png");
+    mTextureHolder.load(Textures::ID::Horse, "assets/Textures/Horse.png");
 
     mTextureHolder.load(Textures::ID::Rock, "assets/Textures/Rock.png");
     mTextureHolder.load(Textures::ID::Tree, "assets/Textures/Tree.png");
@@ -123,6 +126,7 @@ void Program::loadFonts() {
     mFontHolder.load(Fonts::ID::Dosis, "assets/Fonts/Dosis.ttf");
     mFontHolder.load(Fonts::ID::Pacifico, "assets/Fonts/Pacifico-Regular.ttf");
     mFontHolder.load(Fonts::ID::VTV323, "assets/Fonts/VT323-Regular.ttf");
+    mFontHolder.load(Fonts::ID::Minecraft, "assets/Fonts/Minecraft.ttf");
 }
 
 void Program::registerStates() {

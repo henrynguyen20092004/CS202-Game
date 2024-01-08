@@ -7,11 +7,12 @@
 
 Player::Player(
     TextureHolder& textureHolder, Textures::ID textureID, sf::View& worldView,
-    PlayerSettings& playerSettings
+    PlayerSettings& playerSettings, int playerNumber
 )
     : Entity(textureHolder, textureID, sf::IntRect(0, 0, 60, 60)),
       mWorldView(worldView),
-      mPlayerSettings(playerSettings) {
+      mPlayerSettings(playerSettings),
+      mPlayerNumber(playerNumber) {
     setHitbox(sf::FloatRect(10, 10, 40, 40));  // TODO: set hitbox properly
     setVelocity(sf::Vector2f(500.f, 500.f));
 
@@ -19,6 +20,8 @@ Player::Player(
     mHalo = halo.get();
     attachChild(std::move(halo));
 }
+
+int Player::getPlayerNumber() const { return mPlayerNumber; }
 
 bool Player::askToMove() {
     if (mNeedToMove) {
@@ -35,29 +38,23 @@ Tile* Player::getSourceTile() const { return mSourceTile; }
 
 Tile* Player::getTargetTile() const { return mTargetTile; }
 
-bool Player::isImmortal() const { return mImmortalTime > sf::Time::Zero; }
-
-bool Player::isRegenerate() const { return mRegenerateTime > sf::Time::Zero; }
-
 void Player::setTargetTile(Tile* targetTile) {
     mTargetTile = targetTile;
     mIsMoving = true;
 }
 
-void Player::setImmortalTime(sf::Time immortalTime) {
-    mImmortalTime = immortalTime;
-}
-
-void Player::addRegenerate() {
-    mHasRegenerate = true;
+void Player::addRevival() {
+    mHasRevival = true;
     mHalo->show();
 }
+
+void Player::addBonusScore() const { mScore->addBonus(); }
+
+void Player::addHealth() { mHealth++; }
 
 void Player::kill() { mHealth = 0; }
 
 void Player::damage() { --mHealth; }
-
-void Player::heal() { ++mHealth; }
 
 void Player::goBack() {
     if (!mIsMoving || mForceGoGack) {
@@ -68,20 +65,30 @@ void Player::goBack() {
     mForceGoGack = true;
 }
 
-void Player::setScorePtr(Score* score) { mScore = score; }
+bool Player::isImmortal() const { return mIsImmortal; }
 
-void Player::addBonusScore() const { mScore->addBonus(); }
+void Player::setImortal(bool isImmortal) {
+    mIsImmortal = isImmortal;
+    if (mIsImmortal) {
+        mImmortalTime = sf::seconds(100.f);  // Some big number
+        setOpacity(0.5f);
+    } else {
+        setOpacity(1.f);
+    }
+}
 
 bool Player::isAlive() {
-    if (!isOutOfBounds() && mHealth > 0 || isRegenerate()) {
+    if (!isOutOfBounds() && mHealth > 0) {
         return true;
     }
 
-    if (mHasRegenerate) {
-        mRegenerateTime = sf::seconds(2.f);
-        mImmortalTime = sf::seconds(2.5f);
-        mHasRegenerate = false;
+    if (mHasRevival) {
+        mHasRevival = false;
+        setImortal(true);
+        mImmortalTime = sf::seconds(2.f);
+        mHealth = mMaxHealth;
         mHalo->hide();
+
         return true;
     }
 
@@ -89,7 +96,7 @@ bool Player::isAlive() {
 }
 
 void Player::handlePlayerCollision(Player& player) {
-    if (&player != this && collidePlayer(player) && !isImmortal()) {
+    if (&player != this && collidePlayer(player) && !mIsImmortal) {
         goBack();
     }
 }
@@ -141,22 +148,17 @@ void Player::updateCurrent(sf::Time deltaTime) {
             move(movement);
         }
     } else {
-        if (mSourceTile->getType() == Tile::Type::Bad && !isImmortal()) {
+        if (mSourceTile->getType() == Tile::Type::Bad && !mIsImmortal) {
             damage();
         }
 
         setPosition(mSourceTile->getWorldPosition() + positionInTile);
     }
 
-    if (isImmortal()) {
-        mImmortalTime -= deltaTime;
-    }
-
-    if (isRegenerate()) {
-        mRegenerateTime -= deltaTime;
-
-        if (mRegenerateTime <= sf::Time::Zero) {
-            heal();
+    if (mIsImmortal) {
+        mImmortalTime -= deltaTime * Global::DIFFICULTY_MODIFIER;
+        if (mImmortalTime <= sf::Time::Zero) {
+            setImortal(false);
         }
     }
 }

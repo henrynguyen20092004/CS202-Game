@@ -1,5 +1,7 @@
 #include "PowerUp.hpp"
 
+#include "../Global/Global.hpp"
+
 PowerUp::PowerUp(
     const PowerUpIconArgs& powerUpIconArgs, Textures::ID textureID,
     Player& player, sf::Time duration
@@ -27,7 +29,7 @@ void PowerUp::updateCurrent(sf::Time deltaTime) {
         return;
     }
 
-    mRemainingDuration -= deltaTime;
+    mRemainingDuration -= deltaTime * Global::DIFFICULTY_MODIFIER;
 
     if (mRemainingDuration <= sf::Time::Zero) {
         mIsActivated = false;

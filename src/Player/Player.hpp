@@ -13,29 +13,28 @@ class Player : public Entity {
     typedef std::unique_ptr<Player> Ptr;
 
     Player(
-        TextureHolder& mTextureHolder, Textures::ID textureID,
-        sf::View& worldView, PlayerSettings& playerSettings
+        TextureHolder& textureHolder, Textures::ID textureID,
+        sf::View& worldView, PlayerSettings& playerSettings, int playerNumber
     );
+
+    int getPlayerNumber() const;
 
     bool askToMove();
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
-    bool isImmortal() const;
-    bool isRegenerate() const;
-
     void setTargetTile(Tile* targetTile);
 
-    void setImmortalTime(sf::Time immortalTime);
+    void addRevival();
+    void addBonusScore() const;
+    void addHealth();
 
-    void addRegenerate();
+    bool isImmortal() const;
+    void setImortal(bool isImmortal);
+
     void kill();
     void damage();
-    void heal();
     void goBack();
-
-    void setScorePtr(Score* score);
-    void addBonusScore() const;
 
     bool isAlive();
 
@@ -44,17 +43,22 @@ class Player : public Entity {
    private:
     PlayerSettings& mPlayerSettings;
     sf::View& mWorldView;
+    int mPlayerNumber;
+
     Score* mScore = nullptr;
     Halo* mHalo = nullptr;
 
-    sf::Time mImmortalTime, mRegenerateTime;
+    bool mIsImmortal = false;
+    sf::Time mImmortalTime = sf::Time::Zero;
 
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
 
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
-         mHasRegenerate = false;
-    int mHealth = 2;
+         mHasRevival = false;
+
+    const int mMaxHealth = 2;
+    int mHealth = mMaxHealth;
 
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;

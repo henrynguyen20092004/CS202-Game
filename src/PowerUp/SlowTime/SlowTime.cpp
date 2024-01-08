@@ -6,7 +6,7 @@
 
 SlowTime::SlowTime(const PowerUpIconArgs& powerUpIconArgs, Player& player)
     : PowerUp(
-          powerUpIconArgs, Textures::ID::PolarBear, player, sf::seconds(10.f)
+          powerUpIconArgs, Textures::ID::Cow, player, sf::seconds(10.f)
       ) {}
 
 void SlowTime::activate() { Global::SPEED_MODIFIER /= SLOW_FACTOR; }

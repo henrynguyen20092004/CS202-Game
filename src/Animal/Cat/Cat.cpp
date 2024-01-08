@@ -1,16 +1,15 @@
 #include "Cat.hpp"
 
-Cat::Cat(
-    TextureHolder& textureHolder, Textures::ID textureID,
-    PowerUpList& powerUpList
-)
-    : Animal(textureHolder, textureID, powerUpList, 6, sf::seconds(2.f)) {
+#include "../../Player/Player.hpp"
+
+Cat::Cat(TextureHolder& textureHolder, Score* score)
+    : Animal(textureHolder, Textures::ID::Cat), mScore(score) {
     setHitbox(getLocalBounds());  // TODO: Set hitbox properly
 }
 
 void Cat::handlePlayerCollision(Player& player) {
     if (collidePlayer(player)) {
-        player.addBonusScore();
+        mScore->addBonus();
         getParent()->detachChild(*this);
     }
 }

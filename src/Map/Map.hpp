@@ -3,13 +3,16 @@
 
 #include "../Lane/Lane.hpp"
 #include "../Player/Player.hpp"
+#include "../PowerUpList/PowerUpList.hpp"
+#include "../Score/Score.hpp"
 
 class Map : public SceneNode {
    public:
     typedef std::unique_ptr<Map> Ptr;
 
     Map(TextureHolder& textureHolder, sf::View& worldView,
-        const std::vector<Player*>& players);
+        std::vector<Player*> players, std::vector<PowerUpList*> powerUpList,
+        Score* score);
 
     bool isPlayerMoved() const;
 
@@ -18,9 +21,11 @@ class Map : public SceneNode {
    private:
     TextureHolder& mTextureHolder;
     sf::View& mWorldView;
+    std::vector<PowerUpList*> mPowerUpList;
+    Score* mScore;
     std::deque<Lane*> mLanes;
     std::vector<Player*> mPlayers;
-    bool mIsPlayerMoved;
+    bool mIsPlayerMoved = false;
 
     void initPlayer();
     int getPlayerLaneIndex(int playerIndex) const;

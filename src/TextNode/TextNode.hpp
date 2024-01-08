@@ -9,11 +9,12 @@ class TextNode : public SceneNode {
     typedef std::unique_ptr<TextNode> Ptr;
 
     TextNode(
-        const FontHolder& FontHolder, Fonts::ID fontID, const std::string& text,
-        unsigned int size
+        const FontHolder& fontHolder, Fonts::ID fontID, const std::string& text,
+        unsigned int size, sf::Color color = sf::Color::Black
     );
 
     void setText(const std::string& text);
+    void setOpacity(float opacity);
 
    private:
     sf::Text mText;

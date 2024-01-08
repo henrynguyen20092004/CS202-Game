@@ -52,16 +52,16 @@ enum class ID {
     SettingFrame,
 
     Car,
-    Truck,
-    Train,
-    Bus,
     PoliceCar,
+    Van,
+    Bus,
+    Train,
 
     Cat,
-    Elephant,
-    Phoenix,
-    PolarBear,
-    Pug,
+    Dog,
+    Lion,
+    Cow,
+    Horse,
 
     Rock,
     Tree,
@@ -88,6 +88,7 @@ enum class ID {
     Dosis,
     Pacifico,
     VTV323,
+    Minecraft,
 };
 }
 
@@ -100,10 +101,10 @@ enum class ID {
 namespace Sound {
 enum class ID {
     Cat,
-    Elephant,
-    Phoenix,
-    PolarBear,
-    Pug,
+    Dog,
+    Lion,
+    Cow,
+    Horse,
 };
 }
 

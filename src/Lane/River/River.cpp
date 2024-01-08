@@ -104,9 +104,11 @@ void River::addLogTiles(const sf::Vector2f& logPosition) {
 
 void River::addLog() {
     float frontLogPosX = mLogs.front()->getPosition().x;
-    Log::Ptr log(createLog(
-        Random<Textures::ID>::generate({Textures::ID::LongLog}, {100})
-    ));
+    Log::Ptr log(createLog(Random<Textures::ID>::generate(
+        {Textures::ID::ShortLog, Textures::ID::MediumLog, Textures::ID::LongLog
+        },
+        {20, 40, 40}
+    )));
     sf::Vector2f position(
         mDirection == Directions::ID::Left
             ? frontLogPosX + mLogs.front()->getSize().x +

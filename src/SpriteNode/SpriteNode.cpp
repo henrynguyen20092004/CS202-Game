@@ -32,6 +32,10 @@ sf::FloatRect SpriteNode::getGlobalBounds() const {
     return getWorldTransform().transformRect(getLocalBounds());
 }
 
+void SpriteNode::setOpacity(float opacity) {
+    mSprite.setColor(sf::Color(255, 255, 255, (sf::Uint8)(255 * opacity)));
+}
+
 void SpriteNode::flipHorizontally() {
     sf::IntRect textureRect = mSprite.getTextureRect();
     textureRect.left += textureRect.width;

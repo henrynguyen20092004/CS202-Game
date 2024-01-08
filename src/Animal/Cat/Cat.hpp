@@ -1,15 +1,17 @@
 #ifndef CAT_HPP
 #define CAT_HPP
 
+#include "../../Score/Score.hpp"
 #include "../Animal.hpp"
 
 class Cat : public Animal {
    public:
-    Cat(TextureHolder& texture, Textures::ID textureID,
-        PowerUpList& powerUpList);
+    Cat(TextureHolder& textureHolder, Score* score);
+
+    void handlePlayerCollision(Player& player) override;
 
    private:
-    void handlePlayerCollision(Player& player) override;
+    Score* mScore;
 };
 
 #endif

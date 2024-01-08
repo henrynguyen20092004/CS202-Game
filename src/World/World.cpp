@@ -61,7 +61,7 @@ void World::buildScene(const State::Context& context) {
     }
 
     Player::Ptr player(new Player(
-        mTextureHolder, Textures::ID::BlackNinja, mWorldView,
+        mTextureHolder, Textures::ID::Player1SelectedChoice, mWorldView,
         *context.playerSettings1
     ));
     mPlayers[0] = player.get();
@@ -69,7 +69,7 @@ void World::buildScene(const State::Context& context) {
 
     if (mPlayers.size() == 2) {
         player.reset(new Player(
-            mTextureHolder, Textures::ID::BlueNinja, mWorldView,
+            mTextureHolder, Textures::ID::Player2SelectedChoice, mWorldView,
             *context.playerSettings2
         ));
         mPlayers[1] = player.get();

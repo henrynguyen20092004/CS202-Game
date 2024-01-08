@@ -19,7 +19,7 @@ PowerUpIcon::PowerUpIcon(
       mPositionOffset(powerUpIconArgs.positionOffset),
       mCount(count) {
     TextNode::Ptr textnode(new TextNode(
-        powerUpIconArgs.fontHolder, Fonts::ID::Dosis,
+        powerUpIconArgs.fontHolder, Fonts::ID::VTV323,
         "x" + std::to_string(mCount), 30
     ));
     setTextureRect(sf::IntRect(0, 0, 90, 90));

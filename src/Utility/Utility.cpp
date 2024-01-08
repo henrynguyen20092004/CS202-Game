@@ -1,13 +1,13 @@
 #include "Utility.hpp"
 
-void centerOrigin(sf::Text& text) {
+void centerOrigin(sf::Text& text, sf::Vector2f offset) {
     sf::FloatRect bounds = text.getLocalBounds();
-    text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    text.setOrigin(bounds.getSize() / 2.f + offset);
 }
 
 void centerOrigin(sf::Sprite& sprite) {
     sf::FloatRect bounds = sprite.getLocalBounds();
-    sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    sprite.setOrigin(bounds.getSize() / 2.f);
 }
 
 std::string toString(sf::Keyboard::Key key) {

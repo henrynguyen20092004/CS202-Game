@@ -123,7 +123,7 @@ void Player::updateCurrent(sf::Time deltaTime) {
             velocity +=
                 (movement.x < 0 ? -1 : 1) *
                 (mTargetTile->getDirection() == Directions::ID::Left ? -1 : 1) *
-                mTargetTile->getVelocity().x;
+                mTargetTile->getVelocity().x * Global::SPEED_MODIFIER;
         }
 
         float displacement =

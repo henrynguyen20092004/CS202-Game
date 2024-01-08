@@ -6,7 +6,7 @@
 PauseState::PauseState(StateStack& stack, Context context)
     : State(stack, context),
       mPausedText(
-          "Game Paused", context.fontHolder->get(Fonts::ID::Dosis), 70
+          "Game Paused", context.fontHolder->get(Fonts::ID::VTV323), 80
       ) {
     sf::Vector2f windowSize(context.window->getSize());
 
@@ -20,7 +20,7 @@ PauseState::PauseState(StateStack& stack, Context context)
     returnButton->setCallback([this]() { requestStackPop(); });
 
     auto backToMenuButton = std::make_shared<GUI::Button>(
-        *context.fontHolder, *context.textureHolder, "Back to menu"
+        *context.fontHolder, *context.textureHolder, "Back to Menu"
     );
     backToMenuButton->setPosition(
         windowSize.x / 2.f, windowSize.y / 2.f + 60.f

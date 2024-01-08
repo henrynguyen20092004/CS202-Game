@@ -3,7 +3,7 @@
 SettingsState::SettingsState(StateStack& stack, Context context)
     : State(stack, context) {
     sf::Texture& backgroundTexture =
-        context.textureHolder->get(Textures::ID::MenuBackground);
+        context.textureHolder->get(Textures::ID::SettingBackground);
     sf::Vector2f windowSize(context.window->getSize());
 
     mBackgroundSprite.setTexture(backgroundTexture);
@@ -11,30 +11,50 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         windowSize.x / backgroundTexture.getSize().x,
         windowSize.y / backgroundTexture.getSize().y
     );
+
+    sf::Texture& frameTexture =
+        context.textureHolder->get(Textures::ID::SettingFrame);
+    mFrameSprite.setTexture(frameTexture);
+    centerOrigin(mFrameSprite);
+    mFrameSprite.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
+    mFrameSprite.setScale(800.f / frameTexture.getSize().x, 1.f);
+
+    for (int i = 0; i < 2; ++i) {
+        centerOrigin(mBindingPlayerTexts[i]);
+        mBindingPlayerTexts[i].setString("Player " + std::to_string(i + 1));
+        mBindingPlayerTexts[i].setFont(context.fontHolder->get(Fonts::ID::VTV323
+        ));
+        mBindingPlayerTexts[i].setCharacterSize(35);
+        mBindingPlayerTexts[i].setPosition(
+            windowSize.x / 2.f + (i == 0 ? -250.f : 150.f),
+            windowSize.y / 2.f - 235.f
+        );
+    }
+
     for (int player = 1; player <= 2; ++player) {
         addDirectionButtonLabel(
-            Directions::ID::Left, player, sf::Vector2f(-250.f, 200.f),
+            Directions::ID::Left, player, sf::Vector2f(-200.f, 250.f),
             "Move Left", context
         );
         addDirectionButtonLabel(
-            Directions::ID::Right, player, sf::Vector2f(-250.f, 250.f),
+            Directions::ID::Right, player, sf::Vector2f(-200.f, 300.f),
             "Move Right", context
         );
         addDirectionButtonLabel(
-            Directions::ID::Up, player, sf::Vector2f(-250.f, 300.f), "Move Up",
+            Directions::ID::Up, player, sf::Vector2f(-200.f, 350.f), "Move Up",
             context
         );
         addDirectionButtonLabel(
-            Directions::ID::Down, player, sf::Vector2f(-250.f, 350.f),
+            Directions::ID::Down, player, sf::Vector2f(-200.f, 400.f),
             "Move Down", context
         );
 
         addPowerButtonLabel(
-            PowerUp::Type::Immortality, player, sf::Vector2f(-250.f, 400.f),
+            PowerUp::Type::Immortality, player, sf::Vector2f(-200.f, 450.f),
             "Immortality", context
         );
         addPowerButtonLabel(
-            PowerUp::Type::SlowTime, player, sf::Vector2f(-250.f, 450.f),
+            PowerUp::Type::SlowTime, player, sf::Vector2f(-200.f, 500.f),
             "Slow Time", context
         );
     }
@@ -56,7 +76,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     auto backButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Back"
     );
-    backButton->setPosition(windowSize.x / 2.f, 700.f);
+    backButton->setPosition(250.f, 50.f);
     backButton->setCallback([this]() { requestStackPop(); });
 
     mGUIContainer.addComponent(resetButton);
@@ -124,6 +144,9 @@ void SettingsState::draw() {
     sf::RenderWindow& window = *getContext().window;
 
     window.draw(mBackgroundSprite);
+    window.draw(mFrameSprite);
+    window.draw(mBindingPlayerTexts[0]);
+    window.draw(mBindingPlayerTexts[1]);
     window.draw(mGUIContainer);
 }
 
@@ -151,9 +174,9 @@ void SettingsState::updateLabels() {
         }
 
         mBindingLabels[i]->setText(toString(key1));
-        mBindingLabels[i]->setTextColor(sf::Color(0, 255, 255));
+        mBindingLabels[i]->setTextColor(sf::Color(162, 145, 116));
         mBindingLabels[i + actionCount]->setText(toString(key2));
-        mBindingLabels[i + actionCount]->setTextColor(sf::Color(0, 255, 255));
+        mBindingLabels[i + actionCount]->setTextColor(sf::Color(162, 145, 116));
     }
 }
 

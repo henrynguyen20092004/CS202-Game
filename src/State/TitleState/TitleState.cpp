@@ -44,7 +44,8 @@ bool TitleState::update(sf::Time deltaTime) {
 }
 
 bool TitleState::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyReleased) {
+    if (event.type == sf::Event::KeyReleased ||
+        event.type == sf::Event::MouseButtonReleased) {
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }

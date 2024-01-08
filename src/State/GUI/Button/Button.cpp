@@ -11,11 +11,11 @@ Button::Button(
     : mNormalTexture(textureHolder.get(Textures::ID::ButtonNormal)),
       mSelectedTexture(textureHolder.get(Textures::ID::ButtonSelected)),
       mPressedTexture(textureHolder.get(Textures::ID::ButtonPressed)),
-      mText(text, fontHolder.get(Fonts::ID::Dosis), 20),
+      mText(text, fontHolder.get(Fonts::ID::VTV323), 25),
       mIsToggle(false) {
     mSprite.setTexture(mNormalTexture);
     centerOrigin(mSprite);
-    centerOrigin(mText);
+    centerOrigin(mText, sf::Vector2f(0.f, 12.f));
 }
 
 void Button::setCallback(const Callback& callback) {
@@ -24,7 +24,7 @@ void Button::setCallback(const Callback& callback) {
 
 void Button::setText(const std::string& text) {
     mText.setString(text);
-    centerOrigin(mText);
+    centerOrigin(mText, sf::Vector2f(0.f, 9.f));
 }
 
 void Button::setToggle(bool flag) { mIsToggle = flag; }
@@ -46,6 +46,7 @@ void Button::activate() {
 
     if (mIsToggle) {
         mSprite.setTexture(mPressedTexture);
+        centerOrigin(mText, sf::Vector2f(0.f, 9.f));
     } else {
         deactivate();
     }
@@ -55,6 +56,8 @@ void Button::activate() {
 
 void Button::deactivate() {
     Component::deactivate();
+
+    centerOrigin(mText, sf::Vector2f(0.f, 12.f));
 
     if (mIsToggle) {
         mSprite.setTexture(isSelected() ? mSelectedTexture : mNormalTexture);

@@ -8,7 +8,7 @@ Score::Score(Player& player, sf::View& view, FontHolder& fontHolder)
       mInitialPlayerPosition(player.getPosition().y),
       mHighestPlayerPosition(mInitialPlayerPosition) {
     TextNode::Ptr text(
-        new TextNode(fontHolder, Fonts::ID::Dosis, "Score: 0", 40)
+        new TextNode(fontHolder, Fonts::ID::VTV323, "Score: 0", 40)
     );
     mScoreText = text.get();
     attachChild(std::move(text));

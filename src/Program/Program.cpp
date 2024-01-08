@@ -5,6 +5,7 @@
 #include "../State/GameState/GameState.hpp"
 #include "../State/MenuState/MenuState.hpp"
 #include "../State/PauseState/PauseState.hpp"
+#include "../State/SelectPlayerState/SelectPlayerState.hpp"
 #include "../State/SettingsState/SettingsState.hpp"
 #include "../State/TitleState/TitleState.hpp"
 
@@ -54,18 +55,25 @@ void Program::run() {
 
 void Program::loadTextures() {
     mTextureHolder.load(
-        Textures::ID::BlueNinja, "assets/Textures/BlueNinja.png"
+        Textures::ID::PlayerChoice1, "assets/Textures/BlackNinja.png"
     );
     mTextureHolder.load(
-        Textures::ID::BlackNinja, "assets/Textures/BlackNinja.png"
+        Textures::ID::PlayerChoice2, "assets/Textures/BlueNinja.png"
     );
     mTextureHolder.load(Textures::ID::Halo, "assets/Textures/Halo.png");
 
     mTextureHolder.load(
-        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.jpg"
+        Textures::ID::TitleBackground, "assets/Textures/TitleBackground.png"
     );
     mTextureHolder.load(
         Textures::ID::MenuBackground, "assets/Textures/MenuBackground.png"
+    );
+
+    mTextureHolder.load(
+        Textures::ID::SettingBackground, "assets/Textures/SettingBackground.png"
+    );
+    mTextureHolder.load(
+        Textures::ID::SettingFrame, "assets/Textures/SettingFrame.png"
     );
 
     mTextureHolder.load(Textures::ID::Car, "assets/Textures/Car.png");
@@ -124,6 +132,15 @@ void Program::registerStates() {
     mStateStack.registerState<GameState>(States::ID::Game);
     mStateStack.registerState<GameState>(States::ID::MultiplayerGame, true);
     mStateStack.registerState<PauseState>(States::ID::Pause);
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectPlayer1Single, SelectPlayerState::Type::Player1Single
+    );
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectPlayer1Multi, SelectPlayerState::Type::Player1Multi
+    );
+    mStateStack.registerState<SelectPlayerState>(
+        States::ID::SelectPlayer2Multi, SelectPlayerState::Type::Player2Multi
+    );
     mStateStack.registerState<GameOverState>(States::ID::GameOver);
     mStateStack.registerState<GameOverState>(
         States::ID::MultiplayerGameOver, true

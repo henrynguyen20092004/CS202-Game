@@ -19,16 +19,16 @@ MenuState::MenuState(StateStack& stack, Context context)
     );
 
     centerOrigin(mTitleText);
-    mTitleText.setFillColor(sf::Color(0, 255, 127));
+    mTitleText.setFillColor(sf::Color(192, 212, 112));
     mTitleText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 180.f);
 
     auto playButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Play"
     );
-    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 60.f);
+    playButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 50.f);
     playButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::Game);
+        requestStackPush(States::ID::SelectPlayer1Single);
     });
 
     auto mutiplayerButton = std::make_shared<GUI::Button>(
@@ -37,13 +37,13 @@ MenuState::MenuState(StateStack& stack, Context context)
     mutiplayerButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
     mutiplayerButton->setCallback([this]() {
         requestStackPop();
-        requestStackPush(States::ID::MultiplayerGame);
+        requestStackPush(States::ID::SelectPlayer1Multi);
     });
 
     auto settingButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Setting"
     );
-    settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 60.f);
+    settingButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 50.f);
     settingButton->setCallback([this]() {
         requestStackPush(States::ID::Settings);
     });
@@ -51,7 +51,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     auto exitButton = std::make_shared<GUI::Button>(
         *context.fontHolder, *context.textureHolder, "Exit"
     );
-    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 120.f);
+    exitButton->setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 100.f);
     exitButton->setCallback([this]() { requestStackPop(); });
 
     mGUIContainer.addComponent(playButton);
@@ -70,6 +70,6 @@ bool MenuState::update(sf::Time deltaTime) { return true; }
 void MenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(mBackgroundSprite);
-    window.draw(mTitleText);
+    // window.draw(mTitleText);
     window.draw(mGUIContainer);
 }

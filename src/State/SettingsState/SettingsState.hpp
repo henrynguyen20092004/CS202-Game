@@ -18,6 +18,8 @@ class SettingsState : public State {
 
    private:
     sf::Sprite mBackgroundSprite;
+    sf::Sprite mFrameSprite;
+    std::array<sf::Text, 2> mBindingPlayerTexts;
     GUI::Container mGUIContainer;
 
     std::array<

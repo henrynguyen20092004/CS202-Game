@@ -109,6 +109,8 @@ bool Player::isAlive() {
         return true;
     }
 
+    setTextureRect(sf::IntRect(240, 0, 60, 60));
+
     return false;
 }
 

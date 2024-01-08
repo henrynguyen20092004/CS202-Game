@@ -14,7 +14,7 @@
 Program::Program()
     : mWindow(
           sf::VideoMode(Global::WINDOW_WIDTH, Global::WINDOW_HEIGHT),
-          "Crossy Road Gameplay", sf::Style::Close
+          "Crossy Road", sf::Style::Close
       ),
       mPlayerSettings2(true),
       mPowerUpSettings2(true),

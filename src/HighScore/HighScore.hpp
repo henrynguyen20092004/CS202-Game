@@ -1,8 +1,6 @@
 #ifndef HIGH_SCORE_HPP
 #define HIGH_SCORE_HPP
 
-#include <fstream>
-
 #include "../TextNode/TextNode.hpp"
 
 class HighScore {

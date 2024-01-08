@@ -8,3 +8,5 @@ Train::Train(TextureHolder& textureHolder, Directions::ID direction)
 
     setHitbox(getLocalBounds());  // TODO: Set hitbox properly
 }
+
+Textures::ID Train::getTextureID() const { return Textures::ID::Train; }

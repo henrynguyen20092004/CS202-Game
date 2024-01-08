@@ -32,3 +32,15 @@ void Vehicle::updateCurrent(sf::Time deltaTime) {
             break;
     }
 }
+
+void Vehicle::saveCurrent(std::ofstream& fout) const {
+    Entity::saveCurrent(fout);
+    fout << static_cast<int>(mDirection) << '\n';
+}
+
+void Vehicle::loadCurrent(std::ifstream& fin) {
+    Entity::loadCurrent(fin);
+    int direction;
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+}

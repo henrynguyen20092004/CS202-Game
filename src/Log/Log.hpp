@@ -19,7 +19,10 @@ class Log : public MovableSpriteNode {
    private:
     Directions::ID mDirection;
 
-    virtual void updateCurrent(sf::Time deltaTime) override;
+    void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

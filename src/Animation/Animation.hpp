@@ -12,6 +12,9 @@ class Animation {
 
     void update(sf::Time deltaTime);
 
+    void save(std::ofstream& fout) const;
+    void load(std::ifstream& fin);
+
    private:
     sf::Sprite& mSprite;
     sf::Vector2i mFrameSize;

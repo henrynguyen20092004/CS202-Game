@@ -17,11 +17,21 @@ void TextNode::setText(const std::string& text) { mText.setString(text); }
 void TextNode::setOpacity(float opacity) {
     mText.setFillColor(sf::Color(
         mText.getFillColor().r, mText.getFillColor().g, mText.getFillColor().b,
-        (sf::Uint8)(255 * opacity)
+        255 * opacity
     ));
 }
 
 void TextNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {
     target.draw(mText, states);
+}
+
+void TextNode::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    fout << mText << '\n';
+}
+
+void TextNode::loadCurrent(std::ifstream& fin) {
+    SceneNode::loadCurrent(fin);
+    fin >> mText;
 }

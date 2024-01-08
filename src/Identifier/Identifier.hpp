@@ -5,16 +5,24 @@ namespace States {
 enum class ID {
     Title,
     Menu,
+
+    NewSingleGame,
     SelectPlayer1Single,
+
+    NewMultiplayerGame,
     SelectPlayer1Multi,
     SelectPlayer2Multi,
-    Game,
-    MultiplayerGame,
+
+    LoadSingleGame,
+    LoadMultiplayerGame,
+
     HighScore,
+    Settings,
+
     Pause,
     GameOver,
-    MultiplayerGameOver,
-    Settings,
+    MultiplayerGameOverDead1,
+    MultiplayerGameOverDead2,
     None,
 };
 }
@@ -47,8 +55,11 @@ enum class ID {
     PlayerChoice4,
     PlayerChoice5,
     PlayerChoice6,
-    Player1SelectedChoice,
-    Player2SelectedChoice,
+
+    Player1SelectedChoiceSingle,
+    Player1SelectedChoiceMulti,
+    Player2SelectedChoiceMulti,
+
     Halo,
 
     TitleBackground,
@@ -56,31 +67,33 @@ enum class ID {
     SettingBackground,
     Frame,
 
+    Bus,
     Car,
     PoliceCar,
-    Van,
-    Bus,
     Train,
+    Van,
 
     Cat,
-    Dog,
-    Lion,
     Cow,
+    Dog,
     Horse,
+    Lion,
 
     Rock,
     Tree,
+
     Log,
-    ShortLog,
-    MediumLog,
     LongLog,
+    MediumLog,
+    ShortLog,
+
     RailwaySignal,
     TrafficLight,
 
-    VehicleLane,
-    TrainLane,
     ObstacleLane,
-    River,
+    RiverLane,
+    TrainLane,
+    VehicleLane,
 
     ButtonBack,
     ButtonNormal,
@@ -90,6 +103,8 @@ enum class ID {
     RightButtonNormal,
     LeftButtonSelected,
     RightButtonSelected,
+
+    None,
 };
 }
 

@@ -23,6 +23,9 @@ class Score : public SceneNode {
     int mBonus = 0;
 
     void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

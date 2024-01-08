@@ -8,14 +8,17 @@ class MenuState : public State {
    public:
     MenuState(StateStack& stack, Context context);
 
-    virtual bool handleEvent(const sf::Event& event) override;
-    virtual bool update(sf::Time deltaTime) override;
-    virtual void draw() override;
+    bool handleEvent(const sf::Event& event) override;
+    bool update(sf::Time deltaTime) override;
+    void draw() override;
 
    private:
     sf::Sprite mBackgroundSprite;
     sf::Text mTitleText;
     GUI::Container mGUIContainer;
+
+    bool isSinglePlayerLoadable();
+    bool isMultiPlayerLoadable();
 };
 
 #endif

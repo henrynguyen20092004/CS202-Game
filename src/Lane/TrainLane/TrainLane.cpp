@@ -1,17 +1,23 @@
 #include "TrainLane.hpp"
 
+#include "../../FileIO/FileIO.hpp"
 #include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
 #include "../../Vehicle/Train/Train.hpp"
 
-TrainLane::TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position)
-    : Lane(textureHolder, position), mTrain(nullptr) {
-    buildScene();
+TrainLane::TrainLane(
+    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
+)
+    : Lane(textureHolder, position) {
+    buildScene(isLoading);
+
+    if (isLoading) {
+        return;
+    }
 
     mDirection = Random<Directions::ID>::generate(
         {Directions::ID::Left, Directions::ID::Right}
     );
-
     mVelocity = sf::Vector2f(Random<float>::generate(1000.f, 4000.f), 0.f);
     mSpawnClock = sf::seconds(Random<float>::generate(0.f, 10.f));
 }
@@ -22,8 +28,8 @@ void TrainLane::handlePlayerCollision(Player& player) {
     }
 }
 
-void TrainLane::buildScene() {
-    Lane::buildScene(Textures::ID::TrainLane);
+void TrainLane::buildScene(bool isLoading) {
+    Lane::buildScene(Textures::ID::TrainLane, isLoading);
 
     for (int i = 0; i < Global::NUM_TILES_X; ++i) {
         SpriteNode::Ptr sprite(new SpriteNode(
@@ -60,6 +66,8 @@ void TrainLane::removeTrain() {
     mTrain = nullptr;
 }
 
+Textures::ID TrainLane::getTextureID() const { return Textures::ID::TrainLane; }
+
 void TrainLane::updateCurrent(sf::Time deltaTime) {
     mSpawnClock -= deltaTime * Global::SPEED_MODIFIER;
 
@@ -79,5 +87,33 @@ void TrainLane::updateCurrent(sf::Time deltaTime) {
             removeTrain();
             mRailwaySignal->switchState(RailwaySignal::State::Green);
         }
+    }
+}
+
+void TrainLane::saveCurrent(std::ofstream& fout) const {
+    Lane::saveCurrent(fout);
+    fout << static_cast<int>(mDirection) << '\n';
+    fout << mVelocity << '\n';
+    fout << mSpawnClock << '\n';
+
+    fout << (mTrain != nullptr) << '\n';
+}
+
+void TrainLane::loadCurrent(std::ifstream& fin) {
+    Lane::loadCurrent(fin);
+    int direction;
+    fin >> direction;
+    mDirection = static_cast<Directions::ID>(direction);
+
+    fin >> mVelocity;
+    fin >> mSpawnClock;
+
+    bool hasTrain;
+    fin >> hasTrain;
+
+    if (hasTrain) {
+        Vehicle::Ptr train(new Train(mTextureHolder, mDirection));
+        mTrain = train.get();
+        mSceneLayers[ObjectLayer]->attachChild(std::move(train));
     }
 }

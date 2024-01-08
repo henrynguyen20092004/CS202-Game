@@ -12,10 +12,15 @@
 
 ObstacleLane::ObstacleLane(
     TextureHolder& textureHolder, const sf::Vector2f& position,
-    std::vector<PowerUpList*> powerUpList, Score* score, bool isEmpty
+    const std::vector<PowerUpList*>& powerUpList, Score* score, bool isLoading,
+    bool isEmpty
 )
     : Lane(textureHolder, position), mPowerUpList(powerUpList), mScore(score) {
-    buildScene(isEmpty);
+    buildScene(isLoading);
+
+    if (!isLoading && !isEmpty) {
+        init();
+    }
 }
 
 void ObstacleLane::handlePlayerCollision(Player& player) {
@@ -32,8 +37,8 @@ void ObstacleLane::handlePlayerCollision(Player& player) {
     }
 }
 
-void ObstacleLane::buildScene(bool isEmpty) {
-    Lane::buildScene(Textures::ID::ObstacleLane);
+void ObstacleLane::buildScene(bool isLoading) {
+    Lane::buildScene(Textures::ID::ObstacleLane, isLoading);
 
     for (int i = 0; i < Global::NUM_TILES_X; ++i) {
         SpriteNode::Ptr sprite(new SpriteNode(
@@ -46,10 +51,6 @@ void ObstacleLane::buildScene(bool isEmpty) {
         ));
         sprite->setPosition(i * Global::TILE_SIZE, 0.f);
         mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
-    }
-
-    if (!isEmpty) {
-        init();
     }
 }
 
@@ -143,5 +144,53 @@ Animal* ObstacleLane::createAnimal(Textures::ID textureID) {
 
         default:
             return nullptr;
+    }
+}
+
+Textures::ID ObstacleLane::getTextureID() const {
+    return Textures::ID::ObstacleLane;
+}
+
+void ObstacleLane::saveCurrent(std::ofstream& fout) const {
+    Lane::saveCurrent(fout);
+    int numObstacles = mObstacles.size(), numAnimals = mAnimals.size();
+    fout << numObstacles << '\n';
+
+    for (int i = 0; i < numObstacles; ++i) {
+        fout << static_cast<int>(mObstacles[i]->getTextureID())
+             << (i < numObstacles - 1 ? ' ' : '\n');
+    }
+
+    fout << numAnimals << '\n';
+
+    for (int i = 0; i < numAnimals; ++i) {
+        fout << static_cast<int>(mAnimals[i]->getTextureID())
+             << (i < numAnimals - 1 ? ' ' : '\n');
+    }
+}
+
+void ObstacleLane::loadCurrent(std::ifstream& fin) {
+    Lane::loadCurrent(fin);
+    int numObstacles, numAnimals, textureID;
+    fin >> numObstacles;
+
+    for (int i = 0; i < numObstacles; ++i) {
+        fin >> textureID;
+
+        Obstacle::Ptr obstacle(
+            createObstacle(static_cast<Textures::ID>(textureID))
+        );
+        mObstacles.push_back(obstacle.get());
+        attachChild(std::move(obstacle));
+    }
+
+    fin >> numAnimals;
+
+    for (int i = 0; i < numAnimals; ++i) {
+        fin >> textureID;
+
+        Animal::Ptr animal(createAnimal(static_cast<Textures::ID>(textureID)));
+        mAnimals.push_back(animal.get());
+        attachChild(std::move(animal));
     }
 }

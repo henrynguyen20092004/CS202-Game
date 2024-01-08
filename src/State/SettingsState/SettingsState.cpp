@@ -2,9 +2,9 @@
 
 SettingsState::SettingsState(StateStack& stack, Context context)
     : State(stack, context) {
+    sf::Vector2f windowSize(context.window->getSize());
     sf::Texture& backgroundTexture =
         context.textureHolder->get(Textures::ID::SettingBackground);
-    sf::Vector2f windowSize(context.window->getSize());
 
     mBackgroundSprite.setTexture(backgroundTexture);
     mBackgroundSprite.setScale(

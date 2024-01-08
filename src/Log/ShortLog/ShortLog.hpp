@@ -8,6 +8,9 @@ class ShortLog : public Log {
     ShortLog(TextureHolder& textureHolder, Directions::ID direction);
 
     int getLength() const override;
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

@@ -22,19 +22,19 @@ PowerUpIcon::PowerUpIcon(
         powerUpIconArgs.fontHolder, Fonts::ID::VTV323,
         "x" + std::to_string(mCount), 30
     ));
-
     mTextNode = textnode.get();
     attachChild(std::move(textnode));
 }
 
 void PowerUpIcon::updateCurrent(sf::Time deltaTime) {
-    setOpacity(mCount == 0 ? 0.5f : 1.f);
-    mTextNode->setOpacity(mCount == 0 ? 0.5f : 1.f);
+    float opacity = mCount ? 1.f : .5f;
+    setOpacity(opacity);
+    mTextNode->setOpacity(opacity);
 
     sf::Vector2f viewPosition =
         mWorldView.getCenter() - mWorldView.getSize() / 2.f;
-
     setPosition(viewPosition + mPositionOffset + sf::Vector2f(20.f, 20.f));
+
     mTextNode->setText("x" + std::to_string(mCount));
     mTextNode->setPosition(getSize() + sf::Vector2f(-10.f, -10.f));
 }

@@ -33,7 +33,7 @@ sf::FloatRect SpriteNode::getGlobalBounds() const {
 }
 
 void SpriteNode::setOpacity(float opacity) {
-    mSprite.setColor(sf::Color(255, 255, 255, (sf::Uint8)(255 * opacity)));
+    mSprite.setColor(sf::Color(255, 255, 255, 255 * opacity));
 }
 
 void SpriteNode::flipHorizontally() {
@@ -46,4 +46,16 @@ void SpriteNode::flipHorizontally() {
 void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const {
     target.draw(mSprite, states);
+}
+
+void SpriteNode::saveCurrent(std::ofstream& fout) const {
+    SceneNode::saveCurrent(fout);
+    fout << mSprite.getTextureRect() << '\n';
+}
+
+void SpriteNode::loadCurrent(std::ifstream& fin) {
+    SceneNode::loadCurrent(fin);
+    sf::IntRect textureRect;
+    fin >> textureRect;
+    setTextureRect(textureRect);
 }

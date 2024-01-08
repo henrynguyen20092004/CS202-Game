@@ -1,5 +1,6 @@
 #include "VehicleLane.hpp"
 
+#include "../../FileIO/FileIO.hpp"
 #include "../../Global/Global.hpp"
 #include "../../Random/Random.hpp"
 #include "../../Vehicle/Bus/Bus.hpp"
@@ -8,17 +9,22 @@
 #include "../../Vehicle/Van/Van.hpp"
 
 VehicleLane::VehicleLane(
-    TextureHolder& textureHolder, const sf::Vector2f& position
+    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
 )
     : Lane(textureHolder, position) {
-    mDirection = Random<Directions::ID>::generate(
-        {Directions::ID::Left, Directions::ID::Right}
-    );
+    buildScene(isLoading);
+
+    if (isLoading) {
+        return;
+    }
 
     mTextureID = Random<Textures::ID>::generate(
         {Textures::ID::Car, Textures::ID::PoliceCar, Textures::ID::Van,
          Textures::ID::Bus},
         {30, 10, 30, 30}
+    );
+    mDirection = Random<Directions::ID>::generate(
+        {Directions::ID::Left, Directions::ID::Right}
     );
 
     if (mTextureID == Textures::ID::PoliceCar) {
@@ -27,7 +33,6 @@ VehicleLane::VehicleLane(
         mVelocity = sf::Vector2f(Random<float>::generate(100.f, 400.f), 0.f);
     }
 
-    buildScene();
     init();
 }
 
@@ -37,8 +42,8 @@ void VehicleLane::handlePlayerCollision(Player& player) {
     }
 }
 
-void VehicleLane::buildScene() {
-    Lane::buildScene(Textures::ID::VehicleLane);
+void VehicleLane::buildScene(bool isLoading) {
+    Lane::buildScene(Textures::ID::VehicleLane, isLoading);
 
     for (int i = 0; i < Global::NUM_TILES_X; ++i) {
         SpriteNode::Ptr sprite(new SpriteNode(
@@ -52,7 +57,8 @@ void VehicleLane::buildScene() {
         mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
     }
 
-    TrafficLight::Ptr trafficLight(new TrafficLight(mTextureHolder, mDirection)
+    TrafficLight::Ptr trafficLight(
+        new TrafficLight(mTextureHolder, mDirection, isLoading)
     );
     mTrafficLight = trafficLight.get();
     mSceneLayers[SignalLightLayer]->attachChild(std::move(trafficLight));
@@ -134,6 +140,10 @@ void VehicleLane::removeVehicle() {
     mVehicles.pop_back();
 }
 
+Textures::ID VehicleLane::getTextureID() const {
+    return Textures::ID::VehicleLane;
+}
+
 void VehicleLane::updateCurrent(sf::Time deltaTime) {
     switch (mTrafficLight->getState()) {
         case TrafficLight::State::Green:
@@ -173,4 +183,32 @@ void VehicleLane::updateCurrent(sf::Time deltaTime) {
             removeVehicle();
         }
     }
+}
+
+void VehicleLane::saveCurrent(std::ofstream& fout) const {
+    Lane::saveCurrent(fout);
+    int numVehicles = mVehicles.size();
+
+    fout << static_cast<int>(mTextureID) << ' ' << static_cast<int>(mDirection)
+         << '\n';
+    fout << numVehicles << '\n';
+    fout << mVelocity << '\n';
+    fout << mTileToNextSpawns << ' ' << mVelocityPercent << '\n';
+}
+
+void VehicleLane::loadCurrent(std::ifstream& fin) {
+    Lane::loadCurrent(fin);
+    int textureID, direction, numVehicles;
+    fin >> textureID >> direction >> numVehicles;
+    mTextureID = static_cast<Textures::ID>(textureID);
+    mDirection = static_cast<Directions::ID>(direction);
+
+    for (int i = 0; i < numVehicles; ++i) {
+        Vehicle::Ptr vehicle(createVehicle());
+        mVehicles.push_front(vehicle.get());
+        mSceneLayers[ObjectLayer]->attachChild(std::move(vehicle));
+    }
+
+    fin >> mVelocity >> mTileToNextSpawns >> mVelocityPercent;
+    setVelocityPercent(mVelocityPercent);
 }

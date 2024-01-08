@@ -7,7 +7,7 @@
 
 class TrainLane : public Lane {
    public:
-    TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position);
+    TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading);
 
     void handlePlayerCollision(Player& player) override;
 
@@ -15,15 +15,20 @@ class TrainLane : public Lane {
     Directions::ID mDirection;
     sf::Vector2f mVelocity;
     sf::Time mSpawnClock;
-    Vehicle* mTrain;
+    Vehicle* mTrain = nullptr;
     RailwaySignal* mRailwaySignal;
 
-    void buildScene();
+    void buildScene(bool isLoading);
 
     void addTrain();
     void removeTrain();
 
+    Textures::ID getTextureID() const final;
+
     void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

@@ -15,11 +15,11 @@ class Container : public Component {
 
     void addComponent(Component::Ptr component);
 
-    virtual bool isSelectable() const override;
-    virtual void handleMouseEvent(
+    bool isSelectable() const override;
+    void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
-    virtual void handleEvent(
+    void handleEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
 

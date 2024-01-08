@@ -9,3 +9,5 @@ Tree::Tree(TextureHolder& textureHolder)
       ) {
     setHitbox(sf::FloatRect(10, 10, 70, 70));  // TODO: Set hitbox properly
 }
+
+Textures::ID Tree::getTextureID() const { return Textures::ID::Tree; }

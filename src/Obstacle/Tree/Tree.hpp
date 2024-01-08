@@ -6,6 +6,9 @@
 class Tree : public Obstacle {
    public:
     Tree(TextureHolder& textureHolder);
+
+   private:
+    Textures::ID getTextureID() const final;
 };
 
 #endif

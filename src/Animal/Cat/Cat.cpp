@@ -13,3 +13,5 @@ void Cat::handlePlayerCollision(Player& player) {
         getParent()->detachChild(*this);
     }
 }
+
+Textures::ID Cat::getTextureID() const { return Textures::ID::Cat; }

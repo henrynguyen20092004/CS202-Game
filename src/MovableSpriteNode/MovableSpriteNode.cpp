@@ -18,3 +18,13 @@ void MovableSpriteNode::updateCurrent(sf::Time deltaTime) {
         deltaTime.asSeconds()
     );
 }
+
+void MovableSpriteNode::saveCurrent(std::ofstream& fout) const {
+    SpriteNode::saveCurrent(fout);
+    fout << mVelocity << '\n';
+}
+
+void MovableSpriteNode::loadCurrent(std::ifstream& fin) {
+    SpriteNode::loadCurrent(fin);
+    fin >> mVelocity;
+}

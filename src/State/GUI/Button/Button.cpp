@@ -44,7 +44,9 @@ void Button::setText(const std::string& text) {
 
 void Button::setToggle(bool flag) { mIsToggle = flag; }
 
-bool Button::isSelectable() const { return true; }
+void Button::setSelectable(bool flag) { mIsSelectable = flag; }
+
+bool Button::isSelectable() const { return mIsSelectable; }
 
 void Button::select() {
     Component::select();

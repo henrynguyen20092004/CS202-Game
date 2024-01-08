@@ -17,10 +17,11 @@ class Player : public Entity {
         sf::View& worldView, PlayerSettings& playerSettings, int playerNumber
     );
 
+    bool askToMove();
+
     int getPlayerNumber() const;
     void setName(FontHolder& fontHolder);
 
-    bool askToMove();
     Directions::ID getDirection() const;
     Tile* getSourceTile() const;
     Tile* getTargetTile() const;
@@ -30,7 +31,6 @@ class Player : public Entity {
     int getHealth() const;
 
     void addRevival();
-    void addBonusScore() const;
     void addHealth();
 
     bool isImmortal() const;
@@ -49,25 +49,26 @@ class Player : public Entity {
     sf::View& mWorldView;
     int mPlayerNumber;
 
-    Score* mScore = nullptr;
-    Halo* mHalo = nullptr;
-
     bool mIsImmortal = false;
     sf::Time mImmortalTime = sf::Time::Zero;
 
     Directions::ID mDirection = Directions::ID::None;
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
-
-    bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
-         mHasRevival = false;
+    Halo* mHalo = nullptr;
 
     const int mMaxHealth = 100;
     int mHealth = mMaxHealth;
 
+    bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
+         mHasRevival = false;
+
+    bool isOutOfBounds() const;
+
     void handleEventCurrent(const sf::Event& event) override;
     void updateCurrent(sf::Time deltaTime) override;
 
-    bool isOutOfBounds() const;
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

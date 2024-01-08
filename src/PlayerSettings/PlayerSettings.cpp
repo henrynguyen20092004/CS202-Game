@@ -1,5 +1,7 @@
 #include "PlayerSettings.hpp"
 
+#include "../FileIO/FileIO.hpp"
+
 PlayerSettings::PlayerSettings(bool isPlayer2) { setToDefault(isPlayer2); }
 
 void PlayerSettings::assignKey(
@@ -45,5 +47,25 @@ void PlayerSettings::setToDefault(bool isPlayer2) {
         assignKey(sf::Keyboard::S, Directions::ID::Down);
         assignKey(sf::Keyboard::A, Directions::ID::Left);
         assignKey(sf::Keyboard::D, Directions::ID::Right);
+    }
+}
+
+void PlayerSettings::save(std::ofstream& fout) const {
+    fout << mKeyBinding.size() << '\n';
+
+    for (auto pair : mKeyBinding) {
+        fout << pair.first << ' ' << static_cast<int>(pair.second) << '\n';
+    }
+}
+
+void PlayerSettings::load(std::ifstream& fin) {
+    sf::Keyboard::Key key;
+    int size, direction;
+
+    fin >> size;
+
+    for (int i = 0; i < size; ++i) {
+        fin >> key >> direction;
+        assignKey(key, static_cast<Directions::ID>(direction));
     }
 }

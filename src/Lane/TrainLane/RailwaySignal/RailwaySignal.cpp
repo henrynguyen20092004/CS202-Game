@@ -11,7 +11,6 @@ RailwaySignal::RailwaySignal(TextureHolder& textureHolder)
         textureSize.x * RailwaySignal::State::Green / 2, 0, textureSize.x / 2,
         textureSize.y
     ));
-
     setPosition(Global::WINDOW_WIDTH / 2 - getSize().x / 2, 0);
 }
 

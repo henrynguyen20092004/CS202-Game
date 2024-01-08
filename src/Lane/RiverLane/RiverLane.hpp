@@ -1,12 +1,15 @@
-#ifndef RIVER_HPP
-#define RIVER_HPP
+#ifndef RIVER_LANE_HPP
+#define RIVER_LANE_HPP
 
 #include "../../Log/Log.hpp"
 #include "../Lane.hpp"
 
-class River : public Lane {
+class RiverLane : public Lane {
    public:
-    River(TextureHolder& textureHolder, const sf::Vector2f& position);
+    RiverLane(
+        TextureHolder& textureHolder, const sf::Vector2f& position,
+        bool isLoading
+    );
 
    private:
     Directions::ID mDirection;
@@ -14,7 +17,7 @@ class River : public Lane {
     std::deque<Log*> mLogs;
     std::deque<int> mTileToNextSpawns;
 
-    void buildScene();
+    void buildScene(bool isLoading);
 
     void init();
 
@@ -23,7 +26,12 @@ class River : public Lane {
     void addLog();
     void removeLog();
 
+    Textures::ID getTextureID() const final;
+
     void updateCurrent(sf::Time deltaTime) override;
+
+    void saveCurrent(std::ofstream& fout) const final;
+    void loadCurrent(std::ifstream& fin) final;
 };
 
 #endif

@@ -16,6 +16,7 @@ class Lane : public SceneNode {
     Tile* getTile(int index) const;
     Tile* getNearestTile(Tile* tile, Tile::Type type, Directions::ID direction)
         const;
+    Tile* getPlayerTile(float playerWorldPosX) const;
 
     virtual void handlePlayerCollision(Player& player);
 
@@ -33,7 +34,10 @@ class Lane : public SceneNode {
     std::array<SceneNode*, LayerCount> mSceneLayers;
     std::deque<Tile*> mLaneTiles;
 
-    void buildScene(Textures::ID textureID);
+    void buildScene(Textures::ID textureID, bool isLoading);
+
+    void saveCurrent(std::ofstream& fout) const override;
+    void loadCurrent(std::ifstream& fin) override;
 };
 
 #endif

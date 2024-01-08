@@ -1,11 +1,11 @@
 #ifndef SCENE_NODE_HPP
 #define SCENE_NODE_HPP
 
-#include <SFML/Graphics.hpp>
 #include <memory>
 #include <set>
 #include <vector>
 
+#include "../FileIO/FileIO.hpp"
 #include "../Identifier/Identifier.hpp"
 
 class Player;
@@ -21,11 +21,18 @@ class SceneNode : public sf::Transformable,
 
     void handleEvent(const sf::Event& event);
     void update(sf::Time deltaTime);
+    void save(std::ofstream& fout) const;
+    void load(std::ifstream& fin);
 
     SceneNode* getParent() const;
+    virtual Textures::ID getTextureID() const;
 
     sf::Vector2f getWorldPosition() const;
     sf::Transform getWorldTransform() const;
+
+   protected:
+    virtual void saveCurrent(std::ofstream& fout) const;
+    virtual void loadCurrent(std::ifstream& fin);
 
    private:
     std::vector<Ptr> mChildren;
@@ -41,6 +48,9 @@ class SceneNode : public sf::Transformable,
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states)
         const;
     void drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    void saveChildren(std::ofstream& fout) const;
+    void loadChildren(std::ifstream& fin);
 };
 
 #endif

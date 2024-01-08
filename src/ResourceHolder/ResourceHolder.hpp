@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <memory>
-#include <string>
+#include <vector>
 
 #include "../Identifier/Identifier.hpp"
 
@@ -16,6 +16,10 @@ class ResourceHolder {
 
     Resource& get(Identifier id);
     const Resource& get(Identifier id) const;
+
+    Identifier getSharedID(
+        Identifier id, const std::vector<Identifier>& possibleIDs
+    ) const;
 
    private:
     std::map<Identifier, std::shared_ptr<Resource>> mResourceMap;

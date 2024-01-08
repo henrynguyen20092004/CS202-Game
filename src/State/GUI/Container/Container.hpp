@@ -11,7 +11,7 @@ class Container : public Component {
    public:
     typedef std::shared_ptr<Container> Ptr;
 
-    Container();
+    Container(bool isDirectionButton = false);
 
     void addComponent(Component::Ptr component);
 
@@ -19,13 +19,13 @@ class Container : public Component {
     void handleMouseEvent(
         const sf::Event& event, const sf::RenderWindow& window
     ) override;
-    void handleEvent(
-        const sf::Event& event, const sf::RenderWindow& window
-    ) override;
+    void handleEvent(const sf::Event& event, const sf::RenderWindow& window)
+        override;
 
    private:
     std::vector<Component::Ptr> mChildren;
     int mSelectedChild;
+    bool isDirectionButton;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

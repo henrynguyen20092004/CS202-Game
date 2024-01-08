@@ -2,7 +2,8 @@
 
 namespace GUI {
 
-Container::Container() : mSelectedChild(-1) {}
+Container::Container(bool isDirectionButton)
+    : mSelectedChild(-1), isDirectionButton(isDirectionButton) {}
 
 void Container::addComponent(Component::Ptr component) {
     mChildren.push_back(component);
@@ -71,7 +72,7 @@ void Container::handleEvent(
 
             case sf::Keyboard::Enter:
             case sf::Keyboard::Space:
-                if (hasSelection()) {
+                if (hasSelection() && !isDirectionButton) {
                     mChildren[mSelectedChild]->activate();
                 }
 

@@ -8,12 +8,13 @@
 #include "../Random/Random.hpp"
 
 Map::Map(
-    TextureHolder& textureHolder, sf::View& worldView,
+    TextureHolder& textureHolder, sf::View& worldView, int& seasonIndex,
     const std::vector<Player*>& players,
     const std::vector<PowerUpList*>& powerUpList, Score* score, bool isLoading
 )
     : mTextureHolder(textureHolder),
       mWorldView(worldView),
+      mSeasonIndex(seasonIndex),
       mPlayers(players),
       mPowerUpList(powerUpList),
       mScore(score) {
@@ -27,9 +28,6 @@ Map::Map(
     if (mScore) {
         mScore->init();
     }
-
-    Global::SEASON_INDEX = 0;
-    Global::DIFFICULTY_MODIFIER = 1.f;
 }
 
 bool Map::isPlayerMoved() const { return mIsPlayerMoved; }
@@ -129,18 +127,25 @@ Lane* Map::createLane(
 ) {
     switch (textureID) {
         case Textures::ID::VehicleLane:
-            return new VehicleLane(mTextureHolder, position, isLoading);
+            return new VehicleLane(
+                mTextureHolder, mSeasonIndex, position, isLoading
+            );
 
         case Textures::ID::TrainLane:
-            return new TrainLane(mTextureHolder, position, isLoading);
+            return new TrainLane(
+                mTextureHolder, mSeasonIndex, position, isLoading
+            );
 
         case Textures::ID::ObstacleLane:
             return new ObstacleLane(
-                mTextureHolder, position, mPowerUpList, mScore, isLoading
+                mTextureHolder, mSeasonIndex, position, mPowerUpList, mScore,
+                isLoading
             );
 
         case Textures::ID::RiverLane:
-            return new RiverLane(mTextureHolder, position, isLoading);
+            return new RiverLane(
+                mTextureHolder, mSeasonIndex, position, isLoading
+            );
 
         default:
             return nullptr;
@@ -159,7 +164,7 @@ void Map::initLanes() {
 
 void Map::addEmptyLane() {
     Lane::Ptr lane(new ObstacleLane(
-        mTextureHolder,
+        mTextureHolder, mSeasonIndex,
         sf::Vector2f(
             0, (mLanes.empty() ? Global::WINDOW_HEIGHT + Global::TILE_SIZE
                                : mLanes.front()->getPosition().y) -
@@ -233,8 +238,7 @@ void Map::updateCurrent(sf::Time deltaTime) {
     updatePlayer();
 
     if (mLaneCount == 25) {
-        (Global::SEASON_INDEX += 1) %=
-            static_cast<int>(Seasons::ID::SeasonCount);
+        (mSeasonIndex += 1) %= static_cast<int>(Seasons::ID::SeasonCount);
         mLaneCount = 0;
     }
 }

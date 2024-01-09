@@ -2,7 +2,7 @@
 
 #include "../../../Global/Global.hpp"
 
-RailwaySignal::RailwaySignal(TextureHolder& textureHolder)
+RailwaySignal::RailwaySignal(TextureHolder& textureHolder, int seasonIndex)
     : SpriteNode(textureHolder, Textures::ID::RailwaySignal) {
     sf::Vector2u textureSize =
         mTextureHolder.get(Textures::ID::RailwaySignal).getSize();

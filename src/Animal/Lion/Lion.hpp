@@ -5,7 +5,7 @@
 
 class Lion : public Animal {
    public:
-    Lion(TextureHolder& textureHolder);
+    Lion(TextureHolder& textureHolder, int seasonIndex);
 
     void handlePlayerCollision(Player& player) override;
 

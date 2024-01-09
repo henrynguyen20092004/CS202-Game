@@ -28,6 +28,7 @@ class World : private sf::NonCopyable {
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
 
+    int mSeasonIndex = 0;
     std::vector<Player*> mPlayers;
     std::vector<PowerUpList*> mPowerUpLists;
     Score* mScore = nullptr;

@@ -1,7 +1,11 @@
 #include "PoliceCar.hpp"
 
-PoliceCar::PoliceCar(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, Textures::ID::PoliceCar, direction) {
+PoliceCar::PoliceCar(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
+    : Vehicle(
+          textureHolder, Textures::ID::PoliceCar, sf::IntRect(), direction
+      ) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

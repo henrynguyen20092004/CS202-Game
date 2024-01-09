@@ -69,6 +69,7 @@ void World::buildScene(const State::Context& context, bool isLoading) {
                              : Textures::ID::Player1SelectedChoiceMulti,
         mWorldView, *context.playerSettings1, 0
     ));
+    player->setMaxHealth(100);
     mPlayers[0] = player.get();
     mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
@@ -80,8 +81,10 @@ void World::buildScene(const State::Context& context, bool isLoading) {
         mPlayers[1] = player.get();
         mSceneLayers[PlayerLayer]->attachChild(std::move(player));
 
-        mPlayers[0]->setName(*context.fontHolder);
-        mPlayers[1]->setName(*context.fontHolder);
+        for (int i = 0; i < mPlayers.size(); ++i) {
+            mPlayers[i]->setMaxHealth(20);
+            mPlayers[i]->setName(*context.fontHolder);
+        }
     }
 
     PowerUpList::Ptr powerUpList(new PowerUpList(
@@ -100,9 +103,6 @@ void World::buildScene(const State::Context& context, bool isLoading) {
         mSceneLayers[IconLayer]->attachChild(std::move(powerUpList));
     }
 
-    FallingSnow::Ptr fallingSnow(new FallingSnow(mWorldView));
-    mSceneLayers[EffectLayer]->attachChild(std::move(fallingSnow));
-
     if (mPlayers.size() == 1) {
         Score::Ptr score(new Score(*mPlayers[0], mWorldView, mFontHolder));
         mScore = score.get();
@@ -110,10 +110,14 @@ void World::buildScene(const State::Context& context, bool isLoading) {
     }
 
     Map::Ptr map(new Map(
-        mTextureHolder, mWorldView, mPlayers, mPowerUpLists, mScore, isLoading
+        mTextureHolder, mWorldView, mSeasonIndex, mPlayers, mPowerUpLists,
+        mScore, isLoading
     ));
     mMap = map.get();
     mSceneLayers[MapLayer]->attachChild(std::move(map));
+
+    FallingSnow::Ptr fallingSnow(new FallingSnow(mWorldView, mSeasonIndex));
+    mSceneLayers[EffectLayer]->attachChild(std::move(fallingSnow));
 
     if (isLoading) {
         loadWorld();

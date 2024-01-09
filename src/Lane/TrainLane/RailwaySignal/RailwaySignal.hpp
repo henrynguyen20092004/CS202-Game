@@ -12,7 +12,7 @@ class RailwaySignal : public SpriteNode {
         Green,
     };
 
-    RailwaySignal(TextureHolder& mTextureHolder);
+    RailwaySignal(TextureHolder& mTextureHolder, int seasonIndex);
 
     void switchState(RailwaySignal::State state);
 };

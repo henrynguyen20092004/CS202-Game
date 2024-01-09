@@ -7,8 +7,8 @@
 class RiverLane : public Lane {
    public:
     RiverLane(
-        TextureHolder& textureHolder, const sf::Vector2f& position,
-        bool isLoading
+        TextureHolder& textureHolder, int seasonIndex,
+        const sf::Vector2f& position, bool isLoading
     );
 
    private:

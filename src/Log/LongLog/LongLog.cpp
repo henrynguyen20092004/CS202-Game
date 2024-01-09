@@ -1,6 +1,8 @@
 #include "LongLog.hpp"
 
-LongLog::LongLog(TextureHolder& textureHolder, Directions::ID direction)
+LongLog::LongLog(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
     : Log(textureHolder, Textures::ID::Log, sf::IntRect(270, 0, 270, 90),
           direction) {
     if (direction == Directions::ID::Left) {

@@ -5,7 +5,8 @@
 #include "../../../Random/Random.hpp"
 
 TrafficLight::TrafficLight(
-    TextureHolder& mTextureHolder, Directions::ID direction, bool isLoading
+    TextureHolder& mTextureHolder, int seasonIndex, Directions::ID direction,
+    bool isLoading
 )
     : SpriteNode(mTextureHolder, Textures::ID::TrafficLight) {
     if (isLoading) {

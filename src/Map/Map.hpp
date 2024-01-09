@@ -9,7 +9,7 @@ class Map : public SceneNode {
    public:
     typedef std::unique_ptr<Map> Ptr;
 
-    Map(TextureHolder& textureHolder, sf::View& worldView,
+    Map(TextureHolder& textureHolder, sf::View& worldView, int& seasonIndex,
         const std::vector<Player*>& players,
         const std::vector<PowerUpList*>& powerUpList, Score* score,
         bool isLoading);
@@ -27,6 +27,7 @@ class Map : public SceneNode {
     std::deque<Lane*> mLanes;
     std::vector<Player*> mPlayers;
     std::vector<PowerUpList*> mPowerUpList;
+    int& mSeasonIndex;
     int mLaneCount = 0;
     bool mIsPlayerMoved = false;
 

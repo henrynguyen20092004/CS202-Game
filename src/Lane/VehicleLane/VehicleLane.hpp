@@ -8,8 +8,8 @@
 class VehicleLane : public Lane {
    public:
     VehicleLane(
-        TextureHolder& textureHolder, const sf::Vector2f& position,
-        bool isLoading
+        TextureHolder& textureHolder, int seasonIndex,
+        const sf::Vector2f& position, bool isLoading
     );
 
     void handlePlayerCollision(Player& player) override;

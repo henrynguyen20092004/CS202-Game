@@ -5,8 +5,10 @@
 #include "../Global/Global.hpp"
 #include "../SpriteNode/SpriteNode.hpp"
 
-Lane::Lane(TextureHolder& textureHolder, const sf::Vector2f& position)
-    : mTextureHolder(textureHolder) {
+Lane::Lane(
+    TextureHolder& textureHolder, int seasonIndex, const sf::Vector2f& position
+)
+    : mTextureHolder(textureHolder), mSeasonIndex(seasonIndex) {
     setPosition(position);
 }
 

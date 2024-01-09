@@ -3,12 +3,13 @@
 #include "../Global/Global.hpp"
 #include "../Random/Random.hpp"
 
-FallingSnow::FallingSnow(sf::View& worldView) : mWorldView(worldView) {}
+FallingSnow::FallingSnow(sf::View& worldView, int& seasonIndex)
+    : mWorldView(worldView), mSeasonIndex(seasonIndex) {}
 
 void FallingSnow::updateCurrent(sf::Time deltaTime) {
     mTimeElapsed += deltaTime * Global::SPEED_MODIFIER;
 
-    if (static_cast<Seasons::ID>(Global::SEASON_INDEX) == Seasons::ID::Winter &&
+    if (static_cast<Seasons::ID>(mSeasonIndex) == Seasons::ID::Winter &&
         mTimeElapsed >= mDelayTime && mSnowflakes.size() < mNumSnowflakes) {
         sf::CircleShape snowflake(Random<float>::generate(1.f, 5.f));
         snowflake.setPosition(
@@ -17,6 +18,8 @@ void FallingSnow::updateCurrent(sf::Time deltaTime) {
                 snowflake.getRadius()
         );
         snowflake.setFillColor(sf::Color::White);
+        snowflake.setOutlineThickness(1.f);
+        snowflake.setOutlineColor(sf::Color::Black);
 
         mSnowflakes.push_back(snowflake);
         mTimeElapsed = sf::Time::Zero;

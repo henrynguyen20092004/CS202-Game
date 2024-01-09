@@ -11,11 +11,13 @@
 #include "../../Random/Random.hpp"
 
 ObstacleLane::ObstacleLane(
-    TextureHolder& textureHolder, const sf::Vector2f& position,
+    TextureHolder& textureHolder, int seasonIndex, const sf::Vector2f& position,
     const std::vector<PowerUpList*>& powerUpList, Score* score, bool isLoading,
     bool isEmpty
 )
-    : Lane(textureHolder, position), mPowerUpList(powerUpList), mScore(score) {
+    : Lane(textureHolder, seasonIndex, position),
+      mPowerUpList(powerUpList),
+      mScore(score) {
     buildScene(isLoading);
 
     if (!isLoading && !isEmpty) {
@@ -46,7 +48,7 @@ void ObstacleLane::buildScene(bool isLoading) {
             sf::IntRect(
                 Random<int>::generate({0, 1, 2, 3, 4}, {70, 5, 5, 10, 10}) *
                     Global::TILE_SIZE,
-                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                mSeasonIndex * Global::TILE_SIZE, Global::TILE_SIZE,
                 Global::TILE_SIZE
             )
         ));
@@ -116,10 +118,10 @@ void ObstacleLane::init() {
 Obstacle* ObstacleLane::createObstacle(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::Rock:
-            return new Rock(mTextureHolder);
+            return new Rock(mTextureHolder, mSeasonIndex);
 
         case Textures::ID::Tree:
-            return new Tree(mTextureHolder);
+            return new Tree(mTextureHolder, mSeasonIndex);
 
         default:
             return nullptr;
@@ -129,19 +131,19 @@ Obstacle* ObstacleLane::createObstacle(Textures::ID textureID) {
 Animal* ObstacleLane::createAnimal(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::Cat:
-            return new Cat(mTextureHolder, mScore);
+            return new Cat(mTextureHolder, mSeasonIndex, mScore);
 
         case Textures::ID::Dog:
-            return new Dog(mTextureHolder);
+            return new Dog(mTextureHolder, mSeasonIndex);
 
         case Textures::ID::Lion:
-            return new Lion(mTextureHolder);
+            return new Lion(mTextureHolder, mSeasonIndex);
 
         case Textures::ID::Cow:
-            return new Cow(mTextureHolder, mPowerUpList);
+            return new Cow(mTextureHolder, mSeasonIndex, mPowerUpList);
 
         case Textures::ID::Horse:
-            return new Horse(mTextureHolder, mPowerUpList);
+            return new Horse(mTextureHolder, mSeasonIndex, mPowerUpList);
 
         default:
             return nullptr;

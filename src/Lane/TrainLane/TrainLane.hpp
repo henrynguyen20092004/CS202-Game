@@ -7,7 +7,10 @@
 
 class TrainLane : public Lane {
    public:
-    TrainLane(TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading);
+    TrainLane(
+        TextureHolder& textureHolder, int seasonIndex,
+        const sf::Vector2f& position, bool isLoading
+    );
 
     void handlePlayerCollision(Player& player) override;
 

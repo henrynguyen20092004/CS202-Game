@@ -31,6 +31,8 @@ enum class ID {
 namespace Seasons {
 enum class ID {
     Spring,
+    Summer,
+    Autumn,
     Winter,
     SeasonCount,
 };
@@ -95,7 +97,6 @@ enum class ID {
     TrainLane,
     VehicleLane,
 
-    ButtonBack,
     ButtonNormal,
     ButtonSelected,
     ButtonPressed,

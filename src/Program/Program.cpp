@@ -139,9 +139,6 @@ void Program::loadTextures() {
     );
 
     mTextureHolder.load(
-        Textures::ID::ButtonBack, "assets/Textures/ButtonBack.png"
-    );
-    mTextureHolder.load(
         Textures::ID::ButtonNormal, "assets/Textures/ButtonNormal.png"
     );
     mTextureHolder.load(

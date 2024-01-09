@@ -10,7 +10,8 @@
 class ObstacleLane : public Lane {
    public:
     ObstacleLane(
-        TextureHolder& textureHolder, const sf::Vector2f& position,
+        TextureHolder& textureHolder, int seasonIndex,
+        const sf::Vector2f& position,
         const std::vector<PowerUpList*>& powerUpList, Score* score,
         bool isLoading, bool isEmpty = false
     );

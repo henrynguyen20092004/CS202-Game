@@ -4,8 +4,6 @@
 #include <fstream>
 
 struct Global {
-    static int SEASON_INDEX;
-
     static float SPEED_MODIFIER;
     static float DIFFICULTY_MODIFIER;
 

@@ -11,7 +11,10 @@ class Lane : public SceneNode {
    public:
     typedef std::unique_ptr<Lane> Ptr;
 
-    Lane(TextureHolder& textureHolder, const sf::Vector2f& position);
+    Lane(
+        TextureHolder& textureHolder, int seasonIndex,
+        const sf::Vector2f& position
+    );
 
     Tile* getTile(int index) const;
     Tile* getNearestTile(Tile* tile, Tile::Type type, Directions::ID direction)
@@ -30,6 +33,7 @@ class Lane : public SceneNode {
     };
 
     TextureHolder& mTextureHolder;
+    int mSeasonIndex;
 
     std::array<SceneNode*, LayerCount> mSceneLayers;
     std::deque<Tile*> mLaneTiles;

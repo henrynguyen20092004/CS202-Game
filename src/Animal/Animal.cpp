@@ -1,4 +1,3 @@
 #include "Animal.hpp"
 
-Animal::Animal(TextureHolder& textureHolder, Textures::ID textureID)
-    : Entity(textureHolder, textureID) {}
+// Idk why this is needed, but it is

@@ -1,7 +1,9 @@
 #include "Car.hpp"
 
-Car::Car(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, Textures::ID::Car, direction) {
+Car::Car(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
+    : Vehicle(textureHolder, Textures::ID::Car, sf::IntRect(), direction) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

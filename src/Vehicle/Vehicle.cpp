@@ -4,9 +4,9 @@
 
 Vehicle::Vehicle(
     TextureHolder& textureHolder, Textures::ID textureID,
-    Directions::ID direction
+    sf::IntRect textureRect, Directions::ID direction
 )
-    : Entity(textureHolder, textureID), mDirection(direction) {}
+    : Entity(textureHolder, textureID, textureRect), mDirection(direction) {}
 
 void Vehicle::handlePlayerCollision(Player& player) {
     if (!player.isImmortal() && collidePlayer(player)) {

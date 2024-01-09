@@ -5,7 +5,9 @@
 
 class ShortLog : public Log {
    public:
-    ShortLog(TextureHolder& textureHolder, Directions::ID direction);
+    ShortLog(
+        TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+    );
 
     int getLength() const override;
 

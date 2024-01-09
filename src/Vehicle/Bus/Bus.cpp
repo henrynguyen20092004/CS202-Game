@@ -1,7 +1,9 @@
 #include "Bus.hpp"
 
-Bus::Bus(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, Textures::ID::Bus, direction) {
+Bus::Bus(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
+    : Vehicle(textureHolder, Textures::ID::Bus, sf::IntRect(), direction) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

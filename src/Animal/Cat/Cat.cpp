@@ -2,7 +2,7 @@
 
 #include "../../Player/Player.hpp"
 
-Cat::Cat(TextureHolder& textureHolder, Score* score)
+Cat::Cat(TextureHolder& textureHolder, int seasonIndex, Score* score)
     : Animal(textureHolder, Textures::ID::Cat), mScore(score) {
     setHitbox(getLocalBounds());
 }

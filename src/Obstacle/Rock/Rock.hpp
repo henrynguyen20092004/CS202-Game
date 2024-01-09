@@ -5,7 +5,7 @@
 
 class Rock : public Obstacle {
    public:
-    Rock(TextureHolder& textureHolder);
+    Rock(TextureHolder& textureHolder, int seasonIndex);
 
    private:
     Textures::ID getTextureID() const final;

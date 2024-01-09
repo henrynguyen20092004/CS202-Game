@@ -1,6 +1,8 @@
 #include "ShortLog.hpp"
 
-ShortLog::ShortLog(TextureHolder& textureHolder, Directions::ID direction)
+ShortLog::ShortLog(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
     : Log(textureHolder, Textures::ID::Log, sf::IntRect(0, 0, 90, 90),
           direction) {
     if (direction == Directions::ID::Left) {

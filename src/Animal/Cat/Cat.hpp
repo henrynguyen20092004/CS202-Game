@@ -6,7 +6,7 @@
 
 class Cat : public Animal {
    public:
-    Cat(TextureHolder& textureHolder, Score* score);
+    Cat(TextureHolder& textureHolder, int seasonIndex, Score* score);
 
     void handlePlayerCollision(Player& player) override;
 

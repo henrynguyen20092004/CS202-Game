@@ -12,7 +12,7 @@ class Vehicle : public Entity {
    protected:
     Vehicle(
         TextureHolder& textureHolder, Textures::ID textureID,
-        Directions::ID direction
+        sf::IntRect textureRect, Directions::ID direction
     );
 
    private:

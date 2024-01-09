@@ -58,6 +58,8 @@ int Player::getMaxHealth() const { return mMaxHealth; }
 
 int Player::getHealth() const { return mHealth; }
 
+void Player::setMaxHealth(int maxHealth) { mHealth = mMaxHealth = maxHealth; }
+
 void Player::addRevival() {
     mHasRevival = true;
     mHalo->show();

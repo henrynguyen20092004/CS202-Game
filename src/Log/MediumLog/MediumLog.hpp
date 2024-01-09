@@ -5,7 +5,9 @@
 
 class MediumLog : public Log {
    public:
-    MediumLog(TextureHolder& textureHolder, Directions::ID direction);
+    MediumLog(
+        TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+    );
 
     int getLength() const override;
 

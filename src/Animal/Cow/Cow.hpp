@@ -6,7 +6,8 @@
 
 class Cow : public Animal {
    public:
-    Cow(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList);
+    Cow(TextureHolder& textureHolder, int seasonIndex,
+        const std::vector<PowerUpList*>& powerUpList);
 
     void handlePlayerCollision(Player& player) override;
 

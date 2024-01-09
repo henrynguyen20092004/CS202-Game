@@ -1,7 +1,9 @@
 #include "Train.hpp"
 
-Train::Train(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, Textures::ID::Train, direction) {
+Train::Train(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
+    : Vehicle(textureHolder, Textures::ID::Train, sf::IntRect(), direction) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

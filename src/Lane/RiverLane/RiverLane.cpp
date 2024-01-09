@@ -8,9 +8,10 @@
 #include "../../Random/Random.hpp"
 
 RiverLane::RiverLane(
-    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
+    TextureHolder& textureHolder, int seasonIndex, const sf::Vector2f& position,
+    bool isLoading
 )
-    : Lane(textureHolder, position) {
+    : Lane(textureHolder, seasonIndex, position) {
     buildScene(isLoading);
 
     if (isLoading) {
@@ -22,7 +23,7 @@ RiverLane::RiverLane(
     );
 
     mVelocity = sf::Vector2f(
-        static_cast<Seasons::ID>(Global::SEASON_INDEX) == Seasons::ID::Winter
+        static_cast<Seasons::ID>(mSeasonIndex) == Seasons::ID::Winter
             ? 0
             : Random<float>::generate(250.f, 300.f),
         0.f
@@ -40,7 +41,7 @@ void RiverLane::buildScene(bool isLoading) {
             sf::IntRect(
                 Random<int>::generate({0, 1, 2}, {90, 5, 5}) *
                     Global::TILE_SIZE,
-                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                mSeasonIndex * Global::TILE_SIZE, Global::TILE_SIZE,
                 Global::TILE_SIZE
             )
         ));
@@ -73,13 +74,13 @@ void RiverLane::init() {
 Log* RiverLane::createLog(Textures::ID textureID) {
     switch (textureID) {
         case Textures::ID::ShortLog:
-            return new ShortLog(mTextureHolder, mDirection);
+            return new ShortLog(mTextureHolder, mSeasonIndex, mDirection);
 
         case Textures::ID::MediumLog:
-            return new MediumLog(mTextureHolder, mDirection);
+            return new MediumLog(mTextureHolder, mSeasonIndex, mDirection);
 
         case Textures::ID::LongLog:
-            return new LongLog(mTextureHolder, mDirection);
+            return new LongLog(mTextureHolder, mSeasonIndex, mDirection);
 
         default:
             return nullptr;
@@ -99,8 +100,7 @@ void RiverLane::addLogTiles(const sf::Vector2f& logPosition) {
 
     for (int i = 0; i < mTileToNextSpawns.front(); ++i) {
         Tile::Ptr tile(new Tile(
-            static_cast<Seasons::ID>(Global::SEASON_INDEX) ==
-                    Seasons::ID::Winter
+            static_cast<Seasons::ID>(mSeasonIndex) == Seasons::ID::Winter
                 ? Tile::Type::Good
                 : Tile::Type::Bad,
             logPosition +

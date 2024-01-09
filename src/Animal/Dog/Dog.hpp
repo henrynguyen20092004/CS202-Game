@@ -5,7 +5,7 @@
 
 class Dog : public Animal {
    public:
-    Dog(TextureHolder& textureHolder);
+    Dog(TextureHolder& textureHolder, int seasonIndex);
 
     void handlePlayerCollision(Player& player) override;
 

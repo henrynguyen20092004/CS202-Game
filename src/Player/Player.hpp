@@ -29,6 +29,8 @@ class Player : public Entity {
     int getMaxHealth() const;
     int getHealth() const;
 
+    void setMaxHealth(int maxHealth);
+
     void addRevival();
     void addHealth();
 
@@ -55,8 +57,8 @@ class Player : public Entity {
     Tile *mSourceTile = nullptr, *mTargetTile = nullptr;
     Halo* mHalo = nullptr;
 
-    const int mMaxHealth = 100;
-    int mHealth = mMaxHealth;
+    int mMaxHealth;
+    int mHealth;
 
     bool mNeedToMove = false, mIsMoving = false, mForceGoGack = false,
          mHasRevival = false;

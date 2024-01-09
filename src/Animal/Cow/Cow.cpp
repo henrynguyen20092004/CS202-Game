@@ -2,7 +2,10 @@
 
 #include "../../Player/Player.hpp"
 
-Cow::Cow(TextureHolder& textureHolder, const std::vector<PowerUpList*>& powerUpList)
+Cow::Cow(
+    TextureHolder& textureHolder, int seasonIndex,
+    const std::vector<PowerUpList*>& powerUpList
+)
     : Animal(textureHolder, Textures::ID::Cow), mPowerUpList(powerUpList) {
     setHitbox(getLocalBounds());
 }

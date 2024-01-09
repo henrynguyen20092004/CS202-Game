@@ -1,7 +1,9 @@
 #include "Van.hpp"
 
-Van::Van(TextureHolder& textureHolder, Directions::ID direction)
-    : Vehicle(textureHolder, Textures::ID::Van, direction) {
+Van::Van(
+    TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+)
+    : Vehicle(textureHolder, Textures::ID::Van, sf::IntRect(), direction) {
     if (direction == Directions::ID::Left) {
         flipHorizontally();
     }

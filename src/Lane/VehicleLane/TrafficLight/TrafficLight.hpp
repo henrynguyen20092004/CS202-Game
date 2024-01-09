@@ -16,7 +16,10 @@ class TrafficLight : public SpriteNode {
         StateCount,
     };
 
-    TrafficLight(TextureHolder& mTextureHolder, Directions::ID direction, bool isLoading);
+    TrafficLight(
+        TextureHolder& mTextureHolder, int seasonIndex,
+        Directions::ID direction, bool isLoading
+    );
 
     TrafficLight::State getState() const;
 

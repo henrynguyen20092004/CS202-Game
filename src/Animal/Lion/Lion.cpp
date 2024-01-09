@@ -2,7 +2,7 @@
 
 #include "../../Player/Player.hpp"
 
-Lion::Lion(TextureHolder& textureHolder)
+Lion::Lion(TextureHolder& textureHolder, int seasonIndex)
     : Animal(textureHolder, Textures::ID::Lion) {
     setHitbox(getLocalBounds());
 }

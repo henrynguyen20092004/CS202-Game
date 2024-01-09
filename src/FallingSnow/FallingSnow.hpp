@@ -7,9 +7,11 @@ class FallingSnow : public SceneNode {
    public:
     typedef std::unique_ptr<FallingSnow> Ptr;
 
-    FallingSnow(sf::View& worldView);
+    FallingSnow(sf::View& worldView, int& seasonIndex);
 
    private:
+    int& mSeasonIndex;
+
     const int mNumSnowflakes = 100;
     const sf::Time mDelayTime = sf::seconds(0.05f);
     sf::Time mTimeElapsed = sf::Time::Zero;

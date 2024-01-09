@@ -5,7 +5,9 @@
 
 class LongLog : public Log {
    public:
-    LongLog(TextureHolder& textureHolder, Directions::ID direction);
+    LongLog(
+        TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+    );
 
     int getLength() const override;
 

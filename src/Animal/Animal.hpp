@@ -8,7 +8,7 @@ class Animal : public Entity {
     typedef std::unique_ptr<Animal> Ptr;
 
    protected:
-    Animal(TextureHolder& textureHolder, Textures::ID textureID);
+    using Entity::Entity;
 };
 
 #endif

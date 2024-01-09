@@ -9,9 +9,10 @@
 #include "../../Vehicle/Van/Van.hpp"
 
 VehicleLane::VehicleLane(
-    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
+    TextureHolder& textureHolder, int seasonIndex, const sf::Vector2f& position,
+    bool isLoading
 )
-    : Lane(textureHolder, position) {
+    : Lane(textureHolder, seasonIndex, position) {
     buildScene(isLoading);
 
     if (isLoading) {
@@ -50,7 +51,7 @@ void VehicleLane::buildScene(bool isLoading) {
             mTextureHolder, Textures::ID::VehicleLane,
             sf::IntRect(
                 Random<int>::generate({0}) * Global::TILE_SIZE,
-                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                mSeasonIndex * Global::TILE_SIZE, Global::TILE_SIZE,
                 Global::TILE_SIZE
             )
         ));
@@ -59,7 +60,7 @@ void VehicleLane::buildScene(bool isLoading) {
     }
 
     TrafficLight::Ptr trafficLight(
-        new TrafficLight(mTextureHolder, mDirection, isLoading)
+        new TrafficLight(mTextureHolder, mSeasonIndex, mDirection, isLoading)
     );
     mTrafficLight = trafficLight.get();
     mSceneLayers[SignalLightLayer]->attachChild(std::move(trafficLight));
@@ -95,16 +96,16 @@ void VehicleLane::setVelocityPercent(float percent) {
 Vehicle* VehicleLane::createVehicle() {
     switch (mTextureID) {
         case Textures::ID::Car:
-            return new Car(mTextureHolder, mDirection);
+            return new Car(mTextureHolder, mSeasonIndex, mDirection);
 
         case Textures::ID::PoliceCar:
-            return new PoliceCar(mTextureHolder, mDirection);
+            return new PoliceCar(mTextureHolder, mSeasonIndex, mDirection);
 
         case Textures::ID::Van:
-            return new Van(mTextureHolder, mDirection);
+            return new Van(mTextureHolder, mSeasonIndex, mDirection);
 
         case Textures::ID::Bus:
-            return new Bus(mTextureHolder, mDirection);
+            return new Bus(mTextureHolder, mSeasonIndex, mDirection);
 
         default:
             return nullptr;

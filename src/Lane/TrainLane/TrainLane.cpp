@@ -6,9 +6,10 @@
 #include "../../Vehicle/Train/Train.hpp"
 
 TrainLane::TrainLane(
-    TextureHolder& textureHolder, const sf::Vector2f& position, bool isLoading
+    TextureHolder& textureHolder, int seasonIndex, const sf::Vector2f& position,
+    bool isLoading
 )
-    : Lane(textureHolder, position) {
+    : Lane(textureHolder, seasonIndex, position) {
     buildScene(isLoading);
 
     if (isLoading) {
@@ -35,8 +36,9 @@ void TrainLane::buildScene(bool isLoading) {
         SpriteNode::Ptr sprite(new SpriteNode(
             mTextureHolder, Textures::ID::TrainLane,
             sf::IntRect(
-                Random<int>::generate({0}) * Global::TILE_SIZE,
-                Global::SEASON_INDEX * Global::TILE_SIZE, Global::TILE_SIZE,
+                Random<int>::generate({0, 1, 2, 3, 4}, {70, 5, 5, 10, 10}) *
+                    Global::TILE_SIZE,
+                mSeasonIndex * Global::TILE_SIZE, Global::TILE_SIZE,
                 Global::TILE_SIZE
             )
         ));
@@ -44,13 +46,15 @@ void TrainLane::buildScene(bool isLoading) {
         mSceneLayers[LaneLayer]->attachChild(std::move(sprite));
     }
 
-    RailwaySignal::Ptr railwaySignal(new RailwaySignal(mTextureHolder));
+    RailwaySignal::Ptr railwaySignal(
+        new RailwaySignal(mTextureHolder, mSeasonIndex)
+    );
     mRailwaySignal = railwaySignal.get();
     mSceneLayers[SignalLightLayer]->attachChild(std::move(railwaySignal));
 }
 
 void TrainLane::addTrain() {
-    Vehicle::Ptr train(new Train(mTextureHolder, mDirection));
+    Vehicle::Ptr train(new Train(mTextureHolder, mSeasonIndex, mDirection));
     train->setVelocity(mVelocity);
     train->setPosition(
         mDirection == Directions::ID::Left ? Global::WINDOW_WIDTH
@@ -113,7 +117,7 @@ void TrainLane::loadCurrent(std::ifstream& fin) {
     fin >> hasTrain;
 
     if (hasTrain) {
-        Vehicle::Ptr train(new Train(mTextureHolder, mDirection));
+        Vehicle::Ptr train(new Train(mTextureHolder, mSeasonIndex, mDirection));
         mTrain = train.get();
         mSceneLayers[ObjectLayer]->attachChild(std::move(train));
     }

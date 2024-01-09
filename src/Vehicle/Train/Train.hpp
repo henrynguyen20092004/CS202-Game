@@ -5,7 +5,9 @@
 
 class Train : public Vehicle {
    public:
-    Train(TextureHolder& textureHolder, Directions::ID direction);
+    Train(
+        TextureHolder& textureHolder, int seasonIndex, Directions::ID direction
+    );
 
    private:
     Textures::ID getTextureID() const final;
